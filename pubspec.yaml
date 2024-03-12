@@ -41,7 +41,7 @@ dependencies:
   food_selection:
     path: 'packages/features/food_selection'
   component_library:
-    path: 'packages/features/component_library'
+    path: 'packages/component_library'
 dev_dependencies:
   flutter_test:
     sdk: flutter

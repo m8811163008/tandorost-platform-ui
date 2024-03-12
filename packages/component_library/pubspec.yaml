@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   app_theme:
-    path: '../app_theme'
+    path: '../features/app_theme'
 
 dev_dependencies:
   flutter_test:
