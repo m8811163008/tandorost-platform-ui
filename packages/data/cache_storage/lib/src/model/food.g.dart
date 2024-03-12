@@ -46,7 +46,7 @@ void _foodStaticticsCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.calarie);
+  writer.writeLong(offsets[0], object.calorie);
   writer.writeString(offsets[1], object.name);
 }
 
@@ -57,7 +57,7 @@ FoodStaticticsCM _foodStaticticsCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FoodStaticticsCM();
-  object.calarie = reader.readLongOrNull(offsets[0]);
+  object.calorie = reader.readLongOrNull(offsets[0]);
   object.name = reader.readString(offsets[1]);
   return object;
 }
@@ -339,7 +339,7 @@ void _selectedFoodCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.calarie);
+  writer.writeLong(offsets[0], object.calorie);
   writer.writeString(offsets[1], object.name);
   writer.writeDateTime(offsets[2], object.selectedDate);
 }
@@ -351,7 +351,7 @@ SelectedFoodCM _selectedFoodCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = SelectedFoodCM();
-  object.calarie = reader.readLongOrNull(offsets[0]);
+  object.calorie = reader.readLongOrNull(offsets[0]);
   object.name = reader.readString(offsets[1]);
   object.selectedDate = reader.readDateTime(offsets[2]);
   return object;

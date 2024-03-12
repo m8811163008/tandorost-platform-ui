@@ -1,11 +1,11 @@
 class Food {
   final String name;
-  final int? calarie;
+  final int? calorie;
   final DateTime? selectedDate;
 
   const Food({
     required this.name,
-    this.calarie,
+    this.calorie,
     this.selectedDate,
   });
 }

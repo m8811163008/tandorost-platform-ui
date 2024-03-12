@@ -13,6 +13,10 @@ dependencies:
     sdk: flutter
   component_library:
     path: ../../component_library
+  domain_model:
+    path: ../../domain_model
+  food_repository:
+    path: ../../repository/food_repository
 
 dev_dependencies:
   flutter_test:

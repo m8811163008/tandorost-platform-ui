@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 class CacheStorage {
   // static const _secureKey = 'secure-key';
 
-  Future<IsarCollection<FoodCM>> get foodCollection => _openCollection(
+  Future<IsarCollection<FoodCM>> get foodCollection async => _openCollection(
         isTemporary: false,
       );
 
@@ -22,6 +22,7 @@ class CacheStorage {
       ],
       directory: directory.path,
     );
+
     return isarDB.collection<T>();
   }
 }

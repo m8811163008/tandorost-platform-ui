@@ -4,7 +4,7 @@ part 'food.g.dart';
 
 class FoodCM {
   late String name;
-  int? calarie;
+  int? calorie;
 }
 
 @embedded
