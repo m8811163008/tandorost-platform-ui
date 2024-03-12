@@ -5,5 +5,5 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   ComponentLibraryLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
-  String get title => 'title';
+  String get foodSelectionScreenTextFieldHint => 'جستجوی غذا 1';
 }

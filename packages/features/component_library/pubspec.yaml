@@ -2,6 +2,7 @@ name: component_library
 description: A new Flutter package project.
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
@@ -12,6 +13,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  app_theme:
+    path: '../app_theme'
 
 dev_dependencies:
   flutter_test:

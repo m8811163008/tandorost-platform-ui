@@ -91,11 +91,11 @@ abstract class ComponentLibraryLocalizations {
     Locale('fa')
   ];
 
-  /// No description provided for @title.
+  /// No description provided for @foodSelectionScreenTextFieldHint.
   ///
   /// In fa, this message translates to:
-  /// **'title'**
-  String get title;
+  /// **'جستجوی غذا 1'**
+  String get foodSelectionScreenTextFieldHint;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

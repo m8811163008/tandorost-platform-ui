@@ -1,4 +1,6 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
@@ -16,6 +18,22 @@ class FoodSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final theme = Theme.of(context);
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(context.sizesExtenstion.medium),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                hintText: context.l10n.foodSelectionScreenTextFieldHint,
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

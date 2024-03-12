@@ -10,11 +10,11 @@ class TandorostApplication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lightThemeData = AppThemeLightThemeData(locale: Locale('fa'));
-    final darkThemeData = AppThemeLightThemeData(locale: Locale('fa'));
+    final darkThemeData = AppThemeDarkThemeData(locale: Locale('fa'));
     return MaterialApp.router(
       theme: lightThemeData.materialThemeData,
       darkTheme: darkThemeData.materialThemeData,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       routerConfig: Navigation.goRouter(context),
       title: 'Tandorost',
       debugShowCheckedModeBanner: false,

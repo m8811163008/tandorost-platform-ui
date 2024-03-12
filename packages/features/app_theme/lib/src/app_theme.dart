@@ -95,15 +95,17 @@ extension ThemeDataExtenstion on ThemeData {
 /// Extension methods for TextTheme.
 extension TextThemeExtenstion on TextTheme {
   /// Returns the TextTheme with the iranSansFaNumFontFamily font family.
-  static TextTheme get iranSansFaNumFontFamily => const TextTheme().apply(
+  static TextTheme get iranSansFaNumFontFamily =>
+      Typography.blackCupertino.apply(
         fontFamily: 'IranSansFaNum',
-        package: 'bpay_theme',
+        package: 'app_theme',
       );
 
   /// Returns the TextTheme with the iranSansEnNumFontFamily font family.
-  static TextTheme get iranSansEnNumFontFamily => const TextTheme().apply(
+  static TextTheme get iranSansEnNumFontFamily =>
+      Typography.blackCupertino.apply(
         fontFamily: 'IranSansEnNum',
-        package: 'bpay_theme',
+        package: 'app_theme',
       );
 }
 
