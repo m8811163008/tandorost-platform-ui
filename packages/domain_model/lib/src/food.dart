@@ -1,4 +1,6 @@
-class Food {
+import 'package:equatable/equatable.dart';
+
+class Food extends Equatable {
   final String name;
   final int? calorie;
   final DateTime? selectedDate;
@@ -8,4 +10,7 @@ class Food {
     this.calorie,
     this.selectedDate,
   });
+
+  @override
+  List<Object?> get props => [name, calorie];
 }

@@ -17,6 +17,7 @@ dependencies:
     path: ../../domain_model
   food_repository:
     path: ../../repository/food_repository
+  flutter_bloc: ^8.1.4
 
 dev_dependencies:
   flutter_test:

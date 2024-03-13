@@ -5,11 +5,13 @@ class FoodStorage {
   FoodStorage(this._cacheStorage);
 
   Future<void> initializeFood() async {
-    final fo1 = FoodCM()
+    final fo1 = FoodDataCM()
       ..name = 'Apple'
       ..calorie = 52;
+    final fo2 = FoodCM()..foodDataCM = fo1;
+
     final foodCollection = await _cacheStorage.foodCollection;
-    await foodCollection.put(fo1);
+    await foodCollection.put(fo2);
   }
 
   Future<List<FoodCM>> getFoods() async {

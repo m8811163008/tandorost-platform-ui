@@ -3,19 +3,301 @@
 part of 'food.dart';
 
 // **************************************************************************
+// IsarCollectionGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+extension GetFoodCMCollection on Isar {
+  IsarCollection<FoodCM> get foodCMs => this.collection();
+}
+
+const FoodCMSchema = CollectionSchema(
+  name: r'FoodCM',
+  id: 7942962076487121710,
+  properties: {
+    r'foodDataCM': PropertySchema(
+      id: 0,
+      name: r'foodDataCM',
+      type: IsarType.object,
+      target: r'FoodDataCM',
+    )
+  },
+  estimateSize: _foodCMEstimateSize,
+  serialize: _foodCMSerialize,
+  deserialize: _foodCMDeserialize,
+  deserializeProp: _foodCMDeserializeProp,
+  idName: r'id',
+  indexes: {},
+  links: {},
+  embeddedSchemas: {r'FoodDataCM': FoodDataCMSchema},
+  getId: _foodCMGetId,
+  getLinks: _foodCMGetLinks,
+  attach: _foodCMAttach,
+  version: '3.1.0+1',
+);
+
+int _foodCMEstimateSize(
+  FoodCM object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 +
+      FoodDataCMSchema.estimateSize(
+          object.foodDataCM, allOffsets[FoodDataCM]!, allOffsets);
+  return bytesCount;
+}
+
+void _foodCMSerialize(
+  FoodCM object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeObject<FoodDataCM>(
+    offsets[0],
+    allOffsets,
+    FoodDataCMSchema.serialize,
+    object.foodDataCM,
+  );
+}
+
+FoodCM _foodCMDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = FoodCM();
+  object.foodDataCM = reader.readObjectOrNull<FoodDataCM>(
+        offsets[0],
+        FoodDataCMSchema.deserialize,
+        allOffsets,
+      ) ??
+      FoodDataCM();
+  object.id = id;
+  return object;
+}
+
+P _foodCMDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readObjectOrNull<FoodDataCM>(
+            offset,
+            FoodDataCMSchema.deserialize,
+            allOffsets,
+          ) ??
+          FoodDataCM()) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+Id _foodCMGetId(FoodCM object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _foodCMGetLinks(FoodCM object) {
+  return [];
+}
+
+void _foodCMAttach(IsarCollection<dynamic> col, Id id, FoodCM object) {
+  object.id = id;
+}
+
+extension FoodCMQueryWhereSort on QueryBuilder<FoodCM, FoodCM, QWhere> {
+  QueryBuilder<FoodCM, FoodCM, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+}
+
+extension FoodCMQueryWhere on QueryBuilder<FoodCM, FoodCM, QWhereClause> {
+  QueryBuilder<FoodCM, FoodCM, QAfterWhereClause> idEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterWhereClause> idNotEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterWhereClause> idGreaterThan(Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterWhereClause> idLessThan(Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
+  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> idEqualTo(Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> idBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension FoodCMQueryObject on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
+  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> foodDataCM(
+      FilterQuery<FoodDataCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'foodDataCM');
+    });
+  }
+}
+
+extension FoodCMQueryLinks on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {}
+
+extension FoodCMQuerySortBy on QueryBuilder<FoodCM, FoodCM, QSortBy> {}
+
+extension FoodCMQuerySortThenBy on QueryBuilder<FoodCM, FoodCM, QSortThenBy> {
+  QueryBuilder<FoodCM, FoodCM, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodCM, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+}
+
+extension FoodCMQueryWhereDistinct on QueryBuilder<FoodCM, FoodCM, QDistinct> {}
+
+extension FoodCMQueryProperty on QueryBuilder<FoodCM, FoodCM, QQueryProperty> {
+  QueryBuilder<FoodCM, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<FoodCM, FoodDataCM, QQueryOperations> foodDataCMProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'foodDataCM');
+    });
+  }
+}
+
+// **************************************************************************
 // IsarEmbeddedGenerator
 // **************************************************************************
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-const FoodStaticticsCMSchema = Schema(
-  name: r'FoodStaticticsCM',
-  id: -2755984810806286416,
+const FoodDataCMSchema = Schema(
+  name: r'FoodDataCM',
+  id: -2521534375543972788,
   properties: {
-    r'calarie': PropertySchema(
+    r'calorie': PropertySchema(
       id: 0,
-      name: r'calarie',
+      name: r'calorie',
       type: IsarType.long,
     ),
     r'name': PropertySchema(
@@ -24,14 +306,14 @@ const FoodStaticticsCMSchema = Schema(
       type: IsarType.string,
     )
   },
-  estimateSize: _foodStaticticsCMEstimateSize,
-  serialize: _foodStaticticsCMSerialize,
-  deserialize: _foodStaticticsCMDeserialize,
-  deserializeProp: _foodStaticticsCMDeserializeProp,
+  estimateSize: _foodDataCMEstimateSize,
+  serialize: _foodDataCMSerialize,
+  deserialize: _foodDataCMDeserialize,
+  deserializeProp: _foodDataCMDeserializeProp,
 );
 
-int _foodStaticticsCMEstimateSize(
-  FoodStaticticsCM object,
+int _foodDataCMEstimateSize(
+  FoodDataCM object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -40,8 +322,8 @@ int _foodStaticticsCMEstimateSize(
   return bytesCount;
 }
 
-void _foodStaticticsCMSerialize(
-  FoodStaticticsCM object,
+void _foodDataCMSerialize(
+  FoodDataCM object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -50,19 +332,19 @@ void _foodStaticticsCMSerialize(
   writer.writeString(offsets[1], object.name);
 }
 
-FoodStaticticsCM _foodStaticticsCMDeserialize(
+FoodDataCM _foodDataCMDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FoodStaticticsCM();
+  final object = FoodDataCM();
   object.calorie = reader.readLongOrNull(offsets[0]);
   object.name = reader.readString(offsets[1]);
   return object;
 }
 
-P _foodStaticticsCMDeserializeProp<P>(
+P _foodDataCMDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -78,66 +360,63 @@ P _foodStaticticsCMDeserializeProp<P>(
   }
 }
 
-extension FoodStaticticsCMQueryFilter
-    on QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QFilterCondition> {
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieIsNull() {
+extension FoodDataCMQueryFilter
+    on QueryBuilder<FoodDataCM, FoodDataCM, QFilterCondition> {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> calorieIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'calarie',
+        property: r'calorie',
       ));
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieIsNotNull() {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition>
+      calorieIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'calarie',
+        property: r'calorie',
       ));
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieEqualTo(int? value) {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> calorieEqualTo(
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'calarie',
+        property: r'calorie',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieGreaterThan(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition>
+      calorieGreaterThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'calarie',
+        property: r'calorie',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieLessThan(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> calorieLessThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'calarie',
+        property: r'calorie',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      calarieBetween(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> calorieBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -145,7 +424,7 @@ extension FoodStaticticsCMQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'calarie',
+        property: r'calorie',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -154,8 +433,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameEqualTo(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -168,8 +446,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameGreaterThan(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -184,8 +461,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameLessThan(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -200,8 +476,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameBetween(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -220,8 +495,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameStartsWith(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -234,8 +508,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameEndsWith(
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -248,8 +521,9 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'name',
@@ -259,8 +533,9 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'name',
@@ -270,8 +545,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameIsEmpty() {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -280,8 +554,7 @@ extension FoodStaticticsCMQueryFilter
     });
   }
 
-  QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QAfterFilterCondition>
-      nameIsNotEmpty() {
+  QueryBuilder<FoodDataCM, FoodDataCM, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -291,358 +564,5 @@ extension FoodStaticticsCMQueryFilter
   }
 }
 
-extension FoodStaticticsCMQueryObject
-    on QueryBuilder<FoodStaticticsCM, FoodStaticticsCM, QFilterCondition> {}
-
-// coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
-
-const SelectedFoodCMSchema = Schema(
-  name: r'SelectedFoodCM',
-  id: -3216707772304739627,
-  properties: {
-    r'calarie': PropertySchema(
-      id: 0,
-      name: r'calarie',
-      type: IsarType.long,
-    ),
-    r'name': PropertySchema(
-      id: 1,
-      name: r'name',
-      type: IsarType.string,
-    ),
-    r'selectedDate': PropertySchema(
-      id: 2,
-      name: r'selectedDate',
-      type: IsarType.dateTime,
-    )
-  },
-  estimateSize: _selectedFoodCMEstimateSize,
-  serialize: _selectedFoodCMSerialize,
-  deserialize: _selectedFoodCMDeserialize,
-  deserializeProp: _selectedFoodCMDeserializeProp,
-);
-
-int _selectedFoodCMEstimateSize(
-  SelectedFoodCM object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  bytesCount += 3 + object.name.length * 3;
-  return bytesCount;
-}
-
-void _selectedFoodCMSerialize(
-  SelectedFoodCM object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeLong(offsets[0], object.calorie);
-  writer.writeString(offsets[1], object.name);
-  writer.writeDateTime(offsets[2], object.selectedDate);
-}
-
-SelectedFoodCM _selectedFoodCMDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  final object = SelectedFoodCM();
-  object.calorie = reader.readLongOrNull(offsets[0]);
-  object.name = reader.readString(offsets[1]);
-  object.selectedDate = reader.readDateTime(offsets[2]);
-  return object;
-}
-
-P _selectedFoodCMDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readLongOrNull(offset)) as P;
-    case 1:
-      return (reader.readString(offset)) as P;
-    case 2:
-      return (reader.readDateTime(offset)) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
-}
-
-extension SelectedFoodCMQueryFilter
-    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'calarie',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'calarie',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'calarie',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'calarie',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'calarie',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calarieBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'calarie',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      selectedDateEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'selectedDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      selectedDateGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'selectedDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      selectedDateLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'selectedDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      selectedDateBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'selectedDate',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-}
-
-extension SelectedFoodCMQueryObject
-    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {}
+extension FoodDataCMQueryObject
+    on QueryBuilder<FoodDataCM, FoodDataCM, QFilterCondition> {}

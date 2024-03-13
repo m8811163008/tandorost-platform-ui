@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// A class that represents the extension for defining sizes in a theme.
 class SizesExtenstion extends ThemeExtension<SizesExtenstion> {
   final double none;
   final double extraSmall;
@@ -11,6 +12,7 @@ class SizesExtenstion extends ThemeExtension<SizesExtenstion> {
   final double extraLarge;
   final double full;
 
+  /// Creates a [SizesExtenstion] with the specified sizes.
   const SizesExtenstion({
     required this.none,
     required this.extraSmall,
@@ -21,6 +23,7 @@ class SizesExtenstion extends ThemeExtension<SizesExtenstion> {
     required this.full,
   });
 
+  /// Creates a [SizesExtenstion] with default size values.
   factory SizesExtenstion.defaultValues() {
     return const SizesExtenstion(
       none: 0,

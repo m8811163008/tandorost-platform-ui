@@ -12,17 +12,23 @@ class FoodRepostiory {
       : _foodStorage = FoodStorage(cacheStorage);
 
   final StreamController<List<Food>> _foodsController =
-      StreamController<List<Food>>.broadcast()..add(const []);
+      StreamController<List<Food>>.broadcast();
 
-  Stream<List<Food>> get foodsStream async* {
+  Stream<List<Food>> get searchedFoodsStream async* {
+    yield* _foodsController.stream;
+  }
+
+  Future<void> searchFoods(String query) async {
     var storageFoods = await _foodStorage.getFoods();
     if (storageFoods.isEmpty) {
       await _foodStorage.initializeFood();
+      storageFoods = await _foodStorage.getFoods();
     }
-    storageFoods = await _foodStorage.getFoods();
-    final domainFoods =
-        storageFoods.map((foodCm) => foodCm.toDomain()).toList();
+
+    final domainFoods = storageFoods
+        .where((foodCm) => foodCm.foodDataCM.name.toLowerCase().contains(query))
+        .map((foodCm) => foodCm.toDomain())
+        .toList();
     _foodsController.add(domainFoods);
-    yield* _foodsController.stream;
   }
 }

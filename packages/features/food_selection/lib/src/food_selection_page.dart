@@ -1,7 +1,9 @@
 import 'package:component_library/component_library.dart';
-import 'package:flutter/foundation.dart';
+import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_repository/food_repository.dart';
+import 'package:food_selection/src/bloc/food_selection_bloc.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
@@ -9,7 +11,12 @@ class FoodSelectionRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FoodSelectionView();
+    return BlocProvider(
+      create: (context) => FoodSelectionBloc(
+        RepositoryProvider.of<FoodRepostiory>(context),
+      ),
+      child: const FoodSelectionView(),
+    );
   }
 }
 
@@ -18,22 +25,80 @@ class FoodSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(context.sizesExtenstion.medium),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            SearchedFoodsList(),
             TextField(
               decoration: InputDecoration(
                 hintText: context.l10n.foodSelectionScreenTextFieldHint,
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
               ),
+              onChanged: (query) {
+                context.read<FoodSelectionBloc>().add(SearchFood(query));
+              },
+              // onSubmitted: (query) {
+              //   context.read<FoodSelectionBloc>().add(SearchFood(query));
+              // },
+              // onTapOutside: (_) => FocusScope.of(context).unfocus(),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class SearchedFoodsList extends StatelessWidget {
+  const SearchedFoodsList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+      builder: (context, state) {
+        if (state.status.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (state.status.isError) {
+          return const Text('Error');
+        } else if (state.status.isLoaded) {
+          return _buildSearchFoodList(state.foods);
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget _buildSearchFoodList(List<Food> foods) {
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: foods.length,
+      itemBuilder: (context, index) {
+        return FoodCard(food: foods[index]);
+      },
+      separatorBuilder: (context, index) {
+        return SizedBox(width: context.sizesExtenstion.small);
+      },
+    );
+  }
+}
+
+class FoodCard extends StatelessWidget {
+  const FoodCard({super.key, required this.food});
+  final Food food;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(
+      children: [
+        Text(food.name),
+        Text(food.calorie.toString()),
+      ],
+    ));
   }
 }

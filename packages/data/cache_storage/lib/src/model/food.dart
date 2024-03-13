@@ -2,15 +2,14 @@ import 'package:isar/isar.dart';
 
 part 'food.g.dart';
 
+@collection
 class FoodCM {
-  late String name;
-  int? calorie;
+  Id id = Isar.autoIncrement;
+  late FoodDataCM foodDataCM;
 }
 
 @embedded
-class FoodStaticticsCM extends FoodCM {}
-
-@embedded
-class SelectedFoodCM extends FoodCM {
-  late DateTime selectedDate;
+class FoodDataCM {
+  late String name;
+  int? calorie;
 }

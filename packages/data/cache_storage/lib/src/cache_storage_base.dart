@@ -1,12 +1,12 @@
 import 'package:cache_storage/cache_storage.dart';
-import 'package:cache_storage/src/model/food.dart';
-import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CacheStorage {
   // static const _secureKey = 'secure-key';
+  Isar? isarDB;
 
-  Future<IsarCollection<FoodCM>> get foodCollection async => _openCollection(
+  Future<IsarCollection<FoodCM>> get foodCollection async =>
+      _openCollection<FoodCM>(
         isTemporary: false,
       );
 
@@ -15,14 +15,14 @@ class CacheStorage {
     final directory = await (isTemporary
         ? getTemporaryDirectory()
         : getApplicationDocumentsDirectory());
-    final isarDB = await Isar.open(
+    isarDB ??= await Isar.open(
       [
-        FoodListCMSchema,
+        FoodCMSchema,
         UserCMSchema,
       ],
       directory: directory.path,
     );
 
-    return isarDB.collection<T>();
+    return isarDB!.collection<T>();
   }
 }
