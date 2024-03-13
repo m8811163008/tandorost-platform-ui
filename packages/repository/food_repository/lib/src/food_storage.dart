@@ -9,9 +9,9 @@ class FoodStorage {
       ..name = 'Apple'
       ..calorie = 52;
     final fo2 = FoodCM()..foodDataCM = fo1;
-
-    final foodCollection = await _cacheStorage.foodCollection;
-    await foodCollection.put(fo2);
+    _cacheStorage.writeTxn((Isar isar) async {
+      await isar.foods.put(fo2);
+    });
   }
 
   Future<List<FoodCM>> getFoods() async {
@@ -21,8 +21,10 @@ class FoodStorage {
   }
 
   Future<void> addFood(FoodCM foodCM) async {
-    final foodCollection = await _cacheStorage.foodCollection;
-    await foodCollection.put(foodCM);
+    _cacheStorage.writeTxn((Isar isar) async {
+      await isar.foods.put(foodCM);
+    });
+
     return;
   }
 }
