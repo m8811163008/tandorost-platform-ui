@@ -1,4 +1,5 @@
-import 'package:cache_storage/cache_storage.dart';
+import 'package:isar/isar.dart';
+import 'package:local_storage/local_storage.dart';
 
 part 'user.g.dart';
 

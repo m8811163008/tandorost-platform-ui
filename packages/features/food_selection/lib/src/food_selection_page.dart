@@ -66,7 +66,10 @@ class SearchedFoodsList extends StatelessWidget {
         } else if (state.status.isError) {
           return const Text('Error');
         } else if (state.status.isLoaded) {
-          return _buildSearchFoodList(state.foods);
+          return SizedBox(
+            height: context.sizesExtenstion.xExtraLarge,
+            child: _buildSearchFoodList(state.foods),
+          );
         }
         return const SizedBox();
       },

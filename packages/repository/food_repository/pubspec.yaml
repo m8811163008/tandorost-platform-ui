@@ -8,11 +8,19 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  cache_storage:
-    path: ../../data/cache_storage
+  local_storage:
+    path: ../../data/local_storage
   domain_model:
     path: ../../domain_model
 
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
+
+flutter:
+
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/

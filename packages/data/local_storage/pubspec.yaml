@@ -1,4 +1,4 @@
-name: cache_storage
+name: local_storage
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
@@ -9,8 +9,8 @@ environment:
 # Add regular dependencies here.
 dependencies:
   isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
-  path_provider: ^2.1.2
+  isar_flutter_libs : ^3.1.0+1
+
   # path: ^1.8.0
 
 dev_dependencies:

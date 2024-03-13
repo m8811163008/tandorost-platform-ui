@@ -42,7 +42,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     emit(state.copyWith(query: event.query, status: FetchDataStatus.loading));
     try {
       await _foodRepository.searchFoods(event.query);
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
     }
   }

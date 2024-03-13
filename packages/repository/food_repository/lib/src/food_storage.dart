@@ -1,28 +1,39 @@
-import 'package:cache_storage/cache_storage.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:local_storage/local_storage.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class FoodStorage {
-  final CacheStorage _cacheStorage;
-  FoodStorage(this._cacheStorage);
+  final LocalStorage _localStorage;
+  FoodStorage(this._localStorage);
 
   Future<void> initializeFood() async {
-    final fo1 = FoodDataCM()
-      ..name = 'Apple'
-      ..calorie = 52;
-    final fo2 = FoodCM()..foodDataCM = fo1;
-    _cacheStorage.writeTxn((Isar isar) async {
-      await isar.foods.put(fo2);
+    final jsonFile = await loadAsset();
+    final jsonFoodList = json.decode(jsonFile) as List;
+    List<FoodCM> foodList = jsonFoodList
+        .map((jsonFood) => FoodCM.fromJson(jsonFood as Map<String, dynamic>))
+        .toList();
+    await _localStorage.writeTxn<FoodCM>((isarCollection) async {
+      await isarCollection.putAll(foodList);
     });
   }
 
+  Future<String> loadAsset() async {
+    //packages/food_repository/assets/local_foods.json
+    return await rootBundle
+        .loadString('packages/food_repository/assets/local_foods.json');
+  }
+
   Future<List<FoodCM>> getFoods() async {
-    final foodCollection = await _cacheStorage.foodCollection;
+    final foodCollection = await _localStorage.foodCollection;
 
     return await foodCollection.where().findAll();
   }
 
   Future<void> addFood(FoodCM foodCM) async {
-    _cacheStorage.writeTxn((Isar isar) async {
-      await isar.foods.put(foodCM);
+    _localStorage.writeTxn<FoodCM>((isarCollection) async {
+      await isarCollection.put(foodCM);
     });
 
     return;

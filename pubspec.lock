@@ -32,13 +32,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  cache_storage:
-    dependency: "direct main"
-    description:
-      path: "packages/data/cache_storage"
-      relative: true
-    source: path
-    version: "1.0.0"
   characters:
     dependency: transitive
     description:
@@ -176,7 +169,7 @@ packages:
     source: hosted
     version: "3.1.0+1"
   isar_flutter_libs:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: isar_flutter_libs
       sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
@@ -199,6 +192,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  local_storage:
+    dependency: "direct main"
+    description:
+      path: "packages/data/local_storage"
+      relative: true
+    source: path
+    version: "1.0.0"
   logging:
     dependency: transitive
     description:
@@ -248,7 +248,7 @@ packages:
     source: hosted
     version: "1.8.3"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: b27217933eeeba8ff24845c34003b003b2b22151de3c908d0e679e8fe1aa078b

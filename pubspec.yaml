@@ -33,8 +33,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_bloc: ^8.1.4
-  cache_storage:
-    path: 'packages/data/cache_storage'
+  local_storage:
+    path: 'packages/data/local_storage'
   app_theme:
     path: 'packages/features/app_theme'
   go_router: ^13.2.0
@@ -44,6 +44,8 @@ dependencies:
     path: 'packages/component_library'
   food_repository:
     path: 'packages/repository/food_repository'
+  path_provider: ^2.1.2
+  isar_flutter_libs : ^3.1.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,7 +67,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - packages/food_repository/assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

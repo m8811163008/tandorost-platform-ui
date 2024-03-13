@@ -6,6 +6,14 @@ part 'food.g.dart';
 class FoodCM {
   Id id = Isar.autoIncrement;
   late FoodDataCM foodDataCM;
+
+  FoodCM();
+
+  // from json
+  FoodCM.fromJson(Map<String, dynamic> json)
+      : foodDataCM = FoodDataCM()
+          ..name = json['name'] as String
+          ..calorie = json['calorie'] as int?;
 }
 
 @embedded
