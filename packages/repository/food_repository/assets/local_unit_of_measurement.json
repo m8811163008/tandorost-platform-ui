@@ -1,0 +1,22 @@
+[
+    {
+        "name" : "apple",
+        "calorie" : 95
+    },
+    {
+        "name" : "banana",
+        "calorie" : 70
+    },
+    {
+        "name" : "pizza",
+        "calorie" : 1500
+    },
+    {
+        "name" : "salad",
+        "calorie" : 100
+    },
+    {
+        "name" : "chocolate",
+        "calorie" : 500
+    }
+]

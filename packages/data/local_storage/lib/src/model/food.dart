@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:local_storage/local_storage.dart';
 
 part 'food.g.dart';
 
@@ -8,16 +9,22 @@ class FoodCM {
   late FoodDataCM foodDataCM;
 
   FoodCM();
-
-  // from json
-  FoodCM.fromJson(Map<String, dynamic> json)
-      : foodDataCM = FoodDataCM()
-          ..name = json['name'] as String
-          ..calorie = json['calorie'] as int?;
 }
 
 @embedded
 class FoodDataCM {
   late String name;
   int? calorie;
+}
+
+@embedded
+class SelectedFoodCM {
+  late DateTime selectedDate;
+  late FoodDataCM food;
+
+  /// exposes howManyGrams per unit of measurment
+  late UnitOfMeasurmentCM unitOfMeasurment;
+
+  /// shows number of units of measurement selected
+  late int numberOfUnits;
 }

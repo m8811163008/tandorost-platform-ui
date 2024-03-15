@@ -24,6 +24,11 @@ class LocalStorage {
       _openCollection<FoodCM>(
         isTemporary: false,
       );
+  Future<IsarCollection<UnitOfMeasurmentCM>>
+      get unitOfMeasurmentCollection async =>
+          _openCollection<UnitOfMeasurmentCM>(
+            isTemporary: false,
+          );
 
   Future<IsarCollection<T>> _openCollection<T>(
       {required bool isTemporary}) async {

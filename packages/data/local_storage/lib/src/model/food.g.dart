@@ -566,3 +566,262 @@ extension FoodDataCMQueryFilter
 
 extension FoodDataCMQueryObject
     on QueryBuilder<FoodDataCM, FoodDataCM, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const SelectedFoodCMSchema = Schema(
+  name: r'SelectedFoodCM',
+  id: -3216707772304739627,
+  properties: {
+    r'food': PropertySchema(
+      id: 0,
+      name: r'food',
+      type: IsarType.object,
+      target: r'FoodDataCM',
+    ),
+    r'numberOfUnits': PropertySchema(
+      id: 1,
+      name: r'numberOfUnits',
+      type: IsarType.long,
+    ),
+    r'selectedDate': PropertySchema(
+      id: 2,
+      name: r'selectedDate',
+      type: IsarType.dateTime,
+    ),
+    r'unitOfMeasurment': PropertySchema(
+      id: 3,
+      name: r'unitOfMeasurment',
+      type: IsarType.object,
+      target: r'UnitOfMeasurmentCM',
+    )
+  },
+  estimateSize: _selectedFoodCMEstimateSize,
+  serialize: _selectedFoodCMSerialize,
+  deserialize: _selectedFoodCMDeserialize,
+  deserializeProp: _selectedFoodCMDeserializeProp,
+);
+
+int _selectedFoodCMEstimateSize(
+  SelectedFoodCM object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 +
+      FoodDataCMSchema.estimateSize(
+          object.food, allOffsets[FoodDataCM]!, allOffsets);
+  bytesCount += 3 +
+      UnitOfMeasurmentCMSchema.estimateSize(
+          object.unitOfMeasurment, allOffsets[UnitOfMeasurmentCM]!, allOffsets);
+  return bytesCount;
+}
+
+void _selectedFoodCMSerialize(
+  SelectedFoodCM object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeObject<FoodDataCM>(
+    offsets[0],
+    allOffsets,
+    FoodDataCMSchema.serialize,
+    object.food,
+  );
+  writer.writeLong(offsets[1], object.numberOfUnits);
+  writer.writeDateTime(offsets[2], object.selectedDate);
+  writer.writeObject<UnitOfMeasurmentCM>(
+    offsets[3],
+    allOffsets,
+    UnitOfMeasurmentCMSchema.serialize,
+    object.unitOfMeasurment,
+  );
+}
+
+SelectedFoodCM _selectedFoodCMDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = SelectedFoodCM();
+  object.food = reader.readObjectOrNull<FoodDataCM>(
+        offsets[0],
+        FoodDataCMSchema.deserialize,
+        allOffsets,
+      ) ??
+      FoodDataCM();
+  object.numberOfUnits = reader.readLong(offsets[1]);
+  object.selectedDate = reader.readDateTime(offsets[2]);
+  object.unitOfMeasurment = reader.readObjectOrNull<UnitOfMeasurmentCM>(
+        offsets[3],
+        UnitOfMeasurmentCMSchema.deserialize,
+        allOffsets,
+      ) ??
+      UnitOfMeasurmentCM();
+  return object;
+}
+
+P _selectedFoodCMDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readObjectOrNull<FoodDataCM>(
+            offset,
+            FoodDataCMSchema.deserialize,
+            allOffsets,
+          ) ??
+          FoodDataCM()) as P;
+    case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
+      return (reader.readDateTime(offset)) as P;
+    case 3:
+      return (reader.readObjectOrNull<UnitOfMeasurmentCM>(
+            offset,
+            UnitOfMeasurmentCMSchema.deserialize,
+            allOffsets,
+          ) ??
+          UnitOfMeasurmentCM()) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension SelectedFoodCMQueryFilter
+    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'numberOfUnits',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'selectedDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension SelectedFoodCMQueryObject
+    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition> food(
+      FilterQuery<FoodDataCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'food');
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurment(FilterQuery<UnitOfMeasurmentCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'unitOfMeasurment');
+    });
+  }
+}
