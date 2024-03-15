@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:food_selection/src/bloc/food_selection_bloc.dart';
+import 'package:food_selection/src/food_amounts_input_page.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
@@ -25,28 +26,25 @@ class FoodSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(context.sizesExtenstion.medium),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SearchedFoodsList(),
-            TextField(
-              decoration: InputDecoration(
-                hintText: context.l10n.foodSelectionScreenTextFieldHint,
-                prefixIcon: const Icon(Icons.search),
-              ),
-              onChanged: (query) {
-                context.read<FoodSelectionBloc>().add(SearchFood(query));
-              },
-              // onSubmitted: (query) {
-              //   context.read<FoodSelectionBloc>().add(SearchFood(query));
-              // },
-              // onTapOutside: (_) => FocusScope.of(context).unfocus(),
+    return AppScaffold(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SearchedFoodsList(),
+          TextField(
+            decoration: InputDecoration(
+              hintText: context.l10n.foodSelectionScreenTextFieldHint,
+              prefixIcon: const Icon(Icons.search),
             ),
-          ],
-        ),
+            onChanged: (query) {
+              context.read<FoodSelectionBloc>().add(SearchFood(query));
+            },
+            // onSubmitted: (query) {
+            //   context.read<FoodSelectionBloc>().add(SearchFood(query));
+            // },
+            // onTapOutside: (_) => FocusScope.of(context).unfocus(),
+          ),
+        ],
       ),
     );
   }
@@ -64,7 +62,14 @@ class SearchedFoodsList extends StatelessWidget {
         if (state.status.isLoading) {
           return const CircularProgressIndicator();
         } else if (state.status.isError) {
-          return const Text('Error');
+          // return Text('Error');
+          return FoodButton(
+            food: Food(name: 'سیب', calorie: 100),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FoodAmountPage()));
+            },
+          );
         } else if (state.status.isLoaded) {
           return SizedBox(
             height: context.sizesExtenstion.xExtraLarge,
@@ -81,7 +86,13 @@ class SearchedFoodsList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: foods.length,
       itemBuilder: (context, index) {
-        return FoodCard(food: foods[index]);
+        return FoodButton(
+          food: foods[index],
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => FoodAmountPage()));
+          },
+        );
       },
       separatorBuilder: (context, index) {
         return SizedBox(width: context.sizesExtenstion.small);
@@ -90,18 +101,29 @@ class SearchedFoodsList extends StatelessWidget {
   }
 }
 
-class FoodCard extends StatelessWidget {
-  const FoodCard({super.key, required this.food});
+class FoodButton extends StatelessWidget {
+  const FoodButton({super.key, required this.food, this.onTap});
   final Food food;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: Column(
-      children: [
-        Text(food.name),
-        Text(food.calorie.toString()),
-      ],
-    ));
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+            padding: EdgeInsets.all(8.0),
+            constraints: BoxConstraints.tight(
+                Size.square(context.sizesExtenstion.xExtraLarge)),
+            // color: Colors.red,
+            child: Center(
+              child: Text(
+                food.name,
+                maxLines: 3,
+                overflow: TextOverflow.clip,
+              ),
+            )),
+      ),
+    );
   }
 }

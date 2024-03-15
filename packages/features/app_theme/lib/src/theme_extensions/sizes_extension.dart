@@ -34,7 +34,7 @@ class SizesExtenstion extends ThemeExtension<SizesExtenstion> {
       medium: 16,
       large: 24,
       extraLarge: 32,
-      xExtraLarge: 48,
+      xExtraLarge: 80,
       full: double.infinity,
     );
   }

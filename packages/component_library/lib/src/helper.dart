@@ -9,4 +9,6 @@ extension BuildContextTranslation on BuildContext {
       Theme.of(this).extension<FontsExtenstion>()!;
   SizesExtenstion get sizesExtenstion =>
       Theme.of(this).extension<SizesExtenstion>()!;
+
+  ThemeData get themeData => Theme.of(this);
 }
