@@ -7,5 +7,5 @@ part 'unit_of_measurement.g.dart';
 class UnitOfMeasurmentCM {
   late String title;
   late String icon;
-  late double howManyGrams;
+  late double? howManyGrams;
 }

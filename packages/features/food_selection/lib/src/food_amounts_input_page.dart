@@ -1,4 +1,5 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 
 class FoodAmountPage extends StatelessWidget {
@@ -40,23 +41,21 @@ class FoodAmountPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ScrollableNumberInput(),
-              ConstrainedBox(
-                constraints: BoxConstraints.tightFor(
-                  height: 180,
-                  width: 180,
-                ),
-                child: GridView.count(
-                  crossAxisCount: 1,
-                  children: List.generate(4, (index) => Placeholder()),
-                  primary: false,
-                ),
+              UnitOfMusurementList(
+                list: [
+                  UnitOfMeasurement(
+                    title: 'title',
+                    icon: Ionicons.add_circle,
+                    howManyGrams: 20,
+                  ),
+                ],
               ),
             ],
           ),
@@ -66,8 +65,8 @@ class FoodAmountPage extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElevatedButton(onPressed: () {}, child: Text('غذای بعد')),
-              OutlinedButton(onPressed: () {}, child: Text('تاریخچه')),
+              ElevatedButton(onPressed: () {}, child: const Text('غذای بعد')),
+              OutlinedButton(onPressed: () {}, child: const Text('تاریخچه')),
             ],
           ),
         ],

@@ -9,3 +9,20 @@ extension FoodCMToDomain on FoodCM {
     );
   }
 }
+
+extension UnitOfMeasurementCMToDomain on UnitOfMeasurmentCM {
+  UnitOfMeasurement toDomain() {
+    return UnitOfMeasurement(
+      howManyGrams: howManyGrams,
+      icon: icon.toIcon(),
+      title: title,
+    );
+  }
+}
+
+extension on String {
+  IoniconsData toIcon() => switch (this) {
+        'accessibility' => Ionicons.accessibility,
+        _ => throw Exception('Not definded unit of measurement')
+      };
+}

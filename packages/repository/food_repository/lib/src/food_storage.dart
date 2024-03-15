@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:food_repository/mapper/json_to_cache.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -9,7 +9,7 @@ class FoodStorage {
   FoodStorage(this._localStorage);
 
   Future<void> initializeFood() async {
-    final jsonFile = await _loadFoodAsset();
+    final jsonFile = await _loadAsset('local_foods.json');
     final jsonFoodList = json.decode(jsonFile) as List;
     List<FoodCM> foodList = jsonFoodList
         .map((jsonFood) =>
@@ -20,28 +20,16 @@ class FoodStorage {
     });
   }
 
-  Future<String> _loadFoodAsset() async {
-    //packages/food_repository/assets/local_foods.json
-    return await rootBundle
-        .loadString('packages/food_repository/assets/local_foods.json');
-  }
-
   Future<void> initializeUnitOfMeasurement() async {
-    final jsonFile = await _loadUnitOfMesarmentAsset();
-    final jsonList = json.decode(jsonFile) as List;
+    final jsonFile = await _loadAsset('local_unit_of_measurement.json');
+    final jsonList = json.decode(jsonFile) as List<Map<String, dynamic>>;
     List<UnitOfMeasurmentCM> objectList = jsonList
-        .map((jsonElement) => jsonElement.unitOfMeasurmentCMFromJson(
-            jsonElement as Map<String, dynamic>) as UnitOfMeasurmentCM)
+        .map((jsonElement) =>
+            jsonElement.unitOfMeasurmentCMFromJson(jsonElement))
         .toList();
     await _localStorage.writeTxn<UnitOfMeasurmentCM>((isarCollection) async {
       await isarCollection.putAll(objectList);
     });
-  }
-
-  Future<String> _loadUnitOfMesarmentAsset() async {
-    //packages/food_repository/assets/local_unit_of_measurement.json
-    return await rootBundle.loadString(
-        'packages/food_repository/assets/local_unit_of_measurement.json');
   }
 
   Future<List<FoodCM>> getFoods() async {
@@ -56,5 +44,17 @@ class FoodStorage {
     });
 
     return;
+  }
+
+  Future<String> _loadAsset(String fileName) async {
+    //packages/food_repository/assets/local_foods.json
+    return await rootBundle
+        .loadString('packages/food_repository/assets/$fileName');
+  }
+
+  Future<List<UnitOfMeasurmentCM>> get units async {
+    final uomCollection = await _localStorage.unitOfMeasurmentCollection;
+
+    return await uomCollection.where().findAll();
   }
 }

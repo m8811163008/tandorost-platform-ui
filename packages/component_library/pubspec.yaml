@@ -15,7 +15,10 @@ dependencies:
     sdk: flutter
   app_theme:
     path: '../features/app_theme'
+  domain_model:
+    path: '../domain_model'
 
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -27,6 +30,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   generate : true
+  assets: 
+    - assets/
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

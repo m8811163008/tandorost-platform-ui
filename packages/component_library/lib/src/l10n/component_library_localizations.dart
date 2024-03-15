@@ -94,8 +94,14 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @foodSelectionScreenTextFieldHint.
   ///
   /// In fa, this message translates to:
-  /// **'جستجوی غذا 1'**
+  /// **'جستجوی غذا'**
   String get foodSelectionScreenTextFieldHint;
+
+  /// No description provided for @uomCardHomanyGramsLable.
+  ///
+  /// In fa, this message translates to:
+  /// **'گِرم'**
+  String get uomCardHomanyGramsLable;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

@@ -1,7 +1,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library;
+library food_repository;
 
 export 'src/food_repository_base.dart';
 

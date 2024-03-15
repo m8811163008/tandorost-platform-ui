@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +44,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     try {
       await _foodRepository.searchFoods(event.query);
     } catch (e, s) {
+      log('FoodSelectionBloc._handleSearchFood', error: e, stackTrace: s);
       emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
     }
   }

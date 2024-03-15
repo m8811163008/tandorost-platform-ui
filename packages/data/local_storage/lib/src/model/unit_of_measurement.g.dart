@@ -64,7 +64,7 @@ UnitOfMeasurmentCM _unitOfMeasurmentCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = UnitOfMeasurmentCM();
-  object.howManyGrams = reader.readDouble(offsets[0]);
+  object.howManyGrams = reader.readDoubleOrNull(offsets[0]);
   object.icon = reader.readString(offsets[1]);
   object.title = reader.readString(offsets[2]);
   return object;
@@ -78,7 +78,7 @@ P _unitOfMeasurmentCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -91,8 +91,26 @@ P _unitOfMeasurmentCMDeserializeProp<P>(
 extension UnitOfMeasurmentCMQueryFilter
     on QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QFilterCondition> {
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      howManyGramsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'howManyGrams',
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      howManyGramsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'howManyGrams',
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsEqualTo(
-    double value, {
+    double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -106,7 +124,7 @@ extension UnitOfMeasurmentCMQueryFilter
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsGreaterThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -122,7 +140,7 @@ extension UnitOfMeasurmentCMQueryFilter
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsLessThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -138,8 +156,8 @@ extension UnitOfMeasurmentCMQueryFilter
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsBetween(
-    double lower,
-    double upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,

@@ -30,7 +30,7 @@ class FoodSelectionView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          SearchedFoodsList(),
+          const SearchedFoodsList(),
           TextField(
             decoration: InputDecoration(
               hintText: context.l10n.foodSelectionScreenTextFieldHint,
@@ -64,10 +64,10 @@ class SearchedFoodsList extends StatelessWidget {
         } else if (state.status.isError) {
           // return Text('Error');
           return FoodButton(
-            food: Food(name: 'سیب', calorie: 100),
+            food: const Food(name: 'سیب', calorie: 100),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FoodAmountPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const FoodAmountPage()));
             },
           );
         } else if (state.status.isLoaded) {
@@ -89,8 +89,8 @@ class SearchedFoodsList extends StatelessWidget {
         return FoodButton(
           food: foods[index],
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => FoodAmountPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const FoodAmountPage()));
           },
         );
       },
@@ -112,7 +112,7 @@ class FoodButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(context.sizesExtenstion.medium),
             constraints: BoxConstraints.tight(
                 Size.square(context.sizesExtenstion.xExtraLarge)),
             // color: Colors.red,

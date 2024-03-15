@@ -41,7 +41,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
     return Container(
       constraints: BoxConstraints.tightFor(
           width: widget.itemExtends * 1.618, height: widget.itemExtends * 3),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
             color: Colors.black,

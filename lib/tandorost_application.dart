@@ -8,8 +8,8 @@ class TandorostApplication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightThemeData = AppThemeLightThemeData(locale: Locale('fa'));
-    final darkThemeData = AppThemeDarkThemeData(locale: Locale('fa'));
+    final lightThemeData = AppThemeLightThemeData(locale: const Locale('fa'));
+    final darkThemeData = AppThemeDarkThemeData(locale: const Locale('fa'));
     return MaterialApp.router(
       theme: lightThemeData.materialThemeData,
       darkTheme: darkThemeData.materialThemeData,
@@ -26,7 +26,7 @@ class TandorostApplication extends StatelessWidget {
       supportedLocales: const [
         Locale("fa"),
       ],
-      locale: Locale("fa"),
+      locale: const Locale("fa"),
     );
   }
 }
