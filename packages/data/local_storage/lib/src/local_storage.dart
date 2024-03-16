@@ -15,9 +15,7 @@ class LocalStorage {
   Future<void> writeTxn<E>(
       Future<void> Function(IsarCollection<E> isarCollection) callback) async {
     assert(isarDB != null);
-    await isarDB!.writeTxn(() async {
-      callback(isarDB!.collection<E>());
-    });
+    await isarDB!.writeTxn(() async => callback(isarDB!.collection<E>()));
   }
 
   Future<IsarCollection<FoodCM>> get foodCollection async =>

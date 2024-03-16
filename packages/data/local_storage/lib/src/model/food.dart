@@ -6,25 +6,15 @@ part 'food.g.dart';
 @collection
 class FoodCM {
   Id id = Isar.autoIncrement;
-  late FoodDataCM foodDataCM;
-
-  FoodCM();
-}
-
-@embedded
-class FoodDataCM {
   late String name;
   int? calorie;
+  int? gramsPerUnit;
+  MacroNutritionCM? macroNutrition;
 }
 
 @embedded
-class SelectedFoodCM {
-  late DateTime selectedDate;
-  late FoodDataCM food;
-
-  /// exposes howManyGrams per unit of measurment
-  late UnitOfMeasurmentCM unitOfMeasurment;
-
-  /// shows number of units of measurement selected
-  late int numberOfUnits;
+class MacroNutritionCM {
+  int? carbohydrate;
+  int? fat;
+  int? protein;
 }

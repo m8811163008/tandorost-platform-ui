@@ -33,7 +33,7 @@ const UserCMSchema = CollectionSchema(
   links: {},
   embeddedSchemas: {
     r'SelectedFoodCM': SelectedFoodCMSchema,
-    r'FoodDataCM': FoodDataCMSchema,
+    r'MacroNutrition': MacroNutritionSchema,
     r'UnitOfMeasurmentCM': UnitOfMeasurmentCMSchema
   },
   getId: _userCMGetId,
@@ -381,6 +381,602 @@ extension UserCMQueryProperty on QueryBuilder<UserCM, UserCM, QQueryProperty> {
       selectedFoodsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'selectedFoods');
+    });
+  }
+}
+
+// **************************************************************************
+// IsarEmbeddedGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const SelectedFoodCMSchema = Schema(
+  name: r'SelectedFoodCM',
+  id: -3216707772304739627,
+  properties: {
+    r'calorie': PropertySchema(
+      id: 0,
+      name: r'calorie',
+      type: IsarType.long,
+    ),
+    r'gramsPerUnit': PropertySchema(
+      id: 1,
+      name: r'gramsPerUnit',
+      type: IsarType.long,
+    ),
+    r'macroNutrition': PropertySchema(
+      id: 2,
+      name: r'macroNutrition',
+      type: IsarType.object,
+      target: r'MacroNutrition',
+    ),
+    r'name': PropertySchema(
+      id: 3,
+      name: r'name',
+      type: IsarType.string,
+    ),
+    r'numberOfUnits': PropertySchema(
+      id: 4,
+      name: r'numberOfUnits',
+      type: IsarType.long,
+    ),
+    r'selectedDate': PropertySchema(
+      id: 5,
+      name: r'selectedDate',
+      type: IsarType.dateTime,
+    ),
+    r'unitOfMeasurment': PropertySchema(
+      id: 6,
+      name: r'unitOfMeasurment',
+      type: IsarType.object,
+      target: r'UnitOfMeasurmentCM',
+    )
+  },
+  estimateSize: _selectedFoodCMEstimateSize,
+  serialize: _selectedFoodCMSerialize,
+  deserialize: _selectedFoodCMDeserialize,
+  deserializeProp: _selectedFoodCMDeserializeProp,
+);
+
+int _selectedFoodCMEstimateSize(
+  SelectedFoodCM object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  {
+    final value = object.macroNutrition;
+    if (value != null) {
+      bytesCount += 3 +
+          MacroNutritionSchema.estimateSize(
+              value, allOffsets[MacroNutritionCM]!, allOffsets);
+    }
+  }
+  bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 +
+      UnitOfMeasurmentCMSchema.estimateSize(
+          object.unitOfMeasurment, allOffsets[UnitOfMeasurmentCM]!, allOffsets);
+  return bytesCount;
+}
+
+void _selectedFoodCMSerialize(
+  SelectedFoodCM object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.calorie);
+  writer.writeLong(offsets[1], object.gramsPerUnit);
+  writer.writeObject<MacroNutritionCM>(
+    offsets[2],
+    allOffsets,
+    MacroNutritionSchema.serialize,
+    object.macroNutrition,
+  );
+  writer.writeString(offsets[3], object.name);
+  writer.writeLong(offsets[4], object.numberOfUnits);
+  writer.writeDateTime(offsets[5], object.selectedDate);
+  writer.writeObject<UnitOfMeasurmentCM>(
+    offsets[6],
+    allOffsets,
+    UnitOfMeasurmentCMSchema.serialize,
+    object.unitOfMeasurment,
+  );
+}
+
+SelectedFoodCM _selectedFoodCMDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = SelectedFoodCM();
+  object.calorie = reader.readLongOrNull(offsets[0]);
+  object.gramsPerUnit = reader.readLongOrNull(offsets[1]);
+  object.macroNutrition = reader.readObjectOrNull<MacroNutritionCM>(
+    offsets[2],
+    MacroNutritionSchema.deserialize,
+    allOffsets,
+  );
+  object.name = reader.readString(offsets[3]);
+  object.numberOfUnits = reader.readLong(offsets[4]);
+  object.selectedDate = reader.readDateTime(offsets[5]);
+  object.unitOfMeasurment = reader.readObjectOrNull<UnitOfMeasurmentCM>(
+        offsets[6],
+        UnitOfMeasurmentCMSchema.deserialize,
+        allOffsets,
+      ) ??
+      UnitOfMeasurmentCM();
+  return object;
+}
+
+P _selectedFoodCMDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    case 1:
+      return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readObjectOrNull<MacroNutritionCM>(
+        offset,
+        MacroNutritionSchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readDateTime(offset)) as P;
+    case 6:
+      return (reader.readObjectOrNull<UnitOfMeasurmentCM>(
+            offset,
+            UnitOfMeasurmentCMSchema.deserialize,
+            allOffsets,
+          ) ??
+          UnitOfMeasurmentCM()) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension SelectedFoodCMQueryFilter
+    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'calorie',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'calorie',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'calorie',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'calorie',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'calorie',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      calorieBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'calorie',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'gramsPerUnit',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'gramsPerUnit',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'gramsPerUnit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'gramsPerUnit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'gramsPerUnit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      gramsPerUnitBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'gramsPerUnit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      macroNutritionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'macroNutrition',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      macroNutritionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'macroNutrition',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'numberOfUnits',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitsBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'numberOfUnits',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'selectedDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'selectedDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension SelectedFoodCMQueryObject
+    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      macroNutrition(FilterQuery<MacroNutritionCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'macroNutrition');
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurment(FilterQuery<UnitOfMeasurmentCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'unitOfMeasurment');
     });
   }
 }

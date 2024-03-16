@@ -23,31 +23,33 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(
-        height: 180,
-        width: 180,
-      ),
-      child: GridView.count(
-        crossAxisCount: 2,
-        primary: false,
-        children: List.generate(
-          widget.list.length,
-          (index) {
-            final isSelected = _selected == widget.list[index];
-            return CardUnitOfMesurmenntContent(
-              unitOfMeasurement: widget.list[index],
-              isSelected: isSelected,
-              onSelected: !isSelected
-                  ? () {
-                      setState(() {
-                        _selected = widget.list[index];
-                      });
-                    }
-                  : null,
-            );
-          },
-        ),
+    return GridView.count(
+      crossAxisCount: 3,
+
+      primary: false,
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
+      // cacheExtent: 150,
+      children: List.generate(
+        widget.list.length,
+        (index) {
+          final isSelected = _selected == widget.list[index];
+          return CardUnitOfMesurmenntContent(
+            unitOfMeasurement: widget.list[index],
+            isSelected: isSelected,
+            onSelected: !isSelected
+                ? () {
+                    setState(() {
+                      _selected = widget.list[index];
+                    });
+                  }
+                : null,
+          );
+          // return SizedBox(
+          //   width: 100,
+          //   height: 100,
+          // );
+        },
       ),
     );
   }

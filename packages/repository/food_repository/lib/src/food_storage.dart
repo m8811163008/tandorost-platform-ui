@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
 import 'package:local_storage/local_storage.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class FoodStorage {
   final LocalStorage _localStorage;

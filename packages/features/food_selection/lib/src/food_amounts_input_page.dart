@@ -12,45 +12,53 @@ class FoodAmountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
+          Flexible(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
                   '1',
                   style: context.themeData.textTheme.displayLarge!
                       .apply(fontSizeFactor: 2),
                 ),
-              ),
-              SizedBox(
-                width: context.sizesExtenstion.medium,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'عدد',
-                    style: context.themeData.textTheme.displaySmall,
-                  ),
-                  Text(
-                    'سیب',
-                    style: context.themeData.textTheme.displaySmall,
-                  ),
-                ],
-              ),
-              const Spacer(),
-            ],
+                SizedBox(
+                  width: context.sizesExtenstion.medium,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'عدد',
+                        style: context.themeData.textTheme.displaySmall,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        'سیب',
+                        style: context.themeData.textTheme.displaySmall,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+              ],
+            ),
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ScrollableNumberInput(),
-              UnitOfMusurementList(
+          Divider(
+            height: context.sizesExtenstion.small,
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 2 / 3,
+              height: 176,
+              child: UnitOfMusurementList(
                 list: [
                   UnitOfMeasurement(
                     title: 'گرم',
@@ -71,29 +79,63 @@ class FoodAmountPage extends StatelessWidget {
                     title: 'کالری',
                     icon: Ionicons.ellipse_outline,
                   ),
+                  UnitOfMeasurement(
+                    title: 'کالری',
+                    icon: Ionicons.ellipse_outline,
+                  ),
+                  UnitOfMeasurement(
+                    title: 'کالری',
+                    icon: Ionicons.ellipse_outline,
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-          Spacer(),
-          ScrollableNumberInput(
-            axis: Axis.horizontal,
-            itemExtends: 40,
+          Divider(
+            height: context.sizesExtenstion.small,
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Flexible(
+            flex: 2,
+            child: ScrollableNumberInput(),
+          ),
+          Divider(
+            height: context.sizesExtenstion.small,
+          ),
+          Stack(
+            alignment: Alignment.topCenter,
             children: [
-              Expanded(
-                  child: ElevatedButton(
-                      onPressed: () {}, child: const Text('غذای بعد'))),
               SizedBox(
-                width: context.sizesExtenstion.medium,
+                  width: double.infinity, child: Text('کی خوردید؟ 2 ساعت پیش')),
+              ScrollableNumberInput(
+                axis: Axis.horizontal,
+                itemExtends: 40,
               ),
-              Expanded(
-                  child: OutlinedButton(
-                      onPressed: () {}, child: const Text('تاریخچه'))),
             ],
+          ),
+          Divider(
+            height: context.sizesExtenstion.small,
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('ذخیره و غذای بعد'))),
+                  SizedBox(
+                    width: context.sizesExtenstion.medium,
+                  ),
+                  Expanded(
+                      child: OutlinedButton(
+                          onPressed: () {},
+                          child: const Text('ذخیره و تاریخچه'))),
+                ],
+              ),
+            ),
           ),
         ],
       ),

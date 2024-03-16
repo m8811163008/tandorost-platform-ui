@@ -50,19 +50,9 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
       angle: widget.axis == Axis.horizontal ? -pi / 2 : 0,
       child: Container(
         constraints: BoxConstraints.tightFor(
-            width: widget.itemExtends * 1.618, height: widget.itemExtends * 3),
-        decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Colors.black,
-              width: 1,
-            ),
-            bottom: BorderSide(
-              color: Colors.black,
-              width: 1,
-            ),
-          ),
-        ),
+            width: widget.itemExtends *
+                (widget.axis == Axis.horizontal ? 3 : 1.618),
+            height: widget.itemExtends * 3),
         child: ListWheelScrollView(
           controller: fixedExtentScrollController,
           itemExtent: widget.itemExtends,
@@ -78,13 +68,18 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
           children: List.generate(
             widget.stepCount,
             (index) {
-              return Card(
-                child: Center(
-                  child: Transform.rotate(
-                    angle: widget.axis == Axis.horizontal ? pi / 2 : 0,
-                    child: Text(
-                      index.toString(),
-                      style: context.themeData.textTheme.labelLarge,
+              return SizedBox(
+                width: widget.axis == Axis.horizontal
+                    ? widget.itemExtends * 1.68
+                    : null,
+                child: Card(
+                  child: Center(
+                    child: Transform.rotate(
+                      angle: widget.axis == Axis.horizontal ? pi / 2 : 0,
+                      child: Text(
+                        index.toString(),
+                        style: context.themeData.textTheme.labelLarge,
+                      ),
                     ),
                   ),
                 ),
