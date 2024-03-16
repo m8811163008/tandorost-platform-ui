@@ -1,6 +1,8 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class FoodAmountPage extends StatelessWidget {
   const FoodAmountPage({super.key});
@@ -32,7 +34,7 @@ class FoodAmountPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'قاشق',
+                    'عدد',
                     style: context.themeData.textTheme.displaySmall,
                   ),
                   Text(
@@ -51,22 +53,46 @@ class FoodAmountPage extends StatelessWidget {
               UnitOfMusurementList(
                 list: [
                   UnitOfMeasurement(
-                    title: 'title',
-                    icon: Ionicons.add_circle,
-                    howManyGrams: 20,
+                    title: 'گرم',
+                    icon: Ionicons.ellipse_outline,
+                    howManyGrams: 1,
+                  ),
+                  UnitOfMeasurement(
+                    title: 'قاشق غذاخوری',
+                    icon: Ionicons.ellipse_outline,
+                    howManyGrams: 15,
+                  ),
+                  UnitOfMeasurement(
+                    title: 'عدد متوسط',
+                    icon: Ionicons.ellipse_outline,
+                    howManyGrams: 15,
+                  ),
+                  UnitOfMeasurement(
+                    title: 'کالری',
+                    icon: Ionicons.ellipse_outline,
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(
-            height: context.sizesExtenstion.medium,
+          Spacer(),
+          ScrollableNumberInput(
+            axis: Axis.horizontal,
+            itemExtends: 40,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ElevatedButton(onPressed: () {}, child: const Text('غذای بعد')),
-              OutlinedButton(onPressed: () {}, child: const Text('تاریخچه')),
+              Expanded(
+                  child: ElevatedButton(
+                      onPressed: () {}, child: const Text('غذای بعد'))),
+              SizedBox(
+                width: context.sizesExtenstion.medium,
+              ),
+              Expanded(
+                  child: OutlinedButton(
+                      onPressed: () {}, child: const Text('تاریخچه'))),
             ],
           ),
         ],

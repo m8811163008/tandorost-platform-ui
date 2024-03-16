@@ -112,17 +112,18 @@ class FoodButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-            padding: EdgeInsets.all(context.sizesExtenstion.medium),
-            constraints: BoxConstraints.tight(
-                Size.square(context.sizesExtenstion.xExtraLarge)),
-            // color: Colors.red,
-            child: Center(
-              child: Text(
-                food.name,
-                maxLines: 3,
-                overflow: TextOverflow.clip,
-              ),
-            )),
+          padding: EdgeInsets.all(context.sizesExtenstion.medium),
+          constraints: BoxConstraints.tight(
+              Size.square(context.sizesExtenstion.xExtraLarge)),
+          // color: Colors.red,
+          child: Center(
+            child: Text(
+              food.name,
+              maxLines: 3,
+              overflow: TextOverflow.clip,
+            ),
+          ),
+        ),
       ),
     );
   }

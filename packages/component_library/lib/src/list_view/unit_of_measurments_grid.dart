@@ -1,15 +1,25 @@
 import 'package:component_library/component_library.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:domain_model/domain_model.dart';
-import 'package:flutter/widgets.dart';
 
-class UnitOfMusurementList extends StatelessWidget {
+class UnitOfMusurementList extends StatefulWidget {
   const UnitOfMusurementList({
     super.key,
     this.list = const [],
   });
   final List<UnitOfMeasurement> list;
+
+  @override
+  State<UnitOfMusurementList> createState() => _UnitOfMusurementListState();
+}
+
+class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
+  late UnitOfMeasurement _selected;
+  @override
+  void initState() {
+    _selected = widget.list.first;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +32,48 @@ class UnitOfMusurementList extends StatelessWidget {
         crossAxisCount: 2,
         primary: false,
         children: List.generate(
-          list.length,
-          (index) => Card(
-            child: UnitOfMesurmenntContent(
-              unitOfMeasurement: list[index],
-            ),
-          ),
+          widget.list.length,
+          (index) {
+            final isSelected = _selected == widget.list[index];
+            return CardUnitOfMesurmenntContent(
+              unitOfMeasurement: widget.list[index],
+              isSelected: isSelected,
+              onSelected: !isSelected
+                  ? () {
+                      setState(() {
+                        _selected = widget.list[index];
+                      });
+                    }
+                  : null,
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class CardUnitOfMesurmenntContent extends StatelessWidget {
+  const CardUnitOfMesurmenntContent({
+    super.key,
+    required this.unitOfMeasurement,
+    this.isSelected = false,
+    this.onSelected,
+  });
+  final UnitOfMeasurement unitOfMeasurement;
+  final bool isSelected;
+  final VoidCallback? onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: isSelected ? 4 : 1,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onSelected,
+        child: UnitOfMesurmenntContent(
+          unitOfMeasurement: unitOfMeasurement,
+          isSelected: isSelected,
         ),
       ),
     );
@@ -35,8 +81,13 @@ class UnitOfMusurementList extends StatelessWidget {
 }
 
 class UnitOfMesurmenntContent extends StatelessWidget {
-  const UnitOfMesurmenntContent({super.key, required this.unitOfMeasurement});
+  const UnitOfMesurmenntContent({
+    super.key,
+    required this.unitOfMeasurement,
+    this.isSelected = false,
+  });
   final UnitOfMeasurement unitOfMeasurement;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +106,21 @@ class UnitOfMesurmenntContent extends StatelessWidget {
                     start: 0.0,
                     textDirection: Directionality.of(context),
                     child: Opacity(
-                      opacity: 0.2,
+                      opacity: isSelected ? 0.3 : 0.2,
                       child: Icon(
                         unitOfMeasurement.icon,
-                        size: 64,
+                        size: 48,
+                        color: isSelected
+                            ? context.themeData.colorScheme.primary
+                            : null,
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: AlignmentDirectional.center,
-                    child: Text(
-                      unitOfMeasurement.title,
-                    ),
-                  ),
+                  Center(
+                    child: Text(unitOfMeasurement.title,
+                        textAlign: TextAlign.center,
+                        style: context.themeData.textTheme.bodyMedium),
+                  )
                 ],
               ),
             ),
