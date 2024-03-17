@@ -2,17 +2,21 @@ import 'package:local_storage/local_storage.dart';
 
 extension MapToCM on Map<String, dynamic> {
   FoodCM foodCMfromJson(Map<String, dynamic> json) {
-    final foodData = foodDataCMFromJson(json);
     final food = FoodCM();
-    food.foodDataCM = foodData;
+    food.name = json['name'] as String;
+    food.calorie = json['calorie'] as int?;
+    food.gramsPerUnit = json['gramsPerUnit'] as int?;
+    food.macroNutrition = macroNutritionFromJson(json['macroNutrition']);
     return food;
   }
 
-  FoodDataCM foodDataCMFromJson(Map<String, dynamic> json) {
-    final foodData = FoodDataCM();
-    foodData.name = json['name'] as String;
-    foodData.calorie = json['calorie'] as int;
-    return foodData;
+  MacroNutritionCM macroNutritionFromJson(Map<String, dynamic> json) {
+    final macroNutrition = MacroNutritionCM();
+    macroNutrition.carbohydrate = json['carbohydrate'] as int?;
+    macroNutrition.fat = json['fat'] as int?;
+    macroNutrition.protein = json['protein'] as int?;
+
+    return macroNutrition;
   }
 
   UnitOfMeasurmentCM unitOfMeasurmentCMFromJson(Map<String, dynamic> json) {

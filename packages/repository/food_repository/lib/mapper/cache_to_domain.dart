@@ -4,8 +4,14 @@ import 'package:domain_model/domain_model.dart';
 extension FoodCMToDomain on FoodCM {
   Food toDomain() {
     return Food(
-      name: foodDataCM.name,
-      calorie: foodDataCM.calorie,
+      name: name,
+      calorie: calorie,
+      gramsPerUnit: gramsPerUnit,
+      macroNutrition: MacroNutrition(
+        carbohydrate: macroNutrition?.carbohydrate,
+        fat: macroNutrition?.fat,
+        protein: macroNutrition?.protein,
+      ),
     );
   }
 }
