@@ -8,6 +8,7 @@ class FoodStorage {
   final LocalStorage _localStorage;
   FoodStorage(this._localStorage);
 
+  /// Initialize food collection.Create for every for a unique id.
   Future<void> initializeFood() async {
     final jsonFile = await _loadAsset('local_foods.json');
     final jsonFoodList = json.decode(jsonFile) as List;
@@ -32,13 +33,15 @@ class FoodStorage {
     });
   }
 
+  /// get list of foods from the food collection. Read
   Future<List<FoodCM>> getFoods() async {
     final foodCollection = await _localStorage.foodCollection;
 
     return await foodCollection.where().findAll();
   }
 
-  Future<void> addFood(FoodCM foodCM) async {
+  /// add a food to food collection. C
+  Future<void> upsertFood(FoodCM foodCM) async {
     _localStorage.writeTxn<FoodCM>((isarCollection) async {
       await isarCollection.put(foodCM);
     });
@@ -52,6 +55,7 @@ class FoodStorage {
         .loadString('packages/food_repository/assets/$fileName');
   }
 
+  /// Unit of measurement used for a food selection.
   Future<List<UnitOfMeasurmentCM>> get units async {
     final uomCollection = await _localStorage.unitOfMeasurmentCollection;
 

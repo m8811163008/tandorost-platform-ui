@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:local_storage/local_storage.dart';
 
 class LocalStorage {
-  // static const _secureKey = 'secure-key';
+  //TODO static const _secureKey = 'secure-key';
+  static const _tepmoraryIsarName = 'temporary-isar-name';
+  static const _persistIsarName = 'persist-isar-name';
   Isar? isarDB;
   Directory tempDirectory;
   Directory appDirectory;
@@ -18,10 +20,14 @@ class LocalStorage {
     await isarDB!.writeTxn(() async => callback(isarDB!.collection<E>()));
   }
 
+  /// This collection has data about food.has unique id for each food.
   Future<IsarCollection<FoodCM>> get foodCollection async =>
       _openCollection<FoodCM>(
         isTemporary: false,
       );
+
+  /// This collection has units of measurement.
+
   Future<IsarCollection<UnitOfMeasurmentCM>>
       get unitOfMeasurmentCollection async =>
           _openCollection<UnitOfMeasurmentCM>(
@@ -37,6 +43,7 @@ class LocalStorage {
         UserCMSchema,
       ],
       directory: directory.path,
+      name: isTemporary ? _tepmoraryIsarName : _persistIsarName,
     );
 
     return isarDB!.collection<T>();

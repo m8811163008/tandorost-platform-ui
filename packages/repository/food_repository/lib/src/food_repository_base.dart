@@ -20,7 +20,7 @@ class FoodRepostiory {
 
   Future<void> searchFoods(String query) async {
     if (query.isEmpty) {
-      //todo:  use for return latest selection
+      //TODO:  use for return latest selection
       _foodsController.add([]);
       return;
     }
