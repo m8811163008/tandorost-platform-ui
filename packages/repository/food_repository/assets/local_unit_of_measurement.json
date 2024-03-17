@@ -1,22 +1,23 @@
 [
     {
-        "name" : "apple",
-        "calorie" : 95
+        "title" : "گرم",
+        "icon" : "ellipse_outline",
+        "howManyGrams" : 1.0
     },
     {
-        "name" : "banana",
-        "calorie" : 70
+        "title" : "قاشق غذاخوری",
+        "icon" : "ellipse_outline",
+        "howManyGrams" : 15.0
     },
     {
-        "name" : "pizza",
-        "calorie" : 1500
+        "title" : "یک واحد متوسط",
+        "icon" : "ellipse_outline"
+        
     },
     {
-        "name" : "salad",
-        "calorie" : 100
-    },
-    {
-        "name" : "chocolate",
-        "calorie" : 500
+        "title" : "کالری",
+        "icon" : "ellipse_outline"
+        
     }
+
 ]

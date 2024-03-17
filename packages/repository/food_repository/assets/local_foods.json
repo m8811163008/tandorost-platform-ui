@@ -1,22 +1,52 @@
 [
     {
         "name" : "apple",
-        "calorie" : 95
+        "calorie" : 95,
+        "gramsPerUnit" : 70,
+        "macroNutrition" : {
+            "carbohydrate" : 30,
+            "fat": 0.05,
+            "protein": 1
+        }
     },
     {
         "name" : "banana",
-        "calorie" : 70
+        "calorie" : 70,
+        "gramsPerUnit" : 100,
+        "macroNutrition" : {
+            "carbohydrate" : 20,
+            "fat": 0.05,
+            "protein": 1
+        }
     },
     {
         "name" : "pizza",
-        "calorie" : 1500
+        "calorie" : 1500,
+        "gramsPerUnit" : 300,
+        "macroNutrition" : {
+            "carbohydrate" : 100,
+            "fat": 50,
+            "protein": 30
+        }
     },
     {
         "name" : "salad",
-        "calorie" : 100
+        "calorie" : 100,
+        "gramsPerUnit" : 200,
+        "macroNutrition" : {
+            "carbohydrate" : 20,
+            "fat": 5,
+            "protein": 10
+        }
     },
     {
         "name" : "chocolate",
-        "calorie" : 500
+        "calorie" : 500,
+        "gramsPerUnit" : 100,
+        "macroNutrition" : {
+            "carbohydrate" : 50,
+            "fat": 30,
+            "protein": 5
+        }
     }
 ]

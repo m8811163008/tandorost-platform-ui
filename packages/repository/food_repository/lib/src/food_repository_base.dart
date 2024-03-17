@@ -28,7 +28,7 @@ class FoodRepostiory {
     if (storageFoods.isEmpty) {
       await Future.wait([
         _foodStorage.initializeFood(),
-        _foodStorage.initializeUnitOfMeasurement()
+        // _foodStorage.initializeUnitOfMeasurement()
       ]);
       storageFoods = await _foodStorage.getFoods();
     }
@@ -41,8 +41,8 @@ class FoodRepostiory {
     _foodsController.add(domainFoods);
   }
 
-  Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
-    final unitsCM = await _foodStorage.units;
-    return unitsCM.map((e) => e.toDomain()).toList();
-  }
+  // Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
+  //   final unitsCM = await _foodStorage.units;
+  //   return unitsCM.map((e) => e.toDomain()).toList();
+  // }
 }

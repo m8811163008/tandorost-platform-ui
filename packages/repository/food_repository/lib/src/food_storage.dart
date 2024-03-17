@@ -11,39 +11,46 @@ class FoodStorage {
   /// Initialize food collection.Create for every for a unique id.
   Future<void> initializeFood() async {
     final jsonFile = await _loadAsset('local_foods.json');
+
     final jsonFoodList = json.decode(jsonFile) as List;
     List<FoodCM> foodList = jsonFoodList
-        .map((jsonFood) =>
-            jsonFood.foodCMfromJson(jsonFood as Map<String, dynamic>) as FoodCM)
+        .map((dynamic jsonFood) =>
+            (jsonFood as Map<String, dynamic>).foodCMfromJson() as FoodCM)
         .toList();
-    await _localStorage.writeTxn<FoodCM>((isarCollection) async {
-      await isarCollection.putAll(foodList);
+    final foodCollection = await _localStorage.foodCollection;
+    await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
+      foodCollection.isar.foodCMs.putAll(foodList);
     });
   }
 
   Future<void> initializeUnitOfMeasurement() async {
-    final jsonFile = await _loadAsset('local_unit_of_measurement.json');
-    final jsonList = json.decode(jsonFile) as List<Map<String, dynamic>>;
-    List<UnitOfMeasurmentCM> objectList = jsonList
-        .map((jsonElement) =>
-            jsonElement.unitOfMeasurmentCMFromJson(jsonElement))
-        .toList();
-    await _localStorage.writeTxn<UnitOfMeasurmentCM>((isarCollection) async {
-      await isarCollection.putAll(objectList);
+    // final jsonFile = await _loadAsset('local_unit_of_measurement.json');
+    // final jsonList = json.decode(jsonFile) as List;
+    // List<UnitOfMeasurmentCM> objectList = jsonList
+    //     .map((dynamic jsonElement) => (jsonElement as Map<String, dynamic>)
+    //         .unitOfMeasurmentCMFromJson() as UnitOfMeasurmentCM)
+    //     .toList();
+    final userCollection = await _localStorage.userCollection;
+    await _localStorage.writeTxn<UserCM>(userCollection, () async {
+      // userCollection.isar.collection<UserCM>().put();
     });
   }
 
   /// get list of foods from the food collection. Read
   Future<List<FoodCM>> getFoods() async {
     final foodCollection = await _localStorage.foodCollection;
-
-    return await foodCollection.where().findAll();
+    late List<FoodCM> foodList;
+    await _localStorage.txn<FoodCM>(foodCollection, () async {
+      foodList = await foodCollection.where().findAll();
+    });
+    return foodList;
   }
 
   /// add a food to food collection. C
   Future<void> upsertFood(FoodCM foodCM) async {
-    _localStorage.writeTxn<FoodCM>((isarCollection) async {
-      await isarCollection.put(foodCM);
+    final foodCollection = await _localStorage.foodCollection;
+    _localStorage.writeTxn<FoodCM>(foodCollection, () async {
+      foodCollection.isar.foodCMs.put(foodCM);
     });
 
     return;
@@ -55,10 +62,11 @@ class FoodStorage {
         .loadString('packages/food_repository/assets/$fileName');
   }
 
-  /// Unit of measurement used for a food selection.
-  Future<List<UnitOfMeasurmentCM>> get units async {
-    final uomCollection = await _localStorage.unitOfMeasurmentCollection;
+  // /// Unit of measurement used for a food selection.
+  Future<List<UserCM>> get user async {
+    final userCollection = await _localStorage.userCollection;
+    // _localStorage.txn<>(userCollection, () => userCollection.get(0));
 
-    return await uomCollection.where().findAll();
+    return await userCollection.where().findAll();
   }
 }

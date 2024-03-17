@@ -32,6 +32,7 @@ class FoodSelectionView extends StatelessWidget {
         children: [
           const SearchedFoodsList(),
           TextField(
+            autofocus: true,
             decoration: InputDecoration(
               hintText: context.l10n.foodSelectionScreenTextFieldHint,
               prefixIcon: const Icon(Icons.search),

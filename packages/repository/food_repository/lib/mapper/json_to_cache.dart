@@ -1,29 +1,29 @@
 import 'package:local_storage/local_storage.dart';
 
 extension MapToCM on Map<String, dynamic> {
-  FoodCM foodCMfromJson(Map<String, dynamic> json) {
+  FoodCM foodCMfromJson() {
     final food = FoodCM();
-    food.name = json['name'] as String;
-    food.calorie = json['calorie'] as int?;
-    food.gramsPerUnit = json['gramsPerUnit'] as int?;
-    food.macroNutrition = macroNutritionFromJson(json['macroNutrition']);
+    food.name = this['name'] as String;
+    food.calorie = this['calorie'] as int?;
+    food.gramsPerUnit = this['gramsPerUnit'] as int?;
+    food.macroNutrition = macroNutritionFromJson();
     return food;
   }
 
-  MacroNutritionCM macroNutritionFromJson(Map<String, dynamic> json) {
+  MacroNutritionCM macroNutritionFromJson() {
     final macroNutrition = MacroNutritionCM();
-    macroNutrition.carbohydrate = json['carbohydrate'] as int?;
-    macroNutrition.fat = json['fat'] as int?;
-    macroNutrition.protein = json['protein'] as int?;
+    macroNutrition.carbohydrate = this['carbohydrate'] as int?;
+    macroNutrition.fat = this['fat'] as int?;
+    macroNutrition.protein = this['protein'] as int?;
 
     return macroNutrition;
   }
 
-  UnitOfMeasurmentCM unitOfMeasurmentCMFromJson(Map<String, dynamic> json) {
+  UnitOfMeasurmentCM unitOfMeasurmentCMFromJson() {
     final unitOfMeasurment = UnitOfMeasurmentCM();
-    unitOfMeasurment.title = json['title'] as String;
-    unitOfMeasurment.icon = json['icon'] as String;
-    unitOfMeasurment.howManyGrams = json['howManyGrams'] as double;
+    unitOfMeasurment.title = this['title'] as String;
+    unitOfMeasurment.icon = this['icon'] as String;
+    unitOfMeasurment.howManyGrams = this['howManyGrams'] as double?;
     return unitOfMeasurment;
   }
 }
