@@ -50,24 +50,34 @@ class LocalStorage {
   Future<IsarCollection<T>> _openCollection<T>(
       {required bool isTemporary}) async {
     if (isTemporary) {
-      temporaryIsarDBInstance ??= await Isar.open(
-        [
-          FoodCMSchema,
-          UserCMSchema,
-        ],
-        directory: tempDirectory.path,
-        name: _tepmoraryIsarName,
-      );
+      if (Isar.instanceNames.contains(_tepmoraryIsarName)) {
+        temporaryIsarDBInstance = Isar.getInstance(_tepmoraryIsarName);
+      } else {
+        temporaryIsarDBInstance ??= await Isar.open(
+          [
+            FoodCMSchema,
+            UserCMSchema,
+          ],
+          directory: tempDirectory.path,
+          name: _tepmoraryIsarName,
+        );
+      }
+
       return temporaryIsarDBInstance!.collection<T>();
     } else {
-      persistIsarDBInstance ??= await Isar.open(
-        [
-          FoodCMSchema,
-          UserCMSchema,
-        ],
-        directory: tempDirectory.path,
-        name: _persistIsarName,
-      );
+      if (Isar.instanceNames.contains(_persistIsarName)) {
+        persistIsarDBInstance = Isar.getInstance(_persistIsarName);
+      } else {
+        persistIsarDBInstance ??= await Isar.open(
+          [
+            FoodCMSchema,
+            UserCMSchema,
+          ],
+          directory: tempDirectory.path,
+          name: _persistIsarName,
+        );
+      }
+
       return persistIsarDBInstance!.collection<T>();
     }
   }

@@ -1,6 +1,5 @@
 part of 'food_selection_bloc.dart';
 
-@immutable
 sealed class FoodSelectionEvent {}
 
 final class SearchFood extends FoodSelectionEvent {

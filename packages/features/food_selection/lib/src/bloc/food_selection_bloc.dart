@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'food_selection_event.dart';
 part 'food_selection_state.dart';

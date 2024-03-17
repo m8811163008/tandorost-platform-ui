@@ -15,7 +15,7 @@ class FoodStorage {
     final jsonFoodList = json.decode(jsonFile) as List;
     List<FoodCM> foodList = jsonFoodList
         .map((dynamic jsonFood) =>
-            (jsonFood as Map<String, dynamic>).foodCMfromJson() as FoodCM)
+            (jsonFood as Map<String, dynamic>).foodCMfromJson())
         .toList();
     final foodCollection = await _localStorage.foodCollection;
     await _localStorage.writeTxn<FoodCM>(foodCollection, () async {

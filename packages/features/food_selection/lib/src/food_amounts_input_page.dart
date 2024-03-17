@@ -1,8 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FoodAmountPage extends StatelessWidget {
   const FoodAmountPage({super.key});
@@ -58,7 +56,7 @@ class FoodAmountPage extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 2 / 3,
               height: 176,
-              child: UnitOfMusurementList(
+              child: const UnitOfMusurementList(
                 list: [
                   UnitOfMeasurement(
                     title: 'گرم',
@@ -96,8 +94,8 @@ class FoodAmountPage extends StatelessWidget {
           ),
           Flexible(
             child: ConstrainedBox(
-              constraints: BoxConstraints.tightFor(width: 60 * 1.68),
-              child: ScrollableNumberInput(),
+              constraints: const BoxConstraints.tightFor(width: 60 * 1.68),
+              child: const ScrollableNumberInput(),
             ),
           ),
           Divider(
@@ -107,32 +105,22 @@ class FoodAmountPage extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Flexible(child: Text('کی خوردید؟ 2 ساعت پیش')),
+                const Flexible(child: Text('کی خوردید؟ 2 ساعت پیش')),
                 SizedBox(
                   width: context.sizesExtenstion.medium,
                 ),
                 Expanded(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(height: 60 * 1.68),
-                    child: ScrollableNumberInput(
+                    constraints: const BoxConstraints.tightFor(height: 35.7 * 1.68),
+                    child: const ScrollableNumberInput(
                       axis: Axis.horizontal,
+                      itemExtends: 35.7,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          // Stack(
-          //   alignment: Alignment.topCenter,
-          //   children: [
-          //     SizedBox(
-          //         width: double.infinity, child: Text('کی خوردید؟ 2 ساعت پیش')),
-          //     ScrollableNumberInput(
-          //       axis: Axis.horizontal,
-          //       itemExtends: 40,
-          //     ),
-          //   ],
-          // ),
           Divider(
             height: context.sizesExtenstion.small,
           ),
@@ -144,16 +132,16 @@ class FoodAmountPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                           onPressed: () {},
-                          child: const Text('ذخیره و غذای بعد'))),
+                          child: const Text('ذخیره و تاریخچه'))),
                   SizedBox(
                     width: context.sizesExtenstion.medium,
                   ),
                   Expanded(
-                      child: OutlinedButton(
+                      child: ElevatedButton(
                           onPressed: () {},
-                          child: const Text('ذخیره و تاریخچه'))),
+                          child: const Text('ذخیره و غذای بعد'))),
                 ],
               ),
             ),

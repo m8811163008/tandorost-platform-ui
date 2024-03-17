@@ -131,7 +131,7 @@ class UnitOfMesurmenntContent extends StatelessWidget {
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     _howManyGramsLabel(context),
                     style: context.themeData.textTheme.labelSmall,

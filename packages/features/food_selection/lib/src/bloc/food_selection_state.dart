@@ -1,6 +1,5 @@
 part of 'food_selection_bloc.dart';
 
-@immutable
 class FoodSelectionState {
   final String query;
   final List<Food> foods;
