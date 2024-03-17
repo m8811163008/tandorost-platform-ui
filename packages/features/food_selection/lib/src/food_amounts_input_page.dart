@@ -95,23 +95,44 @@ class FoodAmountPage extends StatelessWidget {
             height: context.sizesExtenstion.small,
           ),
           Flexible(
-            flex: 2,
-            child: ScrollableNumberInput(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tightFor(width: 60 * 1.68),
+              child: ScrollableNumberInput(),
+            ),
           ),
           Divider(
             height: context.sizesExtenstion.small,
           ),
-          Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              SizedBox(
-                  width: double.infinity, child: Text('کی خوردید؟ 2 ساعت پیش')),
-              ScrollableNumberInput(
-                axis: Axis.horizontal,
-                itemExtends: 40,
-              ),
-            ],
+          Flexible(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(child: Text('کی خوردید؟ 2 ساعت پیش')),
+                SizedBox(
+                  width: context.sizesExtenstion.medium,
+                ),
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(height: 60 * 1.68),
+                    child: ScrollableNumberInput(
+                      axis: Axis.horizontal,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+          // Stack(
+          //   alignment: Alignment.topCenter,
+          //   children: [
+          //     SizedBox(
+          //         width: double.infinity, child: Text('کی خوردید؟ 2 ساعت پیش')),
+          //     ScrollableNumberInput(
+          //       axis: Axis.horizontal,
+          //       itemExtends: 40,
+          //     ),
+          //   ],
+          // ),
           Divider(
             height: context.sizesExtenstion.small,
           ),

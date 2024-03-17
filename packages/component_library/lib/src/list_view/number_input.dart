@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:list_wheel_scroll_view_nls/list_wheel_scroll_view_nls.dart';
 
 class ScrollableNumberInput extends StatefulWidget {
   const ScrollableNumberInput(
@@ -46,47 +47,36 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: widget.axis == Axis.horizontal ? -pi / 2 : 0,
-      child: Container(
-        constraints: BoxConstraints.tightFor(
-            width: widget.itemExtends *
-                (widget.axis == Axis.horizontal ? 3 : 1.618),
-            height: widget.itemExtends * 3),
-        child: ListWheelScrollView(
-          controller: fixedExtentScrollController,
-          itemExtent: widget.itemExtends,
-          overAndUnderCenterOpacity: 0.6,
-          onSelectedItemChanged: (index) {
-            if (_lastSelectedIndex == index) {
-              return;
-            }
-            _lastSelectedIndex = index;
-            widget.onSelectedNumberChanged?.call(index);
-            HapticFeedback.lightImpact();
-          },
-          children: List.generate(
-            widget.stepCount,
-            (index) {
-              return SizedBox(
-                width: widget.axis == Axis.horizontal
-                    ? widget.itemExtends * 1.68
-                    : null,
-                child: Card(
-                  child: Center(
-                    child: Transform.rotate(
-                      angle: widget.axis == Axis.horizontal ? pi / 2 : 0,
-                      child: Text(
-                        index.toString(),
-                        style: context.themeData.textTheme.labelLarge,
-                      ),
-                    ),
-                  ),
+    return ListWheelScrollViewX(
+      controller: fixedExtentScrollController,
+      itemExtent: widget.itemExtends,
+      scrollDirection: widget.axis,
+      overAndUnderCenterOpacity: 0.6,
+      onSelectedItemChanged: (index) {
+        if (_lastSelectedIndex == index) {
+          return;
+        }
+        _lastSelectedIndex = index;
+        widget.onSelectedNumberChanged?.call(index);
+        HapticFeedback.lightImpact();
+      },
+      children: List.generate(
+        widget.stepCount,
+        (index) {
+          return SizedBox(
+            width: widget.axis == Axis.horizontal
+                ? widget.itemExtends * 1.68
+                : null,
+            child: Card(
+              child: Center(
+                child: Text(
+                  index.toString(),
+                  style: context.themeData.textTheme.labelLarge,
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
