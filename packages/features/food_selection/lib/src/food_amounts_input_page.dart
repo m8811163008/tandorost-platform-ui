@@ -92,8 +92,6 @@ class UnitOfMusurementAlign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final res = context.select<FoodSelectionBloc, List<UnitOfMeasurement>>(
-        (bloc) => bloc.state.unitOfMesurementList);
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: SizedBox(
@@ -102,7 +100,7 @@ class UnitOfMusurementAlign extends StatelessWidget {
         child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
           builder: (context, state) {
             return UnitOfMusurementList(
-              list: state.unitOfMesurementList,
+              list: context.select<FoodSelectionBloc, List<UnitOfMeasurement>>((bloc) => bloc.state.unitOfMesurementList),
             );
           },
         ),

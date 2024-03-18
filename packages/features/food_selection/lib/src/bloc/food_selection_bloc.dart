@@ -33,28 +33,42 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       if (event is SearchFood) {
         await _handleSearchFood(event, emit);
       } else if (event is SearchedFoodsUpdated) {
-        emit(
-            state.copyWith(foods: event.foods, status: FetchDataStatus.loaded));
+        _handleSearchedFoodsUpdated(event, emit);
       } else if (event is FoodSelected) {
-        final units = await _foodRepository.unitOfMeasurement;
-        emit(
-          state.copyWith(
-            unitOfMesurementList: units,
-            selectedFood: event.food.toSelectedFood(units.first),
-          ),
-        );
+        await _handleFoodSelected(event, emit);
       }
     });
   }
 
-  Future<void> _handleSearchFood(
-      SearchFood event, Emitter<FoodSelectionState> emit) async {
-    emit(state.copyWith(query: event.query, status: FetchDataStatus.loading));
-    try {
-      await _foodRepository.searchFoods(event.query);
-    } catch (e, s) {
-      log('FoodSelectionBloc._handleSearchFood', error: e, stackTrace: s);
-      emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
+  void _handleSearchedFoodsUpdated(
+      SearchedFoodsUpdated event, Emitter<FoodSelectionState> emit) {
+    emit(state.copyWith(foods: event.foods, status: FetchDataStatus.loaded));
+  }
+
+  Future<void> _handleFoodSelected(
+      FoodSelected event, Emitter<FoodSelectionState> emit) async {
+    final units = await _foodRepository.unitOfMeasurement;
+    emit(
+      state.copyWith(
+        unitOfMesurementList: units.map<UnitOfMeasurement>((e) {
+          if (e.title == 'oneUnitOfMeasurment') {
+            return e.copyWith(howManyGrams: state.selectedFood?.gramsPerUnit);
+          }
+          return e;
+        }).toList(),
+        selectedFood: event.food.toSelectedFood(units.first),
+      ),
+    );
+
+    Future<void> _handleSearchFood(
+        SearchFood event, Emitter<FoodSelectionState> emit) async {
+      emit(state.copyWith(query: event.query, status: FetchDataStatus.loading));
+      try {
+        await _foodRepository.searchFoods(event.query);
+      } catch (e, s) {
+        log('FoodSelectionBloc _handleSearchFood', error: e, stackTrace: s);
+        emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
+      }
     }
   }
 }

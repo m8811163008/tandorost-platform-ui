@@ -35,11 +35,10 @@ class FoodSelectionState {
 extension on Food {
   SelectedFood toSelectedFood(UnitOfMeasurement unitOfMeasurement) {
     return SelectedFood(
-      name: name,
-      calorie: calorie,
-      gramsPerUnit: gramsPerUnit,
-      macroNutrition: macroNutrition,
-      unitOfMeasurement: unitOfMeasurement,
-    );
+        name: name,
+        calorie: calorie,
+        gramsPerUnit: gramsPerUnit,
+        macroNutrition: macroNutrition,
+        unitOfMeasurement: unitOfMeasurement);
   }
 }
