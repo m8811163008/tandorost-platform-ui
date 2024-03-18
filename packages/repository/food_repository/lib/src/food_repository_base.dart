@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/cache_to_domain.dart';
@@ -9,7 +10,20 @@ class FoodRepostiory {
   final FoodStorage _foodStorage;
 
   FoodRepostiory(LocalStorage localStorage)
-      : _foodStorage = FoodStorage(localStorage);
+      : _foodStorage = FoodStorage(localStorage) {
+    _initialize();
+  }
+
+  void _initialize() async {
+    var storageFoods = await _foodStorage.getFoods();
+    if (storageFoods.isEmpty) {
+      try {
+        await _foodStorage.initializeFood();
+      } catch (e, s) {
+        log('FoodRepostiory._initialize', error: e, stackTrace: s);
+      }
+    }
+  }
 
   final StreamController<List<Food>> _foodsController =
       StreamController<List<Food>>.broadcast();
@@ -25,13 +39,6 @@ class FoodRepostiory {
       return;
     }
     var storageFoods = await _foodStorage.getFoods();
-    if (storageFoods.isEmpty) {
-      await Future.wait([
-        _foodStorage.initializeFood(),
-        // _foodStorage.initializeUnitOfMeasurement()
-      ]);
-      storageFoods = await _foodStorage.getFoods();
-    }
 
     final domainFoods = storageFoods
         .where(
@@ -44,5 +51,9 @@ class FoodRepostiory {
   Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
     final unitsCM = await _foodStorage.units;
     return unitsCM.map((e) => e.toDomain()).toList();
+  }
+
+  Future<void> clearCollections() async {
+    await _foodStorage.clearCollections();
   }
 }

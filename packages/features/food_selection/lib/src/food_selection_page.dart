@@ -2,9 +2,8 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_repository/food_repository.dart';
+import 'package:food_selection/food_selection.dart';
 import 'package:food_selection/src/bloc/food_selection_bloc.dart';
-import 'package:food_selection/src/food_amounts_input_page.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
@@ -79,6 +78,8 @@ class SearchedFoodsList extends StatelessWidget {
           food: foods[index],
           onTap: () {
             context.read<FoodSelectionBloc>().add(FoodSelected(foods[index]));
+            // navigation
+            context.pushNamed(FoodAmountPage.routeName);
           },
         );
       },
@@ -103,7 +104,6 @@ class FoodButton extends StatelessWidget {
           padding: EdgeInsets.all(context.sizesExtenstion.medium),
           constraints: BoxConstraints.tight(
               Size.square(context.sizesExtenstion.xExtraLarge)),
-          // color: Colors.red,
           child: Center(
             child: Text(
               food.name,

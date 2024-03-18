@@ -1,8 +1,9 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
-
-import 'package:food_selection/src/widget/widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_selection/food_selection.dart';
 
 class FoodAmountPage extends StatelessWidget {
   const FoodAmountPage({super.key});
@@ -19,18 +20,7 @@ class FoodAmountPage extends StatelessWidget {
           Divider(
             height: context.sizesExtenstion.small,
           ),
-
-          /// TODO : Add a list of units of measurement and run and test
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 2 / 3,
-              height: 176,
-              child: const UnitOfMusurementList(
-                list: [],
-              ),
-            ),
-          ),
+          UnitOfMusurementAlign(),
           Divider(
             height: context.sizesExtenstion.small,
           ),
@@ -92,6 +82,30 @@ class FoodAmountPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class UnitOfMusurementAlign extends StatelessWidget {
+  const UnitOfMusurementAlign({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final res = context.select<FoodSelectionBloc, List<UnitOfMeasurement>>(
+        (bloc) => bloc.state.unitOfMesurementList);
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 2 / 3,
+        height: 176,
+        child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+          builder: (context, state) {
+            return UnitOfMusurementList(
+              list: state.unitOfMesurementList,
+            );
+          },
+        ),
       ),
     );
   }

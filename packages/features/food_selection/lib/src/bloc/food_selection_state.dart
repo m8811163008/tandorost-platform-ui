@@ -39,6 +39,7 @@ extension on Food {
       calorie: calorie,
       gramsPerUnit: gramsPerUnit,
       macroNutrition: macroNutrition,
+      unitOfMeasurement: unitOfMeasurement,
     );
   }
 }

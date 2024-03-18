@@ -13,7 +13,7 @@ class FoodCM {
 
 @embedded
 class MacroNutritionCM {
-  int? carbohydrate;
-  int? fat;
-  int? protein;
+  double? carbohydrate;
+  double? fat;
+  double? protein;
 }

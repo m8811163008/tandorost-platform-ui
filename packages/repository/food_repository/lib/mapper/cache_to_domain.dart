@@ -28,7 +28,7 @@ extension UnitOfMeasurementCMToDomain on UnitOfMeasurmentCM {
 
 extension on String {
   IoniconsData toIcon() => switch (this) {
-        'accessibility' => Ionicons.accessibility,
+        'ellipse_outline' => Ionicons.ellipse_outline,
         _ => throw Exception('Not definded unit of measurement')
       };
 }

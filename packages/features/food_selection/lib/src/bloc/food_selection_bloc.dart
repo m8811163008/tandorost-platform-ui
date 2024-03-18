@@ -13,10 +13,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       : _foodRepository = foodRepository,
         super(const FoodSelectionState()) {
     _registerHandlers();
+
     _foodsSubscription = _foodRepository.searchedFoodsStream.listen((foods) {
       add(SearchedFoodsUpdated(foods));
     });
   }
+
   final FoodRepostiory _foodRepository;
   late final StreamSubscription<List<Food>> _foodsSubscription;
 
@@ -35,8 +37,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
             state.copyWith(foods: event.foods, status: FetchDataStatus.loaded));
       } else if (event is FoodSelected) {
         final units = await _foodRepository.unitOfMeasurement;
-        emit(state.copyWith(
-            selectedFood: event.food.toSelectedFood(units.first)));
+        emit(
+          state.copyWith(
+            unitOfMesurementList: units,
+            selectedFood: event.food.toSelectedFood(units.first),
+          ),
+        );
       }
     });
   }

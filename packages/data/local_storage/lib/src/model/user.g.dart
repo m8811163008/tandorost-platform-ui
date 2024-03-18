@@ -33,7 +33,7 @@ const UserCMSchema = CollectionSchema(
   links: {},
   embeddedSchemas: {
     r'SelectedFoodCM': SelectedFoodCMSchema,
-    r'MacroNutrition': MacroNutritionSchema,
+    r'MacroNutritionCM': MacroNutritionCMSchema,
     r'UnitOfMeasurmentCM': UnitOfMeasurmentCMSchema
   },
   getId: _userCMGetId,
@@ -410,7 +410,7 @@ const SelectedFoodCMSchema = Schema(
       id: 2,
       name: r'macroNutrition',
       type: IsarType.object,
-      target: r'MacroNutrition',
+      target: r'MacroNutritionCM',
     ),
     r'name': PropertySchema(
       id: 3,
@@ -450,7 +450,7 @@ int _selectedFoodCMEstimateSize(
     final value = object.macroNutrition;
     if (value != null) {
       bytesCount += 3 +
-          MacroNutritionSchema.estimateSize(
+          MacroNutritionCMSchema.estimateSize(
               value, allOffsets[MacroNutritionCM]!, allOffsets);
     }
   }
@@ -472,7 +472,7 @@ void _selectedFoodCMSerialize(
   writer.writeObject<MacroNutritionCM>(
     offsets[2],
     allOffsets,
-    MacroNutritionSchema.serialize,
+    MacroNutritionCMSchema.serialize,
     object.macroNutrition,
   );
   writer.writeString(offsets[3], object.name);
@@ -497,7 +497,7 @@ SelectedFoodCM _selectedFoodCMDeserialize(
   object.gramsPerUnit = reader.readLongOrNull(offsets[1]);
   object.macroNutrition = reader.readObjectOrNull<MacroNutritionCM>(
     offsets[2],
-    MacroNutritionSchema.deserialize,
+    MacroNutritionCMSchema.deserialize,
     allOffsets,
   );
   object.name = reader.readString(offsets[3]);
@@ -526,7 +526,7 @@ P _selectedFoodCMDeserializeProp<P>(
     case 2:
       return (reader.readObjectOrNull<MacroNutritionCM>(
         offset,
-        MacroNutritionSchema.deserialize,
+        MacroNutritionCMSchema.deserialize,
         allOffsets,
       )) as P;
     case 3:

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
@@ -19,8 +20,8 @@ class FoodStorage {
             (jsonFood as Map<String, dynamic>).foodCMfromJson())
         .toList();
     final foodCollection = await _localStorage.foodCollection;
-    await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
-      foodCollection.isar.foodCMs.putAll(foodList);
+    return await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
+      await foodCollection.isar.foodCMs.putAll(foodList);
     });
   }
 
@@ -68,5 +69,11 @@ class FoodStorage {
             .unitOfMeasurmentCMFromJson() as UnitOfMeasurmentCM)
         .toSet();
     return unitOfMeasurementCache;
+  }
+
+  Future<void> clearCollections() async {
+    await _localStorage.persistIsarDBInstance?.clear();
+    await _localStorage.temporaryIsarDBInstance?.clear();
+    log('Cleared database collection');
   }
 }

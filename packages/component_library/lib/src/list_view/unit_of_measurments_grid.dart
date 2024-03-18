@@ -17,7 +17,9 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
   late UnitOfMeasurement _selected;
   @override
   void initState() {
-    _selected = widget.list.first;
+    // TODO select last selcted unit of measurement for last food logged
+    _selected =
+        widget.list.isEmpty ? UnitOfMeasurement.empty : widget.list.first;
     super.initState();
   }
 
@@ -25,7 +27,6 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 3,
-
       primary: false,
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
@@ -45,10 +46,6 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
                   }
                 : null,
           );
-          // return SizedBox(
-          //   width: 100,
-          //   height: 100,
-          // );
         },
       ),
     );

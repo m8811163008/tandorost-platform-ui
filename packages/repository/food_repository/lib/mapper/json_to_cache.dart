@@ -12,9 +12,10 @@ extension MapToCM on Map<String, dynamic> {
 
   MacroNutritionCM macroNutritionFromJson() {
     final macroNutrition = MacroNutritionCM();
-    macroNutrition.carbohydrate = this['carbohydrate'] as int?;
-    macroNutrition.fat = this['fat'] as int?;
-    macroNutrition.protein = this['protein'] as int?;
+    macroNutrition.carbohydrate =
+        this['macroNutrition']['carbohydrate'] as double?;
+    macroNutrition.fat = this['macroNutrition']['fat'] as double?;
+    macroNutrition.protein = this['macroNutrition']['protein'] as double?;
 
     return macroNutrition;
   }

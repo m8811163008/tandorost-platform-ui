@@ -17,9 +17,9 @@ class Food extends Equatable {
 }
 
 class MacroNutrition extends Equatable {
-  final int? carbohydrate;
-  final int? fat;
-  final int? protein;
+  final double? carbohydrate;
+  final double? fat;
+  final double? protein;
 
   const MacroNutrition({this.carbohydrate, this.fat, this.protein});
   @override
