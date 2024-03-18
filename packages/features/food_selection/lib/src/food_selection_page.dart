@@ -63,14 +63,7 @@ class SearchedFoodsList extends StatelessWidget {
         if (state.status.isLoading) {
           return const CircularProgressIndicator();
         } else if (state.status.isError) {
-          // return Text('Error');
-          return FoodButton(
-            food: const Food(name: 'سیب', calorie: 100),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const FoodAmountPage()));
-            },
-          );
+          return const Text('Error');
         } else if (state.status.isLoaded) {
           return SizedBox(
             height: context.sizesExtenstion.xExtraLarge,
@@ -90,8 +83,12 @@ class SearchedFoodsList extends StatelessWidget {
         return FoodButton(
           food: foods[index],
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const FoodAmountPage()));
+            context.read<FoodSelectionBloc>().add(FoodSelected(foods[index]));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const FoodAmountPage(),
+              ),
+            );
           },
         );
       },

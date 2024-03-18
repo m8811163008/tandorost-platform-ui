@@ -6,6 +6,7 @@ import 'package:local_storage/local_storage.dart';
 
 class FoodStorage {
   final LocalStorage _localStorage;
+  Set<UnitOfMeasurmentCM> unitOfMeasurementCache = const {};
   FoodStorage(this._localStorage);
 
   /// Initialize food collection.Create for every for a unique id.
@@ -20,19 +21,6 @@ class FoodStorage {
     final foodCollection = await _localStorage.foodCollection;
     await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
       foodCollection.isar.foodCMs.putAll(foodList);
-    });
-  }
-
-  Future<void> initializeUnitOfMeasurement() async {
-    // final jsonFile = await _loadAsset('local_unit_of_measurement.json');
-    // final jsonList = json.decode(jsonFile) as List;
-    // List<UnitOfMeasurmentCM> objectList = jsonList
-    //     .map((dynamic jsonElement) => (jsonElement as Map<String, dynamic>)
-    //         .unitOfMeasurmentCMFromJson() as UnitOfMeasurmentCM)
-    //     .toList();
-    final userCollection = await _localStorage.userCollection;
-    await _localStorage.writeTxn<UserCM>(userCollection, () async {
-      // userCollection.isar.collection<UserCM>().put();
     });
   }
 
@@ -68,5 +56,17 @@ class FoodStorage {
     // _localStorage.txn<>(userCollection, () => userCollection.get(0));
 
     return await userCollection.where().findAll();
+  }
+
+  Future<Set<UnitOfMeasurmentCM>> get units async {
+    if (unitOfMeasurementCache.isNotEmpty) return unitOfMeasurementCache;
+
+    final jsonFile = await _loadAsset('local_unit_of_measurement.json');
+    final jsonList = json.decode(jsonFile) as List;
+    unitOfMeasurementCache = jsonList
+        .map((dynamic jsonElement) => (jsonElement as Map<String, dynamic>)
+            .unitOfMeasurmentCMFromJson() as UnitOfMeasurmentCM)
+        .toSet();
+    return unitOfMeasurementCache;
   }
 }

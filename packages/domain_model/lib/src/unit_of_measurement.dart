@@ -12,6 +12,9 @@ class UnitOfMeasurement extends Equatable {
     this.howManyGrams,
   });
 
+  static UnitOfMeasurement get empty =>
+      UnitOfMeasurement(title: 'empty', icon: Ionicons.ellipse_outline);
+
   @override
   List<Object?> get props => [title, icon, howManyGrams];
 }

@@ -33,6 +33,10 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       } else if (event is SearchedFoodsUpdated) {
         emit(
             state.copyWith(foods: event.foods, status: FetchDataStatus.loaded));
+      } else if (event is FoodSelected) {
+        final units = await _foodRepository.unitOfMeasurement;
+        emit(state.copyWith(
+            selectedFood: event.food.toSelectedFood(units.first)));
       }
     });
   }
