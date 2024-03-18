@@ -8,16 +8,11 @@ import 'package:food_selection/src/food_amounts_input_page.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
-  static const String routeName = 'food-selection';
+  static const String routeName = '/food-selection';
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FoodSelectionBloc(
-        RepositoryProvider.of<FoodRepostiory>(context),
-      ),
-      child: const FoodSelectionView(),
-    );
+    return const FoodSelectionView();
   }
 }
 
@@ -84,11 +79,6 @@ class SearchedFoodsList extends StatelessWidget {
           food: foods[index],
           onTap: () {
             context.read<FoodSelectionBloc>().add(FoodSelected(foods[index]));
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const FoodAmountPage(),
-              ),
-            );
           },
         );
       },

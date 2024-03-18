@@ -11,9 +11,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  go_router: ^13.2.0
   flutter_localizations:
     sdk: flutter
   list_wheel_scroll_view_nls: ^0.0.3
+
   app_theme:
     path: '../features/app_theme'
   domain_model:

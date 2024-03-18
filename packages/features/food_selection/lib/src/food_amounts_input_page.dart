@@ -1,14 +1,13 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_model/domain_model.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_selection/src/bloc/food_selection_bloc.dart';
+
 import 'package:food_selection/src/widget/widget.dart';
 
 class FoodAmountPage extends StatelessWidget {
   const FoodAmountPage({super.key});
 
-  static const String routeName = 'food-amount';
+  static const String routeName = 'input-food-amount';
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +82,11 @@ class FoodAmountPage extends StatelessWidget {
                     width: context.sizesExtenstion.medium,
                   ),
                   Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('ذخیره و غذای بعد'))),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('ذخیره و غذای بعد'),
+                    ),
+                  ),
                 ],
               ),
             ),
