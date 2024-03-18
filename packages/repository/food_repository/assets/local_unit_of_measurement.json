@@ -2,22 +2,20 @@
     {
         "title" : "گرم",
         "icon" : "ellipse_outline",
-        "howManyGrams" : 1.0
+        "howManyGrams" : 1,
+        "max" : 500
     },
     {
         "title" : "قاشق غذاخوری",
         "icon" : "ellipse_outline",
-        "howManyGrams" : 15.0
+        "howManyGrams" : 15,
+        "max" : 10
     },
-    {
-        "title" : "یک واحد متوسط",
-        "icon" : "ellipse_outline"
-        
-    },
+    
     {
         "title" : "کالری",
-        "icon" : "ellipse_outline"
-        
+        "icon" : "ellipse_outline",
+        "max" : 1000
     }
 
 ]

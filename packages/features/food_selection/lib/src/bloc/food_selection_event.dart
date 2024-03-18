@@ -20,3 +20,19 @@ final class FoodSelected extends FoodSelectionEvent {
   final Food food;
   FoodSelected(this.food);
 }
+
+base class InputPageEvent extends FoodSelectionEvent {}
+
+final class SelectedFoodUpdated extends InputPageEvent {
+  /// Utc time
+  final DateTime? eatDate;
+
+  /// shows number of units of measurement selected
+  final int? measurementUnitCount;
+  final UnitOfMeasurement? unitOfMeasurement;
+  SelectedFoodUpdated({
+    this.measurementUnitCount,
+    this.unitOfMeasurement,
+    this.eatDate,
+  });
+}

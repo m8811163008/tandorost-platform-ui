@@ -36,6 +36,17 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         _handleSearchedFoodsUpdated(event, emit);
       } else if (event is FoodSelected) {
         await _handleFoodSelected(event, emit);
+      } else if (event is SelectedFoodUpdated) {
+        if (state.selectedFood == null) return;
+        emit(
+          state.copyWith(
+            selectedFood: state.selectedFood!.copyWith(
+              eatDate: event.eatDate,
+              measurementUnitCount: event.measurementUnitCount,
+              unitOfMeasurement: event.unitOfMeasurement,
+            ),
+          ),
+        );
       }
     });
   }
@@ -47,28 +58,44 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   Future<void> _handleFoodSelected(
       FoodSelected event, Emitter<FoodSelectionState> emit) async {
-    final units = await _foodRepository.unitOfMeasurement;
-    emit(
-      state.copyWith(
-        unitOfMesurementList: units.map<UnitOfMeasurement>((e) {
-          if (e.title == 'oneUnitOfMeasurment') {
-            return e.copyWith(howManyGrams: state.selectedFood?.gramsPerUnit);
-          }
-          return e;
-        }).toList(),
-        selectedFood: event.food.toSelectedFood(units.first),
+    List<UnitOfMeasurement> units = await _foodRepository.unitOfMeasurement;
+
+    units.add(
+      UnitOfMeasurement(
+        title: "یک واحد متوسط",
+        icon: Ionicons.ellipse_outline,
+        howManyGrams: event.food.gramsPerUnit,
+        max: _calculateMax(event.food.gramsPerUnit),
       ),
     );
 
-    Future<void> _handleSearchFood(
-        SearchFood event, Emitter<FoodSelectionState> emit) async {
-      emit(state.copyWith(query: event.query, status: FetchDataStatus.loading));
-      try {
-        await _foodRepository.searchFoods(event.query);
-      } catch (e, s) {
-        log('FoodSelectionBloc _handleSearchFood', error: e, stackTrace: s);
-        emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
-      }
+    emit(
+      state.copyWith(
+        unitOfMesurementList: units,
+        selectedFood: event.food.toSelectedFood(units.first),
+      ),
+    );
+  }
+
+  int? _calculateMax(int? gramsPerUnit) {
+    if (gramsPerUnit == null) return null;
+    if (gramsPerUnit < 10) {
+      return 20;
+    } else if (gramsPerUnit < 50) {
+      return 15;
+    } else {
+      return 10;
+    }
+  }
+
+  Future<void> _handleSearchFood(
+      SearchFood event, Emitter<FoodSelectionState> emit) async {
+    emit(state.copyWith(query: event.query, status: FetchDataStatus.loading));
+    try {
+      await _foodRepository.searchFoods(event.query);
+    } catch (e, s) {
+      log('FoodSelectionBloc _handleSearchFood', error: e, stackTrace: s);
+      emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
     }
   }
 }

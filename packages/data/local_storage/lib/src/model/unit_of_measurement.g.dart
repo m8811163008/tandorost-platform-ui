@@ -16,15 +16,20 @@ const UnitOfMeasurmentCMSchema = Schema(
     r'howManyGrams': PropertySchema(
       id: 0,
       name: r'howManyGrams',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'icon': PropertySchema(
       id: 1,
       name: r'icon',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
+    r'max': PropertySchema(
       id: 2,
+      name: r'max',
+      type: IsarType.long,
+    ),
+    r'title': PropertySchema(
+      id: 3,
       name: r'title',
       type: IsarType.string,
     )
@@ -52,9 +57,10 @@ void _unitOfMeasurmentCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.howManyGrams);
+  writer.writeLong(offsets[0], object.howManyGrams);
   writer.writeString(offsets[1], object.icon);
-  writer.writeString(offsets[2], object.title);
+  writer.writeLong(offsets[2], object.max);
+  writer.writeString(offsets[3], object.title);
 }
 
 UnitOfMeasurmentCM _unitOfMeasurmentCMDeserialize(
@@ -64,9 +70,10 @@ UnitOfMeasurmentCM _unitOfMeasurmentCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = UnitOfMeasurmentCM();
-  object.howManyGrams = reader.readDoubleOrNull(offsets[0]);
+  object.howManyGrams = reader.readLongOrNull(offsets[0]);
   object.icon = reader.readString(offsets[1]);
-  object.title = reader.readString(offsets[2]);
+  object.max = reader.readLongOrNull(offsets[2]);
+  object.title = reader.readString(offsets[3]);
   return object;
 }
 
@@ -78,10 +85,12 @@ P _unitOfMeasurmentCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -109,58 +118,49 @@ extension UnitOfMeasurmentCMQueryFilter
   }
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
-      howManyGramsEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      howManyGramsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'howManyGrams',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'howManyGrams',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'howManyGrams',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
       howManyGramsBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -169,7 +169,6 @@ extension UnitOfMeasurmentCMQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -306,6 +305,80 @@ extension UnitOfMeasurmentCMQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'icon',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'max',
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'max',
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'max',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'max',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'max',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<UnitOfMeasurmentCM, UnitOfMeasurmentCM, QAfterFilterCondition>
+      maxBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'max',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }

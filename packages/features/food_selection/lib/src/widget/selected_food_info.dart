@@ -14,7 +14,7 @@ class SelectedFoodInfo extends StatelessWidget {
               previous.selectedFood != current.selectedFood,
           builder: (context, state) {
             final numberOfMeasurement =
-                state.selectedFood?.numberOfUnitOfMeasurement;
+                state.selectedFood?.measurementUnitCount;
             final numberOfMeasurementLabelText = numberOfMeasurement != null
                 ? numberOfMeasurement.toString()
                 : '';

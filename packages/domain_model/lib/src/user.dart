@@ -11,7 +11,7 @@ class SelectedFood extends Food {
   final DateTime? selectedDate;
 
   /// shows number of units of measurement selected
-  final int? numberOfUnitOfMeasurement;
+  final int? measurementUnitCount;
   final UnitOfMeasurement? unitOfMeasurement;
 
   const SelectedFood({
@@ -20,21 +20,38 @@ class SelectedFood extends Food {
     super.gramsPerUnit,
     super.macroNutrition,
     this.selectedDate,
-    this.numberOfUnitOfMeasurement,
+    this.measurementUnitCount,
     this.unitOfMeasurement,
   });
 
   static SelectedFood get empty => SelectedFood(
       name: 'initial',
       selectedDate: DateTime.now(),
-      numberOfUnitOfMeasurement: 0,
+      measurementUnitCount: 0,
       unitOfMeasurement: UnitOfMeasurement.empty);
 
   @override
-  List<Object?> get props => [
-        ...super.props,
-        selectedDate,
-        numberOfUnitOfMeasurement,
-        unitOfMeasurement
-      ];
+  List<Object?> get props =>
+      [...super.props, selectedDate, measurementUnitCount, unitOfMeasurement];
+
+// merge
+  SelectedFood copyWith({
+    String? name,
+    int? calorie,
+    int? gramsPerUnit,
+    MacroNutrition? macroNutrition,
+    DateTime? eatDate,
+    int? measurementUnitCount,
+    UnitOfMeasurement? unitOfMeasurement,
+  }) {
+    return SelectedFood(
+      name: name ?? this.name,
+      calorie: calorie ?? this.calorie,
+      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
+      macroNutrition: macroNutrition ?? this.macroNutrition,
+      selectedDate: eatDate ?? this.selectedDate,
+      measurementUnitCount: measurementUnitCount ?? this.measurementUnitCount,
+      unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
+    );
+  }
 }

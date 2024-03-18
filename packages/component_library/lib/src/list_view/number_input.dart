@@ -9,20 +9,15 @@ class ScrollableNumberInput extends StatefulWidget {
       this.itemExtends = 60.0,
       this.min = 0,
       this.max = 10,
-      int stepCount = 10,
       this.onSelectedNumberChanged,
-      this.axis = Axis.vertical})
-      : stepCount = stepCount + 1;
+      this.axis = Axis.vertical});
   final double itemExtends;
 
   /// Included minimum value.
-  final double min;
+  final int min;
 
   /// Included maximum value.
-  final double max;
-
-  /// Number of steps between min and max.
-  final int stepCount;
+  final int max;
 
   final Axis axis;
 
@@ -39,7 +34,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
   @override
   void initState() {
     fixedExtentScrollController =
-        FixedExtentScrollController(initialItem: widget.stepCount ~/ 2);
+        FixedExtentScrollController(initialItem: widget.max ~/ 2);
     super.initState();
   }
 
@@ -59,7 +54,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
         HapticFeedback.lightImpact();
       },
       children: List.generate(
-        widget.stepCount,
+        (widget.max < 200 ? widget.max : widget.max ~/ 10) + 1,
         (index) {
           return SizedBox(
             width: widget.axis == Axis.horizontal
@@ -68,7 +63,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
             child: Card(
               child: Center(
                 child: Text(
-                  index.toString(),
+                  ((widget.max < 200 ? 1 : 10) * index).toString(),
                   style: context.themeData.textTheme.labelLarge,
                 ),
               ),

@@ -24,12 +24,7 @@ class FoodAmountPage extends StatelessWidget {
           Divider(
             height: context.sizesExtenstion.small,
           ),
-          Flexible(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(width: 60 * 1.68),
-              child: const ScrollableNumberInput(),
-            ),
-          ),
+          FoodAmountInputNumber(),
           Divider(
             height: context.sizesExtenstion.small,
           ),
@@ -95,12 +90,54 @@ class UnitOfMusurementAlign extends StatelessWidget {
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 2 / 3,
+        width: MediaQuery.of(context).size.width * 1.3 / 3,
         height: 176,
         child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
           builder: (context, state) {
             return UnitOfMusurementList(
-              list: context.select<FoodSelectionBloc, List<UnitOfMeasurement>>((bloc) => bloc.state.unitOfMesurementList),
+              list: context.select<FoodSelectionBloc, List<UnitOfMeasurement>>(
+                (bloc) => bloc.state.unitOfMesurementList,
+              ),
+              onSelected: (selectedUnitOfMeasurement) {
+                context.read<FoodSelectionBloc>().add(
+                      SelectedFoodUpdated(
+                        unitOfMeasurement: selectedUnitOfMeasurement,
+                      ),
+                    );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class FoodAmountInputNumber extends StatelessWidget {
+  const FoodAmountInputNumber({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints.tightFor(width: 60 * 1.68),
+        child: BlocSelector<FoodSelectionBloc, FoodSelectionState,
+            UnitOfMeasurement?>(
+          selector: (bloc) {
+            return bloc.selectedFood?.unitOfMeasurement;
+          },
+          builder: (context, unitOfMeasurement) {
+            final max = unitOfMeasurement?.max ?? 100;
+            return ScrollableNumberInput(
+              min: max < 500 ? 1 : 10,
+              max: max,
+              onSelectedNumberChanged: (value) {
+                context.read<FoodSelectionBloc>().add(
+                      SelectedFoodUpdated(
+                        measurementUnitCount: value,
+                      ),
+                    );
+              },
             );
           },
         ),

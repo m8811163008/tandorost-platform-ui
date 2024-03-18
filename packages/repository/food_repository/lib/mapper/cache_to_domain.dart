@@ -22,6 +22,7 @@ extension UnitOfMeasurementCMToDomain on UnitOfMeasurmentCM {
       howManyGrams: howManyGrams,
       icon: icon.toIcon(),
       title: title,
+      max: max,
     );
   }
 }

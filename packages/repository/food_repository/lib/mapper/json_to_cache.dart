@@ -24,7 +24,8 @@ extension MapToCM on Map<String, dynamic> {
     final unitOfMeasurment = UnitOfMeasurmentCM();
     unitOfMeasurment.title = this['title'] as String;
     unitOfMeasurment.icon = this['icon'] as String;
-    unitOfMeasurment.howManyGrams = this['howManyGrams'] as double?;
+    unitOfMeasurment.howManyGrams = this['howManyGrams'] as int?;
+    unitOfMeasurment.max = this['max'] as int?;
     return unitOfMeasurment;
   }
 }

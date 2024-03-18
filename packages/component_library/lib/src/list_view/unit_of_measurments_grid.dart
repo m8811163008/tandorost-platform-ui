@@ -6,8 +6,10 @@ class UnitOfMusurementList extends StatefulWidget {
   const UnitOfMusurementList({
     super.key,
     this.list = const [],
+    this.onSelected,
   });
   final List<UnitOfMeasurement> list;
+  final ValueSetter<UnitOfMeasurement>? onSelected;
 
   @override
   State<UnitOfMusurementList> createState() => _UnitOfMusurementListState();
@@ -26,7 +28,7 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 3,
+      crossAxisCount: 2,
       primary: false,
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
@@ -40,9 +42,11 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
             isSelected: isSelected,
             onSelected: !isSelected
                 ? () {
+                    final uom = widget.list[index];
                     setState(() {
-                      _selected = widget.list[index];
+                      _selected = uom;
                     });
+                    widget.onSelected?.call(uom);
                   }
                 : null,
           );
