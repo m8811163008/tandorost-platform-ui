@@ -7,7 +7,7 @@ class ScrollableNumberInput extends StatefulWidget {
   const ScrollableNumberInput(
       {super.key,
       this.itemExtends = 60.0,
-      this.min = 0,
+      this.min = 1,
       this.max = 10,
       this.onSelectedNumberChanged,
       this.axis = Axis.vertical});
@@ -33,8 +33,13 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
 
   @override
   void initState() {
+    final initialItemIndex =
+        widget.max < 500 ? widget.max ~/ 2 : widget.max ~/ 20;
+
+    widget.onSelectedNumberChanged?.call(
+        (widget.max < 500 ? (initialItemIndex) : (initialItemIndex) * 10));
     fixedExtentScrollController =
-        FixedExtentScrollController(initialItem: widget.max ~/ 2);
+        FixedExtentScrollController(initialItem: initialItemIndex - 1);
     super.initState();
   }
 
@@ -46,15 +51,13 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
       scrollDirection: widget.axis,
       overAndUnderCenterOpacity: 0.6,
       onSelectedItemChanged: (index) {
-        if (_lastSelectedIndex == index) {
-          return;
-        }
-        _lastSelectedIndex = index;
-        widget.onSelectedNumberChanged?.call(index);
+        _lastSelectedIndex =
+            (widget.max < 500 ? (index + 1) : (index + 1) * 10);
+        widget.onSelectedNumberChanged?.call(_lastSelectedIndex);
         HapticFeedback.lightImpact();
       },
       children: List.generate(
-        (widget.max < 200 ? widget.max : widget.max ~/ 10) + 1,
+        (widget.max < 500 ? widget.max : widget.max ~/ 10),
         (index) {
           return SizedBox(
             width: widget.axis == Axis.horizontal
@@ -63,7 +66,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
             child: Card(
               child: Center(
                 child: Text(
-                  ((widget.max < 200 ? 1 : 10) * index).toString(),
+                  (widget.min + (widget.min * index)).toString(),
                   style: context.themeData.textTheme.labelLarge,
                 ),
               ),

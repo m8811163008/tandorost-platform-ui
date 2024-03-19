@@ -38,6 +38,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         await _handleFoodSelected(event, emit);
       } else if (event is SelectedFoodUpdated) {
         if (state.selectedFood == null) return;
+        if (event.measurementUnitCount ==
+            state.selectedFood!.measurementUnitCount) return;
         emit(
           state.copyWith(
             selectedFood: state.selectedFood!.copyWith(
@@ -62,7 +64,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
     units.add(
       UnitOfMeasurement(
-        title: "یک واحد متوسط",
+        title: "واحد متوسط",
         icon: Ionicons.ellipse_outline,
         howManyGrams: event.food.gramsPerUnit,
         max: _calculateMax(event.food.gramsPerUnit),
