@@ -1,9 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
@@ -26,7 +23,10 @@ class FoodAmountPage extends StatelessWidget {
           Divider(
             height: context.sizesExtenstion.small,
           ),
-          Expanded(flex: 2, child: FoodAmountInputNumber()),
+          Expanded(
+            flex: 2,
+            child: FoodAmountInputNumber(),
+          ),
           Divider(
             height: context.sizesExtenstion.small,
           ),
@@ -35,38 +35,7 @@ class FoodAmountPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'کی خوردید؟',
-                            style: context.themeData.textTheme.bodyMedium,
-                            children: [
-                              TextSpan(text: '\n'),
-                              TextSpan(text: ' 2 ساعت پیش')
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: context.sizesExtenstion.medium,
-                      ),
-                      Expanded(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints.tightFor(
-                              height: 35.7 * 1.68),
-                          child: const ScrollableNumberInput(
-                            axis: Axis.horizontal,
-                            itemExtends: 35.7,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                FoodTimeInput(),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
@@ -149,10 +118,14 @@ class FoodAmountInputNumber extends StatelessWidget {
         },
         builder: (context, unitOfMeasurement) {
           final max = unitOfMeasurement?.max ?? 100;
+          final min = max <= 300 ? 1 : 10;
+          final step = (max - min) <= 300 ? 1 : 10;
+
           return ScrollableNumberInput(
             key: UniqueKey(),
-            min: max < 500 ? 1 : 10,
+            min: min,
             max: max,
+            step: step,
             itemExtends: extend,
             onSelectedNumberChanged: (value) {
               context.read<FoodSelectionBloc>().add(
@@ -164,6 +137,102 @@ class FoodAmountInputNumber extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class FoodTimeInput extends StatelessWidget {
+  const FoodTimeInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _FoodTimeLabel(),
+          SizedBox(
+            width: context.sizesExtenstion.medium,
+          ),
+          Expanded(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints.tightFor(height: 35.7 * 1.68),
+              child: TimeScrolleInput(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FoodTimeLabel extends StatelessWidget {
+  const _FoodTimeLabel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<FoodSelectionBloc, FoodSelectionState, Duration>(
+      selector: (state) => state.saveTimeOffset,
+      builder: (context, saveTimeOffset) {
+        return Expanded(
+          child: RichText(
+            text: TextSpan(
+              text: context.l10n.foodTimeInputDateTimeLabelText(
+                  saveTimeOffset.toTimeStatus().name),
+              style: context.themeData.textTheme.bodyMedium,
+              children: [
+                TextSpan(text: '\n'),
+                TextSpan(text: saveTimeOffset.inHours.toString()),
+                TextSpan(
+                  text: context.l10n.foodTimeInputDateTimeLabelVelue(
+                      saveTimeOffset.toTimeStatus().name),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+enum _TimeStatus { past, now, future }
+
+extension on Duration {
+  _TimeStatus toTimeStatus() {
+    if (inHours == 0) {
+      return _TimeStatus.now;
+    } else {
+      return isNegative ? _TimeStatus.past : _TimeStatus.future;
+    }
+  }
+}
+
+class TimeScrolleInput extends StatefulWidget {
+  const TimeScrolleInput({super.key});
+
+  @override
+  State<TimeScrolleInput> createState() => _TimeScrolleInputState();
+}
+
+class _TimeScrolleInputState extends State<TimeScrolleInput> {
+  @override
+  Widget build(BuildContext context) {
+    return ScrollableNumberInput(
+      axis: Axis.horizontal,
+      itemExtends: 35.7,
+      min: -5,
+      max: 5,
+      onSelectedNumberChanged: (value) {
+        final bloc = context.read<FoodSelectionBloc>();
+        if (bloc.state.selectedFood == null) return;
+
+        context.read<FoodSelectionBloc>().add(
+              SelectedFoodUpdated(
+                saveEatDateTimeOffset: Duration(hours: value),
+              ),
+            );
+      },
     );
   }
 }

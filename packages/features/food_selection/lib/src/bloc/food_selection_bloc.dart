@@ -42,8 +42,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
             state.selectedFood!.measurementUnitCount) return;
         emit(
           state.copyWith(
+            saveTimeOffset: event.saveEatDateTimeOffset,
             selectedFood: state.selectedFood!.copyWith(
-              eatDate: event.eatDate,
               measurementUnitCount: event.measurementUnitCount,
               unitOfMeasurement: event.unitOfMeasurement,
             ),

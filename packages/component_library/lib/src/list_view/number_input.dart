@@ -4,13 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:list_wheel_scroll_view_nls/list_wheel_scroll_view_nls.dart';
 
 class ScrollableNumberInput extends StatefulWidget {
-  const ScrollableNumberInput(
-      {super.key,
-      this.itemExtends = 60.0,
-      this.min = 1,
-      this.max = 10,
-      this.onSelectedNumberChanged,
-      this.axis = Axis.vertical});
+  const ScrollableNumberInput({
+    super.key,
+    this.itemExtends = 60.0,
+    this.min = 1,
+    this.max = 10,
+    this.onSelectedNumberChanged,
+    this.axis = Axis.vertical,
+    this.step = 1,
+  });
   final double itemExtends;
 
   /// Included minimum value.
@@ -18,6 +20,9 @@ class ScrollableNumberInput extends StatefulWidget {
 
   /// Included maximum value.
   final int max;
+
+  /// steps for inputs
+  final int step;
 
   final Axis axis;
 
@@ -29,17 +34,18 @@ class ScrollableNumberInput extends StatefulWidget {
 
 class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
   late final FixedExtentScrollController fixedExtentScrollController;
-  int _lastSelectedIndex = 0;
+
+  int calculateValue(int index) => widget.min + (index * widget.step);
+  // add to prevent unnessary callback
+  int? _lastSelectedIndex;
 
   @override
   void initState() {
-    final initialItemIndex =
-        widget.max < 500 ? widget.max ~/ 2 : widget.max ~/ 20;
+    final intialIndex = (widget.max - widget.min + 1) ~/ (2 * widget.step);
 
-    widget.onSelectedNumberChanged?.call(
-        (widget.max < 500 ? (initialItemIndex) : (initialItemIndex) * 10));
+    widget.onSelectedNumberChanged?.call(calculateValue(intialIndex));
     fixedExtentScrollController =
-        FixedExtentScrollController(initialItem: initialItemIndex - 1);
+        FixedExtentScrollController(initialItem: intialIndex);
     super.initState();
   }
 
@@ -51,13 +57,15 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
       scrollDirection: widget.axis,
       overAndUnderCenterOpacity: 0.6,
       onSelectedItemChanged: (index) {
-        _lastSelectedIndex =
-            (widget.max < 500 ? (index + 1) : (index + 1) * 10);
-        widget.onSelectedNumberChanged?.call(_lastSelectedIndex);
+        if (_lastSelectedIndex != null) {
+          if (_lastSelectedIndex == index) return;
+        }
+        widget.onSelectedNumberChanged?.call(calculateValue(index));
         HapticFeedback.lightImpact();
+        _lastSelectedIndex = index;
       },
       children: List.generate(
-        (widget.max < 500 ? widget.max : widget.max ~/ 10),
+        (widget.max - widget.min + 1) ~/ widget.step,
         (index) {
           return SizedBox(
             width: widget.axis == Axis.horizontal
@@ -66,7 +74,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
             child: Card(
               child: Center(
                 child: Text(
-                  (widget.min + (widget.min * index)).toString(),
+                  calculateValue(index).toString(),
                   style: context.themeData.textTheme.labelLarge,
                 ),
               ),

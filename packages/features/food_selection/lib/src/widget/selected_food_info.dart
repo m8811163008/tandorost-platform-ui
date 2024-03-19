@@ -1,5 +1,7 @@
 import 'package:component_library/component_library.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/src/bloc/food_selection_bloc.dart';
 
@@ -22,37 +24,47 @@ class SelectedFoodInfo extends StatelessWidget {
                 ? state.selectedFood?.unitOfMeasurement?.title ?? ''
                 : '';
             return Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  numberOfMeasurementLabelText,
-                  style: context.themeData.textTheme.displayLarge!
-                      .apply(fontSizeFactor: 2),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    numberOfMeasurementLabelText,
+                    style: context.themeData.textTheme.displayLarge!
+                        .apply(fontSizeFactor: 2),
+                  ),
                 ),
-                SizedBox(
-                  width: context.sizesExtenstion.medium,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        unitOfMeasuremnetTitle,
-                        style: context.themeData.textTheme.displaySmall,
-                      ),
+                Flexible(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            child: Text(
+                              unitOfMeasuremnetTitle,
+                              style: context.themeData.textTheme.displaySmall,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Flexible(
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: Text(
+                              state.selectedFood?.name ?? '',
+                              style: context.themeData.textTheme.displaySmall,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Flexible(
-                      child: Text(
-                        state.selectedFood?.name ?? '',
-                        style: context.themeData.textTheme.displaySmall,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                const Spacer(),
               ],
             );
           }),

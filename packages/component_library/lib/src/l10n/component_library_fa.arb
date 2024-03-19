@@ -1,4 +1,16 @@
 {
     "foodSelectionScreenTextFieldHint" : "جستجوی غذا",
-    "uomCardHomanyGramsLable" : "گِرم"
+    "uomCardHomanyGramsLable" : "گِرم",
+    "foodTimeInputDateTimeLabelText" : "{timeStatus, select, past{کی خورید؟} now{کی خوردید؟} future{کی میخورید؟} other{ترجمه تعریف نشده}}",
+    "@foodTimeInputDateTimeLabelText": {
+        "placeholders": {
+            "timeStatus": {}
+        }
+    },
+    "foodTimeInputDateTimeLabelVelue": "{timeStatus, select, past{ساعت پیش} now{الان} future{ساعت دیگر} other{ترجمه تعریف نشده}}",
+    "@foodTimeInputDateTimeLabelVelue": {
+        "placeholders": {
+            "timeStatus": {}
+        }
+    }
 }

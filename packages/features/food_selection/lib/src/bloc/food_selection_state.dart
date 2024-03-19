@@ -6,6 +6,7 @@ class FoodSelectionState {
   final FetchDataStatus status;
   final SelectedFood? selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
+  final Duration saveTimeOffset;
 
   const FoodSelectionState({
     this.query = '',
@@ -13,6 +14,7 @@ class FoodSelectionState {
     this.unitOfMesurementList = const [],
     this.status = FetchDataStatus.initial,
     this.selectedFood,
+    this.saveTimeOffset = Duration.zero,
   });
 
   FoodSelectionState copyWith({
@@ -21,6 +23,7 @@ class FoodSelectionState {
     FetchDataStatus? status,
     SelectedFood? selectedFood,
     List<UnitOfMeasurement>? unitOfMesurementList,
+    Duration? saveTimeOffset,
   }) {
     return FoodSelectionState(
       query: query ?? this.query,
@@ -28,6 +31,7 @@ class FoodSelectionState {
       status: status ?? this.status,
       selectedFood: selectedFood ?? this.selectedFood,
       unitOfMesurementList: unitOfMesurementList ?? this.unitOfMesurementList,
+      saveTimeOffset: saveTimeOffset ?? this.saveTimeOffset,
     );
   }
 }

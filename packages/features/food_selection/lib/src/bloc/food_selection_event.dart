@@ -25,7 +25,7 @@ base class InputPageEvent extends FoodSelectionEvent {}
 
 final class SelectedFoodUpdated extends InputPageEvent {
   /// Utc time
-  final DateTime? eatDate;
+  final Duration? saveEatDateTimeOffset;
 
   /// shows number of units of measurement selected
   final int? measurementUnitCount;
@@ -33,6 +33,6 @@ final class SelectedFoodUpdated extends InputPageEvent {
   SelectedFoodUpdated({
     this.measurementUnitCount,
     this.unitOfMeasurement,
-    this.eatDate,
+    this.saveEatDateTimeOffset,
   });
 }

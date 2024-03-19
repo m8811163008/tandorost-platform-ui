@@ -102,6 +102,18 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'گِرم'**
   String get uomCardHomanyGramsLable;
+
+  /// No description provided for @foodTimeInputDateTimeLabelText.
+  ///
+  /// In fa, this message translates to:
+  /// **'{timeStatus, select, past{کی خورید؟} now{کی خوردید؟} future{کی میخورید؟} other{ترجمه تعریف نشده}}'**
+  String foodTimeInputDateTimeLabelText(String timeStatus);
+
+  /// No description provided for @foodTimeInputDateTimeLabelVelue.
+  ///
+  /// In fa, this message translates to:
+  /// **'{timeStatus, select, past{ساعت پیش} now{الان} future{ساعت دیگر} other{ترجمه تعریف نشده}}'**
+  String foodTimeInputDateTimeLabelVelue(String timeStatus);
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {
