@@ -19,7 +19,7 @@ dependencies:
     path: ../../repository/food_repository
   flutter_bloc: ^8.1.4
   marquee: ^2.2.3
-
+  rxdart: ^0.27.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

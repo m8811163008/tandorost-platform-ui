@@ -3,7 +3,6 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
-import 'package:food_selection/src/bloc/food_selection_bloc.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
@@ -31,13 +30,13 @@ class FoodSelectionView extends StatelessWidget {
               hintText: context.l10n.foodSelectionScreenTextFieldHint,
               prefixIcon: const Icon(Icons.search),
             ),
-            onChanged: (query) {
+            onChanged: (value) {
+              context.read<FoodSelectionBloc>().add(SearchFood(value));
+            },
+            onSubmitted: (query) {
               context.read<FoodSelectionBloc>().add(SearchFood(query));
             },
-            // onSubmitted: (query) {
-            //   context.read<FoodSelectionBloc>().add(SearchFood(query));
-            // },
-            // onTapOutside: (_) => FocusScope.of(context).unfocus(),
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
           ),
         ],
       ),

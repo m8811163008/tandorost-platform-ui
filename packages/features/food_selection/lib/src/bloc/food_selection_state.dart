@@ -7,12 +7,14 @@ class FoodSelectionState {
   final SelectedFood? selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
+  final FetchDataStatus upsertSelectedFoodStatus;
 
   const FoodSelectionState({
     this.query = '',
     this.foods = const [],
     this.unitOfMesurementList = const [],
     this.status = FetchDataStatus.initial,
+    this.upsertSelectedFoodStatus = FetchDataStatus.initial,
     this.selectedFood,
     this.saveTimeOffset = Duration.zero,
   });
@@ -21,6 +23,7 @@ class FoodSelectionState {
     String? query,
     List<Food>? foods,
     FetchDataStatus? status,
+    FetchDataStatus? upsertSelectedFoodStatus,
     SelectedFood? selectedFood,
     List<UnitOfMeasurement>? unitOfMesurementList,
     Duration? saveTimeOffset,
@@ -32,6 +35,8 @@ class FoodSelectionState {
       selectedFood: selectedFood ?? this.selectedFood,
       unitOfMesurementList: unitOfMesurementList ?? this.unitOfMesurementList,
       saveTimeOffset: saveTimeOffset ?? this.saveTimeOffset,
+      upsertSelectedFoodStatus:
+          upsertSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
     );
   }
 }

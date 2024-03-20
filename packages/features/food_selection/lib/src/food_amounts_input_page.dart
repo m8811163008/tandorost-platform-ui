@@ -58,6 +58,10 @@ class FoodAmountPage extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               // save the food
+                              context
+                                  .read<FoodSelectionBloc>()
+                                  .add(SelectedFoodSaved());
+                              print('updated');
                               // reset the state
                               // pop the page
                             },

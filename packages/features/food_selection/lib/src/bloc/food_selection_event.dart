@@ -37,6 +37,11 @@ final class SelectedFoodUpdated extends InputPageEvent {
   });
 }
 
-final class SelectedFoodSAved extends InputPageEvent {
-  SelectedFoodSAved();
+final class SelectedFoodSaved extends InputPageEvent {
+  SelectedFoodSaved();
+}
+
+final class SelectedFoodsListFetched extends InputPageEvent {
+  final List<SelectedFood> selectedFoods;
+  SelectedFoodsListFetched({this.selectedFoods = const []});
 }

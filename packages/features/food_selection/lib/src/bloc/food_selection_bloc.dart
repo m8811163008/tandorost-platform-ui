@@ -38,7 +38,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         await _handleFoodSelected(event, emit);
       } else if (event is SelectedFoodUpdated) {
         _handleSelectedFoodUpdated(event, emit);
-      } else if (event is SelectedFoodSAved) {
+      } else if (event is SelectedFoodSaved) {
         await _handleSelectedFoodSaved(emit);
       }
     });
@@ -111,5 +111,20 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   }
 
   Future<void> _handleSelectedFoodSaved(
-      Emitter<FoodSelectionState> emit) async {}
+      Emitter<FoodSelectionState> emit) async {
+    assert(state.selectedFood != null);
+    try {
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
+      );
+      await _foodRepository.upsertSelectedFood(state.selectedFood!);
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error),
+      );
+    }
+  }
 }

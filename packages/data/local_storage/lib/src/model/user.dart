@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 import 'package:local_storage/local_storage.dart';
 
@@ -11,13 +12,13 @@ class UserCM {
 }
 
 @embedded
-class SelectedFoodCM {
+class SelectedFoodCM with EquatableMixin {
   late String name;
   int? calorie;
   int? gramsPerUnit;
   MacroNutritionCM? macroNutrition;
 
-  /// Utc time
+  /// Utc time used as key
   late DateTime selectedDate;
 
   /// exposes howManyGrams per unit of measurment
@@ -25,4 +26,7 @@ class SelectedFoodCM {
 
   /// shows number of units of measurement selected
   late int numberOfUnits;
+
+  @override
+  List<Object?> get props => [selectedDate];
 }

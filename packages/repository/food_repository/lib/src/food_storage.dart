@@ -76,4 +76,21 @@ class FoodStorage {
     await _localStorage.temporaryIsarDBInstance?.clear();
     log('Cleared database collection');
   }
+
+  Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
+    final userCollection = await _localStorage.userCollection;
+    await _localStorage.writeTxn<UserCM>(userCollection, () async {
+      final user = await userCollection.get(0);
+      if (!user!.selectedFoods.contains(selectedFoodCM)) {
+        user.selectedFoods.add(selectedFoodCM);
+      } else {
+        user.selectedFoods.singleWhere((element) => element == selectedFoodCM)
+          ..calorie = selectedFoodCM.calorie
+          ..gramsPerUnit = selectedFoodCM.gramsPerUnit
+          ..numberOfUnits = selectedFoodCM.numberOfUnits
+          ..unitOfMeasurment = selectedFoodCM.unitOfMeasurment
+          ..macroNutrition = selectedFoodCM.macroNutrition;
+      }
+    });
+  }
 }
