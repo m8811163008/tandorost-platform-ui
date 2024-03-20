@@ -106,7 +106,7 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @foodTimeInputDateTimeLabelText.
   ///
   /// In fa, this message translates to:
-  /// **'{timeStatus, select, past{کی خورید؟} now{کی خوردید؟} future{کی میخورید؟} other{ترجمه تعریف نشده}}'**
+  /// **'{timeStatus, select, past{کی خوردید؟} now{کی خوردید؟} future{کی میخورید؟} other{ترجمه تعریف نشده}}'**
   String foodTimeInputDateTimeLabelText(String timeStatus);
 
   /// No description provided for @foodTimeInputDateTimeLabelVelue.

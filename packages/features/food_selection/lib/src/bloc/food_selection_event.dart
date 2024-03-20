@@ -36,3 +36,7 @@ final class SelectedFoodUpdated extends InputPageEvent {
     this.saveEatDateTimeOffset,
   });
 }
+
+final class SelectedFoodSAved extends InputPageEvent {
+  SelectedFoodSAved();
+}

@@ -17,7 +17,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
-        'past': 'کی خورید؟',
+        'past': 'کی خوردید؟',
         'now': 'کی خوردید؟',
         'future': 'کی میخورید؟',
         'other': 'ترجمه تعریف نشده',

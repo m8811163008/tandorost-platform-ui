@@ -11,6 +11,7 @@ class ScrollableNumberInput extends StatefulWidget {
     this.max = 10,
     this.onSelectedNumberChanged,
     this.axis = Axis.vertical,
+    this.offAxisFraction = 0.0,
     this.step = 1,
   });
   final double itemExtends;
@@ -25,6 +26,7 @@ class ScrollableNumberInput extends StatefulWidget {
   final int step;
 
   final Axis axis;
+  final double offAxisFraction;
 
   final ValueChanged<int>? onSelectedNumberChanged;
 
@@ -54,6 +56,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
     return ListWheelScrollViewX(
       controller: fixedExtentScrollController,
       itemExtent: widget.itemExtends,
+      offAxisFraction: widget.offAxisFraction,
       scrollDirection: widget.axis,
       overAndUnderCenterOpacity: 0.6,
       onSelectedItemChanged: (index) {

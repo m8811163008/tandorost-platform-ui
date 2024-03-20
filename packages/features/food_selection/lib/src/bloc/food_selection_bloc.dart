@@ -37,18 +37,9 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       } else if (event is FoodSelected) {
         await _handleFoodSelected(event, emit);
       } else if (event is SelectedFoodUpdated) {
-        if (state.selectedFood == null) return;
-        if (event.measurementUnitCount ==
-            state.selectedFood!.measurementUnitCount) return;
-        emit(
-          state.copyWith(
-            saveTimeOffset: event.saveEatDateTimeOffset,
-            selectedFood: state.selectedFood!.copyWith(
-              measurementUnitCount: event.measurementUnitCount,
-              unitOfMeasurement: event.unitOfMeasurement,
-            ),
-          ),
-        );
+        _handleSelectedFoodUpdated(event, emit);
+      } else if (event is SelectedFoodSAved) {
+        await _handleSelectedFoodSaved(emit);
       }
     });
   }
@@ -100,4 +91,25 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       emit(state.copyWith(query: event.query, status: FetchDataStatus.error));
     }
   }
+
+  void _handleSelectedFoodUpdated(
+      SelectedFoodUpdated event, Emitter<FoodSelectionState> emit) {
+    if (state.selectedFood == null) return;
+    if (event.measurementUnitCount ==
+        state.selectedFood!.measurementUnitCount) {
+      return;
+    }
+    emit(
+      state.copyWith(
+        saveTimeOffset: event.saveEatDateTimeOffset,
+        selectedFood: state.selectedFood!.copyWith(
+          measurementUnitCount: event.measurementUnitCount,
+          unitOfMeasurement: event.unitOfMeasurement,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleSelectedFoodSaved(
+      Emitter<FoodSelectionState> emit) async {}
 }

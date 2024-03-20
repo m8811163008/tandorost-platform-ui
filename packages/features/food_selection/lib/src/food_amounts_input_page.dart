@@ -45,14 +45,22 @@ class FoodAmountPage extends StatelessWidget {
                       children: [
                         Expanded(
                             child: OutlinedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  // final state =
+                                  //     context.read<FoodSelectionBloc>().state;
+                                  // print(state);
+                                },
                                 child: const Text('ذخیره و تاریخچه'))),
                         SizedBox(
                           width: context.sizesExtenstion.medium,
                         ),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // save the food
+                              // reset the state
+                              // pop the page
+                            },
                             child: const Text('ذخیره و غذای بعد'),
                           ),
                         ),
@@ -182,7 +190,13 @@ class _FoodTimeLabel extends StatelessWidget {
               style: context.themeData.textTheme.bodyMedium,
               children: [
                 TextSpan(text: '\n'),
-                TextSpan(text: saveTimeOffset.inHours.toString()),
+                if (saveTimeOffset.inHours != 0)
+                  WidgetSpan(
+                    child: SizedBox(
+                      width: 16,
+                      child: Text(saveTimeOffset.inHours.abs().toString()),
+                    ),
+                  ),
                 TextSpan(
                   text: context.l10n.foodTimeInputDateTimeLabelVelue(
                       saveTimeOffset.toTimeStatus().name),
@@ -223,6 +237,7 @@ class _TimeScrolleInputState extends State<TimeScrolleInput> {
       itemExtends: 35.7,
       min: -5,
       max: 5,
+      offAxisFraction: 0.5,
       onSelectedNumberChanged: (value) {
         final bloc = context.read<FoodSelectionBloc>();
         if (bloc.state.selectedFood == null) return;
