@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -78,6 +79,8 @@ class FoodStorage {
   }
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
+    assert(
+        selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
     final userCollection = await _localStorage.userCollection;
     await _localStorage.writeTxn<UserCM>(userCollection, () async {
       final user = await userCollection.get(0);
@@ -91,6 +94,14 @@ class FoodStorage {
           ..unitOfMeasurment = selectedFoodCM.unitOfMeasurment
           ..macroNutrition = selectedFoodCM.macroNutrition;
       }
+    });
+  }
+
+  Stream<List<SelectedFoodCM>> get selectedFoodsList async* {
+    final userCollection = await _localStorage.userCollection;
+
+    yield* userCollection.watchObject(0).asBroadcastStream().map((userCm) {
+      return userCm?.selectedFoods ?? const [];
     });
   }
 }

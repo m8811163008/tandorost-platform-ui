@@ -61,7 +61,7 @@ class FoodAmountPage extends StatelessWidget {
                               context
                                   .read<FoodSelectionBloc>()
                                   .add(SelectedFoodSaved());
-                              print('updated');
+                              context.pop();
                               // reset the state
                               // pop the page
                             },

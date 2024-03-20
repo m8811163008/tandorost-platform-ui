@@ -12,7 +12,7 @@ dependencies:
     path: ../../data/local_storage
   domain_model:
     path: ../../domain_model
-
+  rxdart: ^0.27.7
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.21.0

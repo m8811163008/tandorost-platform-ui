@@ -6,6 +6,7 @@ import 'package:food_repository/mapper/cache_to_domain.dart';
 import 'package:food_repository/mapper/domain_to_cache.dart';
 import 'package:food_repository/src/food_storage.dart';
 import 'package:local_storage/local_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FoodRepostiory {
   final FoodStorage _foodStorage;
@@ -34,6 +35,12 @@ class FoodRepostiory {
   // Emits the List<Food> searched by `searchFoods` method.
   Stream<List<Food>> get searchedFoodsStream async* {
     yield* _foodsController.stream;
+  }
+
+  Stream<List<SelectedFood>> get selectedFoodsListStream async* {
+    yield* _foodStorage.selectedFoodsList.map(
+      (event) => event.map((e) => e.toDomain()).toList(),
+    );
   }
 
   Future<void> searchFoods(String query) async {

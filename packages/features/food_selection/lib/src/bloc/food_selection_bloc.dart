@@ -17,14 +17,23 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     _foodsSubscription = _foodRepository.searchedFoodsStream.listen((foods) {
       add(SearchedFoodsUpdated(foods));
     });
+    _selectedFoodStreamSubscription =
+        _foodRepository.selectedFoodsListStream.listen((selectedFoodList) {
+      add(
+        SelectedFoodsListFetched(selectedFoods: selectedFoodList),
+      );
+    });
   }
 
   final FoodRepostiory _foodRepository;
   late final StreamSubscription<List<Food>> _foodsSubscription;
+  late final StreamSubscription<List<SelectedFood>>
+      _selectedFoodStreamSubscription;
 
   @override
   Future<void> close() {
     _foodsSubscription.cancel();
+    _selectedFoodStreamSubscription.cancel();
     return super.close();
   }
 
@@ -40,6 +49,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         _handleSelectedFoodUpdated(event, emit);
       } else if (event is SelectedFoodSaved) {
         await _handleSelectedFoodSaved(emit);
+      } else if (event is SelectedFoodsListFetched) {
+        _handleSelectedFoodsListFetched(event, emit);
       }
     });
   }
@@ -112,6 +123,24 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   Future<void> _handleSelectedFoodSaved(
       Emitter<FoodSelectionState> emit) async {
+    assert(state.selectedFood != null);
+    try {
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
+      );
+      await _foodRepository.upsertSelectedFood(state.selectedFood!);
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error),
+      );
+    }
+  }
+
+  void _handleSelectedFoodsListFetched(
+      SelectedFoodsListFetched event, Emitter<FoodSelectionState> emit) async {
     assert(state.selectedFood != null);
     try {
       emit(

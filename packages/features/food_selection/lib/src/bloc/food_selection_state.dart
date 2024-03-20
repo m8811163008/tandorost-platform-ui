@@ -3,6 +3,7 @@ part of 'food_selection_bloc.dart';
 class FoodSelectionState {
   final String query;
   final List<Food> foods;
+  final List<SelectedFood> selectedFoodsList;
   final FetchDataStatus status;
   final SelectedFood? selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
@@ -13,21 +14,22 @@ class FoodSelectionState {
     this.query = '',
     this.foods = const [],
     this.unitOfMesurementList = const [],
+    this.selectedFoodsList = const [],
     this.status = FetchDataStatus.initial,
     this.upsertSelectedFoodStatus = FetchDataStatus.initial,
     this.selectedFood,
     this.saveTimeOffset = Duration.zero,
   });
 
-  FoodSelectionState copyWith({
-    String? query,
-    List<Food>? foods,
-    FetchDataStatus? status,
-    FetchDataStatus? upsertSelectedFoodStatus,
-    SelectedFood? selectedFood,
-    List<UnitOfMeasurement>? unitOfMesurementList,
-    Duration? saveTimeOffset,
-  }) {
+  FoodSelectionState copyWith(
+      {String? query,
+      List<Food>? foods,
+      FetchDataStatus? status,
+      FetchDataStatus? upsertSelectedFoodStatus,
+      SelectedFood? selectedFood,
+      List<UnitOfMeasurement>? unitOfMesurementList,
+      Duration? saveTimeOffset,
+      List<SelectedFood>? selectedFoodsList}) {
     return FoodSelectionState(
       query: query ?? this.query,
       foods: foods ?? this.foods,
@@ -37,6 +39,7 @@ class FoodSelectionState {
       saveTimeOffset: saveTimeOffset ?? this.saveTimeOffset,
       upsertSelectedFoodStatus:
           upsertSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
+      selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
     );
   }
 }
