@@ -18,12 +18,19 @@ extension FoodCMToDomain on FoodCM {
 
 extension UnitOfMeasurementCMToDomain on UnitOfMeasurmentCM {
   UnitOfMeasurement toDomain() {
+    try {
+      final unit = UnitOfMeasurementType.values
+          .singleWhere((element) => element.name == title);
+    } catch (e) {
+      print(e);
+    }
+
     return UnitOfMeasurement(
-      howManyGrams: howManyGrams,
-      icon: icon.toIcon(),
-      title: title,
-      max: max,
-    );
+        howManyGrams: howManyGrams,
+        icon: icon.toIcon(),
+        max: max,
+        type: UnitOfMeasurementType.values
+            .singleWhere((element) => element.name == title));
   }
 }
 

@@ -144,6 +144,12 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'{value}'**
   String foodDataPercentValue(double value);
+
+  /// No description provided for @unitOfMeasurementTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}'**
+  String unitOfMeasurementTitle(String uomType);
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

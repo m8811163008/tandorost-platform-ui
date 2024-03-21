@@ -20,8 +20,7 @@ class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
   @override
   void initState() {
     // TODO select last selcted unit of measurement for last food logged
-    _selected =
-        widget.list.isEmpty ? UnitOfMeasurement.empty : widget.list.first;
+    _selected = widget.list.first;
     super.initState();
   }
 
@@ -120,7 +119,9 @@ class UnitOfMesurmenntContent extends StatelessWidget {
                     ),
                   ),
                   Center(
-                    child: Text(unitOfMeasurement.title,
+                    child: Text(
+                        context.l10n.unitOfMeasurementTitle(
+                            unitOfMeasurement.type.name),
                         textAlign: TextAlign.center,
                         style: context.themeData.textTheme.bodyMedium),
                   )

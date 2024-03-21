@@ -62,4 +62,19 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
     return '$valueString';
   }
+
+  @override
+  String unitOfMeasurementTitle(String uomType) {
+    String _temp0 = intl.Intl.selectLogic(
+      uomType,
+      {
+        'grams': 'گرم',
+        'tableSpoon': 'قاشق غذاخوری',
+        'calorie': 'کالری',
+        'gramsPerUnit': 'عدد متوسط',
+        'other': 'ترجمه تعریف نشده',
+      },
+    );
+    return '$_temp0';
+  }
 }

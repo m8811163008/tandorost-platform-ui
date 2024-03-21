@@ -22,7 +22,7 @@ extension MacroNutritionToCM on MacroNutrition {
 
 extension UnitOfMeasurementCM on UnitOfMeasurement {
   UnitOfMeasurmentCM toCacheModel() => UnitOfMeasurmentCM()
-    ..title = title
+    ..title = type.name
     ..icon = icon.toCacheModel()
     ..howManyGrams = howManyGrams
     ..max = max;

@@ -25,10 +25,10 @@ class SelectedFood extends Food {
   });
 
   static SelectedFood get empty => SelectedFood(
-      name: 'initial',
-      selectedDate: DateTime.now(),
-      measurementUnitCount: 0,
-      unitOfMeasurement: UnitOfMeasurement.empty);
+        name: 'initial',
+        selectedDate: DateTime.now(),
+        measurementUnitCount: 0,
+      );
 
   @override
   List<Object?> get props =>

@@ -2,42 +2,35 @@ import 'package:domain_model/domain_model.dart';
 import 'package:equatable/equatable.dart';
 
 class UnitOfMeasurement extends Equatable {
-  final String title;
   final IoniconsData icon;
   final int? howManyGrams;
   final int? max;
-  final UnitOfMeasurementType? type;
+  final UnitOfMeasurementType type;
 
   const UnitOfMeasurement({
-    required this.title,
+    required this.type,
     required this.icon,
     this.howManyGrams,
     this.max,
-    this.type,
   });
 
   //copy with
   UnitOfMeasurement copyWith({
-    String? title,
     IoniconsData? icon,
     int? howManyGrams,
     int? max,
+    UnitOfMeasurementType? type,
   }) {
     return UnitOfMeasurement(
-      title: title ?? this.title,
       icon: icon ?? this.icon,
       howManyGrams: howManyGrams ?? this.howManyGrams,
       max: max ?? this.max,
+      type: type ?? this.type,
     );
   }
 
-  static UnitOfMeasurement get empty => UnitOfMeasurement(
-        title: 'empty',
-        icon: Ionicons.ellipse_outline,
-      );
-
   @override
-  List<Object?> get props => [title, icon, howManyGrams];
+  List<Object?> get props => [type];
 }
 
 enum UnitOfMeasurementType { grams, tableSpoon, calorie, gramsPerUnit }

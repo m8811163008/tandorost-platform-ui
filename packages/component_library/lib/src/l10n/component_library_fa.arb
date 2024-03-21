@@ -28,5 +28,12 @@
                 }
             }
         }
+    },
+    
+    "unitOfMeasurementTitle" : "{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}",
+    "@unitOfMeasurementTitle": {
+        "placeholders": {
+            "uomType": {}
+        }
     }
 }

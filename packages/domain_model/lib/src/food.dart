@@ -31,4 +31,6 @@ class MacroNutrition extends Equatable {
         fat,
         protein,
       ];
+
+  double get sum => (carbohydrate ?? 0) + (fat ?? 0) + (protein ?? 0);
 }

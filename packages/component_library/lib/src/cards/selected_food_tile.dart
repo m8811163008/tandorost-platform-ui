@@ -1,5 +1,5 @@
 import 'package:component_library/component_library.dart';
-import 'package:component_library/component_library.dart';
+
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -38,7 +38,7 @@ class SelectedFoodListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final macroNutrition = selectedFood.macroNutrition;
     final title = selectedFood.name;
-    final unitOfMeasurement = selectedFood.unitOfMeasurement!.title;
+    final unitOfMeasurement = 'selectedFood.unitOfMeasurement!.title';
     final count = selectedFood.measurementUnitCount!;
 
     final fat = selectedFood.macroNutrition?.fat ?? 0;
@@ -135,6 +135,7 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
           chartValuesOptions: ChartValuesOptions(showChartValues: false),
           animationDuration: Duration.zero,
           legendOptions: LegendOptions(showLegends: false),
+          totalValue: macroNutrition.sum,
           colorList: [
             CustomColor.protein,
             CustomColor.fat,
