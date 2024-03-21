@@ -123,11 +123,12 @@ class UnitOfMusurementAlign extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 1.3 / 3,
         height: 176,
         child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+          buildWhen: (previous, current) =>
+              previous.unitOfMesurementList != current.unitOfMesurementList,
           builder: (context, state) {
+            if (state.unitOfMesurementList.isEmpty) return SizedBox.shrink();
             return UnitOfMusurementList(
-              list: context.select<FoodSelectionBloc, List<UnitOfMeasurement>>(
-                (bloc) => bloc.state.unitOfMesurementList,
-              ),
+              list: state.unitOfMesurementList,
               onSelected: (selectedUnitOfMeasurement) {
                 context.read<FoodSelectionBloc>().add(
                       SelectedFoodUpdated(

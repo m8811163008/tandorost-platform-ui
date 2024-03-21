@@ -20,7 +20,7 @@ dependencies:
     path: '../features/app_theme'
   domain_model:
     path: '../domain_model'
-
+  shamsi_date: ^1.0.2
   intl: any
 dev_dependencies:
   flutter_test:

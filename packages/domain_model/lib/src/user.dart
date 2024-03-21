@@ -30,6 +30,31 @@ class SelectedFood extends Food {
         measurementUnitCount: 0,
       );
 
+  int? calculateActualCalorie() {
+    if (unitOfMeasurement == null) return null;
+    if (calorie == null) return null;
+    if (measurementUnitCount == null) return null;
+
+    switch (unitOfMeasurement!.type) {
+      case UnitOfMeasurementType.grams:
+        return (calorie! / 100 * measurementUnitCount!).toInt();
+      case UnitOfMeasurementType.tableSpoon:
+        if (unitOfMeasurement!.howManyGrams == null) return null;
+        return (calorie! /
+                100 *
+                measurementUnitCount! *
+                unitOfMeasurement!.howManyGrams!)
+            .toInt();
+      case UnitOfMeasurementType.calorie:
+        return measurementUnitCount;
+      case UnitOfMeasurementType.gramsPerUnit:
+        if (gramsPerUnit == null) return null;
+        return (calorie! / 100 * measurementUnitCount! * gramsPerUnit!).toInt();
+      default:
+        throw Exception('Not handle UnitOfMeasurementType');
+    }
+  }
+
   @override
   List<Object?> get props =>
       [...super.props, selectedDate, measurementUnitCount, unitOfMeasurement];

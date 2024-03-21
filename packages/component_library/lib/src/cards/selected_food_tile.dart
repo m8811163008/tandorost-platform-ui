@@ -3,42 +3,18 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
   const SelectedFoodListTile({super.key, required this.selectedFood});
   final SelectedFood selectedFood;
 
-  String foodContentLabel(BuildContext context) {
-    final fat = selectedFood.macroNutrition?.fat ?? 0;
-    final carbohydrate = selectedFood.macroNutrition?.carbohydrate ?? 0;
-    final protein = selectedFood.macroNutrition?.protein ?? 0;
-    final percentConstant = 100 / (fat + carbohydrate + protein);
-    final buffer = StringBuffer();
-    buffer.write(selectedFood.calorie);
-    buffer.write(' ');
-    buffer.write(context.l10n.foodDataCalarieLabel);
-    buffer.write('⚡️');
-    // TODO update l10n for percent
-    buffer.write(' %');
-    buffer.write((fat * percentConstant).toStringAsFixed(1));
-    buffer.write(' ');
-    buffer.write(context.l10n.nutritionDataFatLabel);
-    buffer.write(' %');
-    buffer.write((carbohydrate * percentConstant).toStringAsFixed(1));
-    buffer.write(' ');
-    buffer.write(context.l10n.nutritionDataCarbohydrateLabel);
-    buffer.write(' %');
-    buffer.write((protein * percentConstant).toStringAsFixed(1));
-    buffer.write(' ');
-    buffer.write(context.l10n.nutritionDataProteinLabel);
-    return buffer.toString();
-  }
-
   @override
   Widget build(BuildContext context) {
     final macroNutrition = selectedFood.macroNutrition;
     final title = selectedFood.name;
-    final unitOfMeasurement = 'selectedFood.unitOfMeasurement!.title';
+    final unitOfMeasurement = context.l10n
+        .unitOfMeasurementTitle(selectedFood.unitOfMeasurement!.type.name);
     final count = selectedFood.measurementUnitCount!;
 
     final fat = selectedFood.macroNutrition?.fat ?? 0;
@@ -47,13 +23,15 @@ class SelectedFoodListTile extends StatelessWidget {
     final percentConstant = 1 / (fat + carbohydrate + protein);
 
     final selectedFoodCalarieLabel =
-        '${selectedFood.calorie} ${context.l10n.foodDataCalarieLabel}⚡️';
+        '${selectedFood.calculateActualCalorie()} ${context.l10n.foodDataCalarieLabel}⚡️';
     final selectedFoodFatLabel =
         '${context.l10n.foodDataPercentValue(fat * percentConstant)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
         '${context.l10n.foodDataPercentValue(protein * percentConstant)} ${context.l10n.nutritionDataProteinLabel}';
     final selectedFoodCarbohydrateLabel =
         '${context.l10n.foodDataPercentValue(carbohydrate * percentConstant)} ${context.l10n.nutritionDataCarbohydrateLabel}';
+
+    final dateFormatter = selectedFood.selectedDate!.toJalali().formatter;
 
     return SizedBox(
       child: Card(
@@ -100,7 +78,7 @@ class SelectedFoodListTile extends StatelessWidget {
                 height: context.sizesExtenstion.medium,
               ),
               Text(
-                'ساعت 16:30 روز 16/17/1403',
+                '${dateFormatter.yyyy}${dateFormatter.mm}',
                 style: context.themeData.textTheme.labelSmall,
               ),
             ],
@@ -129,7 +107,7 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
               'پروتئین': macroNutrition.protein!,
             if (macroNutrition.fat != null) 'چربی': macroNutrition.fat!,
             if (macroNutrition.carbohydrate != null)
-              'کربوهیدات': macroNutrition.fat!,
+              'کربوهیدات': macroNutrition.carbohydrate!,
           },
           ringStrokeWidth: 16,
           chartValuesOptions: ChartValuesOptions(showChartValues: false),
