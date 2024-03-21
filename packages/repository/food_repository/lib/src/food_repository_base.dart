@@ -1,31 +1,16 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/cache_to_domain.dart';
 import 'package:food_repository/mapper/domain_to_cache.dart';
 import 'package:food_repository/src/food_storage.dart';
 import 'package:local_storage/local_storage.dart';
-import 'package:rxdart/rxdart.dart';
 
 class FoodRepostiory {
   final FoodStorage _foodStorage;
 
   FoodRepostiory(LocalStorage localStorage)
-      : _foodStorage = FoodStorage(localStorage) {
-    _initialize();
-  }
-
-  void _initialize() async {
-    var storageFoods = await _foodStorage.getFoods();
-    if (storageFoods.isEmpty) {
-      try {
-        await _foodStorage.initializeFood();
-      } catch (e, s) {
-        log('FoodRepostiory._initialize', error: e, stackTrace: s);
-      }
-    }
-  }
+      : _foodStorage = FoodStorage(localStorage);
 
   // Stream controller of list of food provider stream.
   // The new listener does not need to get last cache emmited data.

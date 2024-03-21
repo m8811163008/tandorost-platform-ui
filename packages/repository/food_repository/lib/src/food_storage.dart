@@ -9,10 +9,24 @@ import 'package:local_storage/local_storage.dart';
 class FoodStorage {
   final LocalStorage _localStorage;
   Set<UnitOfMeasurmentCM> unitOfMeasurementCache = const {};
-  FoodStorage(this._localStorage);
+  FoodStorage(this._localStorage) {
+    _initialize();
+  }
+
+  void _initialize() async {
+    // await clearCollections();
+    await Future.wait([
+      initializeFood(),
+      initializeUser(),
+    ]);
+  }
 
   /// Initialize food collection.Create for every for a unique id.
   Future<void> initializeFood() async {
+    final foodCollection = await _localStorage.foodCollection;
+
+    final count = await foodCollection.count();
+    if (count != 0) return;
     final jsonFile = await _loadAsset('local_foods.json');
 
     final jsonFoodList = json.decode(jsonFile) as List;
@@ -20,10 +34,20 @@ class FoodStorage {
         .map((dynamic jsonFood) =>
             (jsonFood as Map<String, dynamic>).foodCMfromJson())
         .toList();
-    final foodCollection = await _localStorage.foodCollection;
+
     return await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
       await foodCollection.isar.foodCMs.putAll(foodList);
     });
+  }
+
+  Future<void> initializeUser() async {
+    final userCollection = await _localStorage.userCollection;
+    final count = await userCollection.count();
+    if (count != 0) return;
+    final user = UserCM()..selectedFoods = const [];
+
+    return await userCollection.isar
+        .writeTxn(() async => userCollection.put(user));
   }
 
   /// get list of foods from the food collection. Read
@@ -73,8 +97,10 @@ class FoodStorage {
   }
 
   Future<void> clearCollections() async {
-    await _localStorage.persistIsarDBInstance?.clear();
-    await _localStorage.temporaryIsarDBInstance?.clear();
+    final foodCollection = await _localStorage.foodCollection;
+    await foodCollection.isar.writeTxn(() => foodCollection.clear());
+    final userCollection = await _localStorage.userCollection;
+    await userCollection.isar.writeTxn(() => userCollection.clear());
     log('Cleared database collection');
   }
 
@@ -82,26 +108,25 @@ class FoodStorage {
     assert(
         selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
     final userCollection = await _localStorage.userCollection;
-    await _localStorage.writeTxn<UserCM>(userCollection, () async {
-      final user = await userCollection.get(0);
-      if (!user!.selectedFoods.contains(selectedFoodCM)) {
-        user.selectedFoods.add(selectedFoodCM);
-      } else {
-        user.selectedFoods.singleWhere((element) => element == selectedFoodCM)
-          ..calorie = selectedFoodCM.calorie
-          ..gramsPerUnit = selectedFoodCM.gramsPerUnit
-          ..numberOfUnits = selectedFoodCM.numberOfUnits
-          ..unitOfMeasurment = selectedFoodCM.unitOfMeasurment
-          ..macroNutrition = selectedFoodCM.macroNutrition;
-      }
+
+    await userCollection.isar.writeTxn(() async {
+      UserCM? user = await userCollection.get(0);
+      assert(user != null, 'initilize user when construct this object');
+
+      final updatedUser = user!.copyWith(
+        selectedFoods: [selectedFoodCM, ...user.selectedFoods],
+      );
+      await userCollection.put(updatedUser);
     });
   }
 
   Stream<List<SelectedFoodCM>> get selectedFoodsList async* {
     final userCollection = await _localStorage.userCollection;
-
-    yield* userCollection.watchObject(0).asBroadcastStream().map((userCm) {
-      return userCm?.selectedFoods ?? const [];
+    yield* await userCollection.isar
+        .txn<Stream<List<SelectedFoodCM>>>(() async {
+      return userCollection.watchObject(0).asBroadcastStream().map((userCm) {
+        return userCm?.selectedFoods ?? const [];
+      });
     });
   }
 }

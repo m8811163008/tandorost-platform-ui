@@ -45,3 +45,7 @@ final class SelectedFoodsListFetched extends InputPageEvent {
   final List<SelectedFood> selectedFoods;
   SelectedFoodsListFetched({this.selectedFoods = const []});
 }
+
+final class SearchFoodFormReset extends InputPageEvent {
+  SearchFoodFormReset();
+}

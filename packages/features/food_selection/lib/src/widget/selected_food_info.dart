@@ -43,11 +43,14 @@ class SelectedFoodInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(
-                          child: FittedBox(
-                            child: Text(
-                              unitOfMeasuremnetTitle,
-                              style: context.themeData.textTheme.displaySmall,
-                              maxLines: 2,
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: FittedBox(
+                              child: Text(
+                                unitOfMeasuremnetTitle,
+                                style: context.themeData.textTheme.displaySmall,
+                                maxLines: 2,
+                              ),
                             ),
                           ),
                         ),

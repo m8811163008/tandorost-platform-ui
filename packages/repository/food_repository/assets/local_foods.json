@@ -1,6 +1,6 @@
 [
     {
-        "name" : "apple",
+        "name" : "سیب",
         "calorie" : 95,
         "gramsPerUnit" : 70,
         "macroNutrition" : {
@@ -10,7 +10,7 @@
         }
     },
     {
-        "name" : "banana",
+        "name" : "موز",
         "calorie" : 70,
         "gramsPerUnit" : 100,
         "macroNutrition" : {
@@ -20,7 +20,7 @@
         }
     },
     {
-        "name" : "pizza",
+        "name" : "پیتزا",
         "calorie" : 1500,
         "gramsPerUnit" : 300,
         "macroNutrition" : {
@@ -30,7 +30,7 @@
         }
     },
     {
-        "name" : "salad",
+        "name" : "سالاد",
         "calorie" : 100,
         "gramsPerUnit" : 200,
         "macroNutrition" : {
@@ -40,7 +40,7 @@
         }
     },
     {
-        "name" : "chocolate",
+        "name" : "شکلات",
         "calorie" : 500,
         "gramsPerUnit" : 100,
         "macroNutrition" : {

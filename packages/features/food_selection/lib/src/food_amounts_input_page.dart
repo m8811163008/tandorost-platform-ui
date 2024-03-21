@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
 class FoodAmountPage extends StatelessWidget {
-  const FoodAmountPage({super.key});
+  const FoodAmountPage({
+    super.key,
+  });
 
   static const String routeName = 'input-food-amount';
 
@@ -39,36 +41,63 @@ class FoodAmountPage extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
+                    child: BlocListener<FoodSelectionBloc, FoodSelectionState>(
+                      listenWhen: (previous, current) =>
+                          previous.upsertSelectedFoodStatus !=
+                          current.upsertSelectedFoodStatus,
+                      listener: (context, state) {
+                        if (state.upsertSelectedFoodStatus.isError) {
+                          context.showSnackbar(
+                            snackBar: SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              showCloseIcon: true,
+                              content: Text('An error occurred!'),
+                            ),
+                          );
+                        } else if (state.upsertSelectedFoodStatus.isLoaded) {
+                          context.showBanner(
+                            materialBanner: AppMaterialBanner(
+                              text: 'ذخیره شد',
+                            ),
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
                             child: OutlinedButton(
-                                onPressed: () {
-                                  // final state =
-                                  //     context.read<FoodSelectionBloc>().state;
-                                  // print(state);
-                                },
-                                child: const Text('ذخیره و تاریخچه'))),
-                        SizedBox(
-                          width: context.sizesExtenstion.medium,
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // save the food
-                              context
-                                  .read<FoodSelectionBloc>()
-                                  .add(SelectedFoodSaved());
-                              context.pop();
-                              // reset the state
-                              // pop the page
-                            },
-                            child: const Text('ذخیره و غذای بعد'),
+                              onPressed: () {
+                                context.read<FoodSelectionBloc>()
+                                  ..add(SelectedFoodSaved())
+                                  ..add(SearchFoodFormReset());
+                                // Navigation
+                                context.pushReplacementNamed(
+                                  SelectedFoodsListPage.routeName,
+                                );
+                              },
+                              child: const Text('ذخیره و تاریخچه'),
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: context.sizesExtenstion.medium,
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // save the food
+                                context.read<FoodSelectionBloc>()
+                                  ..add(SelectedFoodSaved())
+                                  ..add(SearchFoodFormReset());
+                                // Navigation
+                                context.pop();
+                              },
+                              child: const Text('ذخیره و غذای بعد'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -51,6 +51,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         await _handleSelectedFoodSaved(emit);
       } else if (event is SelectedFoodsListFetched) {
         _handleSelectedFoodsListFetched(event, emit);
+      } else if (event is SearchFoodFormReset) {
+        _handleResetState(emit);
       }
     });
   }
@@ -128,11 +130,16 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       emit(
         state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
       );
-      await _foodRepository.upsertSelectedFood(state.selectedFood!);
+      await _foodRepository.upsertSelectedFood(
+        state.selectedFood!.copyWith(
+          eatDate: DateTime.now().add(state.saveTimeOffset).toUtc(),
+        ),
+      );
       emit(
         state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
       );
-    } catch (_) {
+    } catch (e, s) {
+      log('error bloc', error: e, stackTrace: s);
       emit(
         state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error),
       );
@@ -140,20 +147,13 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   }
 
   void _handleSelectedFoodsListFetched(
-      SelectedFoodsListFetched event, Emitter<FoodSelectionState> emit) async {
-    assert(state.selectedFood != null);
-    try {
-      emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
-      );
-      await _foodRepository.upsertSelectedFood(state.selectedFood!);
-      emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
-      );
-    } catch (_) {
-      emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error),
-      );
-    }
+      SelectedFoodsListFetched event, Emitter<FoodSelectionState> emit) {
+    emit(
+      state.copyWith(selectedFoodsList: event.selectedFoods),
+    );
+  }
+
+  void _handleResetState(Emitter<FoodSelectionState> emit) {
+    emit(FoodSelectionState());
   }
 }

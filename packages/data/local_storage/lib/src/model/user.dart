@@ -8,7 +8,11 @@ part 'user.g.dart';
 class UserCM {
   Id id = 0;
 
-  List<SelectedFoodCM> selectedFoods = List.empty(growable: true);
+  List<SelectedFoodCM> selectedFoods = const [];
+
+  UserCM copyWith({List<SelectedFoodCM>? selectedFoods}) {
+    return UserCM()..selectedFoods = selectedFoods ?? this.selectedFoods;
+  }
 }
 
 @embedded

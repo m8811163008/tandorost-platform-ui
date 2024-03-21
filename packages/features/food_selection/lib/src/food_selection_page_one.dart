@@ -3,6 +3,7 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
+import 'package:food_selection/src/selected_foods_list_page.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
@@ -20,25 +21,61 @@ class FoodSelectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      child: Column(
+      actions: [
+        IconButton.filledTonal(
+          onPressed: () {
+            context.pushNamed(SelectedFoodsListPage.routeName);
+          },
+          icon: const Icon(
+            Ionicons.list_sharp,
+          ),
+        )
+      ],
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const SearchedFoodsList(),
-          TextField(
-            autofocus: true,
-            decoration: InputDecoration(
-              hintText: context.l10n.foodSelectionScreenTextFieldHint,
-              prefixIcon: const Icon(Icons.search),
-            ),
-            onChanged: (value) {
-              context.read<FoodSelectionBloc>().add(SearchFood(value));
-            },
-            onSubmitted: (query) {
-              context.read<FoodSelectionBloc>().add(SearchFood(query));
-            },
-            onTapOutside: (_) => FocusScope.of(context).unfocus(),
-          ),
+          SearchedFoodsList(),
+          SearchFieldTextField(),
         ],
+      ),
+    );
+  }
+}
+
+class SearchFieldTextField extends StatefulWidget {
+  const SearchFieldTextField({super.key});
+
+  @override
+  State<SearchFieldTextField> createState() => _SeatchFoodTextFieldState();
+}
+
+class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
+  final _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<FoodSelectionBloc, FoodSelectionState>(
+      listenWhen: (previous, current) =>
+          previous.upsertSelectedFoodStatus != current.upsertSelectedFoodStatus,
+      listener: (context, state) {
+        if (state.upsertSelectedFoodStatus.isLoaded) {
+          _controller.clear();
+        }
+      },
+      child: TextField(
+        controller: _controller,
+        autofocus: true,
+        decoration: InputDecoration(
+          hintText: context.l10n.foodSelectionScreenTextFieldHint,
+          prefixIcon: const Icon(Icons.search),
+        ),
+        onChanged: (value) {
+          context.read<FoodSelectionBloc>().add(SearchFood(value));
+        },
+        onSubmitted: (query) {
+          context.read<FoodSelectionBloc>().add(SearchFood(query));
+        },
+        onTapOutside: (_) => FocusScope.of(context).unfocus(),
       ),
     );
   }
@@ -78,7 +115,9 @@ class SearchedFoodsList extends StatelessWidget {
           onTap: () {
             context.read<FoodSelectionBloc>().add(FoodSelected(foods[index]));
             // navigation
-            context.pushNamed(FoodAmountPage.routeName);
+            context.pushNamed(
+              FoodAmountPage.routeName,
+            );
           },
         );
       },

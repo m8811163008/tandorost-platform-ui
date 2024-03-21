@@ -10,4 +10,16 @@ extension BuildContextTranslation on BuildContext {
       Theme.of(this).extension<SizesExtenstion>()!;
 
   ThemeData get themeData => Theme.of(this);
+
+  void showBanner({required MaterialBanner materialBanner}) {
+    ScaffoldMessenger.of(this).showMaterialBanner(
+      materialBanner,
+    );
+  }
+
+  void showSnackbar({required SnackBar snackBar}) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      snackBar,
+    );
+  }
 }
