@@ -65,6 +65,8 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
       child: TextField(
         controller: _controller,
         autofocus: true,
+        keyboardType: TextInputType.name,
+        textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: context.l10n.foodSelectionScreenTextFieldHint,
           prefixIcon: const Icon(Icons.search),
@@ -73,7 +75,15 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
           context.read<FoodSelectionBloc>().add(SearchFood(value));
         },
         onSubmitted: (query) {
-          context.read<FoodSelectionBloc>().add(SearchFood(query));
+          final serchedFoods = context.read<FoodSelectionBloc>().state.foods;
+          if (serchedFoods.length != 1) return;
+          context
+              .read<FoodSelectionBloc>()
+              .add(FoodSelected(serchedFoods.single));
+          // navigation
+          context.pushNamed(
+            FoodAmountPage.routeName,
+          );
         },
         onTapOutside: (_) => FocusScope.of(context).unfocus(),
       ),

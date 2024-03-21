@@ -10,67 +10,65 @@ class SelectedFoodInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
-          buildWhen: (previous, current) =>
-              previous.selectedFood != current.selectedFood,
-          builder: (context, state) {
-            final numberOfMeasurement =
-                state.selectedFood?.measurementUnitCount;
-            final numberOfMeasurementLabelText = numberOfMeasurement != null
-                ? numberOfMeasurement.toString()
-                : '';
-            final unitOfMeasuremnetTitle = numberOfMeasurement != null
-                ? state.selectedFood?.unitOfMeasurement?.title ?? ''
-                : '';
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    numberOfMeasurementLabelText,
-                    style: context.themeData.textTheme.displayLarge!
-                        .apply(fontSizeFactor: 2),
-                  ),
+    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+        buildWhen: (previous, current) =>
+            previous.selectedFood != current.selectedFood,
+        builder: (context, state) {
+          final numberOfMeasurement = state.selectedFood?.measurementUnitCount;
+          final numberOfMeasurementLabelText =
+              numberOfMeasurement != null ? numberOfMeasurement.toString() : '';
+          final unitOfMeasuremnetTitle = numberOfMeasurement != null
+              ? state.selectedFood?.unitOfMeasurement?.title ?? ''
+              : '';
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(
+                  numberOfMeasurementLabelText,
+                  style: context.themeData.textTheme.displayLarge!
+                      .apply(fontSizeFactor: 2),
                 ),
-                Flexible(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: FittedBox(
-                              child: Text(
-                                unitOfMeasuremnetTitle,
-                                style: context.themeData.textTheme.displaySmall,
-                                maxLines: 2,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Flexible(
-                          child: Align(
+              ),
+              Flexible(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Flexible(
+                        child: SizedBox.square(
+                          dimension: 200,
+                          child: FittedBox(
                             alignment: AlignmentDirectional.centerEnd,
                             child: Text(
-                              state.selectedFood?.name ?? '',
+                              unitOfMeasuremnetTitle,
                               style: context.themeData.textTheme.displaySmall,
+                              maxLines: 2,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Spacer(),
+                      Flexible(
+                        child: Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: Text(
+                            state.selectedFood?.name ?? '',
+                            style: context.themeData.textTheme.displaySmall,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            );
-          }),
-    );
+              ),
+            ],
+          );
+        });
   }
 }

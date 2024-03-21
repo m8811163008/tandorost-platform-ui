@@ -17,9 +17,14 @@ class UserCM {
 
 @embedded
 class SelectedFoodCM with EquatableMixin {
+  // name of the food
   late String name;
+  // total calarie of food
   int? calorie;
+  // how many gram in one unit of mesurment
   int? gramsPerUnit;
+
+  // macro nutrition percent in 100 gram of the food
   MacroNutritionCM? macroNutrition;
 
   /// Utc time used as key

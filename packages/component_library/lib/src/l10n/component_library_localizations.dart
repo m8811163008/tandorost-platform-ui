@@ -114,6 +114,36 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'{timeStatus, select, past{ساعت پیش} now{الان} future{ساعت دیگر} other{ترجمه تعریف نشده}}'**
   String foodTimeInputDateTimeLabelVelue(String timeStatus);
+
+  /// No description provided for @nutritionDataFatLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'چربی'**
+  String get nutritionDataFatLabel;
+
+  /// No description provided for @nutritionDataCarbohydrateLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'کربوهیدرات'**
+  String get nutritionDataCarbohydrateLabel;
+
+  /// No description provided for @nutritionDataProteinLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'پروتئین'**
+  String get nutritionDataProteinLabel;
+
+  /// No description provided for @foodDataCalarieLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'کالری'**
+  String get foodDataCalarieLabel;
+
+  /// No description provided for @foodDataPercentValue.
+  ///
+  /// In fa, this message translates to:
+  /// **'{value}'**
+  String foodDataPercentValue(double value);
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

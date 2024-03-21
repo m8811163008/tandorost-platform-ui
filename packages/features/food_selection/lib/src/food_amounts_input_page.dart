@@ -17,7 +17,9 @@ class FoodAmountPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          SelectedFoodInfo(),
+          Flexible(
+            child: SelectedFoodInfo(),
+          ),
           Divider(
             height: context.sizesExtenstion.small,
           ),

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
 import 'package:local_storage/local_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FoodStorage {
   final LocalStorage _localStorage;
@@ -120,13 +121,20 @@ class FoodStorage {
     });
   }
 
+  final BehaviorSubject<List<SelectedFoodCM>> _selectedFoodListController =
+      BehaviorSubject.seeded(const []);
+
   Stream<List<SelectedFoodCM>> get selectedFoodsList async* {
     final userCollection = await _localStorage.userCollection;
-    yield* await userCollection.isar
-        .txn<Stream<List<SelectedFoodCM>>>(() async {
-      return userCollection.watchObject(0).asBroadcastStream().map((userCm) {
+    _selectedFoodListController.addStream(
+        await userCollection.isar.txn<Stream<List<SelectedFoodCM>>>(() async {
+      return userCollection
+          .watchObject(0, fireImmediately: true)
+          .asBroadcastStream()
+          .map((userCm) {
         return userCm?.selectedFoods ?? const [];
       });
-    });
+    }));
+    yield* _selectedFoodListController.stream;
   }
 }

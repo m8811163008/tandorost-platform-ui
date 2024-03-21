@@ -1,4 +1,5 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +23,11 @@ class SelectedFoodsListPage extends StatelessWidget {
             itemCount: state.selectedFoodsList.length,
             itemBuilder: (context, index) {
               final selectedFood = state.selectedFoodsList[index];
-              return ListTile(
-                title: Text(selectedFood.name),
-                subtitle: Text(
-                  selectedFood.selectedDate.toString(),
+
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: SelectedFoodListTile(
+                  selectedFood: selectedFood,
                 ),
               );
             },

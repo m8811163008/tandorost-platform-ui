@@ -19,9 +19,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     });
     _selectedFoodStreamSubscription =
         _foodRepository.selectedFoodsListStream.listen((selectedFoodList) {
-      add(
-        SelectedFoodsListFetched(selectedFoods: selectedFoodList),
-      );
+      add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
     });
   }
 
@@ -65,19 +63,17 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   Future<void> _handleFoodSelected(
       FoodSelected event, Emitter<FoodSelectionState> emit) async {
     List<UnitOfMeasurement> units = await _foodRepository.unitOfMeasurement;
-
-    units.add(
-      UnitOfMeasurement(
-        title: "واحد متوسط",
-        icon: Ionicons.ellipse_outline,
+    final updatedUnits = units.map((e) {
+      if (e.type != UnitOfMeasurementType.gramsPerUnit) return e;
+      return e.copyWith(
         howManyGrams: event.food.gramsPerUnit,
         max: _calculateMax(event.food.gramsPerUnit),
-      ),
-    );
+      );
+    }).toList();
 
     emit(
       state.copyWith(
-        unitOfMesurementList: units,
+        unitOfMesurementList: updatedUnits,
         selectedFood: event.food.toSelectedFood(units.first),
       ),
     );
@@ -108,10 +104,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   void _handleSelectedFoodUpdated(
       SelectedFoodUpdated event, Emitter<FoodSelectionState> emit) {
     if (state.selectedFood == null) return;
-    if (event.measurementUnitCount ==
-        state.selectedFood!.measurementUnitCount) {
-      return;
-    }
+    // if (event.measurementUnitCount ==
+    //     state.selectedFood!.measurementUnitCount) {
+    //   return;
+    // }
+    // this.measurementUnitCount,
+    // this.unitOfMeasurement,
     emit(
       state.copyWith(
         saveTimeOffset: event.saveEatDateTimeOffset,
@@ -127,6 +125,9 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       Emitter<FoodSelectionState> emit) async {
     assert(state.selectedFood != null);
     try {
+      //       this.selectedDate,
+      // this.measurementUnitCount,
+      // this.unitOfMeasurement,
       emit(
         state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
       );

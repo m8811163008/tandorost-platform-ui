@@ -15,7 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   list_wheel_scroll_view_nls: ^0.0.3
-
+  pie_chart: ^5.4.0
   app_theme:
     path: '../features/app_theme'
   domain_model:

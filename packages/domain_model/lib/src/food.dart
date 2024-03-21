@@ -2,8 +2,11 @@ import 'package:equatable/equatable.dart';
 
 class Food extends Equatable {
   final String name;
+  // calorie per 100 grams
   final int? calorie;
+  // 1 gram weight of each unit
   final int? gramsPerUnit;
+  // percent of macro Nutrition per 100 grams
   final MacroNutrition? macroNutrition;
 
   const Food(

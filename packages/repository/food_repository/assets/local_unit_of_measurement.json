@@ -1,21 +1,25 @@
 [
     {
-        "title" : "گرم",
+        "title" : "gram",
         "icon" : "ellipse_outline",
         "howManyGrams" : 1,
         "max" : 500
     },
     {
-        "title" : "قاشق غذاخوری",
+        "title" : "tableSpoon",
         "icon" : "ellipse_outline",
         "howManyGrams" : 15,
         "max" : 15
     },
     
     {
-        "title" : "کالری",
+        "title" : "calorie",
         "icon" : "ellipse_outline",
         "max" : 1000
+    },
+    {
+        "title" : "gramsPerUnit",
+        "icon" : "ellipse_outline"
     }
 
 ]

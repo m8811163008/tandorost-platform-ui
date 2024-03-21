@@ -179,3 +179,9 @@ extension ColorSchemeExtension on ColorScheme {
         inversePrimary: Color(0xffbd1020),
       );
 }
+
+class CustomColor {
+  static const Color fat = Colors.yellow;
+  static const Color protein = Colors.red;
+  static const Color carbohydrate = Colors.brown;
+}

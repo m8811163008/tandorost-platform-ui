@@ -6,12 +6,14 @@ class UnitOfMeasurement extends Equatable {
   final IoniconsData icon;
   final int? howManyGrams;
   final int? max;
+  final UnitOfMeasurementType? type;
 
   const UnitOfMeasurement({
     required this.title,
     required this.icon,
     this.howManyGrams,
     this.max,
+    this.type,
   });
 
   //copy with
@@ -37,3 +39,5 @@ class UnitOfMeasurement extends Equatable {
   @override
   List<Object?> get props => [title, icon, howManyGrams];
 }
+
+enum UnitOfMeasurementType { grams, tableSpoon, calorie, gramsPerUnit }

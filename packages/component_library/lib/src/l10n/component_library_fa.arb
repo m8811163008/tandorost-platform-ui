@@ -12,5 +12,21 @@
         "placeholders": {
             "timeStatus": {}
         }
+    },
+    "nutritionDataFatLabel" : "چربی",
+    "nutritionDataCarbohydrateLabel" : "کربوهیدرات",
+    "nutritionDataProteinLabel" : "پروتئین",
+    "foodDataCalarieLabel" : "کالری",
+    "foodDataPercentValue" : "{value}",
+    "@foodDataPercentValue" : {
+        "placeholders": {
+            "value": {
+                "type": "double",
+                "format": "decimalPercentPattern",
+                "optionalParameters": {
+                    "decimalDigits": 1
+                }
+            }
+        }
     }
 }

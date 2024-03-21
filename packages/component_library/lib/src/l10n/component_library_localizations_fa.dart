@@ -39,4 +39,27 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get nutritionDataFatLabel => 'چربی';
+
+  @override
+  String get nutritionDataCarbohydrateLabel => 'کربوهیدرات';
+
+  @override
+  String get nutritionDataProteinLabel => 'پروتئین';
+
+  @override
+  String get foodDataCalarieLabel => 'کالری';
+
+  @override
+  String foodDataPercentValue(double value) {
+    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPercentPattern(
+      locale: localeName,
+      decimalDigits: 1
+    );
+    final String valueString = valueNumberFormat.format(value);
+
+    return '$valueString';
+  }
 }
