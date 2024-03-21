@@ -18,7 +18,8 @@ class SelectedFoodInfo extends StatelessWidget {
           final numberOfMeasurementLabelText =
               numberOfMeasurement != null ? numberOfMeasurement.toString() : '';
           final unitOfMeasuremnetTitle = numberOfMeasurement != null
-              ? state.selectedFood?.unitOfMeasurement?.type.name ?? ''
+              ? context.l10n.unitOfMeasurementTitle(
+                  state.selectedFood!.unitOfMeasurement!.type.name)
               : '';
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
