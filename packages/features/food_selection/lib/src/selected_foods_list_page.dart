@@ -69,20 +69,88 @@ class SelectedFoodListBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TotalNutitionsPieChart(
-              fat: 10,
-              carbohydrate: 15,
-              protein: 64,
+    return BlocSelector<FoodSelectionBloc, FoodSelectionState,
+            List<SelectedFood>>(
+        selector: (state) => state.selectedFoodsList,
+        builder: ((context, listSelectedFood) {
+          final energySum = listSelectedFood.fold(
+              0, (prev, current) => prev + current.calculateActualCalorie()!);
+          final carbohydrateSum = listSelectedFood.fold(0.0,
+              (prev, current) => prev + current.macroNutrition!.carbohydrate!);
+          final fatSum = listSelectedFood.fold(
+              0.0, (prev, current) => prev + current.macroNutrition!.fat!);
+          final proteinSum = listSelectedFood.fold(
+              0.0, (prev, current) => prev + current.macroNutrition!.protein!);
+          final sum = carbohydrateSum + fatSum + proteinSum;
+          final carbPercent = carbohydrateSum / sum;
+          final fatPercent = fatSum / sum;
+          final proteinPercent = proteinSum / sum;
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TotalNutitionsPieChart(
+                    fat: 10,
+                    carbohydrate: 15,
+                    protein: 64,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          '${context.l10n.selectedFoodListBannerLabelEnergy} $energySum '),
+                      Row(
+                        children: [
+                          _ChartLegend(color: CustomColor.carbohydrate),
+                          Text(
+                              '${context.l10n.nutritionDataCarbohydrateLabel} ${context.l10n.foodDataPercentValue(carbPercent)} '),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          _ChartLegend(color: CustomColor.fat),
+                          Text(
+                              '${context.l10n.nutritionDataFatLabel} ${context.l10n.foodDataPercentValue(fatPercent)} '),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          _ChartLegend(color: CustomColor.protein),
+                          Text(
+                              '${context.l10n.nutritionDataProteinLabel} ${context.l10n.foodDataPercentValue(proteinPercent)} '),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-            Text('جمع ⚡️ 123 کیلوکالری')
-          ],
+          );
+        }));
+  }
+}
+
+class _ChartLegend extends StatelessWidget {
+  const _ChartLegend({
+    super.key,
+    required this.color,
+  });
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: CircleAvatar(
+        radius: 8,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+          ),
         ),
       ),
     );
@@ -101,10 +169,16 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
           child: Text(context.l10n.filterSelectedFoodsSelectDateTimeOptionRow1),
           onPressed: () {
             // from 6 hour later until yesterday midnight
-            final now = DateTime.now().add(Duration(hours: 6));
-            final yesterdayMidnight = now.copyWith(
-                hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-            final dateRange = DateTimeRange(start: yesterdayMidnight, end: now);
+
+            final end = DateTime.now().add(
+              const Duration(hours: 6),
+            );
+            final start = DateTime.now().copyWith(
+              hour: 0,
+              minute: 0,
+              second: 0,
+            );
+            final dateRange = DateTimeRange(start: start, end: end);
             Navigator.of(context, rootNavigator: true)
                 .pop<DateTimeRange>(dateRange);
           },
@@ -112,7 +186,9 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
         SimpleDialogOption(
           child: Text(context.l10n.filterSelectedFoodsSelectDateTimeOptionRow2),
           onPressed: () {
-            final now = DateTime.now();
+            final now = DateTime.now().add(
+              const Duration(hours: 6),
+            );
             final aWeekAgo = now.subtract(const Duration(days: 7));
             // Cache of selected foods always use UTC.
             final dateRange = DateTimeRange(start: aWeekAgo, end: now);

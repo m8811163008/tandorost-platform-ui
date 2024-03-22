@@ -112,4 +112,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String get filterSelectedFoodsSelectDateTimeOptionRow3 => 'انتخاب بازه زمانی';
+
+  @override
+  String get selectedFoodListBannerLabelEnergy => 'جمع ⚡️';
 }

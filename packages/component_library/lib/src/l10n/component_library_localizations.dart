@@ -216,6 +216,12 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'انتخاب بازه زمانی'**
   String get filterSelectedFoodsSelectDateTimeOptionRow3;
+
+  /// No description provided for @selectedFoodListBannerLabelEnergy.
+  ///
+  /// In fa, this message translates to:
+  /// **'جمع ⚡️'**
+  String get selectedFoodListBannerLabelEnergy;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

@@ -20,8 +20,10 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     add(
       SlectedFoodListFiltered(
         dateTimeRange: DateTimeRange(
-          start: DateTime.now().subtract(
-            const Duration(days: 7),
+          start: DateTime.now().copyWith(
+            hour: 0,
+            minute: 0,
+            second: 0,
           ),
           end: DateTime.now().add(
             const Duration(hours: 6),
