@@ -82,4 +82,25 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String selectedFoodTileEatDateValue(String timeValue, String dateValue) {
     return 'در ساعت $timeValue و تاریخ $dateValue';
   }
+
+  @override
+  String get selectCustomDateTimeRangeDialogTitle => 'انتخاب تاریخ';
+
+  @override
+  String get selectCustomDateTimeRangeDialogFromDate => 'از تاریخ';
+
+  @override
+  String get selectCustomDateTimeRangeDialogFromTime => 'از ساعت';
+
+  @override
+  String get selectCustomDateTimeRangeDialogToDate => 'از تاریخ';
+
+  @override
+  String get selectCustomDateTimeRangeDialogToTime => 'از ساعت';
+
+  @override
+  String get buttonConfirmText => 'تایید';
+
+  @override
+  String get buttonCancleText => 'لغو';
 }

@@ -48,6 +48,12 @@
                 
             }
         }
-    }
-
+    },
+    "selectCustomDateTimeRangeDialogTitle" : "انتخاب تاریخ",
+    "selectCustomDateTimeRangeDialogFromDate" : "از تاریخ",
+    "selectCustomDateTimeRangeDialogFromTime" : "از ساعت",
+    "selectCustomDateTimeRangeDialogToDate" : "از تاریخ",
+    "selectCustomDateTimeRangeDialogToTime" : "از ساعت",
+    "buttonConfirmText" : "تایید",
+    "buttonCancleText" : "لغو"
 }

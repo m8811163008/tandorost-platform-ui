@@ -124,7 +124,10 @@ class FoodStorage {
   final BehaviorSubject<List<SelectedFoodCM>> _selectedFoodListController =
       BehaviorSubject.seeded(const []);
 
-  Stream<List<SelectedFoodCM>> get selectedFoodsList async* {
+  Stream<List<SelectedFoodCM>> selectedFoodsList({
+    required DateTime start,
+    required DateTime end,
+  }) async* {
     final userCollection = await _localStorage.userCollection;
     _selectedFoodListController.addStream(
         await userCollection.isar.txn<Stream<List<SelectedFoodCM>>>(() async {
@@ -132,7 +135,12 @@ class FoodStorage {
           .watchObject(0, fireImmediately: true)
           .asBroadcastStream()
           .map((userCm) {
-        return userCm?.selectedFoods ?? const [];
+        final list = userCm?.selectedFoods
+            .where((element) =>
+                element.selectedDate.isAfter(start) &&
+                element.selectedDate.isBefore(end))
+            .toList();
+        return list ?? const [];
       });
     }));
     yield* _selectedFoodListController.stream;

@@ -156,6 +156,48 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'در ساعت {timeValue} و تاریخ {dateValue}'**
   String selectedFoodTileEatDateValue(String timeValue, String dateValue);
+
+  /// No description provided for @selectCustomDateTimeRangeDialogTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب تاریخ'**
+  String get selectCustomDateTimeRangeDialogTitle;
+
+  /// No description provided for @selectCustomDateTimeRangeDialogFromDate.
+  ///
+  /// In fa, this message translates to:
+  /// **'از تاریخ'**
+  String get selectCustomDateTimeRangeDialogFromDate;
+
+  /// No description provided for @selectCustomDateTimeRangeDialogFromTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'از ساعت'**
+  String get selectCustomDateTimeRangeDialogFromTime;
+
+  /// No description provided for @selectCustomDateTimeRangeDialogToDate.
+  ///
+  /// In fa, this message translates to:
+  /// **'از تاریخ'**
+  String get selectCustomDateTimeRangeDialogToDate;
+
+  /// No description provided for @selectCustomDateTimeRangeDialogToTime.
+  ///
+  /// In fa, this message translates to:
+  /// **'از ساعت'**
+  String get selectCustomDateTimeRangeDialogToTime;
+
+  /// No description provided for @buttonConfirmText.
+  ///
+  /// In fa, this message translates to:
+  /// **'تایید'**
+  String get buttonConfirmText;
+
+  /// No description provided for @buttonCancleText.
+  ///
+  /// In fa, this message translates to:
+  /// **'لغو'**
+  String get buttonCancleText;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

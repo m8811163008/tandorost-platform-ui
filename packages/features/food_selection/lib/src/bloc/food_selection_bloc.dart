@@ -17,16 +17,21 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     _foodsSubscription = _foodRepository.searchedFoodsStream.listen((foods) {
       add(SearchedFoodsUpdated(foods));
     });
-    _selectedFoodStreamSubscription =
-        _foodRepository.selectedFoodsListStream.listen((selectedFoodList) {
-      add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
-    });
+    add(
+      SlectedFoodListFiltered(
+        dateTimeRange: DateTimeRange(
+          start: DateTime.now().subtract(Duration(days: 7)).toUtc(),
+          end: DateTime.now().toUtc().add(
+                Duration(hours: 5),
+              ),
+        ),
+      ),
+    );
   }
 
   final FoodRepostiory _foodRepository;
   late final StreamSubscription<List<Food>> _foodsSubscription;
-  late final StreamSubscription<List<SelectedFood>>
-      _selectedFoodStreamSubscription;
+  late StreamSubscription<List<SelectedFood>> _selectedFoodStreamSubscription;
 
   @override
   Future<void> close() {
@@ -51,7 +56,18 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         _handleSelectedFoodsListFetched(event, emit);
       } else if (event is SearchFoodFormReset) {
         _handleResetState(emit);
+      } else if (event is SlectedFoodListFiltered) {
+        _handleSlectedFoodListFiltered(event, emit);
       }
+    });
+  }
+
+  void _handleSlectedFoodListFiltered(
+      SlectedFoodListFiltered event, Emitter<FoodSelectionState> emit) async {
+    _selectedFoodStreamSubscription = _foodRepository
+        .selectedFoodsListStream(dateTimeRange: event.dateTimeRange)
+        .listen((selectedFoodList) {
+      add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
     });
   }
 

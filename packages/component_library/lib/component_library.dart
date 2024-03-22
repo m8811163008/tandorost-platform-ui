@@ -13,3 +13,4 @@ export 'src/cards/cards.dart';
 
 /// export to use go router navigation
 export 'package:go_router/go_router.dart';
+export 'package:persian_datetime_picker/persian_datetime_picker.dart';

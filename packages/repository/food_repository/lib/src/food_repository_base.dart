@@ -22,8 +22,12 @@ class FoodRepostiory {
     yield* _foodsController.stream;
   }
 
-  Stream<List<SelectedFood>> get selectedFoodsListStream async* {
-    yield* _foodStorage.selectedFoodsList.map(
+  /// Selcted dateTimeRange should be utc.
+  Stream<List<SelectedFood>> selectedFoodsListStream(
+      {required DateTimeRange dateTimeRange}) async* {
+    final foodStream = _foodStorage.selectedFoodsList(
+        start: dateTimeRange.start.toUtc(), end: dateTimeRange.end.toUtc());
+    yield* foodStream.map(
       (event) => event.map((e) => e.toDomain()).toList(),
     );
   }

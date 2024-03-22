@@ -1,6 +1,8 @@
 part of 'food_selection_bloc.dart';
 
-sealed class FoodSelectionEvent {}
+sealed class FoodSelectionEvent {
+  const FoodSelectionEvent();
+}
 
 final class SearchFood extends FoodSelectionEvent {
   final String query;
@@ -21,7 +23,9 @@ final class FoodSelected extends FoodSelectionEvent {
   FoodSelected(this.food);
 }
 
-base class InputPageEvent extends FoodSelectionEvent {}
+base class InputPageEvent extends FoodSelectionEvent {
+  const InputPageEvent();
+}
 
 final class SelectedFoodUpdated extends InputPageEvent {
   /// Utc time
@@ -38,14 +42,23 @@ final class SelectedFoodUpdated extends InputPageEvent {
 }
 
 final class SelectedFoodSaved extends InputPageEvent {
-  SelectedFoodSaved();
+  const SelectedFoodSaved();
 }
 
 final class SelectedFoodsListFetched extends InputPageEvent {
   final List<SelectedFood> selectedFoods;
-  SelectedFoodsListFetched({this.selectedFoods = const []});
+  const SelectedFoodsListFetched({this.selectedFoods = const []});
 }
 
 final class SearchFoodFormReset extends InputPageEvent {
-  SearchFoodFormReset();
+  const SearchFoodFormReset();
+}
+
+base class SlectedFoodListPageEvent extends FoodSelectionEvent {
+  const SlectedFoodListPageEvent();
+}
+
+final class SlectedFoodListFiltered extends SlectedFoodListPageEvent {
+  final DateTimeRange dateTimeRange;
+  const SlectedFoodListFiltered({required this.dateTimeRange});
 }

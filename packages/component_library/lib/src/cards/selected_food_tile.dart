@@ -2,6 +2,7 @@ import 'package:component_library/component_library.dart';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
@@ -22,7 +23,7 @@ class SelectedFoodListTile extends StatelessWidget {
     final percentConstant = 1 / (fat + carbohydrate + protein);
 
     final selectedFoodCalarieLabel =
-        '${selectedFood.calculateActualCalorie()} ${context.l10n.foodDataCalarieLabel}⚡️';
+        '${selectedFood.calculateActualCalorie()} ${context.l10n.foodDataCalarieLabel}';
     final selectedFoodFatLabel =
         '${context.l10n.foodDataPercentValue(fat * percentConstant)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
