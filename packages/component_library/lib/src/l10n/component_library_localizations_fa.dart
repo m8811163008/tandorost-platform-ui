@@ -50,7 +50,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get nutritionDataProteinLabel => 'پروتئین';
 
   @override
-  String get foodDataCalarieLabel => 'کالری';
+  String get foodDataCalarieLabel => 'کیلوکالری';
 
   @override
   String foodDataPercentValue(double value) {
@@ -70,11 +70,16 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
       {
         'grams': 'گرم',
         'tableSpoon': 'قاشق غذاخوری',
-        'calorie': 'کالری',
+        'calorie': 'کیلوکالری',
         'gramsPerUnit': 'عدد متوسط',
         'other': 'ترجمه تعریف نشده',
       },
     );
     return '$_temp0';
+  }
+
+  @override
+  String selectedFoodTileEatDateValue(String timeValue, String dateValue) {
+    return 'در ساعت $timeValue و تاریخ $dateValue';
   }
 }

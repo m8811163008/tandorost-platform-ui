@@ -3,7 +3,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
   const SelectedFoodListTile({super.key, required this.selectedFood});
@@ -30,8 +29,11 @@ class SelectedFoodListTile extends StatelessWidget {
         '${context.l10n.foodDataPercentValue(protein * percentConstant)} ${context.l10n.nutritionDataProteinLabel}';
     final selectedFoodCarbohydrateLabel =
         '${context.l10n.foodDataPercentValue(carbohydrate * percentConstant)} ${context.l10n.nutritionDataCarbohydrateLabel}';
-
-    final dateFormatter = selectedFood.selectedDate!.toJalali().formatter;
+    final localTime = selectedFood.selectedDate!.toLocal();
+    final dateFormatter = localTime.toJalali().formatter;
+    final date =
+        '${dateFormatter.yyyy}/${dateFormatter.mm}/${dateFormatter.dd}';
+    final time = '${localTime.hour}:${localTime.minute}';
 
     return SizedBox(
       child: Card(
@@ -78,7 +80,7 @@ class SelectedFoodListTile extends StatelessWidget {
                 height: context.sizesExtenstion.medium,
               ),
               Text(
-                '${dateFormatter.yyyy}${dateFormatter.mm}',
+                context.l10n.selectedFoodTileEatDateValue(time, date),
                 style: context.themeData.textTheme.labelSmall,
               ),
             ],

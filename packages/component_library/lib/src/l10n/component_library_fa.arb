@@ -16,7 +16,7 @@
     "nutritionDataFatLabel" : "چربی",
     "nutritionDataCarbohydrateLabel" : "کربوهیدرات",
     "nutritionDataProteinLabel" : "پروتئین",
-    "foodDataCalarieLabel" : "کالری",
+    "foodDataCalarieLabel" : "کیلوکالری",
     "foodDataPercentValue" : "{value}",
     "@foodDataPercentValue" : {
         "placeholders": {
@@ -30,10 +30,24 @@
         }
     },
     
-    "unitOfMeasurementTitle" : "{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}",
+    "unitOfMeasurementTitle" : "{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کیلوکالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}",
     "@unitOfMeasurementTitle": {
         "placeholders": {
             "uomType": {}
         }
+    },
+    "selectedFoodTileEatDateValue" : "در ساعت {timeValue} و تاریخ {dateValue}",
+    "@selectedFoodTileEatDateValue" : {
+        "placeholders": {
+            "timeValue": {
+                "type": "String"
+                
+            },
+            "dateValue": {
+                "type": "String"
+                
+            }
+        }
     }
+
 }

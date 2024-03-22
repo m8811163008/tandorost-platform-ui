@@ -136,7 +136,7 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @foodDataCalarieLabel.
   ///
   /// In fa, this message translates to:
-  /// **'کالری'**
+  /// **'کیلوکالری'**
   String get foodDataCalarieLabel;
 
   /// No description provided for @foodDataPercentValue.
@@ -148,8 +148,14 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @unitOfMeasurementTitle.
   ///
   /// In fa, this message translates to:
-  /// **'{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}'**
+  /// **'{uomType, select, grams{گرم} tableSpoon{قاشق غذاخوری} calorie{کیلوکالری} gramsPerUnit{عدد متوسط} other{ترجمه تعریف نشده}}'**
   String unitOfMeasurementTitle(String uomType);
+
+  /// No description provided for @selectedFoodTileEatDateValue.
+  ///
+  /// In fa, this message translates to:
+  /// **'در ساعت {timeValue} و تاریخ {dateValue}'**
+  String selectedFoodTileEatDateValue(String timeValue, String dateValue);
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {
