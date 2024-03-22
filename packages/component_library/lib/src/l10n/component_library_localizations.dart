@@ -178,13 +178,13 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @selectCustomDateTimeRangeDialogToDate.
   ///
   /// In fa, this message translates to:
-  /// **'از تاریخ'**
+  /// **'تا تاریخ'**
   String get selectCustomDateTimeRangeDialogToDate;
 
   /// No description provided for @selectCustomDateTimeRangeDialogToTime.
   ///
   /// In fa, this message translates to:
-  /// **'از ساعت'**
+  /// **'تا ساعت'**
   String get selectCustomDateTimeRangeDialogToTime;
 
   /// No description provided for @buttonConfirmText.

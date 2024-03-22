@@ -20,10 +20,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     add(
       SlectedFoodListFiltered(
         dateTimeRange: DateTimeRange(
-          start: DateTime.now().subtract(Duration(days: 7)).toUtc(),
-          end: DateTime.now().toUtc().add(
-                Duration(hours: 5),
-              ),
+          start: DateTime.now().subtract(
+            Duration(days: 7),
+          ),
+          end: DateTime.now().add(
+            Duration(hours: 5),
+          ),
         ),
       ),
     );
@@ -57,12 +59,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       } else if (event is SearchFoodFormReset) {
         _handleResetState(emit);
       } else if (event is SlectedFoodListFiltered) {
-        _handleSlectedFoodListFiltered(event, emit);
+        await _handleSlectedFoodListFiltered(event, emit);
       }
     });
   }
 
-  void _handleSlectedFoodListFiltered(
+  Future<void> _handleSlectedFoodListFiltered(
       SlectedFoodListFiltered event, Emitter<FoodSelectionState> emit) async {
     _selectedFoodStreamSubscription = _foodRepository
         .selectedFoodsListStream(dateTimeRange: event.dateTimeRange)

@@ -32,6 +32,12 @@ class FoodRepostiory {
     );
   }
 
+  // Future<void> filterSelectedFoodList(
+  //     {required DateTimeRange dateTimeRange}) async {
+  //   await _foodStorage.selectedFoodsList(
+  //       start: dateTimeRange.start.toUtc(), end: dateTimeRange.end.toUtc());
+  // }
+
   Future<void> searchFoods(String query) async {
     if (query.isEmpty) {
       //TODO:  use for return latest selection

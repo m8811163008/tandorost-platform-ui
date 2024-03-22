@@ -122,27 +122,41 @@ class FoodStorage {
   }
 
   final BehaviorSubject<List<SelectedFoodCM>> _selectedFoodListController =
-      BehaviorSubject.seeded(const []);
+      BehaviorSubject();
 
-  Stream<List<SelectedFoodCM>> selectedFoodsList({
-    required DateTime start,
-    required DateTime end,
-  }) async* {
+  Stream<List<SelectedFoodCM>> selectedFoodsList(
+      {required DateTime start, required DateTime end}) async* {
     final userCollection = await _localStorage.userCollection;
-    _selectedFoodListController.addStream(
+    final stream =
         await userCollection.isar.txn<Stream<List<SelectedFoodCM>>>(() async {
       return userCollection
           .watchObject(0, fireImmediately: true)
           .asBroadcastStream()
           .map((userCm) {
-        final list = userCm?.selectedFoods
+        final selectedFood = userCm?.selectedFoods
             .where((element) =>
                 element.selectedDate.isAfter(start) &&
                 element.selectedDate.isBefore(end))
             .toList();
-        return list ?? const [];
+        return selectedFood ?? const [];
       });
-    }));
-    yield* _selectedFoodListController.stream;
+    });
+
+    yield* stream;
   }
+
+  // Future<void> filterSelectedFoodList(
+  //     {required DateTime start, required DateTime end}) async {
+  //   final userCollection = await _localStorage.userCollection;
+  //   final list = await userCollection.isar.txn<List<SelectedFoodCM>>(() async {
+  //     final user = await userCollection
+  //         .filter()
+  //         .selectedFoodsElement((q) => q.selectedDateBetween(start, end))
+  //         .findAll();
+  //     if (user.isEmpty) return const [];
+  //     return user.first.selectedFoods;
+  //   });
+  //   _selectedFoodListController.add(list);
+
+  // }
 }

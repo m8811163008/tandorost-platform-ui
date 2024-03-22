@@ -34,7 +34,8 @@ class SelectedFoodListTile extends StatelessWidget {
     final dateFormatter = localTime.toJalali().formatter;
     final date =
         '${dateFormatter.yyyy}/${dateFormatter.mm}/${dateFormatter.dd}';
-    final time = '${localTime.hour}:${localTime.minute}';
+    final time =
+        '${localTime.hour.toString().padLeft(2, '0')}:${localTime.minute.toString().padLeft(2, '0')}';
 
     return SizedBox(
       child: Card(

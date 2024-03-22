@@ -93,10 +93,10 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get selectCustomDateTimeRangeDialogFromTime => 'از ساعت';
 
   @override
-  String get selectCustomDateTimeRangeDialogToDate => 'از تاریخ';
+  String get selectCustomDateTimeRangeDialogToDate => 'تا تاریخ';
 
   @override
-  String get selectCustomDateTimeRangeDialogToTime => 'از ساعت';
+  String get selectCustomDateTimeRangeDialogToTime => 'تا ساعت';
 
   @override
   String get buttonConfirmText => 'تایید';

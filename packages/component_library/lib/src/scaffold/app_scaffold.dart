@@ -11,12 +11,17 @@ class AppScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        actions: actions,
+        actions: actions
+            .map((e) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: e,
+                ))
+            .toList(),
       ),
       body: Padding(
-        padding: EdgeInsets.all(context.sizesExtenstion.medium),
-        child: child,
-      ),
+          padding:
+              EdgeInsets.symmetric(horizontal: context.sizesExtenstion.medium),
+          child: child),
     );
   }
 }

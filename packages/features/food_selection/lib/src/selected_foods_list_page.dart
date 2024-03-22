@@ -1,4 +1,5 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,25 @@ class SelectedFoodsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      actions: [
+        IconButton(
+          icon: Icon(Ionicons.calendar),
+          onPressed: () async {
+            final DateTimeRange? filterDateTimeRange =
+                await showDialog<DateTimeRange>(
+              context: context,
+              builder: (context) {
+                return SelectDateTimeOptionDialog();
+              },
+            );
+            if (filterDateTimeRange == null) return;
+            if (!context.mounted) return;
+            context.read<FoodSelectionBloc>().add(
+                  SlectedFoodListFiltered(dateTimeRange: filterDateTimeRange),
+                );
+          },
+        ),
+      ],
       child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
         buildWhen: (previous, current) =>
             previous.selectedFoodsList != current.selectedFoodsList,
@@ -58,33 +78,7 @@ class SelectedFoodListBanner extends StatelessWidget {
               carbohydrate: 15,
               protein: 64,
             ),
-            SizedBox.square(
-              dimension: 104,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ActionChip(
-                    label: Text('dateTime'),
-                    onPressed: () async {
-                      final DateTimeRange? filterDateTimeRange =
-                          await showDialog<DateTimeRange>(
-                        context: context,
-                        builder: (context) {
-                          return SelectDateTimeOptionDialog();
-                        },
-                      );
-                      if (filterDateTimeRange == null) return;
-                      if (!context.mounted) return;
-                      context.read<FoodSelectionBloc>().add(
-                            SlectedFoodListFiltered(
-                                dateTimeRange: filterDateTimeRange),
-                          );
-                    },
-                  ),
-                  Text('جمع ⚡️ 123 کیلوکالری')
-                ],
-              ),
-            )
+            Text('جمع ⚡️ 123 کیلوکالری')
           ],
         ),
       ),
@@ -106,8 +100,7 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
             final now = DateTime.now();
             final yesterdayMidnight = now.copyWith(
                 hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
-            final dateRange = DateTimeRange(
-                start: yesterdayMidnight.toUtc(), end: now.toUtc());
+            final dateRange = DateTimeRange(start: yesterdayMidnight, end: now);
             Navigator.of(context, rootNavigator: true)
                 .pop<DateTimeRange>(dateRange);
           },
@@ -118,8 +111,7 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
             final now = DateTime.now();
             final aWeekAgo = now.subtract(Duration(days: 7));
             // Cache of selected foods always use UTC.
-            final dateRange =
-                DateTimeRange(start: aWeekAgo.toUtc(), end: now.toUtc());
+            final dateRange = DateTimeRange(start: aWeekAgo, end: now);
             Navigator.of(context, rootNavigator: true)
                 .pop<DateTimeRange>(dateRange);
           },
@@ -174,10 +166,12 @@ class _SelectCustomDateTimeRangeDialogState
   }
 
   String _timeText(DateTime? dateTime) {
+    final minutes = dateTime?.minute.toString().padLeft(2, '0');
+    final hour = dateTime?.hour.toString().padLeft(2, '0');
     if (Directionality.of(context) == TextDirection.ltr) {
-      return '${dateTime?.hour} : ${dateTime?.minute}';
+      return '$hour : $minutes';
     } else {
-      return '${dateTime?.minute} : ${dateTime?.hour}';
+      return '$minutes : $hour';
     }
   }
 
@@ -219,12 +213,10 @@ class _SelectCustomDateTimeRangeDialogState
               initialTime: TimeOfDay.now(),
             );
             setState(() {
-              _startDate = _startDate
-                  .copyWith(
-                    hour: timeOfDay?.hour,
-                    minute: timeOfDay?.minute,
-                  )
-                  .toUtc();
+              _startDate = _startDate.copyWith(
+                hour: timeOfDay?.hour,
+                minute: timeOfDay?.minute,
+              );
             });
           },
         ),
@@ -252,9 +244,8 @@ class _SelectCustomDateTimeRangeDialogState
               initialTime: TimeOfDay.now(),
             );
             setState(() {
-              _endDate = _endDate
-                  .copyWith(hour: timeOfDay?.hour, minute: timeOfDay?.minute)
-                  .toUtc();
+              _endDate = _endDate.copyWith(
+                  hour: timeOfDay?.hour, minute: timeOfDay?.minute);
             });
           },
         ),
