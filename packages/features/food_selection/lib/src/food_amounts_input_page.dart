@@ -17,17 +17,17 @@ class FoodAmountPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Flexible(
+          const Flexible(
             child: SelectedFoodInfo(),
           ),
           Divider(
             height: context.sizesExtenstion.small,
           ),
-          UnitOfMusurementAlign(),
+          const UnitOfMusurementAlign(),
           Divider(
             height: context.sizesExtenstion.small,
           ),
-          Expanded(
+          const Expanded(
             flex: 2,
             child: FoodAmountInputNumber(),
           ),
@@ -39,7 +39,7 @@ class FoodAmountPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                FoodTimeInput(),
+                const FoodTimeInput(),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
@@ -50,7 +50,7 @@ class FoodAmountPage extends StatelessWidget {
                       listener: (context, state) {
                         if (state.upsertSelectedFoodStatus.isError) {
                           context.showSnackbar(
-                            snackBar: SnackBar(
+                            snackBar: const SnackBar(
                               behavior: SnackBarBehavior.floating,
                               showCloseIcon: true,
                               content: Text('An error occurred!'),
@@ -72,8 +72,8 @@ class FoodAmountPage extends StatelessWidget {
                             child: OutlinedButton(
                               onPressed: () {
                                 context.read<FoodSelectionBloc>()
-                                  ..add(SelectedFoodSaved())
-                                  ..add(SearchFoodFormReset());
+                                  ..add(const SelectedFoodSaved())
+                                  ..add(const SearchFoodFormReset());
                                 // Navigation
                                 context.pushReplacementNamed(
                                   SelectedFoodsListPage.routeName,
@@ -90,8 +90,8 @@ class FoodAmountPage extends StatelessWidget {
                               onPressed: () {
                                 // save the food
                                 context.read<FoodSelectionBloc>()
-                                  ..add(SelectedFoodSaved())
-                                  ..add(SearchFoodFormReset());
+                                  ..add(const SelectedFoodSaved())
+                                  ..add(const SearchFoodFormReset());
                                 // Navigation
                                 context.pop();
                               },
@@ -126,7 +126,7 @@ class UnitOfMusurementAlign extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.unitOfMesurementList != current.unitOfMesurementList,
           builder: (context, state) {
-            if (state.unitOfMesurementList.isEmpty) return SizedBox.shrink();
+            if (state.unitOfMesurementList.isEmpty) return const SizedBox.shrink();
             return UnitOfMusurementList(
               list: state.unitOfMesurementList,
               onSelected: (selectedUnitOfMeasurement) {
@@ -194,14 +194,14 @@ class FoodTimeInput extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _FoodTimeLabel(),
+          const _FoodTimeLabel(),
           SizedBox(
             width: context.sizesExtenstion.medium,
           ),
           Expanded(
             child: ConstrainedBox(
               constraints: const BoxConstraints.tightFor(height: 35.7 * 1.68),
-              child: TimeScrolleInput(),
+              child: const TimeScrolleInput(),
             ),
           ),
         ],
@@ -211,7 +211,7 @@ class FoodTimeInput extends StatelessWidget {
 }
 
 class _FoodTimeLabel extends StatelessWidget {
-  const _FoodTimeLabel({super.key});
+  const _FoodTimeLabel();
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +225,7 @@ class _FoodTimeLabel extends StatelessWidget {
                   saveTimeOffset.toTimeStatus().name),
               style: context.themeData.textTheme.bodyMedium,
               children: [
-                TextSpan(text: '\n'),
+                const TextSpan(text: '\n'),
                 if (saveTimeOffset.inHours != 0)
                   WidgetSpan(
                     child: SizedBox(

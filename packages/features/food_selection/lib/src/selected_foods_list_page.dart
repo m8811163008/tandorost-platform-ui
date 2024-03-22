@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
@@ -15,13 +14,15 @@ class SelectedFoodsListPage extends StatelessWidget {
     return AppScaffold(
       actions: [
         IconButton(
-          icon: Icon(Ionicons.calendar),
+          icon: const Icon(Ionicons.calendar),
           onPressed: () async {
             final DateTimeRange? filterDateTimeRange =
                 await showDialog<DateTimeRange>(
               context: context,
-              builder: (context) {
-                return SelectDateTimeOptionDialog();
+              builder: (_) {
+                return BlocProvider.value(
+                    value: context.read<FoodSelectionBloc>(),
+                    child: const SelectDateTimeOptionDialog());
               },
             );
             if (filterDateTimeRange == null) return;
@@ -37,15 +38,17 @@ class SelectedFoodsListPage extends StatelessWidget {
             previous.selectedFoodsList != current.selectedFoodsList,
         builder: (context, state) {
           if (state.selectedFoodsList.isEmpty) {
-            return Text('empty List');
+            return const Text('empty List');
           }
+          List<SelectedFood> selectedFoods = state.selectedFoodsList;
+          selectedFoods = selectedFoods.reversed.toList();
           return ListView.builder(
-            itemCount: state.selectedFoodsList.length + 1,
+            itemCount: selectedFoods.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return SelectedFoodListBanner();
+                return const SelectedFoodListBanner();
               }
-              final selectedFood = state.selectedFoodsList[index - 1];
+              final selectedFood = selectedFoods[index - 1];
 
               return SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -66,9 +69,9 @@ class SelectedFoodListBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,12 +95,13 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text('انتخاب تاریخ'),
+      title: Text(context.l10n.selectCustomDateTimeRangeDialogTitle),
       children: [
         SimpleDialogOption(
-          child: Text('تا دیشب ساعت 00:00'),
+          child: Text(context.l10n.filterSelectedFoodsSelectDateTimeOptionRow1),
           onPressed: () {
-            final now = DateTime.now();
+            // from 6 hour later until yesterday midnight
+            final now = DateTime.now().add(Duration(hours: 6));
             final yesterdayMidnight = now.copyWith(
                 hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
             final dateRange = DateTimeRange(start: yesterdayMidnight, end: now);
@@ -106,10 +110,10 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
           },
         ),
         SimpleDialogOption(
-          child: Text('از الان تا 7 روز پیش'),
+          child: Text(context.l10n.filterSelectedFoodsSelectDateTimeOptionRow2),
           onPressed: () {
             final now = DateTime.now();
-            final aWeekAgo = now.subtract(Duration(days: 7));
+            final aWeekAgo = now.subtract(const Duration(days: 7));
             // Cache of selected foods always use UTC.
             final dateRange = DateTimeRange(start: aWeekAgo, end: now);
             Navigator.of(context, rootNavigator: true)
@@ -117,13 +121,15 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
           },
         ),
         SimpleDialogOption(
-          child: Text('انتخاب بازه زمانی'),
+          child: Text(context.l10n.filterSelectedFoodsSelectDateTimeOptionRow3),
           onPressed: () async {
             final pickedDate = await showDialog<DateTimeRange>(
               context: context,
               barrierDismissible: false,
-              builder: (context) {
-                return SelectCustomDateTimeRangeDialog();
+              builder: (_) {
+                return BlocProvider.value(
+                    value: context.read<FoodSelectionBloc>(),
+                    child: const SelectCustomDateTimeRangeDialog());
               },
             );
             if (pickedDate != null && context.mounted) {
@@ -151,8 +157,16 @@ class _SelectCustomDateTimeRangeDialogState
   late DateTime _endDate;
   @override
   void initState() {
-    _startDate = DateTime.now().subtract(Duration(days: 7));
-    _endDate = DateTime.now();
+    _startDate = context
+        .read<FoodSelectionBloc>()
+        .state
+        .filterSelctedFoodsListDateTimeRange!
+        .start;
+    _endDate = context
+        .read<FoodSelectionBloc>()
+        .state
+        .filterSelctedFoodsListDateTimeRange!
+        .end;
     super.initState();
   }
 
@@ -220,7 +234,7 @@ class _SelectCustomDateTimeRangeDialogState
             });
           },
         ),
-        Divider(),
+        const Divider(),
         SimpleDialogOption(
           child: Text(
               '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(_endDate)}'),

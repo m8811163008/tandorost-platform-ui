@@ -54,7 +54,7 @@ class SelectedFoodInfo extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Flexible(
                         child: Align(
                           alignment: AlignmentDirectional.centerEnd,

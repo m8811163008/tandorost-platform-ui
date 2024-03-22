@@ -24,11 +24,11 @@ class TotalNutitionsPieChart extends StatelessWidget {
           'کربوهیدات': carbohydrate,
         },
         ringStrokeWidth: 16,
-        chartValuesOptions: ChartValuesOptions(showChartValues: false),
+        chartValuesOptions: const ChartValuesOptions(showChartValues: false),
         animationDuration: Duration.zero,
-        legendOptions: LegendOptions(showLegends: false),
+        legendOptions: const LegendOptions(showLegends: false),
         totalValue: protein + fat + carbohydrate,
-        colorList: [
+        colorList: const [
           CustomColor.protein,
           CustomColor.fat,
           CustomColor.carbohydrate,

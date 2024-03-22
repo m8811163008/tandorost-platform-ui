@@ -21,10 +21,10 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       SlectedFoodListFiltered(
         dateTimeRange: DateTimeRange(
           start: DateTime.now().subtract(
-            Duration(days: 7),
+            const Duration(days: 7),
           ),
           end: DateTime.now().add(
-            Duration(hours: 5),
+            const Duration(hours: 6),
           ),
         ),
       ),
@@ -71,6 +71,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         .listen((selectedFoodList) {
       add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
     });
+    emit(state.copyWith(
+        filterSelctedFoodsListDateTimeRange: event.dateTimeRange));
   }
 
   void _handleSearchedFoodsUpdated(
@@ -122,12 +124,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   void _handleSelectedFoodUpdated(
       SelectedFoodUpdated event, Emitter<FoodSelectionState> emit) {
     if (state.selectedFood == null) return;
-    // if (event.measurementUnitCount ==
-    //     state.selectedFood!.measurementUnitCount) {
-    //   return;
-    // }
-    // this.measurementUnitCount,
-    // this.unitOfMeasurement,
+
     emit(
       state.copyWith(
         saveTimeOffset: event.saveEatDateTimeOffset,
@@ -154,6 +151,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
           eatDate: DateTime.now().add(state.saveTimeOffset).toUtc(),
         ),
       );
+
       emit(
         state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
       );
@@ -167,12 +165,15 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   void _handleSelectedFoodsListFetched(
       SelectedFoodsListFetched event, Emitter<FoodSelectionState> emit) {
+    final selectedFoodsList = event.selectedFoods;
+    selectedFoodsList
+        .sort((a, b) => a.selectedDate!.compareTo(b.selectedDate!));
     emit(
-      state.copyWith(selectedFoodsList: event.selectedFoods),
+      state.copyWith(selectedFoodsList: selectedFoodsList),
     );
   }
 
   void _handleResetState(Emitter<FoodSelectionState> emit) {
-    emit(FoodSelectionState());
+    emit(const FoodSelectionState());
   }
 }

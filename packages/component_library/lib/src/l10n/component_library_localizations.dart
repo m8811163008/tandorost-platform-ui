@@ -198,6 +198,24 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'لغو'**
   String get buttonCancleText;
+
+  /// No description provided for @filterSelectedFoodsSelectDateTimeOptionRow1.
+  ///
+  /// In fa, this message translates to:
+  /// **'تا دیشب ساعت 00:00'**
+  String get filterSelectedFoodsSelectDateTimeOptionRow1;
+
+  /// No description provided for @filterSelectedFoodsSelectDateTimeOptionRow2.
+  ///
+  /// In fa, this message translates to:
+  /// **'از الان تا 7 روز پیش'**
+  String get filterSelectedFoodsSelectDateTimeOptionRow2;
+
+  /// No description provided for @filterSelectedFoodsSelectDateTimeOptionRow3.
+  ///
+  /// In fa, this message translates to:
+  /// **'انتخاب بازه زمانی'**
+  String get filterSelectedFoodsSelectDateTimeOptionRow3;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

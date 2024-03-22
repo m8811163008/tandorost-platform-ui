@@ -5,7 +5,6 @@ import 'dart:developer';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
 import 'package:local_storage/local_storage.dart';
-import 'package:rxdart/rxdart.dart';
 
 class FoodStorage {
   final LocalStorage _localStorage;
@@ -91,8 +90,8 @@ class FoodStorage {
     final jsonFile = await _loadAsset('local_unit_of_measurement.json');
     final jsonList = json.decode(jsonFile) as List;
     unitOfMeasurementCache = jsonList
-        .map((dynamic jsonElement) => (jsonElement as Map<String, dynamic>)
-            .unitOfMeasurmentCMFromJson() as UnitOfMeasurmentCM)
+        .map((dynamic jsonElement) =>
+            (jsonElement as Map<String, dynamic>).unitOfMeasurmentCMFromJson())
         .toSet();
     return unitOfMeasurementCache;
   }
@@ -120,9 +119,6 @@ class FoodStorage {
       await userCollection.put(updatedUser);
     });
   }
-
-  final BehaviorSubject<List<SelectedFoodCM>> _selectedFoodListController =
-      BehaviorSubject();
 
   Stream<List<SelectedFoodCM>> selectedFoodsList(
       {required DateTime start, required DateTime end}) async* {

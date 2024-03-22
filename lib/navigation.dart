@@ -31,7 +31,7 @@ class Navigation {
                   name: FoodAmountPage.routeName,
                   path: FoodAmountPage.routeName,
                   builder: (context, state) {
-                    return FoodAmountPage();
+                    return const FoodAmountPage();
                   },
                 ),
               ],

@@ -74,7 +74,7 @@ class SelectedFood extends Food {
       calorie: calorie ?? this.calorie,
       gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
       macroNutrition: macroNutrition ?? this.macroNutrition,
-      selectedDate: eatDate ?? this.selectedDate,
+      selectedDate: eatDate ?? selectedDate,
       measurementUnitCount: measurementUnitCount ?? this.measurementUnitCount,
       unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
     );

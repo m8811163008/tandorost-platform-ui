@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
@@ -58,7 +57,7 @@ class SelectedFoodListTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(selectedFoodCalarieLabel),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         selectedFoodFatLabel,
                       ),
@@ -70,7 +69,7 @@ class SelectedFoodListTile extends StatelessWidget {
                       Text(
                         selectedFoodProteinLabel,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         selectedFoodCarbohydrateLabel,
                       ),
@@ -95,7 +94,7 @@ class SelectedFoodListTile extends StatelessWidget {
 
 class _SelectedFoodListTilePieChart extends StatelessWidget {
   const _SelectedFoodListTilePieChart(
-      {super.key, required this.macroNutrition});
+      {required this.macroNutrition});
   final MacroNutrition macroNutrition;
 
   @override
@@ -114,11 +113,11 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
               'کربوهیدات': macroNutrition.carbohydrate!,
           },
           ringStrokeWidth: 16,
-          chartValuesOptions: ChartValuesOptions(showChartValues: false),
+          chartValuesOptions: const ChartValuesOptions(showChartValues: false),
           animationDuration: Duration.zero,
-          legendOptions: LegendOptions(showLegends: false),
+          legendOptions: const LegendOptions(showLegends: false),
           totalValue: macroNutrition.sum,
-          colorList: [
+          colorList: const [
             CustomColor.protein,
             CustomColor.fat,
             CustomColor.carbohydrate,

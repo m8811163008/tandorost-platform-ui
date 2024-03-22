@@ -55,5 +55,8 @@
     "selectCustomDateTimeRangeDialogToDate" : "تا تاریخ",
     "selectCustomDateTimeRangeDialogToTime" : "تا ساعت",
     "buttonConfirmText" : "تایید",
-    "buttonCancleText" : "لغو"
+    "buttonCancleText" : "لغو",
+    "filterSelectedFoodsSelectDateTimeOptionRow1" : "تا دیشب ساعت 00:00",
+    "filterSelectedFoodsSelectDateTimeOptionRow2" : "از الان تا 7 روز پیش",
+    "filterSelectedFoodsSelectDateTimeOptionRow3" : "انتخاب بازه زمانی"
 }

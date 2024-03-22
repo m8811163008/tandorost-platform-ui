@@ -9,27 +9,30 @@ class FoodSelectionState {
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
   final FetchDataStatus upsertSelectedFoodStatus;
+  final DateTimeRange? filterSelctedFoodsListDateTimeRange;
 
-  const FoodSelectionState({
-    this.query = '',
-    this.foods = const [],
-    this.unitOfMesurementList = const [],
-    this.selectedFoodsList = const [],
-    this.status = FetchDataStatus.initial,
-    this.upsertSelectedFoodStatus = FetchDataStatus.initial,
-    this.selectedFood,
-    this.saveTimeOffset = Duration.zero,
-  });
+  const FoodSelectionState(
+      {this.query = '',
+      this.foods = const [],
+      this.unitOfMesurementList = const [],
+      this.selectedFoodsList = const [],
+      this.status = FetchDataStatus.initial,
+      this.upsertSelectedFoodStatus = FetchDataStatus.initial,
+      this.selectedFood,
+      this.saveTimeOffset = Duration.zero,
+      this.filterSelctedFoodsListDateTimeRange});
 
-  FoodSelectionState copyWith(
-      {String? query,
-      List<Food>? foods,
-      FetchDataStatus? status,
-      FetchDataStatus? upsertSelectedFoodStatus,
-      SelectedFood? selectedFood,
-      List<UnitOfMeasurement>? unitOfMesurementList,
-      Duration? saveTimeOffset,
-      List<SelectedFood>? selectedFoodsList}) {
+  FoodSelectionState copyWith({
+    String? query,
+    List<Food>? foods,
+    FetchDataStatus? status,
+    FetchDataStatus? upsertSelectedFoodStatus,
+    SelectedFood? selectedFood,
+    List<UnitOfMeasurement>? unitOfMesurementList,
+    Duration? saveTimeOffset,
+    List<SelectedFood>? selectedFoodsList,
+    DateTimeRange? filterSelctedFoodsListDateTimeRange,
+  }) {
     return FoodSelectionState(
       query: query ?? this.query,
       foods: foods ?? this.foods,
@@ -40,6 +43,9 @@ class FoodSelectionState {
       upsertSelectedFoodStatus:
           upsertSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
       selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
+      filterSelctedFoodsListDateTimeRange:
+          filterSelctedFoodsListDateTimeRange ??
+              this.filterSelctedFoodsListDateTimeRange,
     );
   }
 }
