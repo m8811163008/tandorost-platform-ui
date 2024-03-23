@@ -28,7 +28,6 @@ base class InputPageEvent extends FoodSelectionEvent {
 }
 
 final class SelectedFoodUpdated extends InputPageEvent {
-  /// Utc time
   final Duration? saveEatDateTimeOffset;
 
   /// shows number of units of measurement selected
@@ -61,4 +60,13 @@ base class SlectedFoodListPageEvent extends FoodSelectionEvent {
 final class SlectedFoodListFiltered extends SlectedFoodListPageEvent {
   final DateTimeRange dateTimeRange;
   const SlectedFoodListFiltered({required this.dateTimeRange});
+}
+
+final class SelectedFoodRemoved extends SlectedFoodListPageEvent {
+  final SelectedFood food;
+  const SelectedFoodRemoved({required this.food});
+}
+
+final class SelectedFoodUndoRemoved extends SlectedFoodListPageEvent {
+  const SelectedFoodUndoRemoved();
 }

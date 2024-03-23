@@ -105,8 +105,8 @@ class FoodStorage {
   }
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
-    assert(
-        selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
+    // assert(
+    //     selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
     final userCollection = await _localStorage.userCollection;
 
     await userCollection.isar.writeTxn(() async {
@@ -115,6 +115,24 @@ class FoodStorage {
 
       final updatedUser = user!.copyWith(
         selectedFoods: [selectedFoodCM, ...user.selectedFoods],
+      );
+      await userCollection.put(updatedUser);
+    });
+  }
+
+  Future<void> removeSelectedFood(SelectedFoodCM selectedFoodCM) async {
+    // assert(
+    //     selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
+    final userCollection = await _localStorage.userCollection;
+
+    await userCollection.isar.writeTxn(() async {
+      UserCM? user = await userCollection.get(0);
+      assert(user != null, 'initilize user when construct this object');
+
+      final updatedUser = user!.copyWith(
+        selectedFoods: user.selectedFoods
+            .where((element) => element != selectedFoodCM)
+            .toList(),
       );
       await userCollection.put(updatedUser);
     });

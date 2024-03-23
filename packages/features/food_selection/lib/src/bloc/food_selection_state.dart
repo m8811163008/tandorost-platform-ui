@@ -9,25 +9,32 @@ class FoodSelectionState {
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
   final FetchDataStatus upsertSelectedFoodStatus;
+  final FetchDataStatus deleteSelectedFoodStatus;
   final DateTimeRange? filterSelctedFoodsListDateTimeRange;
+  final SelectedFood? lastDeletedSelectedFood;
 
-  const FoodSelectionState(
-      {this.query = '',
-      this.foods = const [],
-      this.unitOfMesurementList = const [],
-      this.selectedFoodsList = const [],
-      this.status = FetchDataStatus.initial,
-      this.upsertSelectedFoodStatus = FetchDataStatus.initial,
-      this.selectedFood,
-      this.saveTimeOffset = Duration.zero,
-      this.filterSelctedFoodsListDateTimeRange});
+  const FoodSelectionState({
+    this.query = '',
+    this.foods = const [],
+    this.unitOfMesurementList = const [],
+    this.selectedFoodsList = const [],
+    this.status = FetchDataStatus.initial,
+    this.upsertSelectedFoodStatus = FetchDataStatus.initial,
+    this.deleteSelectedFoodStatus = FetchDataStatus.initial,
+    this.selectedFood,
+    this.saveTimeOffset = Duration.zero,
+    this.filterSelctedFoodsListDateTimeRange,
+    this.lastDeletedSelectedFood,
+  });
 
   FoodSelectionState copyWith({
     String? query,
     List<Food>? foods,
     FetchDataStatus? status,
     FetchDataStatus? upsertSelectedFoodStatus,
+    FetchDataStatus? deleteSelectedFoodStatus,
     SelectedFood? selectedFood,
+    SelectedFood? lastDeletedSelectedFood,
     List<UnitOfMeasurement>? unitOfMesurementList,
     Duration? saveTimeOffset,
     List<SelectedFood>? selectedFoodsList,
@@ -43,9 +50,13 @@ class FoodSelectionState {
       upsertSelectedFoodStatus:
           upsertSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
       selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
+      lastDeletedSelectedFood:
+          lastDeletedSelectedFood ?? this.lastDeletedSelectedFood,
       filterSelctedFoodsListDateTimeRange:
           filterSelctedFoodsListDateTimeRange ??
               this.filterSelctedFoodsListDateTimeRange,
+      deleteSelectedFoodStatus:
+          deleteSelectedFoodStatus ?? this.deleteSelectedFoodStatus,
     );
   }
 }

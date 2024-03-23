@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppMaterialBanner extends MaterialBanner {
-  const AppMaterialBanner._(
-      {required super.content, required super.actions});
+  const AppMaterialBanner._({required super.content, required super.actions});
 
   factory AppMaterialBanner(
           {String text = '', List<Widget> actions = const []}) =>
       AppMaterialBanner._(
         actions: [
-          if (actions.isEmpty) const AutoHideMaterialBanner(),
+          const AutoHideMaterialBanner(),
         ],
         content: Text(text),
       );

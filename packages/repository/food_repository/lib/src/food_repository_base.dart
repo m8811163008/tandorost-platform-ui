@@ -22,21 +22,14 @@ class FoodRepostiory {
     yield* _foodsController.stream;
   }
 
-  /// Selcted dateTimeRange should be utc.
   Stream<List<SelectedFood>> selectedFoodsListStream(
       {required DateTimeRange dateTimeRange}) async* {
     final foodStream = _foodStorage.selectedFoodsList(
-        start: dateTimeRange.start.toUtc(), end: dateTimeRange.end.toUtc());
+        start: dateTimeRange.start, end: dateTimeRange.end);
     yield* foodStream.map(
       (event) => event.map((e) => e.toDomain()).toList(),
     );
   }
-
-  // Future<void> filterSelectedFoodList(
-  //     {required DateTimeRange dateTimeRange}) async {
-  //   await _foodStorage.selectedFoodsList(
-  //       start: dateTimeRange.start.toUtc(), end: dateTimeRange.end.toUtc());
-  // }
 
   Future<void> searchFoods(String query) async {
     if (query.isEmpty) {
@@ -66,5 +59,10 @@ class FoodRepostiory {
   Future<void> upsertSelectedFood(SelectedFood selectedFood) async {
     final selectedFoodCM = selectedFood.toCacheModel();
     await _foodStorage.upsertSelectedFood(selectedFoodCM);
+  }
+
+  Future<void> removeSelectedFood(SelectedFood selectedFood) async {
+    final selectedFoodCM = selectedFood.toCacheModel();
+    await _foodStorage.removeSelectedFood(selectedFoodCM);
   }
 }

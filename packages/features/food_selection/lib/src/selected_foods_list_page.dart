@@ -2,12 +2,31 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
   static const String routeName = '/selected-foods-list';
+  String _timeText(DateTime? dateTime, BuildContext context) {
+    final minutes = dateTime?.toLocal().minute.toString().padLeft(2, '0');
+    final hour = dateTime?.toLocal().hour.toString().padLeft(2, '0');
+    if (Directionality.of(context) == TextDirection.ltr) {
+      return '$hour : $minutes';
+    } else {
+      return '$minutes : $hour';
+    }
+  }
+
+  String _jalaliDayText(DateTime dateTime, BuildContext context) {
+    final jalali = Jalali.fromDateTime(dateTime.toLocal());
+    if (Directionality.of(context) == TextDirection.ltr) {
+      return '${jalali.formatter.yyyy} / ${jalali.formatter.mm} / ${jalali.formatter.dd}';
+    } else {
+      return '${jalali.formatter.dd} / ${jalali.formatter.mm} / ${jalali.formatter.yyyy}';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +57,48 @@ class SelectedFoodsListPage extends StatelessWidget {
             previous.selectedFoodsList != current.selectedFoodsList,
         builder: (context, state) {
           if (state.selectedFoodsList.isEmpty) {
-            return const Text('empty List');
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text.rich(
+                      TextSpan(
+                          text: 'در بازه تاریخی زیر غذایی یافت نشد',
+                          style: context.themeData.textTheme.bodyMedium,
+                          children: [
+                            TextSpan(text: '\n'),
+                            TextSpan(
+                                text:
+                                    '${context.l10n.selectCustomDateTimeRangeDialogFromTime}  ${_timeText(state.filterSelctedFoodsListDateTimeRange!.start, context)}'),
+                            TextSpan(text: '\n'),
+                            TextSpan(
+                                text:
+                                    '${context.l10n.selectCustomDateTimeRangeDialogFromDate}  ${_jalaliDayText(state.filterSelctedFoodsListDateTimeRange!.start, context)}'),
+                            TextSpan(text: '\n'),
+                            TextSpan(
+                                text:
+                                    '${context.l10n.selectCustomDateTimeRangeDialogToTime}  ${_timeText(state.filterSelctedFoodsListDateTimeRange!.end, context)}'),
+                            TextSpan(text: '\n'),
+                            TextSpan(
+                                text:
+                                    '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(state.filterSelctedFoodsListDateTimeRange!.end, context)}'),
+                          ]),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: context.sizesExtenstion.medium),
+                  child: FloatingActionButton(
+                    child: Text('غذا اضافه کنید'),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
+            );
           }
           List<SelectedFood> selectedFoods = state.selectedFoodsList;
           selectedFoods = selectedFoods.reversed.toList();
@@ -50,15 +110,65 @@ class SelectedFoodsListPage extends StatelessWidget {
               }
               final selectedFood = selectedFoods[index - 1];
 
-              return SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: SelectedFoodListTile(
-                  selectedFood: selectedFood,
-                ),
-              );
+              return SelectedFoodListTileDissmissable(
+                  selectedFood: selectedFood);
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class SelectedFoodListTileDissmissable extends StatelessWidget {
+  const SelectedFoodListTileDissmissable(
+      {super.key, required this.selectedFood});
+  final SelectedFood selectedFood;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<FoodSelectionBloc, FoodSelectionState>(
+      listenWhen: (previous, current) =>
+          previous.lastDeletedSelectedFood != current.lastDeletedSelectedFood,
+      listener: (context, state) {
+        if (state.deleteSelectedFoodStatus.isLoaded) {
+          context.showBanner(
+              materialBanner: AppMaterialBanner(
+            text: 'حذف شد',
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    context
+                        .read<FoodSelectionBloc>()
+                        .add(SelectedFoodUndoRemoved());
+                  },
+                  child: Text('انصراف'))
+            ],
+          ));
+        }
+      },
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.startToEnd,
+          onDismissed: (direction) {
+            context
+                .read<FoodSelectionBloc>()
+                .add(SelectedFoodRemoved(food: selectedFood));
+          },
+          background: Container(
+            alignment: AlignmentDirectional.centerStart,
+            color: context.themeData.colorScheme.surfaceTint,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(Ionicons.trash_bin),
+            ),
+          ),
+          child: SelectedFoodListTile(
+            selectedFood: selectedFood,
+          ),
+        ),
       ),
     );
   }
@@ -190,7 +300,7 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
               const Duration(hours: 6),
             );
             final aWeekAgo = now.subtract(const Duration(days: 7));
-            // Cache of selected foods always use UTC.
+
             final dateRange = DateTimeRange(start: aWeekAgo, end: now);
             Navigator.of(context, rootNavigator: true)
                 .pop<DateTimeRange>(dateRange);
@@ -247,7 +357,7 @@ class _SelectCustomDateTimeRangeDialogState
   }
 
   String _jalaliDayText(DateTime dateTime) {
-    final jalali = Jalali.fromDateTime(dateTime);
+    final jalali = Jalali.fromDateTime(dateTime.toLocal());
     if (Directionality.of(context) == TextDirection.ltr) {
       return '${jalali.formatter.yyyy} / ${jalali.formatter.mm} / ${jalali.formatter.dd}';
     } else {
@@ -256,8 +366,8 @@ class _SelectCustomDateTimeRangeDialogState
   }
 
   String _timeText(DateTime? dateTime) {
-    final minutes = dateTime?.minute.toString().padLeft(2, '0');
-    final hour = dateTime?.hour.toString().padLeft(2, '0');
+    final minutes = dateTime?.toLocal().minute.toString().padLeft(2, '0');
+    final hour = dateTime?.toLocal().hour.toString().padLeft(2, '0');
     if (Directionality.of(context) == TextDirection.ltr) {
       return '$hour : $minutes';
     } else {
@@ -269,8 +379,8 @@ class _SelectCustomDateTimeRangeDialogState
     Jalali? picked = await showPersianDatePicker(
       context: context,
       initialDate: Jalali.now(),
-      firstDate: Jalali(1385, 8),
-      lastDate: Jalali(1450, 9),
+      firstDate: Jalali(1402, 1),
+      lastDate: Jalali(1406, 12),
     );
     return picked?.toDateTime();
   }

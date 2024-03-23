@@ -62,6 +62,10 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         _handleResetState(emit);
       } else if (event is SlectedFoodListFiltered) {
         await _handleSlectedFoodListFiltered(event, emit);
+      } else if (event is SelectedFoodRemoved) {
+        await _handleSelectedFoodRemoved(event, emit);
+      } else if (event is SelectedFoodUndoRemoved) {
+        await _handleSelectedFoodUndoRemoved(event, emit);
       }
     });
   }
@@ -75,6 +79,38 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     });
     emit(state.copyWith(
         filterSelctedFoodsListDateTimeRange: event.dateTimeRange));
+  }
+
+  Future<void> _handleSelectedFoodRemoved(
+      SelectedFoodRemoved event, Emitter<FoodSelectionState> emit) async {
+    emit(
+      state.copyWith(
+        deleteSelectedFoodStatus: FetchDataStatus.loading,
+        lastDeletedSelectedFood: event.food,
+      ),
+    );
+    try {
+      await _foodRepository.removeSelectedFood(event.food);
+      emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.loaded));
+    } catch (e) {
+      emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.error));
+    }
+  }
+
+  Future<void> _handleSelectedFoodUndoRemoved(
+      SelectedFoodUndoRemoved event, Emitter<FoodSelectionState> emit) async {
+    if (state.lastDeletedSelectedFood == null) return;
+    emit(
+      state.copyWith(
+        upsertSelectedFoodStatus: FetchDataStatus.loading,
+      ),
+    );
+    try {
+      await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood!);
+      emit(state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded));
+    } catch (e) {
+      emit(state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error));
+    }
   }
 
   void _handleSearchedFoodsUpdated(
@@ -177,5 +213,19 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   void _handleResetState(Emitter<FoodSelectionState> emit) {
     emit(const FoodSelectionState());
+    add(
+      SlectedFoodListFiltered(
+        dateTimeRange: DateTimeRange(
+          start: DateTime.now().copyWith(
+            hour: 0,
+            minute: 0,
+            second: 0,
+          ),
+          end: DateTime.now().add(
+            const Duration(hours: 6),
+          ),
+        ),
+      ),
+    );
   }
 }
