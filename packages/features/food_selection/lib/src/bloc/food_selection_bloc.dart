@@ -100,6 +100,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   Future<void> _handleSelectedFoodUndoRemoved(
       SelectedFoodUndoRemoved event, Emitter<FoodSelectionState> emit) async {
     if (state.lastDeletedSelectedFood == null) return;
+    if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
     emit(
       state.copyWith(
         upsertSelectedFoodStatus: FetchDataStatus.loading,
@@ -107,7 +108,11 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     );
     try {
       await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood!);
-      emit(state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded));
+      emit(
+        state.copyWith(
+          upsertSelectedFoodStatus: FetchDataStatus.loaded,
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error));
     }

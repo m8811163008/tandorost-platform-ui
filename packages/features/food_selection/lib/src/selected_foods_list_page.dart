@@ -52,7 +52,33 @@ class SelectedFoodsListPage extends StatelessWidget {
           },
         ),
       ],
-      child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+      child: BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
+        listenWhen: (previous, current) =>
+            previous.deleteSelectedFoodStatus !=
+            current.deleteSelectedFoodStatus,
+        listener: (context, state) {
+          if (state.deleteSelectedFoodStatus.isLoaded) {
+            context.showBanner(
+                materialBanner: AppMaterialBanner(
+              text: 'حذف شد',
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (context.read<FoodSelectionBloc>().isClosed) return;
+                    context
+                        .read<FoodSelectionBloc>()
+                        .add(SelectedFoodUndoRemoved());
+                  },
+                  child: Text(
+                    'انصراف',
+                    style: context.themeData.textTheme.labelMedium!.copyWith(
+                        color: context.themeData.colorScheme.onSurface),
+                  ),
+                )
+              ],
+            ));
+          }
+        },
         buildWhen: (previous, current) =>
             previous.selectedFoodsList != current.selectedFoodsList,
         builder: (context, state) {
@@ -127,47 +153,26 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FoodSelectionBloc, FoodSelectionState>(
-      listenWhen: (previous, current) =>
-          previous.lastDeletedSelectedFood != current.lastDeletedSelectedFood,
-      listener: (context, state) {
-        if (state.deleteSelectedFoodStatus.isLoaded) {
-          context.showBanner(
-              materialBanner: AppMaterialBanner(
-            text: 'حذف شد',
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    context
-                        .read<FoodSelectionBloc>()
-                        .add(SelectedFoodUndoRemoved());
-                  },
-                  child: Text('انصراف'))
-            ],
-          ));
-        }
-      },
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.startToEnd,
-          onDismissed: (direction) {
-            context
-                .read<FoodSelectionBloc>()
-                .add(SelectedFoodRemoved(food: selectedFood));
-          },
-          background: Container(
-            alignment: AlignmentDirectional.centerStart,
-            color: context.themeData.colorScheme.surfaceTint,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Icon(Ionicons.trash_bin),
-            ),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Dismissible(
+        key: UniqueKey(),
+        direction: DismissDirection.startToEnd,
+        onDismissed: (direction) {
+          context
+              .read<FoodSelectionBloc>()
+              .add(SelectedFoodRemoved(food: selectedFood));
+        },
+        background: Container(
+          alignment: AlignmentDirectional.centerStart,
+          color: context.themeData.colorScheme.surfaceTint,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Ionicons.trash_bin),
           ),
-          child: SelectedFoodListTile(
-            selectedFood: selectedFood,
-          ),
+        ),
+        child: SelectedFoodListTile(
+          selectedFood: selectedFood,
         ),
       ),
     );

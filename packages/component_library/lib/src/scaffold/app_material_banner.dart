@@ -6,9 +6,7 @@ class AppMaterialBanner extends MaterialBanner {
   factory AppMaterialBanner(
           {String text = '', List<Widget> actions = const []}) =>
       AppMaterialBanner._(
-        actions: [
-          const AutoHideMaterialBanner(),
-        ],
+        actions: [const AutoHideMaterialBanner(), ...actions],
         content: Text(text),
       );
 }
@@ -19,7 +17,7 @@ class AutoHideMaterialBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 2)),
+      future: Future.delayed(const Duration(seconds: 4)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           //auto hide scaffold messenger

@@ -12,14 +12,18 @@ extension BuildContextTranslation on BuildContext {
   ThemeData get themeData => Theme.of(this);
 
   void showBanner({required MaterialBanner materialBanner}) {
-    ScaffoldMessenger.of(this).showMaterialBanner(
-      materialBanner,
-    );
+    ScaffoldMessenger.of(this)
+      ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(
+        materialBanner,
+      );
   }
 
   void showSnackbar({required SnackBar snackBar}) {
-    ScaffoldMessenger.of(this).showSnackBar(
-      snackBar,
-    );
+    ScaffoldMessenger.of(this)
+      ..hideCurrentSnackBar
+      ..showSnackBar(
+        snackBar,
+      );
   }
 }

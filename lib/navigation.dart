@@ -8,8 +8,19 @@ import 'package:component_library/component_library.dart';
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
     return GoRouter(
-      initialLocation: FoodSelectionRoute.routeName,
+      initialLocation: Splash.routeName,
       routes: [
+        GoRoute(
+          name: Splash.routeName,
+          path: Splash.routeName,
+          builder: (context, state) {
+            return Splash(
+              onDone: () {
+                context.goNamed(FoodSelectionRoute.routeName);
+              },
+            );
+          },
+        ),
         ShellRoute(
           builder: (context, state, child) {
             return BlocProvider(
@@ -41,6 +52,10 @@ class Navigation {
               path: SelectedFoodsListPage.routeName,
               builder: (context, state) {
                 return const SelectedFoodsListPage();
+              },
+              onExit: (context) {
+                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                return true;
               },
             ),
           ],
