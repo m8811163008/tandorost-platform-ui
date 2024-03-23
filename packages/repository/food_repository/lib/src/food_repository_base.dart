@@ -22,13 +22,9 @@ class FoodRepostiory {
     yield* _foodsController.stream;
   }
 
-  Stream<List<SelectedFood>> selectedFoodsListStream(
-      {required DateTimeRange dateTimeRange}) async* {
-    final foodStream = _foodStorage.selectedFoodsList(
-        start: dateTimeRange.start, end: dateTimeRange.end);
-    yield* foodStream.map(
-      (event) => event.map((e) => e.toDomain()).toList(),
-    );
+  Stream<List<Food>> get foodsStream async* {
+    yield* _foodStorage.getFoods().map(
+        (listFoodCM) => listFoodCM.map((foodCm) => foodCm.toDomain()).toList());
   }
 
   Future<void> searchFoods(String query) async {
@@ -37,7 +33,7 @@ class FoodRepostiory {
       _foodsController.add([]);
       return;
     }
-    var storageFoods = await _foodStorage.getFoods();
+    final storageFoods = await _foodStorage.getFoods().first;
 
     final domainFoods = storageFoods
         .where(
@@ -45,6 +41,7 @@ class FoodRepostiory {
         .map((foodCm) => foodCm.toDomain())
         .toList();
     _foodsController.add(domainFoods);
+    // var storageFoods = await _foodStorage.getFoods().first;
   }
 
   Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
@@ -54,6 +51,15 @@ class FoodRepostiory {
 
   Future<void> clearCollections() async {
     await _foodStorage.clearCollections();
+  }
+
+  Stream<List<SelectedFood>> selectedFoodsListStream(
+      {required DateTimeRange dateTimeRange}) async* {
+    final foodStream = _foodStorage.selectedFoodsList(
+        start: dateTimeRange.start, end: dateTimeRange.end);
+    yield* foodStream.map(
+      (event) => event.map((e) => e.toDomain()).toList(),
+    );
   }
 
   Future<void> upsertSelectedFood(SelectedFood selectedFood) async {

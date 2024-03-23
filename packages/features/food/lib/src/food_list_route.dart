@@ -27,7 +27,22 @@ class FoodListView extends StatelessWidget {
     return AppScaffold(
       isShowDrawer: true,
       actions: [
-        IconButton(
+        SizedBox(
+          width: 120,
+          child: TextField(
+            style: context.themeData.textTheme.bodySmall,
+            decoration: InputDecoration(
+              isDense: true,
+              prefixIcon: const Icon(Ionicons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              contentPadding: EdgeInsets.symmetric(vertical: 0),
+            ),
+            onChanged: (chearchTerm) {},
+          ),
+        ),
+        IconButton.outlined(
           icon: const Icon(Ionicons.add),
           onPressed: () async {
             // show bottom sheet for creating a new food
@@ -53,7 +68,7 @@ class FoodListView extends StatelessWidget {
                     style: context.themeData.textTheme.labelMedium!.copyWith(
                         color: context.themeData.colorScheme.onSurface),
                   ),
-                )
+                ),
               ],
             ));
           }
@@ -69,7 +84,7 @@ class FoodListView extends StatelessWidget {
           return ListView.builder(
             itemCount: foods.length,
             itemBuilder: (context, index) {
-              final food = foods[index - 1];
+              final food = foods[index];
 
               return FoodListTile(food: food);
             },

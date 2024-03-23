@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
 import 'package:local_storage/local_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FoodStorage {
   final LocalStorage _localStorage;
@@ -51,13 +52,14 @@ class FoodStorage {
   }
 
   /// get list of foods from the food collection. Read
-  Future<List<FoodCM>> getFoods() async {
+  Stream<List<FoodCM>> getFoods() async* {
     final foodCollection = await _localStorage.foodCollection;
-    late List<FoodCM> foodList;
-    await _localStorage.txn<FoodCM>(foodCollection, () async {
-      foodList = await foodCollection.where().findAll();
+    yield* await foodCollection.isar.txn<Stream<List<FoodCM>>>(() async {
+      return foodCollection
+          .watchLazy(fireImmediately: true)
+          .asBroadcastStream()
+          .mapTo(await foodCollection.where().findAll());
     });
-    return foodList;
   }
 
   /// add a food to food collection. C
@@ -158,19 +160,4 @@ class FoodStorage {
 
     yield* stream;
   }
-
-  // Future<void> filterSelectedFoodList(
-  //     {required DateTime start, required DateTime end}) async {
-  //   final userCollection = await _localStorage.userCollection;
-  //   final list = await userCollection.isar.txn<List<SelectedFoodCM>>(() async {
-  //     final user = await userCollection
-  //         .filter()
-  //         .selectedFoodsElement((q) => q.selectedDateBetween(start, end))
-  //         .findAll();
-  //     if (user.isEmpty) return const [];
-  //     return user.first.selectedFoods;
-  //   });
-  //   _selectedFoodListController.add(list);
-
-  // }
 }
