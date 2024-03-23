@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'dart:developer';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,10 +11,12 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   FlutterError.onError = (FlutterErrorDetails details) async {
-    await Sentry.captureException(
-      details.exception,
-      stackTrace: details.stack,
-    );
+    // await Sentry.captureException(
+    //   details.exception,
+    //   stackTrace: details.stack,
+    // );
+    log('error in ${details.library}',
+        stackTrace: details.stack, error: details.exception);
   };
   await SentryFlutter.init(
     (options) {

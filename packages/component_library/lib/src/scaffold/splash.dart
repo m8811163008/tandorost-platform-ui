@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key, this.onDone});
-  static const routeName = '/splash';
+
   final VoidCallback? onDone;
 
   @override

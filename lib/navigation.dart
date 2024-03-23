@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/food.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:food_selection/food_selection.dart';
 
 import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:domain_model/domain_model.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -12,15 +14,15 @@ class Navigation {
       observers: [
         SentryNavigatorObserver(),
       ],
-      initialLocation: Splash.routeName,
+      initialLocation: Routes.splash,
       routes: [
         GoRoute(
-          name: Splash.routeName,
-          path: Splash.routeName,
+          name: Routes.splash,
+          path: Routes.splash,
           builder: (context, state) {
             return Splash(
               onDone: () async {
-                context.goNamed(FoodSelectionRoute.routeName);
+                context.goNamed(Routes.foodSelection);
               },
             );
           },
@@ -36,15 +38,15 @@ class Navigation {
           },
           routes: [
             GoRoute(
-              name: FoodSelectionRoute.routeName,
-              path: FoodSelectionRoute.routeName,
+              name: Routes.foodSelection,
+              path: Routes.foodSelection,
               builder: (context, state) {
                 return const FoodSelectionRoute();
               },
               routes: [
                 GoRoute(
-                  name: FoodAmountPage.routeName,
-                  path: FoodAmountPage.routeName,
+                  name: Routes.foodAmountInput,
+                  path: Routes.foodAmountInput,
                   builder: (context, state) {
                     return const FoodAmountPage();
                   },
@@ -52,8 +54,8 @@ class Navigation {
               ],
             ),
             GoRoute(
-              name: SelectedFoodsListPage.routeName,
-              path: SelectedFoodsListPage.routeName,
+              name: Routes.foodSelectionList,
+              path: Routes.foodSelectionList,
               builder: (context, state) {
                 return const SelectedFoodsListPage();
               },
@@ -63,6 +65,13 @@ class Navigation {
               },
             ),
           ],
+        ),
+        GoRoute(
+          name: Routes.foodList,
+          path: Routes.foodList,
+          builder: (context, state) {
+            return const FoodsListRoute();
+          },
         ),
       ],
     );

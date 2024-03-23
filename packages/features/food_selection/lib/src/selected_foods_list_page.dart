@@ -8,7 +8,7 @@ import 'package:food_selection/food_selection.dart';
 
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
-  static const String routeName = '/selected-foods-list';
+
   String _timeText(DateTime? dateTime, BuildContext context) {
     final minutes = dateTime?.toLocal().minute.toString().padLeft(2, '0');
     final hour = dateTime?.toLocal().hour.toString().padLeft(2, '0');

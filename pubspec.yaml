@@ -39,6 +39,8 @@ dependencies:
     path: 'packages/features/app_theme'
   food_selection:
     path: 'packages/features/food_selection'
+  food:
+    path: 'packages/features/food'
   component_library:
     path: 'packages/component_library'
   food_repository:

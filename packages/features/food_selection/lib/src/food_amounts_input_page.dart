@@ -9,8 +9,6 @@ class FoodAmountPage extends StatelessWidget {
     super.key,
   });
 
-  static const String routeName = 'input-food-amount';
-
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -76,7 +74,7 @@ class FoodAmountPage extends StatelessWidget {
                                   ..add(const SearchFoodFormReset());
                                 // Navigation
                                 context.pushReplacementNamed(
-                                  SelectedFoodsListPage.routeName,
+                                  Routes.foodSelectionList,
                                 );
                               },
                               child: const Text('ذخیره و تاریخچه'),
@@ -126,7 +124,8 @@ class UnitOfMusurementAlign extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.unitOfMesurementList != current.unitOfMesurementList,
           builder: (context, state) {
-            if (state.unitOfMesurementList.isEmpty) return const SizedBox.shrink();
+            if (state.unitOfMesurementList.isEmpty)
+              return const SizedBox.shrink();
             return UnitOfMusurementList(
               list: state.unitOfMesurementList,
               onSelected: (selectedUnitOfMeasurement) {

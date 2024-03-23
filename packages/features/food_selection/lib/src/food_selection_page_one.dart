@@ -6,7 +6,6 @@ import 'package:food_selection/food_selection.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
   const FoodSelectionRoute({super.key});
-  static const String routeName = '/food-selection';
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +19,16 @@ class FoodSelectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowDrawer: true,
       actions: [
-        IconButton.filledTonal(
+        IconButton(
           onPressed: () {
-            context.pushNamed(SelectedFoodsListPage.routeName);
+            context.pushNamed(Routes.foodSelectionList);
           },
           icon: const Icon(
             Ionicons.list_sharp,
           ),
+          tooltip: 'لیست غذاهای صرف شده',
         )
       ],
       child: const Column(
@@ -81,7 +82,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
               .add(FoodSelected(serchedFoods.single));
           // navigation
           context.pushNamed(
-            FoodAmountPage.routeName,
+            Routes.foodAmountInput,
           );
         },
         onTapOutside: (_) => FocusScope.of(context).unfocus(),
@@ -125,7 +126,7 @@ class SearchedFoodsList extends StatelessWidget {
             context.read<FoodSelectionBloc>().add(FoodSelected(foods[index]));
             // navigation
             context.pushNamed(
-              FoodAmountPage.routeName,
+              Routes.foodAmountInput,
             );
           },
         );
