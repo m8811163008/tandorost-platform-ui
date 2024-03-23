@@ -15,10 +15,12 @@ class FoodSelectionRoute extends StatelessWidget {
 
 class FoodSelectionView extends StatelessWidget {
   const FoodSelectionView({super.key});
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      scaffoldKey: scaffoldKey,
       isShowDrawer: true,
       actions: [
         IconButton(
@@ -35,7 +37,9 @@ class FoodSelectionView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SearchedFoodsList(),
-          SearchFieldTextField(),
+          SearchFieldTextField(
+            key: ValueKey('value'),
+          ),
         ],
       ),
     );
@@ -51,9 +55,27 @@ class SearchFieldTextField extends StatefulWidget {
 
 class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
   final _controller = TextEditingController();
+  final _focus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final isDrawerOpen =
+        FoodSelectionView.scaffoldKey.currentState?.isDrawerOpen ?? false;
+    final currentPage =
+        GoRouterState.of(context).uri.toString() == Routes.foodSelection;
+
+    if (isDrawerOpen) _focus.unfocus();
+    if (!currentPage) _focus.unfocus();
     return BlocListener<FoodSelectionBloc, FoodSelectionState>(
       listenWhen: (previous, current) =>
           previous.upsertSelectedFoodStatus != current.upsertSelectedFoodStatus,
@@ -65,6 +87,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
       child: TextField(
         controller: _controller,
         autofocus: true,
+        focusNode: _focus,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(

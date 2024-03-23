@@ -8,14 +8,18 @@ class AppScaffold extends StatelessWidget {
     this.child,
     this.actions = const [],
     this.isShowDrawer = false,
+    this.scaffoldKey,
   });
+
   final Widget? child;
   final List<Widget> actions;
   final bool isShowDrawer;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         actions: actions
@@ -49,6 +53,7 @@ class _AppDrawerState extends State<AppDrawer> {
     setState(() {
       _selectedIndex = GoRouterState.of(context).uri.toString().toIndex();
     });
+
     super.didChangeDependencies();
   }
 
