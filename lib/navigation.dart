@@ -4,10 +4,14 @@ import 'package:food_repository/food_repository.dart';
 import 'package:food_selection/food_selection.dart';
 
 import 'package:component_library/component_library.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
     return GoRouter(
+      observers: [
+        SentryNavigatorObserver(),
+      ],
       initialLocation: Splash.routeName,
       routes: [
         GoRoute(
@@ -15,7 +19,7 @@ class Navigation {
           path: Splash.routeName,
           builder: (context, state) {
             return Splash(
-              onDone: () {
+              onDone: () async {
                 context.goNamed(FoodSelectionRoute.routeName);
               },
             );
