@@ -23,7 +23,7 @@ class FoodSelectionView extends StatelessWidget {
       scaffoldKey: scaffoldKey,
       isShowDrawer: true,
       actions: [
-        IconButton(
+        IconButton.outlined(
           onPressed: () {
             context.pushNamed(Routes.foodSelectionList);
           },
@@ -56,16 +56,6 @@ class SearchFieldTextField extends StatefulWidget {
 class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +164,8 @@ class FoodButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(context.sizesExtenstion.medium),
           constraints: BoxConstraints.tight(
-              Size.square(context.sizesExtenstion.xExtraLarge)),
+            Size.square(context.sizesExtenstion.xExtraLarge),
+          ),
           child: Center(
             child: Text(
               food.name,

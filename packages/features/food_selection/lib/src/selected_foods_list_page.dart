@@ -208,9 +208,9 @@ class SelectedFoodListBanner extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TotalNutitionsPieChart(
-                    fat: 10,
-                    carbohydrate: 15,
-                    protein: 64,
+                    fat: fatPercent,
+                    carbohydrate: carbPercent,
+                    protein: proteinPercent,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

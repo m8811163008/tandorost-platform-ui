@@ -19,8 +19,15 @@ class FoodsListRoute extends StatelessWidget {
   }
 }
 
-class FoodListView extends StatelessWidget {
+class FoodListView extends StatefulWidget {
   const FoodListView({super.key});
+
+  @override
+  State<FoodListView> createState() => _FoodListViewState();
+}
+
+class _FoodListViewState extends State<FoodListView> {
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +37,25 @@ class FoodListView extends StatelessWidget {
         SizedBox(
           width: 120,
           child: TextField(
+            autofocus: false,
             style: context.themeData.textTheme.bodySmall,
             decoration: InputDecoration(
               isDense: true,
-              prefixIcon: const Icon(Ionicons.search),
+              hintText: 'جستجو غذا',
+              hintStyle: context.themeData.textTheme.bodySmall,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
             ),
-            onChanged: (chearchTerm) {},
+            onChanged: (chearchTerm) {
+              setState(() {});
+            },
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
+            controller: _controller,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.search,
           ),
         ),
         IconButton.outlined(
@@ -80,7 +96,9 @@ class FoodListView extends StatelessWidget {
             return Center(child: Text('غذایی یافت نشد'));
           }
           List<Food> foods = state.foodsList;
-          foods = foods.reversed.toList();
+          foods = foods.reversed
+              .where((element) => element.name.contains(_controller.text))
+              .toList();
           return ListView.builder(
             itemCount: foods.length,
             itemBuilder: (context, index) {
@@ -101,9 +119,68 @@ class FoodListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fat = food.macroNutrition?.fat ?? 0;
+    final carbohydrate = food.macroNutrition?.carbohydrate ?? 0;
+    final protein = food.macroNutrition?.protein ?? 0;
+    final percentConstant = 1 / (fat + carbohydrate + protein);
+
+    final selectedFoodCalarieLabel =
+        '${food.calorie} ${context.l10n.foodDataCalarieLabel}';
+    final selectedFoodFatLabel =
+        '${context.l10n.foodDataPercentValue(fat * percentConstant)} ${context.l10n.nutritionDataFatLabel}';
+    final selectedFoodProteinLabel =
+        '${context.l10n.foodDataPercentValue(protein * percentConstant)} ${context.l10n.nutritionDataProteinLabel}';
+    final selectedFoodCarbohydrateLabel =
+        '${context.l10n.foodDataPercentValue(carbohydrate * percentConstant)} ${context.l10n.nutritionDataCarbohydrateLabel}';
+
     return Card(
       child: ListTile(
         title: Text(food.name),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: () {},
+              visualDensity: VisualDensity.compact,
+              icon: Icon(Ionicons.options),
+            ),
+            IconButton(
+              onPressed: () {},
+              visualDensity: VisualDensity.compact,
+              icon: Icon(Ionicons.trash_bin),
+            ),
+          ],
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Text(selectedFoodCalarieLabel),
+                    const Spacer(),
+                    Text(
+                      selectedFoodFatLabel,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      selectedFoodProteinLabel,
+                    ),
+                    const Spacer(),
+                    Text(
+                      selectedFoodCarbohydrateLabel,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

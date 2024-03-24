@@ -70,11 +70,11 @@ class _AppDrawerState extends State<AppDrawer> {
       selectedIndex: _selectedIndex,
       children: [
         NavigationDrawerDestination(
-          icon: Icon(Ionicons.fast_food),
+          icon: Icon(Ionicons.restaurant),
           label: Text('یادداشت غذای صرف شده'),
         ),
         NavigationDrawerDestination(
-          icon: Icon(Ionicons.fast_food),
+          icon: Icon(Ionicons.fish),
           label: Text('غذاها'),
         ),
       ],
