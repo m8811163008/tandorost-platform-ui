@@ -406,29 +406,34 @@ const SelectedFoodCMSchema = Schema(
       name: r'gramsPerUnit',
       type: IsarType.long,
     ),
-    r'macroNutrition': PropertySchema(
+    r'hashCode': PropertySchema(
       id: 2,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'macroNutrition': PropertySchema(
+      id: 3,
       name: r'macroNutrition',
       type: IsarType.object,
       target: r'MacroNutritionCM',
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'numberOfUnits': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'numberOfUnits',
       type: IsarType.long,
     ),
     r'selectedDate': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'selectedDate',
       type: IsarType.dateTime,
     ),
     r'unitOfMeasurment': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'unitOfMeasurment',
       type: IsarType.object,
       target: r'UnitOfMeasurmentCM',
@@ -469,17 +474,18 @@ void _selectedFoodCMSerialize(
 ) {
   writer.writeLong(offsets[0], object.calorie);
   writer.writeLong(offsets[1], object.gramsPerUnit);
+  writer.writeLong(offsets[2], object.hashCode);
   writer.writeObject<MacroNutritionCM>(
-    offsets[2],
+    offsets[3],
     allOffsets,
     MacroNutritionCMSchema.serialize,
     object.macroNutrition,
   );
-  writer.writeString(offsets[3], object.name);
-  writer.writeLong(offsets[4], object.numberOfUnits);
-  writer.writeDateTime(offsets[5], object.selectedDate);
+  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[5], object.numberOfUnits);
+  writer.writeDateTime(offsets[6], object.selectedDate);
   writer.writeObject<UnitOfMeasurmentCM>(
-    offsets[6],
+    offsets[7],
     allOffsets,
     UnitOfMeasurmentCMSchema.serialize,
     object.unitOfMeasurment,
@@ -496,15 +502,15 @@ SelectedFoodCM _selectedFoodCMDeserialize(
   object.calorie = reader.readLongOrNull(offsets[0]);
   object.gramsPerUnit = reader.readLongOrNull(offsets[1]);
   object.macroNutrition = reader.readObjectOrNull<MacroNutritionCM>(
-    offsets[2],
+    offsets[3],
     MacroNutritionCMSchema.deserialize,
     allOffsets,
   );
-  object.name = reader.readString(offsets[3]);
-  object.numberOfUnits = reader.readLong(offsets[4]);
-  object.selectedDate = reader.readDateTime(offsets[5]);
+  object.name = reader.readString(offsets[4]);
+  object.numberOfUnits = reader.readLong(offsets[5]);
+  object.selectedDate = reader.readDateTime(offsets[6]);
   object.unitOfMeasurment = reader.readObjectOrNull<UnitOfMeasurmentCM>(
-        offsets[6],
+        offsets[7],
         UnitOfMeasurmentCMSchema.deserialize,
         allOffsets,
       ) ??
@@ -524,18 +530,20 @@ P _selectedFoodCMDeserializeProp<P>(
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readObjectOrNull<MacroNutritionCM>(
         offset,
         MacroNutritionCMSchema.deserialize,
         allOffsets,
       )) as P;
-    case 3:
-      return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 6:
+      return (reader.readDateTime(offset)) as P;
+    case 7:
       return (reader.readObjectOrNull<UnitOfMeasurmentCM>(
             offset,
             UnitOfMeasurmentCMSchema.deserialize,
@@ -689,6 +697,62 @@ extension SelectedFoodCMQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'gramsPerUnit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      hashCodeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
         lower: lower,
         includeLower: includeLower,
         upper: upper,

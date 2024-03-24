@@ -16,4 +16,5 @@ class MacroNutritionCM {
   double? carbohydrate;
   double? fat;
   double? protein;
+  late bool isVegetable;
 }

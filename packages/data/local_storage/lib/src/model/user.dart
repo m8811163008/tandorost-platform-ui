@@ -16,7 +16,7 @@ class UserCM {
 }
 
 @embedded
-class SelectedFoodCM with EquatableMixin {
+class SelectedFoodCM {
   // name of the food
   late String name;
   // total calarie of food
@@ -37,5 +37,12 @@ class SelectedFoodCM with EquatableMixin {
   late int numberOfUnits;
 
   @override
-  List<Object?> get props => [selectedDate];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SelectedFoodCM && other.selectedDate == selectedDate;
+  }
+
+  @override
+  int get hashCode => selectedDate.hashCode;
 }

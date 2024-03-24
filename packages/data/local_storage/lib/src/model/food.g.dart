@@ -730,8 +730,13 @@ const MacroNutritionCMSchema = Schema(
       name: r'fat',
       type: IsarType.double,
     ),
-    r'protein': PropertySchema(
+    r'isVegetable': PropertySchema(
       id: 2,
+      name: r'isVegetable',
+      type: IsarType.bool,
+    ),
+    r'protein': PropertySchema(
+      id: 3,
       name: r'protein',
       type: IsarType.double,
     )
@@ -759,7 +764,8 @@ void _macroNutritionCMSerialize(
 ) {
   writer.writeDouble(offsets[0], object.carbohydrate);
   writer.writeDouble(offsets[1], object.fat);
-  writer.writeDouble(offsets[2], object.protein);
+  writer.writeBool(offsets[2], object.isVegetable);
+  writer.writeDouble(offsets[3], object.protein);
 }
 
 MacroNutritionCM _macroNutritionCMDeserialize(
@@ -771,7 +777,8 @@ MacroNutritionCM _macroNutritionCMDeserialize(
   final object = MacroNutritionCM();
   object.carbohydrate = reader.readDoubleOrNull(offsets[0]);
   object.fat = reader.readDoubleOrNull(offsets[1]);
-  object.protein = reader.readDoubleOrNull(offsets[2]);
+  object.isVegetable = reader.readBool(offsets[2]);
+  object.protein = reader.readDoubleOrNull(offsets[3]);
   return object;
 }
 
@@ -787,6 +794,8 @@ P _macroNutritionCMDeserializeProp<P>(
     case 1:
       return (reader.readDoubleOrNull(offset)) as P;
     case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -959,6 +968,16 @@ extension MacroNutritionCMQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
+      isVegetableEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isVegetable',
+        value: value,
       ));
     });
   }

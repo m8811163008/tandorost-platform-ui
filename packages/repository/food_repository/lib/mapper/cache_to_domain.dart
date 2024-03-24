@@ -11,6 +11,7 @@ extension FoodCMToDomain on FoodCM {
         carbohydrate: macroNutrition?.carbohydrate,
         fat: macroNutrition?.fat,
         protein: macroNutrition?.protein,
+        isVegetable: macroNutrition?.isVegetable ?? false,
       ),
     );
   }

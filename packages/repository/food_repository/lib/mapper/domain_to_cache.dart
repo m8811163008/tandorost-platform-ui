@@ -15,6 +15,7 @@ extension SelectedFoodToCM on SelectedFood {
 
 extension MacroNutritionToCM on MacroNutrition {
   MacroNutritionCM toCacheModel() => MacroNutritionCM()
+    ..isVegetable = isVegetable
     ..fat = fat
     ..carbohydrate = carbohydrate
     ..protein = protein;
