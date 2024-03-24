@@ -23,6 +23,29 @@ class Food extends Equatable {
         gramsPerUnit,
         macroNutrition,
       ];
+  // create empty food
+  static Food empty() => Food(name: '', macroNutrition: MacroNutrition());
+
+  //to string
+  @override
+  String toString() {
+    return 'Food{name: $name, calorie: $calorie, gramsPerUnit: $gramsPerUnit, macroNutrition: $macroNutrition}';
+  }
+
+  //copywith
+  Food copyWith({
+    String? name,
+    int? calorie,
+    int? gramsPerUnit,
+    MacroNutrition? macroNutrition,
+  }) {
+    return Food(
+      name: name ?? this.name,
+      calorie: calorie ?? this.calorie,
+      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
+      macroNutrition: macroNutrition ?? this.macroNutrition,
+    );
+  }
 }
 
 class MacroNutrition extends Equatable {
@@ -41,4 +64,19 @@ class MacroNutrition extends Equatable {
   List<Object?> get props => [carbohydrate, fat, protein, isVegetable];
 
   double get sum => (carbohydrate ?? 0) + (fat ?? 0) + (protein ?? 0);
+
+  //copy with
+  MacroNutrition copyWith({
+    double? carbohydrate,
+    double? fat,
+    double? protein,
+    bool? isVegetable,
+  }) {
+    return MacroNutrition(
+      carbohydrate: carbohydrate ?? this.carbohydrate,
+      fat: fat ?? this.fat,
+      protein: protein ?? this.protein,
+      isVegetable: isVegetable ?? this.isVegetable,
+    );
+  }
 }

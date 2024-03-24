@@ -19,6 +19,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodEvent>((event, emit) async {
       if (event is ListenedFoodListStream) {
         await _handleListenedFoodListStream(event, emit);
+      } else if (event is FoodUpdate) {
+        _handleFoodUpdate(event, emit);
       }
     });
   }
@@ -29,6 +31,12 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       foodRepostiory.foodsStream,
       onData: (foodList) => state.copyWith(foodsList: foodList),
     );
+  }
+
+  Future<void> _handleFoodUpdate(
+      FoodUpdate event, Emitter<FoodState> emit) async {
+    print(event.food);
+    emit(state.copyWith(updatedFood: event.food));
   }
 
   @override

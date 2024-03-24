@@ -61,7 +61,18 @@ class _FoodListViewState extends State<FoodListView> {
         IconButton.outlined(
           icon: const Icon(Ionicons.add),
           onPressed: () async {
-            // show bottom sheet for creating a new food
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              enableDrag: true,
+              showDragHandle: true,
+              isDismissible: true,
+              builder: (_) => UpsertFoodBottomSheet(
+                onfoodUpdated: (food) {
+                  context.read<FoodBloc>().add(FoodUpdate(food: food));
+                },
+              ),
+            );
           },
         ),
       ],
