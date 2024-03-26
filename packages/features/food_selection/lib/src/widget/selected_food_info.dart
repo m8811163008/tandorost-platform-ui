@@ -14,13 +14,10 @@ class SelectedFoodInfo extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.selectedFood != current.selectedFood,
         builder: (context, state) {
-          final numberOfMeasurement = state.selectedFood?.measurementUnitCount;
-          final numberOfMeasurementLabelText =
-              numberOfMeasurement != null ? numberOfMeasurement.toString() : '';
-          final unitOfMeasuremnetTitle = numberOfMeasurement != null
-              ? context.l10n.unitOfMeasurementTitle(
-                  state.selectedFood!.unitOfMeasurement!.type.name)
-              : '';
+          final measurementUnitCount = state.selectedFood.measurementUnitCount;
+          final unitOfMeasuremnetTitle = context.l10n.unitOfMeasurementTitle(
+              state.selectedFood.unitOfMeasurement.type.name);
+
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +26,7 @@ class SelectedFoodInfo extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  numberOfMeasurementLabelText,
+                  '$measurementUnitCount',
                   style: context.themeData.textTheme.displayLarge!
                       .apply(fontSizeFactor: 2),
                 ),
@@ -59,7 +56,7 @@ class SelectedFoodInfo extends StatelessWidget {
                         child: Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
-                            state.selectedFood?.name ?? '',
+                            state.selectedFood.name,
                             style: context.themeData.textTheme.displaySmall,
                           ),
                         ),

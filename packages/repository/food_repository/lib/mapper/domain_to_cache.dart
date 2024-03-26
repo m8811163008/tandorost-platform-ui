@@ -6,11 +6,11 @@ extension SelectedFoodToCM on SelectedFood {
   SelectedFoodCM toCacheModel() => SelectedFoodCM()
     ..name = name
     ..calorie = calorie
-    ..gramsPerUnit = gramsPerUnit
-    ..macroNutrition = macroNutrition?.toCacheModel()
-    ..selectedDate = selectedDate!
-    ..unitOfMeasurment = unitOfMeasurement!.toCacheModel()
-    ..numberOfUnits = measurementUnitCount!;
+    // ..gramsPerUnit = gramsPerUnit
+    ..macroNutrition = macroNutrition.toCacheModel()
+    ..selectedDate = selectedDate
+    ..unitOfMeasurmentCM = unitOfMeasurement.toCacheModel()
+    ..numberOfUnits = measurementUnitCount;
 }
 
 extension MacroNutritionToCM on MacroNutrition {
@@ -41,7 +41,7 @@ extension FoodToCm on Food {
     return FoodCM()
       ..calorie = calorie
       ..gramsPerUnit = gramsPerUnit
-      ..macroNutrition = macroNutrition?.toCacheModel()
+      ..macroNutrition = macroNutrition.toCacheModel()
       ..name = name;
   }
 }

@@ -6,7 +6,8 @@
         "macroNutrition" : {
             "carbohydrate" : 30.0,
             "fat": 0.05,
-            "protein": 1.0
+            "protein": 1.0,
+            "isVegetable" : true
         }
     },
     {
@@ -16,7 +17,8 @@
         "macroNutrition" : {
             "carbohydrate" : 20.0,
             "fat": 0.05,
-            "protein": 1.0
+            "protein": 1.0,
+            "isVegetable" : true
         }
     },
     {
@@ -26,7 +28,8 @@
         "macroNutrition" : {
             "carbohydrate" : 100.0,
             "fat": 50.0,
-            "protein": 30.0
+            "protein": 30.0,
+            "isVegetable" : false
         }
     },
     {
@@ -36,7 +39,8 @@
         "macroNutrition" : {
             "carbohydrate" : 20.0,
             "fat": 5.0,
-            "protein": 10.0
+            "protein": 10.0,
+            "isVegetable" : true
         }
     },
     {
@@ -46,7 +50,8 @@
         "macroNutrition" : {
             "carbohydrate" : 50.0,
             "fat": 30.0,
-            "protein": 5.0
+            "protein": 5.0,
+            "isVegetable" : false
         }
     }
 ]

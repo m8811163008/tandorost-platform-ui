@@ -7,16 +7,14 @@ class LocalStorage {
   //TODO static const _secureKey = 'secure-key';
   static const _tepmoraryIsarName = 'temporary-isar-name';
   static const _persistIsarName = 'persist-isar-name';
-  Isar? persistIsarDBInstance;
-  Isar? temporaryIsarDBInstance;
+  Isar? _persistIsarDBInstance;
+  Isar? _temporaryIsarDBInstance;
   Directory tempDirectory;
   Directory appDirectory;
   LocalStorage({
     required this.tempDirectory,
     required this.appDirectory,
   });
-
-
 
   /// This collection has data about food.has unique id for each food.
   Future<IsarCollection<FoodCM>> get foodCollection async =>
@@ -42,9 +40,9 @@ class LocalStorage {
       {required bool isTemporary}) async {
     if (isTemporary) {
       if (Isar.instanceNames.contains(_tepmoraryIsarName)) {
-        temporaryIsarDBInstance = Isar.getInstance(_tepmoraryIsarName);
+        _temporaryIsarDBInstance = Isar.getInstance(_tepmoraryIsarName);
       } else {
-        temporaryIsarDBInstance ??= await Isar.open(
+        _temporaryIsarDBInstance ??= await Isar.open(
           [
             FoodCMSchema,
             UserCMSchema,
@@ -54,12 +52,12 @@ class LocalStorage {
         );
       }
 
-      return temporaryIsarDBInstance!.collection<T>();
+      return _temporaryIsarDBInstance!.collection<T>();
     } else {
       if (Isar.instanceNames.contains(_persistIsarName)) {
-        persistIsarDBInstance = Isar.getInstance(_persistIsarName);
+        _persistIsarDBInstance = Isar.getInstance(_persistIsarName);
       } else {
-        persistIsarDBInstance ??= await Isar.open(
+        _persistIsarDBInstance ??= await Isar.open(
           [
             FoodCMSchema,
             UserCMSchema,
@@ -69,7 +67,7 @@ class LocalStorage {
         );
       }
 
-      return persistIsarDBInstance!.collection<T>();
+      return _persistIsarDBInstance!.collection<T>();
     }
   }
 }

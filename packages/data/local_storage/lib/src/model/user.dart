@@ -16,23 +16,28 @@ class UserCM {
 
 @embedded
 class SelectedFoodCM {
-  // name of the food
+  /// name of the food
   late String name;
-  // total calarie of food
-  int? calorie;
-  // how many gram in one unit of mesurment
-  int? gramsPerUnit;
 
-  // macro nutrition percent in 100 gram of the food
-  MacroNutritionCM? macroNutrition;
+  /// Calorie of food per 100 grams of food.
+  late int calorie;
+
+  /// gram per one unit of food for example each apple is 100 grams
+  late int gramsPerUnit;
+
+  /// Actual value of macro nutrition of the food per 100 grams.
+  late MacroNutritionCM macroNutrition;
 
   /// Utc time used as key
   late DateTime selectedDate;
 
-  /// exposes howManyGrams per unit of measurment
-  late UnitOfMeasurmentCM unitOfMeasurment;
+  /// Selected unit of measurement.
+  ///
+  ///
+  /// For example each apple is 100 grams
+  late UnitOfMeasurmentCM unitOfMeasurmentCM;
 
-  /// shows number of units of measurement selected
+  /// Shows number of units of measurement selected
   late int numberOfUnits;
 
   @override

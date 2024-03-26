@@ -4,8 +4,8 @@ extension MapToCM on Map<String, dynamic> {
   FoodCM foodCMfromJson() {
     final food = FoodCM();
     food.name = this['name'] as String;
-    food.calorie = this['calorie'] as int?;
-    food.gramsPerUnit = this['gramsPerUnit'] as int?;
+    food.calorie = this['calorie'] as int;
+    food.gramsPerUnit = this['gramsPerUnit'] as int;
     food.macroNutrition = macroNutritionFromJson();
     return food;
   }
@@ -13,9 +13,10 @@ extension MapToCM on Map<String, dynamic> {
   MacroNutritionCM macroNutritionFromJson() {
     final macroNutrition = MacroNutritionCM();
     macroNutrition.carbohydrate =
-        this['macroNutrition']['carbohydrate'] as double?;
-    macroNutrition.fat = this['macroNutrition']['fat'] as double?;
-    macroNutrition.protein = this['macroNutrition']['protein'] as double?;
+        this['macroNutrition']['carbohydrate'] as double;
+    macroNutrition.fat = this['macroNutrition']['fat'] as double;
+    macroNutrition.protein = this['macroNutrition']['protein'] as double;
+    macroNutrition.isVegetable = this['macroNutrition']['isVegetable'] as bool;
 
     return macroNutrition;
   }

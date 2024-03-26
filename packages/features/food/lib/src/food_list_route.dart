@@ -33,7 +33,7 @@ class _FoodListViewState extends State<FoodListView> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      isShowDrawer: true,
+      isShowDrawerButton: true,
       actions: [
         SizedBox(
           width: 120,

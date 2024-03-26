@@ -8,48 +8,51 @@ class User {
 
 class SelectedFood extends Food {
   /// Utc time
-  final DateTime? selectedDate;
+  final DateTime selectedDate;
 
   /// shows number of units of measurement selected
-  final int? measurementUnitCount;
-  final UnitOfMeasurement? unitOfMeasurement;
+  final int measurementUnitCount;
+
+  /// Selected unit of measurement
+  final UnitOfMeasurement unitOfMeasurement;
 
   const SelectedFood({
     required super.name,
-    super.calorie,
-    super.gramsPerUnit,
-    super.macroNutrition,
-    this.selectedDate,
-    this.measurementUnitCount,
-    this.unitOfMeasurement,
+    required super.calorie,
+    required super.gramsPerUnit,
+    required super.macroNutrition,
+    required this.selectedDate,
+    required this.measurementUnitCount,
+    required this.unitOfMeasurement,
   });
 
-  static SelectedFood get empty => SelectedFood(
-        name: 'initial',
+  factory SelectedFood.empty() => SelectedFood(
+        name: '',
+        calorie: 0,
+        gramsPerUnit: 0,
+        macroNutrition: MacroNutrition.empty,
         selectedDate: DateTime.now(),
         measurementUnitCount: 0,
+        unitOfMeasurement: UnitOfMeasurement.empty(),
       );
 
-  int? calculateActualCalorie() {
-    if (unitOfMeasurement == null) return null;
-    if (calorie == null) return null;
-    if (measurementUnitCount == null) return null;
+  double get _caloriePerGram => super.calorie / 100;
 
-    switch (unitOfMeasurement!.type) {
+  int calculateActualCalorie() {
+    switch (unitOfMeasurement.type) {
       case UnitOfMeasurementType.grams:
-        return (calorie! / 100 * measurementUnitCount!).toInt();
+        return (_caloriePerGram * measurementUnitCount).toInt();
       case UnitOfMeasurementType.tableSpoon:
-        if (unitOfMeasurement!.howManyGrams == null) return null;
-        return (calorie! /
-                100 *
-                measurementUnitCount! *
-                unitOfMeasurement!.howManyGrams!)
+        if (unitOfMeasurement.howManyGrams == null)
+          throw Exception('unitOfMeasurement.howManyGrams == null');
+        return (_caloriePerGram *
+                measurementUnitCount *
+                unitOfMeasurement.howManyGrams!)
             .toInt();
       case UnitOfMeasurementType.calorie:
         return measurementUnitCount;
       case UnitOfMeasurementType.gramsPerUnit:
-        if (gramsPerUnit == null) return null;
-        return (calorie! / 100 * measurementUnitCount! * gramsPerUnit!).toInt();
+        return (_caloriePerGram * measurementUnitCount * gramsPerUnit).toInt();
       default:
         throw Exception('Not handle UnitOfMeasurementType');
     }

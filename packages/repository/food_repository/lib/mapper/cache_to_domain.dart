@@ -8,10 +8,10 @@ extension FoodCMToDomain on FoodCM {
       calorie: calorie,
       gramsPerUnit: gramsPerUnit,
       macroNutrition: MacroNutrition(
-        carbohydrate: macroNutrition?.carbohydrate,
-        fat: macroNutrition?.fat,
-        protein: macroNutrition?.protein,
-        isVegetable: macroNutrition?.isVegetable ?? false,
+        carbohydrate: macroNutrition.carbohydrate,
+        fat: macroNutrition.fat,
+        protein: macroNutrition.protein,
+        isVegetable: macroNutrition.isVegetable,
       ),
     );
   }
@@ -39,16 +39,17 @@ extension SelectedFoodCMToDomain on SelectedFoodCM {
   SelectedFood toDomain() {
     return SelectedFood(
       name: name,
+      selectedDate: selectedDate,
+      measurementUnitCount: numberOfUnits,
       calorie: calorie,
       gramsPerUnit: gramsPerUnit,
       macroNutrition: MacroNutrition(
-        carbohydrate: macroNutrition?.carbohydrate,
-        fat: macroNutrition?.fat,
-        protein: macroNutrition?.protein,
+        carbohydrate: macroNutrition.carbohydrate,
+        fat: macroNutrition.fat,
+        protein: macroNutrition.protein,
+        isVegetable: macroNutrition.isVegetable,
       ),
-      selectedDate: selectedDate,
-      measurementUnitCount: numberOfUnits,
-      unitOfMeasurement: unitOfMeasurment.toDomain(),
+      unitOfMeasurement: unitOfMeasurmentCM.toDomain(),
     );
   }
 }

@@ -59,14 +59,9 @@ int _foodCMEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.macroNutrition;
-    if (value != null) {
-      bytesCount += 3 +
-          MacroNutritionCMSchema.estimateSize(
-              value, allOffsets[MacroNutritionCM]!, allOffsets);
-    }
-  }
+  bytesCount += 3 +
+      MacroNutritionCMSchema.estimateSize(
+          object.macroNutrition, allOffsets[MacroNutritionCM]!, allOffsets);
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -95,14 +90,15 @@ FoodCM _foodCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FoodCM();
-  object.calorie = reader.readLongOrNull(offsets[0]);
-  object.gramsPerUnit = reader.readLongOrNull(offsets[1]);
+  object.calorie = reader.readLong(offsets[0]);
+  object.gramsPerUnit = reader.readLong(offsets[1]);
   object.id = id;
   object.macroNutrition = reader.readObjectOrNull<MacroNutritionCM>(
-    offsets[2],
-    MacroNutritionCMSchema.deserialize,
-    allOffsets,
-  );
+        offsets[2],
+        MacroNutritionCMSchema.deserialize,
+        allOffsets,
+      ) ??
+      MacroNutritionCM();
   object.name = reader.readString(offsets[3]);
   return object;
 }
@@ -115,15 +111,16 @@ P _foodCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
       return (reader.readObjectOrNull<MacroNutritionCM>(
-        offset,
-        MacroNutritionCMSchema.deserialize,
-        allOffsets,
-      )) as P;
+            offset,
+            MacroNutritionCMSchema.deserialize,
+            allOffsets,
+          ) ??
+          MacroNutritionCM()) as P;
     case 3:
       return (reader.readString(offset)) as P;
     default:
@@ -219,24 +216,8 @@ extension FoodCMQueryWhere on QueryBuilder<FoodCM, FoodCM, QWhereClause> {
 }
 
 extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'calorie',
-      ));
-    });
-  }
-
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'calorie',
-      ));
-    });
-  }
-
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieEqualTo(
-      int? value) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'calorie',
@@ -246,7 +227,7 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -259,7 +240,7 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -272,8 +253,8 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> calorieBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -288,24 +269,8 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
     });
   }
 
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'gramsPerUnit',
-      ));
-    });
-  }
-
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'gramsPerUnit',
-      ));
-    });
-  }
-
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitEqualTo(
-      int? value) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'gramsPerUnit',
@@ -315,7 +280,7 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -328,7 +293,7 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -341,8 +306,8 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
   }
 
   QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> gramsPerUnitBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -405,23 +370,6 @@ extension FoodCMQueryFilter on QueryBuilder<FoodCM, FoodCM, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition> macroNutritionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'macroNutrition',
-      ));
-    });
-  }
-
-  QueryBuilder<FoodCM, FoodCM, QAfterFilterCondition>
-      macroNutritionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'macroNutrition',
       ));
     });
   }
@@ -683,19 +631,19 @@ extension FoodCMQueryProperty on QueryBuilder<FoodCM, FoodCM, QQueryProperty> {
     });
   }
 
-  QueryBuilder<FoodCM, int?, QQueryOperations> calorieProperty() {
+  QueryBuilder<FoodCM, int, QQueryOperations> calorieProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'calorie');
     });
   }
 
-  QueryBuilder<FoodCM, int?, QQueryOperations> gramsPerUnitProperty() {
+  QueryBuilder<FoodCM, int, QQueryOperations> gramsPerUnitProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'gramsPerUnit');
     });
   }
 
-  QueryBuilder<FoodCM, MacroNutritionCM?, QQueryOperations>
+  QueryBuilder<FoodCM, MacroNutritionCM, QQueryOperations>
       macroNutritionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'macroNutrition');
@@ -775,10 +723,10 @@ MacroNutritionCM _macroNutritionCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MacroNutritionCM();
-  object.carbohydrate = reader.readDoubleOrNull(offsets[0]);
-  object.fat = reader.readDoubleOrNull(offsets[1]);
+  object.carbohydrate = reader.readDouble(offsets[0]);
+  object.fat = reader.readDouble(offsets[1]);
   object.isVegetable = reader.readBool(offsets[2]);
-  object.protein = reader.readDoubleOrNull(offsets[3]);
+  object.protein = reader.readDouble(offsets[3]);
   return object;
 }
 
@@ -790,13 +738,13 @@ P _macroNutritionCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 1:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -805,26 +753,8 @@ P _macroNutritionCMDeserializeProp<P>(
 extension MacroNutritionCMQueryFilter
     on QueryBuilder<MacroNutritionCM, MacroNutritionCM, QFilterCondition> {
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      carbohydrateIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'carbohydrate',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      carbohydrateIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'carbohydrate',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       carbohydrateEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -838,7 +768,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       carbohydrateGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -854,7 +784,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       carbohydrateLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -870,8 +800,8 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       carbohydrateBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -889,26 +819,8 @@ extension MacroNutritionCMQueryFilter
   }
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      fatIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'fat',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      fatIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'fat',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       fatEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -922,7 +834,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       fatGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -938,7 +850,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       fatLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -954,8 +866,8 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       fatBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -983,26 +895,8 @@ extension MacroNutritionCMQueryFilter
   }
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      proteinIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'protein',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
-      proteinIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'protein',
-      ));
-    });
-  }
-
-  QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       proteinEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1016,7 +910,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       proteinGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -1032,7 +926,7 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       proteinLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -1048,8 +942,8 @@ extension MacroNutritionCMQueryFilter
 
   QueryBuilder<MacroNutritionCM, MacroNutritionCM, QAfterFilterCondition>
       proteinBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,

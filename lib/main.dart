@@ -29,3 +29,8 @@ void main() async {
     appRunner: () => runApp(const TandorostBootstrap()),
   );
 }
+
+
+// hold the state of selected food for unit of measurement
+// clean streams in blocs, make them same shape or something like that
+// handle if no food found in search foods

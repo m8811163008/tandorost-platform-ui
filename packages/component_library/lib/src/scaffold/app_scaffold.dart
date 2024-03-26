@@ -7,13 +7,13 @@ class AppScaffold extends StatelessWidget {
     super.key,
     this.child,
     this.actions = const [],
-    this.isShowDrawer = false,
+    this.isShowDrawerButton = false,
     this.scaffoldKey,
   });
 
   final Widget? child;
   final List<Widget> actions;
-  final bool isShowDrawer;
+  final bool isShowDrawerButton;
   final GlobalKey<ScaffoldState>? scaffoldKey;
 
   @override
@@ -33,7 +33,7 @@ class AppScaffold extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: context.sizesExtenstion.medium),
           child: child),
-      drawer: isShowDrawer ? AppDrawer() : null,
+      drawer: isShowDrawerButton ? AppDrawer() : null,
     );
   }
 }

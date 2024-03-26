@@ -9,139 +9,13 @@ import 'package:food_selection/food_selection.dart';
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
 
-  String _timeText(DateTime? dateTime, BuildContext context) {
-    final minutes = dateTime?.toLocal().minute.toString().padLeft(2, '0');
-    final hour = dateTime?.toLocal().hour.toString().padLeft(2, '0');
-    if (Directionality.of(context) == TextDirection.ltr) {
-      return '$hour : $minutes';
-    } else {
-      return '$minutes : $hour';
-    }
-  }
-
-  String _jalaliDayText(DateTime dateTime, BuildContext context) {
-    final jalali = Jalali.fromDateTime(dateTime.toLocal());
-    if (Directionality.of(context) == TextDirection.ltr) {
-      return '${jalali.formatter.yyyy} / ${jalali.formatter.mm} / ${jalali.formatter.dd}';
-    } else {
-      return '${jalali.formatter.dd} / ${jalali.formatter.mm} / ${jalali.formatter.yyyy}';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return const AppScaffold(
       actions: [
-        IconButton(
-          icon: const Icon(Ionicons.calendar),
-          onPressed: () async {
-            final DateTimeRange? filterDateTimeRange =
-                await showDialog<DateTimeRange>(
-              context: context,
-              builder: (_) {
-                return BlocProvider.value(
-                    value: context.read<FoodSelectionBloc>(),
-                    child: const SelectDateTimeOptionDialog());
-              },
-            );
-            if (filterDateTimeRange == null) return;
-            if (!context.mounted) return;
-            context.read<FoodSelectionBloc>().add(
-                  SlectedFoodListFiltered(dateTimeRange: filterDateTimeRange),
-                );
-          },
-        ),
+        FilterDateTimeIconButton(),
       ],
-      child: BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
-        listenWhen: (previous, current) =>
-            previous.deleteSelectedFoodStatus !=
-            current.deleteSelectedFoodStatus,
-        listener: (context, state) {
-          if (state.deleteSelectedFoodStatus.isLoaded) {
-            context.showBanner(
-                materialBanner: AppMaterialBanner(
-              text: 'حذف شد',
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    if (context.read<FoodSelectionBloc>().isClosed) return;
-                    context
-                        .read<FoodSelectionBloc>()
-                        .add(SelectedFoodUndoRemoved());
-                  },
-                  child: Text(
-                    'انصراف',
-                    style: context.themeData.textTheme.labelMedium!.copyWith(
-                        color: context.themeData.colorScheme.onSurface),
-                  ),
-                )
-              ],
-            ));
-          }
-        },
-        buildWhen: (previous, current) =>
-            previous.selectedFoodsList != current.selectedFoodsList,
-        builder: (context, state) {
-          if (state.selectedFoodsList.isEmpty) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text.rich(
-                      TextSpan(
-                          text: 'در بازه تاریخی زیر غذایی یافت نشد',
-                          style: context.themeData.textTheme.bodyMedium,
-                          children: [
-                            TextSpan(text: '\n'),
-                            TextSpan(
-                                text:
-                                    '${context.l10n.selectCustomDateTimeRangeDialogFromTime}  ${_timeText(state.filterSelctedFoodsListDateTimeRange!.start, context)}'),
-                            TextSpan(text: '\n'),
-                            TextSpan(
-                                text:
-                                    '${context.l10n.selectCustomDateTimeRangeDialogFromDate}  ${_jalaliDayText(state.filterSelctedFoodsListDateTimeRange!.start, context)}'),
-                            TextSpan(text: '\n'),
-                            TextSpan(
-                                text:
-                                    '${context.l10n.selectCustomDateTimeRangeDialogToTime}  ${_timeText(state.filterSelctedFoodsListDateTimeRange!.end, context)}'),
-                            TextSpan(text: '\n'),
-                            TextSpan(
-                                text:
-                                    '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(state.filterSelctedFoodsListDateTimeRange!.end, context)}'),
-                          ]),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: context.sizesExtenstion.medium),
-                  child: FloatingActionButton(
-                    child: Text('غذا اضافه کنید'),
-                    onPressed: () {
-                      context.pop();
-                    },
-                  ),
-                ),
-              ],
-            );
-          }
-          List<SelectedFood> selectedFoods = state.selectedFoodsList;
-          selectedFoods = selectedFoods.reversed.toList();
-          return ListView.builder(
-            itemCount: selectedFoods.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return const SelectedFoodListBanner();
-              }
-              final selectedFood = selectedFoods[index - 1];
-
-              return SelectedFoodListTileDissmissable(
-                  selectedFood: selectedFood);
-            },
-          );
-        },
-      ),
+      child: SelectedFoodListBuilder(),
     );
   }
 }
@@ -155,116 +29,52 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Dismissible(
-        key: UniqueKey(),
-        direction: DismissDirection.startToEnd,
-        onDismissed: (direction) {
-          context
-              .read<FoodSelectionBloc>()
-              .add(SelectedFoodRemoved(food: selectedFood));
-        },
-        background: Container(
-          alignment: AlignmentDirectional.centerStart,
-          color: context.themeData.colorScheme.surfaceTint,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Icon(Ionicons.trash_bin),
-          ),
-        ),
-        child: SelectedFoodListTile(
-          selectedFood: selectedFood,
-        ),
-      ),
-    );
-  }
-}
-
-class SelectedFoodListBanner extends StatelessWidget {
-  const SelectedFoodListBanner({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<FoodSelectionBloc, FoodSelectionState,
-            List<SelectedFood>>(
-        selector: (state) => state.selectedFoodsList,
-        builder: ((context, listSelectedFood) {
-          final energySum = listSelectedFood.fold(
-              0, (prev, current) => prev + current.calculateActualCalorie()!);
-          final carbohydrateSum = listSelectedFood.fold(0.0,
-              (prev, current) => prev + current.macroNutrition!.carbohydrate!);
-          final fatSum = listSelectedFood.fold(
-              0.0, (prev, current) => prev + current.macroNutrition!.fat!);
-          final proteinSum = listSelectedFood.fold(
-              0.0, (prev, current) => prev + current.macroNutrition!.protein!);
-          final sum = carbohydrateSum + fatSum + proteinSum;
-          final carbPercent = carbohydrateSum / sum;
-          final fatPercent = fatSum / sum;
-          final proteinPercent = proteinSum / sum;
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TotalNutitionsPieChart(
-                    fat: fatPercent,
-                    carbohydrate: carbPercent,
-                    protein: proteinPercent,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          '${context.l10n.selectedFoodListBannerLabelEnergy} $energySum '),
-                      Row(
-                        children: [
-                          _ChartLegend(color: CustomColor.carbohydrate),
-                          Text(
-                              '${context.l10n.nutritionDataCarbohydrateLabel} ${context.l10n.foodDataPercentValue(carbPercent)} '),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          _ChartLegend(color: CustomColor.fat),
-                          Text(
-                              '${context.l10n.nutritionDataFatLabel} ${context.l10n.foodDataPercentValue(fatPercent)} '),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          _ChartLegend(color: CustomColor.protein),
-                          Text(
-                              '${context.l10n.nutritionDataProteinLabel} ${context.l10n.foodDataPercentValue(proteinPercent)} '),
-                        ],
-                      ),
-                    ],
+      child: BlocListener<FoodSelectionBloc, FoodSelectionState>(
+        listenWhen: (previous, current) =>
+            previous.deleteSelectedFoodStatus !=
+            current.deleteSelectedFoodStatus,
+        listener: (context, state) {
+          if (state.deleteSelectedFoodStatus.isLoaded) {
+            context.showBanner(
+              materialBanner: AppMaterialBanner(
+                text: 'حذف شد',
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      if (context.read<FoodSelectionBloc>().isClosed) return;
+                      context
+                          .read<FoodSelectionBloc>()
+                          .add(SelectedFoodUndoRemoved());
+                    },
+                    child: Text(
+                      'انصراف',
+                      style: context.themeData.textTheme.labelMedium!.copyWith(
+                          color: context.themeData.colorScheme.onSurface),
+                    ),
                   )
                 ],
               ),
+            );
+          }
+        },
+        child: Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.startToEnd,
+          onDismissed: (direction) {
+            context
+                .read<FoodSelectionBloc>()
+                .add(SelectedFoodRemoved(food: selectedFood));
+          },
+          background: Container(
+            alignment: AlignmentDirectional.centerStart,
+            color: context.themeData.colorScheme.surfaceTint,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(Ionicons.trash_bin),
             ),
-          );
-        }));
-  }
-}
-
-class _ChartLegend extends StatelessWidget {
-  const _ChartLegend({
-    super.key,
-    required this.color,
-  });
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: CircleAvatar(
-        radius: 8,
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
+          ),
+          child: SelectedFoodListTile(
+            selectedFood: selectedFood,
           ),
         ),
       ),

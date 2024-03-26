@@ -2,8 +2,8 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:domain_model/domain_model.dart';
 
-class UnitOfMusurementList extends StatefulWidget {
-  const UnitOfMusurementList({
+class UnitOfMusurementsGrid extends StatefulWidget {
+  const UnitOfMusurementsGrid({
     super.key,
     this.list = const [],
     this.onSelected,
@@ -12,10 +12,10 @@ class UnitOfMusurementList extends StatefulWidget {
   final ValueSetter<UnitOfMeasurement>? onSelected;
 
   @override
-  State<UnitOfMusurementList> createState() => _UnitOfMusurementListState();
+  State<UnitOfMusurementsGrid> createState() => _UnitOfMusurementsGridState();
 }
 
-class _UnitOfMusurementListState extends State<UnitOfMusurementList> {
+class _UnitOfMusurementsGridState extends State<UnitOfMusurementsGrid> {
   late UnitOfMeasurement _selected;
   @override
   void initState() {

@@ -17,6 +17,12 @@ class FoodRepostiory {
   final StreamController<List<Food>> _foodsController =
       StreamController<List<Food>>.broadcast();
 
+  //Remember, it's important to always close your
+  // StreamControllers when you're done with them to prevent memory leaks.
+  Future<void> dispose() async {
+    await _foodsController.close();
+  }
+
   // Emits the List<Food> searched by `searchFoods` method.
   Stream<List<Food>> get searchedFoodsStream async* {
     yield* _foodsController.stream;
@@ -41,6 +47,7 @@ class FoodRepostiory {
         .map((foodCm) => foodCm.toDomain())
         .toList();
     _foodsController.add(domainFoods);
+
     // var storageFoods = await _foodStorage.getFoods().first;
   }
 

@@ -2,35 +2,50 @@ part of 'food_selection_bloc.dart';
 
 class FoodSelectionState {
   final String query;
-  final List<Food> foods;
-  final List<SelectedFood> selectedFoodsList;
-  final FetchDataStatus status;
-  final SelectedFood? selectedFood;
+  final List<Food> searchedFoods;
+  final FetchDataStatus searchFoodStatus;
+
+  final SelectedFood selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
   final FetchDataStatus upsertSelectedFoodStatus;
   final FetchDataStatus deleteSelectedFoodStatus;
-  final DateTimeRange? filterSelctedFoodsListDateTimeRange;
-  final SelectedFood? lastDeletedSelectedFood;
+  final DateTimeRange filterSelctedFoodsListDateTimeRange;
+  final SelectedFood lastDeletedSelectedFood;
+  final List<SelectedFood> selectedFoodsList;
 
-  const FoodSelectionState({
+  FoodSelectionState({
     this.query = '',
-    this.foods = const [],
+    this.searchedFoods = const [],
     this.unitOfMesurementList = const [],
     this.selectedFoodsList = const [],
-    this.status = FetchDataStatus.initial,
+    this.searchFoodStatus = FetchDataStatus.initial,
     this.upsertSelectedFoodStatus = FetchDataStatus.initial,
     this.deleteSelectedFoodStatus = FetchDataStatus.initial,
-    this.selectedFood,
     this.saveTimeOffset = Duration.zero,
-    this.filterSelctedFoodsListDateTimeRange,
-    this.lastDeletedSelectedFood,
-  });
+    SelectedFood? selectedFood,
+    DateTimeRange? filterSelctedFoodsListDateTimeRange,
+    SelectedFood? lastDeletedSelectedFood,
+  })  : selectedFood = selectedFood ?? SelectedFood.empty(),
+        lastDeletedSelectedFood =
+            lastDeletedSelectedFood ?? SelectedFood.empty(),
+        filterSelctedFoodsListDateTimeRange =
+            filterSelctedFoodsListDateTimeRange ??
+                DateTimeRange(
+                  start: DateTime.now().copyWith(
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                  ),
+                  end: DateTime.now().add(
+                    const Duration(hours: 6),
+                  ),
+                );
 
   FoodSelectionState copyWith({
     String? query,
-    List<Food>? foods,
-    FetchDataStatus? status,
+    List<Food>? searchedFoods,
+    FetchDataStatus? searchFoodStatus,
     FetchDataStatus? upsertSelectedFoodStatus,
     FetchDataStatus? deleteSelectedFoodStatus,
     SelectedFood? selectedFood,
@@ -42,8 +57,8 @@ class FoodSelectionState {
   }) {
     return FoodSelectionState(
       query: query ?? this.query,
-      foods: foods ?? this.foods,
-      status: status ?? this.status,
+      searchedFoods: searchedFoods ?? this.searchedFoods,
+      searchFoodStatus: searchFoodStatus ?? this.searchFoodStatus,
       selectedFood: selectedFood ?? this.selectedFood,
       unitOfMesurementList: unitOfMesurementList ?? this.unitOfMesurementList,
       saveTimeOffset: saveTimeOffset ?? this.saveTimeOffset,
@@ -57,18 +72,6 @@ class FoodSelectionState {
               this.filterSelctedFoodsListDateTimeRange,
       deleteSelectedFoodStatus:
           deleteSelectedFoodStatus ?? this.deleteSelectedFoodStatus,
-    );
-  }
-}
-
-extension on Food {
-  SelectedFood toSelectedFood(UnitOfMeasurement unitOfMeasurement) {
-    return SelectedFood(
-      name: name,
-      gramsPerUnit: gramsPerUnit,
-      macroNutrition: macroNutrition,
-      unitOfMeasurement: unitOfMeasurement,
-      calorie: calorie,
     );
   }
 }
