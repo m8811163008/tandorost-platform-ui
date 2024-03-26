@@ -16,16 +16,7 @@ class LocalStorage {
     required this.appDirectory,
   });
 
-  /// write transaction in collection. CRUD and more.
-  /// Always add data scheme to writeTxn like E and [FoodCM]
-  Future<void> writeTxn<E>(
-      IsarCollection<E> collection, Future<void> Function() callback) async {
-    collection.isar.writeTxn(callback);
-  }
 
-  Future<void> txn<E>(IsarCollection<E> collection,
-          Future<void> Function() callback) async =>
-      collection.isar.txn(callback);
 
   /// This collection has data about food.has unique id for each food.
   Future<IsarCollection<FoodCM>> get foodCollection async =>

@@ -20,7 +20,9 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       if (event is ListenedFoodListStream) {
         await _handleListenedFoodListStream(event, emit);
       } else if (event is FoodUpdate) {
-        _handleFoodUpdate(event, emit);
+        await _handleFoodUpdate(event, emit);
+      } else if (event is FoodDeleted) {
+        await _handleFoodDeleted(event, emit);
       }
     });
   }
@@ -35,8 +37,14 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
   Future<void> _handleFoodUpdate(
       FoodUpdate event, Emitter<FoodState> emit) async {
-    print(event.food);
-    emit(state.copyWith(updatedFood: event.food));
+    await foodRepostiory.upsertFood(event.food);
+    add(ListenedFoodListStream());
+  }
+
+  Future<void> _handleFoodDeleted(
+      FoodDeleted event, Emitter<FoodState> emit) async {
+    await foodRepostiory.removeFood(event.food);
+    add(ListenedFoodListStream());
   }
 
   @override

@@ -13,7 +13,8 @@ class UpsertFoodBottomSheet extends StatefulWidget {
   State<UpsertFoodBottomSheet> createState() => _UpsertFoodBottomSheetState();
 }
 
-class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet> {
+class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
+    with TickerProviderStateMixin {
   final TextEditingController _nameTextEditingController =
       TextEditingController();
   final TextEditingController _weightTextEditingController =
@@ -100,6 +101,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
+      animationController: BottomSheet.createAnimationController(this),
       builder: (context) => Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,

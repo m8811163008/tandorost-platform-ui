@@ -71,4 +71,14 @@ class FoodRepostiory {
     final selectedFoodCM = selectedFood.toCacheModel();
     await _foodStorage.removeSelectedFood(selectedFoodCM);
   }
+
+  Future<void> upsertFood(Food food) async {
+    final foodCM = food.toCacheModel();
+    await _foodStorage.upsertFood(foodCM);
+  }
+
+  Future<void> removeFood(Food food) async {
+    final foodCM = food.toCacheModel();
+    await _foodStorage.removeFood(foodCM);
+  }
 }

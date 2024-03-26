@@ -3,6 +3,7 @@ import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/food.dart';
 import 'package:food/src/bloc/food_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 
@@ -124,19 +125,25 @@ class _FoodListViewState extends State<FoodListView> {
   }
 }
 
-class FoodListTile extends StatelessWidget {
+class FoodListTile extends StatefulWidget {
   const FoodListTile({super.key, required this.food});
   final Food food;
 
   @override
+  State<FoodListTile> createState() => _FoodListTileState();
+}
+
+class _FoodListTileState extends State<FoodListTile>
+    with SingleTickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
-    final fat = food.macroNutrition?.fat ?? 0;
-    final carbohydrate = food.macroNutrition?.carbohydrate ?? 0;
-    final protein = food.macroNutrition?.protein ?? 0;
+    final fat = widget.food.macroNutrition?.fat ?? 0;
+    final carbohydrate = widget.food.macroNutrition?.carbohydrate ?? 0;
+    final protein = widget.food.macroNutrition?.protein ?? 0;
     final percentConstant = 1 / (fat + carbohydrate + protein);
 
     final selectedFoodCalarieLabel =
-        '${food.calorie} ${context.l10n.foodDataCalarieLabel}';
+        '${widget.food.calorie} ${context.l10n.foodDataCalarieLabel}';
     final selectedFoodFatLabel =
         '${context.l10n.foodDataPercentValue(fat * percentConstant)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
@@ -146,17 +153,58 @@ class FoodListTile extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text(food.name),
+        title: Text(widget.food.name),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  enableDrag: true,
+                  showDragHandle: true,
+                  isDismissible: true,
+                  builder: (_) => UpsertFoodBottomSheet(
+                    onfoodUpdated: (food) {
+                      context.read<FoodBloc>().add(FoodUpdate(food: food));
+                    },
+                    initalFood: widget.food,
+                  ),
+                );
+              },
               visualDensity: VisualDensity.compact,
               icon: Icon(Ionicons.options),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: Text('حذف غذا'),
+                        content: Text(
+                            'آیا از حذف ${widget.food.name} اطمینان دارید؟'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('انصراف'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              context
+                                  .read<FoodBloc>()
+                                  .add(FoodDeleted(food: widget.food));
+                            },
+                            child: Text('حذف'),
+                          ),
+                        ],
+                      );
+                    });
+              },
               visualDensity: VisualDensity.compact,
               icon: Icon(Ionicons.trash_bin),
             ),

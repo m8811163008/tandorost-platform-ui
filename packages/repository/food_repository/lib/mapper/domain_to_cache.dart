@@ -35,3 +35,13 @@ extension IoniconsDataCM on IoniconsData {
         _ => throw Exception('Not definded unit of measurement')
       };
 }
+
+extension FoodToCm on Food {
+  FoodCM toCacheModel() {
+    return FoodCM()
+      ..calorie = calorie
+      ..gramsPerUnit = gramsPerUnit
+      ..macroNutrition = macroNutrition?.toCacheModel()
+      ..name = name;
+  }
+}

@@ -12,3 +12,8 @@ final class FoodUpdate extends FoodUpsertedScreen {
   final Food food;
   FoodUpdate({required this.food});
 }
+
+final class FoodDeleted extends FoodUpsertedScreen {
+  final Food food;
+  FoodDeleted({required this.food});
+}

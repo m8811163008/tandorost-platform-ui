@@ -16,10 +16,10 @@ class FoodStorage {
 
   void _initialize() async {
     // await clearCollections();
-    await Future.wait([
-      initializeFood(),
-      initializeUser(),
-    ]);
+    // await Future.wait([
+    //   initializeFood(),
+    //   initializeUser(),
+    // ]);
   }
 
   /// Initialize food collection.Create for every for a unique id.
@@ -36,7 +36,7 @@ class FoodStorage {
             (jsonFood as Map<String, dynamic>).foodCMfromJson())
         .toList();
 
-    return await _localStorage.writeTxn<FoodCM>(foodCollection, () async {
+    await foodCollection.isar.writeTxn(() async {
       await foodCollection.isar.foodCMs.putAll(foodList);
     });
   }
@@ -65,8 +65,24 @@ class FoodStorage {
   /// add a food to food collection. C
   Future<void> upsertFood(FoodCM foodCM) async {
     final foodCollection = await _localStorage.foodCollection;
-    _localStorage.writeTxn<FoodCM>(foodCollection, () async {
-      foodCollection.isar.foodCMs.put(foodCM);
+    await foodCollection.isar.writeTxn(() async {
+      // TODO find efficient way
+      final foods = await foodCollection.where().findAll();
+      FoodCM upsertSubjectFood = foods.singleWhere(
+        (element) => element.name == foodCM.name,
+        orElse: () => foodCM,
+      );
+      upsertSubjectFood = upsertSubjectFood.copyWith(
+        calorie: foodCM.calorie,
+        name: foodCM.name,
+        gramsPerUnit: foodCM.gramsPerUnit,
+        macroNutrition: foodCM.macroNutrition?.copyWith(
+          carbohydrate: foodCM.macroNutrition?.carbohydrate,
+          fat: foodCM.macroNutrition?.fat,
+          protein: foodCM.macroNutrition?.protein,
+        ),
+      );
+      await foodCollection.isar.foodCMs.put(upsertSubjectFood);
     });
 
     return;
@@ -137,6 +153,17 @@ class FoodStorage {
             .toList(),
       );
       await userCollection.put(updatedUser);
+    });
+  }
+
+  Future<void> removeFood(FoodCM food) async {
+    final foodCollection = await _localStorage.foodCollection;
+    await foodCollection.isar.writeTxn(() async {
+      final filteredFood =
+          await foodCollection.filter().nameEqualTo(food.name).findFirst();
+      if (filteredFood == null) return;
+
+      await foodCollection.delete(filteredFood.id);
     });
   }
 
