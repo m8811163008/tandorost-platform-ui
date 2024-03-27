@@ -17,7 +17,7 @@ class FilterDateTimeIconButton extends StatelessWidget {
           builder: (_) {
             return BlocProvider.value(
               value: context.read<FoodSelectionBloc>(),
-              child: const SelectDateTimeOptionDialog(),
+              child: SelectDateTimeOptionDialog(),
             );
           },
         );

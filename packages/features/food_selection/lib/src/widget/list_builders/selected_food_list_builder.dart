@@ -9,7 +9,33 @@ class SelectedFoodListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+    return BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
+      listenWhen: (previous, current) =>
+          previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
+      listener: (context, state) {
+        if (state.deleteSelectedFoodStatus.isLoaded) {
+          context.showBanner(
+            materialBanner: AppMaterialBanner(
+              text: 'حذف شد',
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (context.read<FoodSelectionBloc>().isClosed) return;
+                    context
+                        .read<FoodSelectionBloc>()
+                        .add(SelectedFoodUndoRemoved());
+                  },
+                  child: Text(
+                    'انصراف',
+                    style: context.themeData.textTheme.labelMedium!.copyWith(
+                        color: context.themeData.colorScheme.onSurface),
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+      },
       buildWhen: (previous, current) =>
           previous.selectedFoodsList != current.selectedFoodsList,
       builder: (context, state) {
@@ -38,7 +64,14 @@ class SelectedFoodListBuilder extends StatelessWidget {
             }
             final selectedFood = selectedFoods[index - 1];
 
-            return SelectedFoodListTileDissmissable(selectedFood: selectedFood);
+            return SelectedFoodListTileDissmissable(
+              selectedFood: selectedFood,
+              onDissmiss: (selectedFood) {
+                context
+                    .read<FoodSelectionBloc>()
+                    .add(SelectedFoodRemoved(food: selectedFood));
+              },
+            );
           },
         );
       },

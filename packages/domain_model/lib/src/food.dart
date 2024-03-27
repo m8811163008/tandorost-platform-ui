@@ -71,7 +71,13 @@ class MacroNutrition extends Equatable {
     isVegetable: false,
   );
 
-  // double get sum => (carbohydrate ?? 0) + (fat ?? 0) + (protein ?? 0);
+  double get sum => (carbohydrate) + (fat) + (protein);
+  // fat percent
+  double get fatPercent => fat / sum;
+  // protein percent
+  double get proteinPercent => protein / sum;
+  // carbohydrate percent
+  double get carbohydratePercent => carbohydrate / sum;
 
   //copy with
   MacroNutrition copyWith({
