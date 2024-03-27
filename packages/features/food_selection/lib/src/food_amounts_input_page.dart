@@ -1,7 +1,5 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
 class FoodAmountPage extends StatelessWidget {
@@ -67,7 +65,7 @@ class FoodTimeInput extends StatelessWidget {
         SizedBox(
           width: context.sizesExtenstion.medium,
         ),
-        Expanded(
+        const Expanded(
           child: TimeScrolleInput(),
         ),
       ],

@@ -23,7 +23,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
                     if (context.read<FoodSelectionBloc>().isClosed) return;
                     context
                         .read<FoodSelectionBloc>()
-                        .add(SelectedFoodUndoRemoved());
+                        .add(const SelectedFoodUndoRemoved());
                   },
                   child: Text(
                     'انصراف',
@@ -82,7 +82,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: context.sizesExtenstion.medium),
       child: FloatingActionButton(
-        child: Text('غذا اضافه کنید'),
+        child: const Text('غذا اضافه کنید'),
         onPressed: () {
           context.pop();
         },

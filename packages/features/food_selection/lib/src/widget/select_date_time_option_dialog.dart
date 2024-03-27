@@ -51,7 +51,7 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
                 // TODO improve context why the next context doens have the bloc?
                 return BlocProvider.value(
                     value: context.read<FoodSelectionBloc>(),
-                    child: SelectCustomDateTimeRangeDialog());
+                    child: const SelectCustomDateTimeRangeDialog());
               },
             );
             if (pickedDate == null || !context.mounted) return;

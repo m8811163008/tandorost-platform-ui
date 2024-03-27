@@ -34,19 +34,19 @@ class SelectedFoodEmptyListText extends StatelessWidget {
             text: 'در بازه تاریخی زیر غذایی یافت نشد',
             style: context.themeData.textTheme.bodyMedium,
             children: [
-              TextSpan(text: '\n'),
+              const TextSpan(text: '\n'),
               TextSpan(
                   text:
                       '${context.l10n.selectCustomDateTimeRangeDialogFromTime}  ${_timeText(filterDateTimeRange.start, context)}'),
-              TextSpan(text: '\n'),
+              const TextSpan(text: '\n'),
               TextSpan(
                   text:
                       '${context.l10n.selectCustomDateTimeRangeDialogFromDate}  ${_jalaliDayText(filterDateTimeRange.start, context)}'),
-              TextSpan(text: '\n'),
+              const TextSpan(text: '\n'),
               TextSpan(
                   text:
                       '${context.l10n.selectCustomDateTimeRangeDialogToTime}  ${_timeText(filterDateTimeRange.end, context)}'),
-              TextSpan(text: '\n'),
+              const TextSpan(text: '\n'),
               TextSpan(
                   text:
                       '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(filterDateTimeRange.end, context)}'),

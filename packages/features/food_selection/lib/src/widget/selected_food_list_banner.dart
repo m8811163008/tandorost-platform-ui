@@ -27,7 +27,7 @@ class SelectedFoodListBanner extends StatelessWidget {
           final proteinPercent = proteinSum / sum;
           return Card(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,21 +44,21 @@ class SelectedFoodListBanner extends StatelessWidget {
                           '${context.l10n.selectedFoodListBannerLabelEnergy} $energySum '),
                       Row(
                         children: [
-                          _ChartLegend(color: CustomColor.carbohydrate),
+                          const _ChartLegend(color: CustomColor.carbohydrate),
                           Text(
                               '${context.l10n.nutritionDataCarbohydrateLabel} ${context.l10n.foodDataPercentValue(carbPercent)} '),
                         ],
                       ),
                       Row(
                         children: [
-                          _ChartLegend(color: CustomColor.fat),
+                          const _ChartLegend(color: CustomColor.fat),
                           Text(
                               '${context.l10n.nutritionDataFatLabel} ${context.l10n.foodDataPercentValue(fatPercent)} '),
                         ],
                       ),
                       Row(
                         children: [
-                          _ChartLegend(color: CustomColor.protein),
+                          const _ChartLegend(color: CustomColor.protein),
                           Text(
                               '${context.l10n.nutritionDataProteinLabel} ${context.l10n.foodDataPercentValue(proteinPercent)} '),
                         ],
@@ -75,7 +75,6 @@ class SelectedFoodListBanner extends StatelessWidget {
 
 class _ChartLegend extends StatelessWidget {
   const _ChartLegend({
-    super.key,
     required this.color,
   });
   final Color color;

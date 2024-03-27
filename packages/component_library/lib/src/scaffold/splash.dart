@@ -16,7 +16,7 @@ class _SplashState extends State<Splash> {
 
   @override
   void initState() {
-    _timer = Timer(Duration(seconds: 2), () {
+    _timer = Timer(const Duration(seconds: 2), () {
       widget.onDone?.call();
     });
     super.initState();

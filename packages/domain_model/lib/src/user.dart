@@ -43,8 +43,9 @@ class SelectedFood extends Food {
       case UnitOfMeasurementType.grams:
         return (_caloriePerGram * measurementUnitCount).toInt();
       case UnitOfMeasurementType.tableSpoon:
-        if (unitOfMeasurement.howManyGrams == null)
+        if (unitOfMeasurement.howManyGrams == null) {
           throw Exception('unitOfMeasurement.howManyGrams == null');
+        }
         return (_caloriePerGram *
                 measurementUnitCount *
                 unitOfMeasurement.howManyGrams!)
@@ -63,6 +64,7 @@ class SelectedFood extends Food {
       [...super.props, selectedDate, measurementUnitCount, unitOfMeasurement];
 
 // merge
+  @override
   SelectedFood copyWith({
     String? name,
     int? calorie,

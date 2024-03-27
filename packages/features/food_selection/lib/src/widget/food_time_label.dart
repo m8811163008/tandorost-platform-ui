@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
 class FoodTimeLabel extends StatelessWidget {
-  const FoodTimeLabel();
+  const FoodTimeLabel({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -33,7 +33,7 @@ class AppScaffold extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: context.sizesExtenstion.medium),
           child: child),
-      drawer: isShowDrawerButton ? AppDrawer() : null,
+      drawer: isShowDrawerButton ? const AppDrawer() : null,
     );
   }
 }
@@ -68,7 +68,7 @@ class _AppDrawerState extends State<AppDrawer> {
         }
       },
       selectedIndex: _selectedIndex,
-      children: [
+      children: const [
         NavigationDrawerDestination(
           icon: Icon(Ionicons.restaurant),
           label: Text('یادداشت غذای صرف شده'),

@@ -15,7 +15,7 @@ class FoodsListRoute extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           FoodBloc(RepositoryProvider.of<FoodRepostiory>(context)),
-      child: FoodListView(),
+      child: const FoodListView(),
     );
   }
 }
@@ -48,7 +48,7 @@ class _FoodListViewState extends State<FoodListView> {
                 borderRadius: BorderRadius.circular(50),
               ),
               contentPadding:
-                  EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
             ),
             onChanged: (chearchTerm) {
               setState(() {});
@@ -105,7 +105,7 @@ class _FoodListViewState extends State<FoodListView> {
             previous.foodsList != current.foodsList,
         builder: (context, state) {
           if (state.foodsList.isEmpty) {
-            return Center(child: Text('غذایی یافت نشد'));
+            return const Center(child: Text('غذایی یافت نشد'));
           }
           List<Food> foods = state.foodsList;
           foods = foods.reversed
@@ -137,9 +137,9 @@ class _FoodListTileState extends State<FoodListTile>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final fat = widget.food.macroNutrition?.fat ?? 0;
-    final carbohydrate = widget.food.macroNutrition?.carbohydrate ?? 0;
-    final protein = widget.food.macroNutrition?.protein ?? 0;
+    final fat = widget.food.macroNutrition.fat;
+    final carbohydrate = widget.food.macroNutrition.carbohydrate;
+    final protein = widget.food.macroNutrition.protein;
     final percentConstant = 1 / (fat + carbohydrate + protein);
 
     final selectedFoodCalarieLabel =
@@ -174,7 +174,7 @@ class _FoodListTileState extends State<FoodListTile>
                 );
               },
               visualDensity: VisualDensity.compact,
-              icon: Icon(Ionicons.options),
+              icon: const Icon(Ionicons.options),
             ),
             IconButton(
               onPressed: () async {
@@ -182,7 +182,7 @@ class _FoodListTileState extends State<FoodListTile>
                     context: context,
                     builder: (_) {
                       return AlertDialog(
-                        title: Text('حذف غذا'),
+                        title: const Text('حذف غذا'),
                         content: Text(
                             'آیا از حذف ${widget.food.name} اطمینان دارید؟'),
                         actions: [
@@ -190,7 +190,7 @@ class _FoodListTileState extends State<FoodListTile>
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('انصراف'),
+                            child: const Text('انصراف'),
                           ),
                           TextButton(
                             onPressed: () {
@@ -199,14 +199,14 @@ class _FoodListTileState extends State<FoodListTile>
                                   .read<FoodBloc>()
                                   .add(FoodDeleted(food: widget.food));
                             },
-                            child: Text('حذف'),
+                            child: const Text('حذف'),
                           ),
                         ],
                       );
                     });
               },
               visualDensity: VisualDensity.compact,
-              icon: Icon(Ionicons.trash_bin),
+              icon: const Icon(Ionicons.trash_bin),
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,7 +101,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       ),
     );
     try {
-      await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood!);
+      await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood);
       emit(
         state.copyWith(
           upsertSelectedFoodStatus: FetchDataStatus.loaded,

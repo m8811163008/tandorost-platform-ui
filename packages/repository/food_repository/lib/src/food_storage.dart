@@ -76,10 +76,10 @@ class FoodStorage {
         calorie: foodCM.calorie,
         name: foodCM.name,
         gramsPerUnit: foodCM.gramsPerUnit,
-        macroNutrition: foodCM.macroNutrition?.copyWith(
-          carbohydrate: foodCM.macroNutrition?.carbohydrate,
-          fat: foodCM.macroNutrition?.fat,
-          protein: foodCM.macroNutrition?.protein,
+        macroNutrition: foodCM.macroNutrition.copyWith(
+          carbohydrate: foodCM.macroNutrition.carbohydrate,
+          fat: foodCM.macroNutrition.fat,
+          protein: foodCM.macroNutrition.protein,
         ),
       );
       await foodCollection.isar.foodCMs.put(upsertSubjectFood);
