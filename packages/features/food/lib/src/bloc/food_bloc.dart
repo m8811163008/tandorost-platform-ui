@@ -13,7 +13,6 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     add(ListenedFoodListStream());
   }
   final FoodRepostiory foodRepostiory;
-  late final StreamSubscription<List<Food>> _foodsListSubscription;
 
   void _registerHandlers() async {
     on<FoodEvent>((event, emit) async {
@@ -47,9 +46,5 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     add(ListenedFoodListStream());
   }
 
-  @override
-  Future<void> close() {
-    _foodsListSubscription.cancel();
-    return super.close();
-  }
+
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   Future<void> close() async {
     await _foodsSubscription.cancel();
     await _selectedFoodStreamSubscription.cancel();
-    await _foodRepository.dispose();
+    
     return super.close();
   }
 
@@ -84,7 +85,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     try {
       await _foodRepository.removeSelectedFood(event.food);
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.loaded));
-    } catch (e) {
+    } catch (e,s) {
+      
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.error));
     }
   }
@@ -162,7 +164,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         query: event.query, searchFoodStatus: FetchDataStatus.loading));
     try {
       await _foodRepository.searchFoods(event.query);
-    } catch (e) {
+    } catch (e,s) {
+      log('message', error: e, stackTrace: s);
       emit(state.copyWith(
           query: event.query, searchFoodStatus: FetchDataStatus.error));
     }

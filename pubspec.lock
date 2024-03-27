@@ -80,7 +80,7 @@ packages:
     source: hosted
     version: "1.0.0"
   domain_model:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/domain_model"
       relative: true

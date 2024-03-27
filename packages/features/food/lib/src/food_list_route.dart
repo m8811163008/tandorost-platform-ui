@@ -1,6 +1,5 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/food.dart';
@@ -31,6 +30,27 @@ class _FoodListViewState extends State<FoodListView> {
   final _controller = TextEditingController();
 
   @override
+  void initState() {
+    _controller.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  // Method to create FoodListTile
+  Widget _createFoodListTile(Food food, BuildContext context) {
+    return FoodListTile(
+      food: food,
+      onFoodUpdate: (food) {
+        context.read<FoodBloc>().add(FoodUpdate(food: food));
+      },
+      onFoodDelete: (food) {
+        context.read<FoodBloc>().add(FoodDeleted(food: food));
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       isShowDrawerButton: true,
@@ -50,9 +70,6 @@ class _FoodListViewState extends State<FoodListView> {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
             ),
-            onChanged: (chearchTerm) {
-              setState(() {});
-            },
             onTapOutside: (_) => FocusScope.of(context).unfocus(),
             controller: _controller,
             keyboardType: TextInputType.name,
@@ -115,131 +132,10 @@ class _FoodListViewState extends State<FoodListView> {
             itemCount: foods.length,
             itemBuilder: (context, index) {
               final food = foods[index];
-
-              return FoodListTile(food: food);
+              return _createFoodListTile(food, context);
             },
           );
         },
-      ),
-    );
-  }
-}
-
-class FoodListTile extends StatefulWidget {
-  const FoodListTile({super.key, required this.food});
-  final Food food;
-
-  @override
-  State<FoodListTile> createState() => _FoodListTileState();
-}
-
-class _FoodListTileState extends State<FoodListTile>
-    with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    final fat = widget.food.macroNutrition.fat;
-    final carbohydrate = widget.food.macroNutrition.carbohydrate;
-    final protein = widget.food.macroNutrition.protein;
-    final percentConstant = 1 / (fat + carbohydrate + protein);
-
-    final selectedFoodCalarieLabel =
-        '${widget.food.calorie} ${context.l10n.foodDataCalarieLabel}';
-    final selectedFoodFatLabel =
-        '${context.l10n.foodDataPercentValue(fat * percentConstant)} ${context.l10n.nutritionDataFatLabel}';
-    final selectedFoodProteinLabel =
-        '${context.l10n.foodDataPercentValue(protein * percentConstant)} ${context.l10n.nutritionDataProteinLabel}';
-    final selectedFoodCarbohydrateLabel =
-        '${context.l10n.foodDataPercentValue(carbohydrate * percentConstant)} ${context.l10n.nutritionDataCarbohydrateLabel}';
-
-    return Card(
-      child: ListTile(
-        title: Text(widget.food.name),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: () async {
-                await showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  enableDrag: true,
-                  showDragHandle: true,
-                  isDismissible: true,
-                  builder: (_) => UpsertFoodBottomSheet(
-                    onfoodUpdated: (food) {
-                      context.read<FoodBloc>().add(FoodUpdate(food: food));
-                    },
-                    initalFood: widget.food,
-                  ),
-                );
-              },
-              visualDensity: VisualDensity.compact,
-              icon: const Icon(Ionicons.options),
-            ),
-            IconButton(
-              onPressed: () async {
-                await showDialog(
-                    context: context,
-                    builder: (_) {
-                      return AlertDialog(
-                        title: const Text('حذف غذا'),
-                        content: Text(
-                            'آیا از حذف ${widget.food.name} اطمینان دارید؟'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('انصراف'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              context
-                                  .read<FoodBloc>()
-                                  .add(FoodDeleted(food: widget.food));
-                            },
-                            child: const Text('حذف'),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              visualDensity: VisualDensity.compact,
-              icon: const Icon(Ionicons.trash_bin),
-            ),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(selectedFoodCalarieLabel),
-                    const Spacer(),
-                    Text(
-                      selectedFoodFatLabel,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedFoodProteinLabel,
-                    ),
-                    const Spacer(),
-                    Text(
-                      selectedFoodCarbohydrateLabel,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

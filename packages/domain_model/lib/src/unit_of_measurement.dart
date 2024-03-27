@@ -12,12 +12,7 @@ class UnitOfMeasurement extends Equatable {
     required this.icon,
     this.howManyGrams,
     this.max,
-  }) : assert(
-          type == UnitOfMeasurementType.gramsPerUnit
-              ? howManyGrams != null
-              : true,
-          'If the unit type is UnitOfMeasurementType.gramsPerUnit then howManyGrams should not be null.Try to calculate it',
-        );
+  });
 
   static UnitOfMeasurement empty() => UnitOfMeasurement(
         type: UnitOfMeasurementType.grams,

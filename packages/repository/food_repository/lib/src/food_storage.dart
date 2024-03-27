@@ -16,10 +16,10 @@ class FoodStorage {
 
   void _initialize() async {
     // await clearCollections();
-    // await Future.wait([
-    //   initializeFood(),
-    //   initializeUser(),
-    // ]);
+    await Future.wait([
+      initializeFood(),
+      initializeUser(),
+    ]);
   }
 
   /// Initialize food collection.Create for every for a unique id.

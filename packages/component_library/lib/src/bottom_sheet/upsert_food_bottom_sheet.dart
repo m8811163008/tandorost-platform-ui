@@ -39,6 +39,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   @override
   void initState() {
     _initialFood = widget.initalFood;
+    if(_initialFood != Food.empty()){
     _nameTextEditingController.text = _initialFood!.name;
     _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
     _calorieTextEditingController.text = widget.initalFood.calorie.toString();
@@ -48,6 +49,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
         _initialFood!.macroNutrition.fat.toString();
     _proteinTextEditingController.text =
         _initialFood!.macroNutrition.protein.toString();
+    }
+
     super.initState();
   }
 
@@ -110,9 +113,10 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('مشخصات غذا'),
-              SizedBox(
+              Divider(
                 height: context.sizesExtenstion.large,
               ),
+              
               _buildTextField(
                 controller: _nameTextEditingController,
                 labelText: 'نام غذا',

@@ -45,11 +45,13 @@ dependencies:
     path: 'packages/component_library'
   food_repository:
     path: 'packages/repository/food_repository'
+  domain_model: 
+    path : 'packages/domain_model'
   path_provider: ^2.1.2
   isar_flutter_libs : ^3.1.0
   html: ^0.15.4
   sentry_flutter: ^7.18.0
-  domain_model: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
