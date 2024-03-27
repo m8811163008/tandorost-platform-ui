@@ -34,3 +34,8 @@ void main() async {
 // hold the state of selected food for unit of measurement
 // clean streams in blocs, make them same shape or something like that
 // handle if no food found in search foods
+// sort food base on calorie and carbohydrate and fat in selected foods list
+// add unit of measurment when add food, currently it only allow for 100 grams
+// add unit of measurments modifiable list 
+// hold the state of last selected unit of measurment in addign food
+// change theme > screenshot > create banners

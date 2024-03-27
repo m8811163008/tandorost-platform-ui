@@ -64,7 +64,7 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                   // Navigation
                   context.pop();
                 },
-                child: const Text('ذخیره و غذای بعد'),
+                child: const Text('ذخیره و خوراک بعد'),
               ),
             ),
           ],

@@ -22,15 +22,15 @@ class FoodSelectionView extends StatelessWidget {
       scaffoldKey: scaffoldKey,
       isShowDrawerButton: true,
       actions: [
-        IconButton.outlined(
-          onPressed: () {
-            context.pushNamed(Routes.foodSelectionList);
-          },
-          icon: const Icon(
-            Ionicons.list_sharp,
-          ),
-          tooltip: 'لیست غذاهای صرف شده',
-        )
+        // IconButton.outlined(
+        //   onPressed: () {
+        //     context.pushNamed(Routes.foodSelectionList);
+        //   },
+        //   icon: const Icon(
+        //     Ionicons.list_sharp,
+        //   ),
+        //   tooltip: 'لیست غذاهای صرف شده',
+        // )
       ],
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.end,

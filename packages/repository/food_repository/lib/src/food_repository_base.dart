@@ -81,6 +81,7 @@ class FoodRepostiory {
   }
 
   Future<void> upsertFood(Food food) async {
+    
     final foodCM = food.toCacheModel();
     await _foodStorage.upsertFood(foodCM);
   }

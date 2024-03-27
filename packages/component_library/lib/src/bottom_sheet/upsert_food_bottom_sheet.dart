@@ -39,16 +39,16 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   @override
   void initState() {
     _initialFood = widget.initalFood;
-    if(_initialFood != Food.empty()){
-    _nameTextEditingController.text = _initialFood!.name;
-    _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
-    _calorieTextEditingController.text = widget.initalFood.calorie.toString();
-    _carbohydrateTextEditingController.text =
-        _initialFood!.macroNutrition.carbohydrate.toString();
-    _fatTextEditingController.text =
-        _initialFood!.macroNutrition.fat.toString();
-    _proteinTextEditingController.text =
-        _initialFood!.macroNutrition.protein.toString();
+    if (_initialFood != Food.empty()) {
+      _nameTextEditingController.text = _initialFood!.name;
+      _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
+      _calorieTextEditingController.text = widget.initalFood.calorie.toString();
+      _carbohydrateTextEditingController.text =
+          _initialFood!.macroNutrition.carbohydrate.toString();
+      _fatTextEditingController.text =
+          _initialFood!.macroNutrition.fat.toString();
+      _proteinTextEditingController.text =
+          _initialFood!.macroNutrition.protein.toString();
     }
 
     super.initState();
@@ -99,6 +99,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    final title =
+        widget.initalFood == Food.empty() ? 'اضافه کردن خوراک' : 'ویرایش خوراک';
     return BottomSheet(
       animationController: BottomSheet.createAnimationController(this),
       builder: (context) => Padding(
@@ -112,14 +114,13 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('مشخصات غذا'),
+              Text(title),
               Divider(
                 height: context.sizesExtenstion.large,
               ),
-              
               _buildTextField(
                 controller: _nameTextEditingController,
-                labelText: 'نام غذا',
+                labelText: 'نام خوراکی',
                 onChanged: (_) {
                   _initialFood = _initialFood!
                       .copyWith(name: _nameTextEditingController.text);
@@ -130,11 +131,11 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 maxLength: 50,
               ),
               SizedBox(
-                height: context.sizesExtenstion.large,
+                height: context.sizesExtenstion.small,
               ),
               _buildTextField(
                 controller: _weightTextEditingController,
-                labelText: 'وزن هر واحد یا سهم',
+                labelText: 'وزن هر واحد متوسط',
                 suffix: 'گرم',
                 onChanged: (_) {
                   _initialFood = _initialFood!.copyWith(
@@ -148,6 +149,14 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
               ),
               SizedBox(
                 height: context.sizesExtenstion.medium,
+              ),
+              const Text('مشخصات خوراک در 100 گرم'),
+              Divider(
+                height: context.sizesExtenstion.large,
+              ),
+
+              SizedBox(
+                height: context.sizesExtenstion.small,
               ),
               _buildTextField(
                 controller: _calorieTextEditingController,
@@ -308,6 +317,42 @@ class IsVegetableSegmentedButton extends StatelessWidget {
           'سبزی و میوه است؟',
           style: context.themeData.textTheme.bodyMedium,
         ),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: ((context) {
+                return SimpleDialog(
+                  titlePadding: EdgeInsets.all(16.0),
+                  contentPadding:
+                      EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                  title: Text('کدام کربوهیدرات را انتخاب کنم؟'),
+                  children: [
+                    Text.rich(
+                      TextSpan(text: ' میوه و سبزی مانند', children: [
+                        TextSpan(
+                          text: 'موز، سیب، کاهو و ...',
+                        )
+                      ]),
+                    ),
+                    SizedBox(
+                      height: context.sizesExtenstion.medium,
+                    ),
+                    Text.rich(
+                      TextSpan(text: 'کربوهیدرات غنی مانند ', children: [
+                        TextSpan(
+                          text: 'جو، برنج، پاستا، سیب زمینی ، نان، حبوبات',
+                        )
+                      ]),
+                    )
+                  ],
+                );
+              }),
+            );
+          },
+          icon: Icon(Ionicons.information_circle_outline),
+        ),
+        Spacer(),
         SegmentedButton<bool>(
           segments: const <ButtonSegment<bool>>[
             ButtonSegment<bool>(

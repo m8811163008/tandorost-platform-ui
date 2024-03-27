@@ -46,35 +46,14 @@ class _SelectCustomDateTimeRangeDialogState
         : '$minutes : $hour';
   }
 
-  Future<DateTime?> _showPersianDatePicker() async {
+  Future<DateTime?> _showPersianDatePicker(Jalali initialDate) async {
     Jalali? picked = await showPersianDatePicker(
       context: context,
-      initialDate: Jalali.now(),
+      initialDate: initialDate,
       firstDate: Jalali(1402, 1),
       lastDate: Jalali(1406, 12),
     );
     return picked?.toDateTime();
-  }
-
-  // Method to update the date
-  void _updateDate(DateTime selectedDateTime, Function updateState) {
-    updateState(() {
-      _startDate = _startDate.copyWith(
-        day: selectedDateTime.day,
-        year: selectedDateTime.year,
-        month: selectedDateTime.month,
-      );
-    });
-  }
-
-  // Method to update the time
-  void _updateTime(TimeOfDay timeOfDay, Function updateState) {
-    updateState(() {
-      _startDate = _startDate.copyWith(
-        hour: timeOfDay.hour,
-        minute: timeOfDay.minute,
-      );
-    });
   }
 
   @override
@@ -86,9 +65,17 @@ class _SelectCustomDateTimeRangeDialogState
           child: Text(
               '${context.l10n.selectCustomDateTimeRangeDialogFromDate}  ${_jalaliDayText(_startDate)}'),
           onPressed: () async {
-            final selectedDateTime = await _showPersianDatePicker();
+            final selectedDateTime = await _showPersianDatePicker(_startDate.toJalali());
             if (selectedDateTime != null) {
-              _updateDate(selectedDateTime, setState);
+              setState(
+                () {
+                  _startDate = _startDate.copyWith(
+                    day: selectedDateTime.day,
+                    year: selectedDateTime.year,
+                    month: selectedDateTime.month,
+                  );
+                },
+              );
             }
           },
         ),
@@ -98,10 +85,15 @@ class _SelectCustomDateTimeRangeDialogState
           onPressed: () async {
             final timeOfDay = await showTimePicker(
               context: context,
-              initialTime: TimeOfDay.now(),
+              initialTime: TimeOfDay.fromDateTime(_startDate),
             );
             if (timeOfDay != null) {
-              _updateTime(timeOfDay, setState);
+              setState(() {
+                _startDate = _startDate.copyWith(
+                  hour: timeOfDay.hour,
+                  minute: timeOfDay.minute,
+                );
+              });
             }
           },
         ),
@@ -110,9 +102,15 @@ class _SelectCustomDateTimeRangeDialogState
           child: Text(
               '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(_endDate)}'),
           onPressed: () async {
-            final selectedDateTime = await _showPersianDatePicker();
+            final selectedDateTime = await _showPersianDatePicker(_endDate.toJalali());
             if (selectedDateTime != null) {
-              _updateDate(selectedDateTime, setState);
+              setState(() {
+                _endDate = _startDate.copyWith(
+                  day: selectedDateTime.day,
+                  year: selectedDateTime.year,
+                  month: selectedDateTime.month,
+                );
+              });
             }
           },
         ),
@@ -122,10 +120,15 @@ class _SelectCustomDateTimeRangeDialogState
           onPressed: () async {
             final timeOfDay = await showTimePicker(
               context: context,
-              initialTime: TimeOfDay.now(),
+              initialTime: TimeOfDay.fromDateTime(_endDate),
             );
             if (timeOfDay != null) {
-              _updateTime(timeOfDay, setState);
+              setState(() {
+                _endDate = _startDate.copyWith(
+                  hour: timeOfDay.hour,
+                  minute: timeOfDay.minute,
+                );
+              });
             }
           },
         ),

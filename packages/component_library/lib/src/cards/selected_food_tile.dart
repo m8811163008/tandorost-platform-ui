@@ -111,7 +111,7 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
           chartValuesOptions: const ChartValuesOptions(showChartValues: false),
           animationDuration: Duration.zero,
           legendOptions: const LegendOptions(showLegends: false),
-          totalValue: 100,
+          totalValue: 1,
           colorList: const [
             CustomColor.protein,
             CustomColor.fat,

@@ -6,7 +6,7 @@ extension SelectedFoodToCM on SelectedFood {
   SelectedFoodCM toCacheModel() => SelectedFoodCM()
     ..name = name
     ..calorie = calorie
-    // ..gramsPerUnit = gramsPerUnit
+    ..gramsPerUnit = gramsPerUnit
     ..macroNutrition = macroNutrition.toCacheModel()
     ..selectedDate = selectedDate
     ..unitOfMeasurmentCM = unitOfMeasurement.toCacheModel()
