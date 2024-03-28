@@ -85,7 +85,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     try {
       await _foodRepository.removeSelectedFood(event.food);
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.loaded));
-    } catch (e,s) {
+    } catch (e) {
       
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.error));
     }

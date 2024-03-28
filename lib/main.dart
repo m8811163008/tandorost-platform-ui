@@ -11,10 +11,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   FlutterError.onError = (FlutterErrorDetails details) async {
-    // await Sentry.captureException(
-    //   details.exception,
-    //   stackTrace: details.stack,
-    // );
+    await Sentry.captureException(
+      details.exception,
+      stackTrace: details.stack,
+    );
     log('error in ${details.library}',
         stackTrace: details.stack, error: details.exception);
   };

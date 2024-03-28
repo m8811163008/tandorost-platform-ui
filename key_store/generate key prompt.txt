@@ -1,0 +1,10 @@
+
+keytool -genkey -v -keystore tandorost.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+Enter keystore password: #Milad021
+
+
+key.properties
+storePassword=tandorost_dev
+keyPassword=tandorost_dev
+keyAlias=upload
+storeFile= ../../build/app/outputs/bundle/release/tandorost.jks
