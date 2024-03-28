@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ir.tandorost_life.tandorost">
     <application
-        android:label="tandorost"
+        android:label="Tandorost"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
