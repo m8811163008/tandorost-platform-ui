@@ -52,11 +52,12 @@ class SelectedFoodInfo extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      Flexible(
-                        child: Align(
+                      Expanded(
+                        child: FittedBox(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
                             state.selectedFood.name,
+                            maxLines: 2,
                             style: context.themeData.textTheme.displaySmall,
                           ),
                         ),

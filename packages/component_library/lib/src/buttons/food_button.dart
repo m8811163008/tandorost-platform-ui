@@ -13,7 +13,7 @@ class FoodButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.all(context.sizesExtenstion.medium),
+          padding: EdgeInsets.all(context.sizesExtenstion.small),
           constraints: BoxConstraints.tight(
             Size.square(context.sizesExtenstion.xExtraLarge),
           ),
