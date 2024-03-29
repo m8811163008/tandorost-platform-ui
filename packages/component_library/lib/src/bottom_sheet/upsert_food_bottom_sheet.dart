@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class UpsertFoodBottomSheet extends StatefulWidget {
-  UpsertFoodBottomSheet({super.key, this.onfoodUpdated, Food? initalFood})
+  UpsertFoodBottomSheet(
+      {super.key, this.onfoodUpdated, Food? initalFood, this.initalName})
       : initalFood = initalFood ?? Food.empty();
   final ValueSetter<Food>? onfoodUpdated;
 
   final Food initalFood;
+  final String? initalName;
 
   @override
   State<UpsertFoodBottomSheet> createState() => _UpsertFoodBottomSheetState();
@@ -49,6 +51,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
           _initialFood!.macroNutrition.fat.toString();
       _proteinTextEditingController.text =
           _initialFood!.macroNutrition.protein.toString();
+    } else {
+      _nameTextEditingController.text = widget.initalName ?? _initialFood!.name;
     }
 
     super.initState();
@@ -276,14 +280,6 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                     });
                     return;
                   } else {
-                    if (_initialFood!.macroNutrition.sum >
-                        _initialFood!.gramsPerUnit) {
-                      setState(() {
-                        _errorMessage =
-                            'مقادیر درشت مغذی ها بیشتر از وزن غذا است';
-                      });
-                      return;
-                    }
                     widget.onfoodUpdated?.call(_initialFood!);
                     Navigator.of(context).pop();
                   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'dart:developer';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

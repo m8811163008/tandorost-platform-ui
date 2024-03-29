@@ -22,6 +22,7 @@ class SearchedFoodsListBuilder extends StatelessWidget {
             height: context.sizesExtenstion.xExtraLarge,
             child: SearchFoodList(
               foods: state.searchedFoods,
+              searchedTerm: state.query,
               onTap: (food) {
                 context.read<FoodSelectionBloc>().add(FoodSelected(food));
                 // navigation

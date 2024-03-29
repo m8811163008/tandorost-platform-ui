@@ -34,6 +34,35 @@ class _FoodListViewState extends State<FoodListView> {
     _controller.addListener(() {
       setState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final newFoodName = GoRouterState.of(context).extra as String?;
+      if (newFoodName != null) {
+        // Show the form when user push to this page to add new food from the
+        // food selection feature. we checked the extra of GoRouterState if
+        // it set then we get the newFoodName and check if the food is already
+        // exist in food so we show the update view of food otherwise we show
+        // insert new food view.
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          enableDrag: true,
+          showDragHandle: true,
+          isDismissible: true,
+          builder: (_) => UpsertFoodBottomSheet(
+            onfoodUpdated: (food) {
+              context.read<FoodBloc>().add(FoodUpdate(food: food));
+            },
+            initalName: newFoodName,
+            initalFood: context.read<FoodBloc>().state.foodsList.singleWhere(
+                  (element) => element.name == newFoodName,
+                  orElse: Food.empty,
+                ),
+          ),
+        );
+      }
+    });
+
     super.initState();
   }
 
