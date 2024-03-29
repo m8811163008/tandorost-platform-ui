@@ -31,7 +31,7 @@ void main() async {
 }
 
 
-// hold the state of selected food for unit of measurement 
+// [x] hold the state of selected food for unit of measurement 
 // add new food when no food found
 
 // simple profile for bazzar login

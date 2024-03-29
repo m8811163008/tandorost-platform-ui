@@ -13,12 +13,20 @@ class SearchFoodList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: foods.length,
       itemBuilder: (context, index) {
-        return FoodButton(
+        final foodButton = FoodButton(
           food: foods[index],
           onTap: () {
             onTap?.call(foods[index]);
           },
         );
+        if (index == 0) {
+          return Padding(
+            padding: EdgeInsetsDirectional.only(
+                start: context.sizesExtenstion.medium),
+            child: foodButton,
+          );
+        }
+        return foodButton;
       },
       separatorBuilder: (context, index) {
         return SizedBox(width: context.sizesExtenstion.small);

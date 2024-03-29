@@ -9,12 +9,14 @@ class AppScaffold extends StatelessWidget {
     this.actions = const [],
     this.isShowDrawerButton = false,
     this.scaffoldKey,
+    this.bodyPadding,
   });
 
   final Widget? child;
   final List<Widget> actions;
   final bool isShowDrawerButton;
   final GlobalKey<ScaffoldState>? scaffoldKey;
+  final EdgeInsets? bodyPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class AppScaffold extends StatelessWidget {
             .toList(),
       ),
       body: Padding(
-          padding:
+          padding: bodyPadding ??
               EdgeInsets.symmetric(horizontal: context.sizesExtenstion.medium),
           child: child),
       drawer: isShowDrawerButton ? const AppDrawer() : null,
@@ -65,12 +67,12 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.foodSelection);
         } else if (index == 1) {
           context.goNamed(Routes.foodSelectionList);
-        }else if (index == 2){
+        } else if (index == 2) {
           context.goNamed(Routes.foodList);
         }
       },
       selectedIndex: _selectedIndex,
-      children:  [
+      children: [
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
@@ -96,11 +98,10 @@ extension on String {
     switch (this) {
       case Routes.foodSelection:
         return 0;
-        case Routes.foodSelectionList:
+      case Routes.foodSelectionList:
         return 1;
       case Routes.foodList:
         return 2;
-      
 
       default:
         throw Exception('Undefined location');

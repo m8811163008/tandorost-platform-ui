@@ -20,6 +20,7 @@ class FoodSelectionView extends StatelessWidget {
     return AppScaffold(
       scaffoldKey: scaffoldKey,
       isShowDrawerButton: true,
+      bodyPadding: EdgeInsets.zero,
       actions: [
         // IconButton.outlined(
         //   onPressed: () {
@@ -31,12 +32,16 @@ class FoodSelectionView extends StatelessWidget {
         //   tooltip: 'لیست غذاهای صرف شده',
         // )
       ],
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SearchedFoodsListBuilder(),
-          SearchFieldTextField(
-            key: ValueKey('value'),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.sizesExtenstion.medium),
+            child: SearchFieldTextField(
+              key: ValueKey('value'),
+            ),
           ),
         ],
       ),
