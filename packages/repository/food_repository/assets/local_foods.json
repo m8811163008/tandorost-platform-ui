@@ -348,7 +348,7 @@
             "protein": 0.7,
             "fat": 0.1,
             "carbohydrate": 3.48,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -359,7 +359,7 @@
             "protein": 0.62,
             "fat": 0.2,
             "carbohydrate": 2.95,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -370,7 +370,7 @@
             "protein": 0.98,
             "fat": 0.18,
             "carbohydrate": 5.88,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -381,7 +381,7 @@
             "protein": 1.2,
             "fat": 0.2,
             "carbohydrate": 3.11,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -392,7 +392,7 @@
             "protein": 1.0,
             "fat": 0.1,
             "carbohydrate": 9.93,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -403,7 +403,7 @@
             "protein": 0.89,
             "fat": 0.1,
             "carbohydrate": 7.68,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -414,7 +414,7 @@
             "protein": 1.7,
             "fat": 0.2,
             "carbohydrate": 10.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -425,7 +425,7 @@
             "protein": 1.0,
             "fat": 0.1,
             "carbohydrate": 11.7,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -436,7 +436,7 @@
             "protein": 1.97,
             "fat": 0.28,
             "carbohydrate": 7.41,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -447,7 +447,7 @@
             "protein": 1.1,
             "fat": 0.3,
             "carbohydrate": 9.32,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -458,7 +458,7 @@
             "protein": 2.0,
             "fat": 0.2,
             "carbohydrate": 9.46,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -469,7 +469,7 @@
             "protein": 0.72,
             "fat": 0.1,
             "carbohydrate": 4.78,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -480,7 +480,7 @@
             "protein": 0.98,
             "fat": 0.07,
             "carbohydrate": 4.06,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -491,7 +491,7 @@
             "protein": 0.74,
             "fat": 0.07,
             "carbohydrate": 3.37,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -502,7 +502,7 @@
             "protein": 0.49,
             "fat": 0.16,
             "carbohydrate": 3.32,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -513,7 +513,7 @@
             "protein": 2.91,
             "fat": 0.6,
             "carbohydrate": 2.64,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -524,7 +524,7 @@
             "protein": 2.57,
             "fat": 0.34,
             "carbohydrate": 6.27,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -535,7 +535,7 @@
             "protein": 0.94,
             "fat": 0.35,
             "carbohydrate": 10.3,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -546,7 +546,7 @@
             "protein": 0.0,
             "fat": 0.7,
             "carbohydrate": 7.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -557,7 +557,7 @@
             "protein": 23.2,
             "fat": 9.72,
             "carbohydrate": 51.8,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -568,7 +568,7 @@
             "protein": 6.62,
             "fat": 0.38,
             "carbohydrate": 28.2,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -579,7 +579,7 @@
             "protein": 5.36,
             "fat": 0.22,
             "carbohydrate": 15.6,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -590,117 +590,7 @@
             "protein": 2.89,
             "fat": 0.37,
             "carbohydrate": 4.08,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "گوجه",
-        "calorie": 22,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 0.7,
-            "fat": 0.1,
-            "carbohydrate": 3.48,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "خیار",
-        "calorie": 14,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 0.62,
-            "fat": 0.2,
-            "carbohydrate": 2.95,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "بادمجان",
-        "calorie": 25,
-        "gramsPerUnit": 100,
-        "macroNutrition": {
-            "protein": 0.98,
-            "fat": 0.18,
-            "carbohydrate": 5.88,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "کدو",
-        "calorie": 17,
-        "gramsPerUnit": 75,
-        "macroNutrition": {
-            "protein": 1.2,
-            "fat": 0.2,
-            "carbohydrate": 3.11,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "پیاز قرمز",
-        "calorie": 44,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 1.0,
-            "fat": 0.1,
-            "carbohydrate": 9.93,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "پیاز سفید",
-        "calorie": 31,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 0.89,
-            "fat": 0.1,
-            "carbohydrate": 7.68,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "لبو",
-        "calorie": 44,
-        "gramsPerUnit": 100,
-        "macroNutrition": {
-            "protein": 1.7,
-            "fat": 0.2,
-            "carbohydrate": 10.0,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "کدو حلوایی",
-        "calorie": 45,
-        "gramsPerUnit": 200,
-        "macroNutrition": {
-            "protein": 1.0,
-            "fat": 0.1,
-            "carbohydrate": 11.7,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "لوبیا سبز",
-        "calorie": 40,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 1.97,
-            "fat": 0.28,
-            "carbohydrate": 7.41,
-            "isVegetable": false
-        }
-    },
-    {
-        "name": "لیموترش",
-        "calorie": 29,
-        "gramsPerUnit": 50,
-        "macroNutrition": {
-            "protein": 1.1,
-            "fat": 0.3,
-            "carbohydrate": 9.32,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -953,7 +843,7 @@
             "protein": 0.9,
             "fat": 0.23,
             "carbohydrate": 18.6,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -964,7 +854,7 @@
             "protein": 0.91,
             "fat": 0.16,
             "carbohydrate": 20.2,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -975,7 +865,7 @@
             "protein": 0.58,
             "fat": 0.19,
             "carbohydrate": 18.6,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -986,7 +876,7 @@
             "protein": 1.67,
             "fat": 1.17,
             "carbohydrate": 18.7,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -997,7 +887,7 @@
             "protein": 0.13,
             "fat": 0.15,
             "carbohydrate": 14.8,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1008,7 +898,7 @@
             "protein": 0.8,
             "fat": 0.3,
             "carbohydrate": 9.3,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1019,7 +909,7 @@
             "protein": 0.91,
             "fat": 0.15,
             "carbohydrate": 11.8,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1030,7 +920,7 @@
             "protein": 0.4,
             "fat": 0.1,
             "carbohydrate": 15.3,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1041,7 +931,7 @@
             "protein": 2.45,
             "fat": 0.39,
             "carbohydrate": 75.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1052,7 +942,7 @@
             "protein": 0.81,
             "fat": 31.0,
             "carbohydrate": 13.3,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1063,7 +953,7 @@
             "protein": 1.06,
             "fat": 0.44,
             "carbohydrate": 14.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1074,7 +964,7 @@
             "protein": 0.77,
             "fat": 0.14,
             "carbohydrate": 10.7,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1085,7 +975,7 @@
             "protein": 0.72,
             "fat": 0.2,
             "carbohydrate": 3.71,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1096,7 +986,7 @@
             "protein": 3.33,
             "fat": 33.5,
             "carbohydrate": 15.2,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1107,7 +997,7 @@
             "protein": 0.46,
             "fat": 0.21,
             "carbohydrate": 14.1,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1118,7 +1008,7 @@
             "protein": 0.74,
             "fat": 0.29,
             "carbohydrate": 23.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1129,7 +1019,7 @@
             "protein": 0.73,
             "fat": 0.22,
             "carbohydrate": 20.0,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1140,7 +1030,7 @@
             "protein": 0.38,
             "fat": 0.16,
             "carbohydrate": 15.1,
-            "isVegetable": false
+            "isVegetable": true
         }
     },
     {
@@ -1151,7 +1041,7 @@
             "protein": 1.6,
             "fat": 10.9,
             "carbohydrate": 6.04,
-            "isVegetable": false
+            "isVegetable": true
         }
     }
 ]
