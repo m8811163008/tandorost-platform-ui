@@ -13,6 +13,7 @@ class FoodSelectionState {
   final DateTimeRange filterSelctedFoodsListDateTimeRange;
   final SelectedFood lastDeletedSelectedFood;
   final List<SelectedFood> selectedFoodsList;
+  final Map<UnitOfMeasurement, int> unitOfMeasurementHistory;
 
   FoodSelectionState({
     this.query = '',
@@ -23,6 +24,7 @@ class FoodSelectionState {
     this.upsertSelectedFoodStatus = FetchDataStatus.initial,
     this.deleteSelectedFoodStatus = FetchDataStatus.initial,
     this.saveTimeOffset = Duration.zero,
+    this.unitOfMeasurementHistory = const {},
     SelectedFood? selectedFood,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
     SelectedFood? lastDeletedSelectedFood,
@@ -54,6 +56,7 @@ class FoodSelectionState {
     Duration? saveTimeOffset,
     List<SelectedFood>? selectedFoodsList,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
+    Map<UnitOfMeasurement, int>? unitOfMeasurementHistory,
   }) {
     return FoodSelectionState(
       query: query ?? this.query,
@@ -72,6 +75,8 @@ class FoodSelectionState {
               this.filterSelctedFoodsListDateTimeRange,
       deleteSelectedFoodStatus:
           deleteSelectedFoodStatus ?? this.deleteSelectedFoodStatus,
+      unitOfMeasurementHistory:
+          unitOfMeasurementHistory ?? this.unitOfMeasurementHistory,
     );
   }
 }

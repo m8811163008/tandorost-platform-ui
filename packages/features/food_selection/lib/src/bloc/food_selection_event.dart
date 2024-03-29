@@ -52,6 +52,12 @@ final class SelectedFoodsListFetched extends InputPageEvent {
 final class SearchFoodFormReset extends InputPageEvent {
   const SearchFoodFormReset();
 }
+/// Used to save unit of measurement amount in state.
+final class UnitOfMeasurementAmountChanged extends InputPageEvent {
+  final UnitOfMeasurement unitOfMeasurement;
+  final int amount;
+  const UnitOfMeasurementAmountChanged({required this.amount, required this.unitOfMeasurement});
+}
 
 base class SlectedFoodListPageEvent extends FoodSelectionEvent {
   const SlectedFoodListPageEvent();
@@ -70,3 +76,4 @@ final class SelectedFoodRemoved extends SlectedFoodListPageEvent {
 final class SelectedFoodUndoRemoved extends SlectedFoodListPageEvent {
   const SelectedFoodUndoRemoved();
 }
+

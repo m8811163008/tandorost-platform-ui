@@ -8,8 +8,11 @@
             "name": "tandorost",
             "request": "launch",
             "type": "dart",
+            "program": "lib/main_debug.dart",
             "args": [
-                "-v"
+                "-v",
+                "--target",
+                "lib/main_debug.dart"
             ]
         },
         {
@@ -22,7 +25,12 @@
             "name": "tandorost (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "-v",
+                "--target",
+                "lib/main_production.dart"
+            ]
         }
     ]
 }

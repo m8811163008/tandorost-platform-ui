@@ -33,7 +33,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   Future<void> close() async {
     await _foodsSubscription.cancel();
     await _selectedFoodStreamSubscription.cancel();
-    
+
     return super.close();
   }
 
@@ -59,6 +59,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         await _handleSelectedFoodRemoved(event, emit);
       } else if (event is SelectedFoodUndoRemoved) {
         await _handleSelectedFoodUndoRemoved(event, emit);
+      } else if (event is UnitOfMeasurementAmountChanged) {
+        _handleUnitOfMeasurementAmountChanged(event, emit);
       }
     });
   }
@@ -86,7 +88,6 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       await _foodRepository.removeSelectedFood(event.food);
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.loaded));
     } catch (e) {
-      
       emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.error));
     }
   }
@@ -164,7 +165,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         query: event.query, searchFoodStatus: FetchDataStatus.loading));
     try {
       await _foodRepository.searchFoods(event.query);
-    } catch (e,s) {
+    } catch (e, s) {
       log('message', error: e, stackTrace: s);
       emit(state.copyWith(
           query: event.query, searchFoodStatus: FetchDataStatus.error));
@@ -223,6 +224,22 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     add(
       SlectedFoodListFiltered(
         dateTimeRange: state.filterSelctedFoodsListDateTimeRange,
+      ),
+    );
+  }
+
+  void _handleUnitOfMeasurementAmountChanged(
+      UnitOfMeasurementAmountChanged event, Emitter<FoodSelectionState> emit) {
+    var history =
+        Map<UnitOfMeasurement, int>.from(state.unitOfMeasurementHistory);
+    history.update(
+      event.unitOfMeasurement,
+      (_) => event.amount,
+      ifAbsent: () => event.amount,
+    );
+    emit(
+      state.copyWith(
+        unitOfMeasurementHistory: history,
       ),
     );
   }

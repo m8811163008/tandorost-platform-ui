@@ -24,6 +24,10 @@ class FoodAmountInputNumber extends StatelessWidget {
           final max = unitOfMeasurement?.max ?? 100;
           final min = max <= 300 ? 1 : 10;
           final step = (max - min) <= 300 ? 1 : 10;
+          final intialValue = context
+              .read<FoodSelectionBloc>()
+              .state
+              .unitOfMeasurementHistory[unitOfMeasurement];
 
           return ScrollableNumberInput(
             key: UniqueKey(),
@@ -32,12 +36,20 @@ class FoodAmountInputNumber extends StatelessWidget {
             step: step,
             itemExtends: extend,
             onSelectedNumberChanged: (value) {
-              context.read<FoodSelectionBloc>().add(
-                    SelectedFoodUpdated(
-                      measurementUnitCount: value,
-                    ),
-                  );
+              context.read<FoodSelectionBloc>()
+                ..add(
+                  SelectedFoodUpdated(
+                    measurementUnitCount: value,
+                  ),
+                )
+                ..add(
+                  UnitOfMeasurementAmountChanged(
+                    amount: value,
+                    unitOfMeasurement: unitOfMeasurement!,
+                  ),
+                );
             },
+            intialValue: intialValue,
           );
         },
       ),
