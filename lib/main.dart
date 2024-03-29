@@ -31,12 +31,25 @@ void main() async {
 }
 
 
-// hold the state of selected food for unit of measurement
+// hold the state of selected food for unit of measurement 
+// add new food when no food found
+
+// simple profile for bazzar login
+// in app purchase for a test widget
+// user agreement and add phycology of writing calorie and its telorance and perception of food calories
+// add support with insta page
+// add form of energy and macro nutrition requirements
+// suggest learning and sport and some nutrition considiration
+// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels)
+// add exercise volume in selected food list banner
+// learning material for which food is for weight lose(آموزش خوراکی های کاهش وزن را بشناسید یا همچین چیزی)
+// in app purchase for 1 month subscription and 3 months 
+
+
+
 // clean streams in blocs, make them same shape or something like that
-// handle if no food found in search foods
 // sort food base on calorie and carbohydrate and fat in selected foods list
 // add unit of measurment when add food, currently it only allow for 100 grams
 // add unit of measurments modifiable list 
-// hold the state of last selected unit of measurment in addign food
-// change theme > screenshot > create banners
 // wellcome screen
+// add chat gpt for food and recepies

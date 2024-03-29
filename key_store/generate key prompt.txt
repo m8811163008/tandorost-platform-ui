@@ -8,3 +8,12 @@ storePassword=tandorost_dev
 keyPassword=tandorost_dev
 keyAlias=upload
 storeFile= ../../build/app/outputs/bundle/release/tandorost.jks
+
+// To build apks from appbundle
+C:\Users\Milad\projects\tandorost\build\app\outputs\bundle\release>java -jar bundletool-all-1.15.6.jar build-apks --bund
+le=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass
+=pass:tandorost_dev --connected-device
+
+// To install on device apks
+C:\Users\Milad\projects\tandorost\build\app\outputs\bundle\release>java -jar bundletool-all-1.15.6.jar install-apks --a
+ks=my_app.apks
