@@ -15,7 +15,7 @@ dependencies:
   ionicons: ^0.2.2
   local_storage: 
     path: ../data/local_storage
-
+  formz: ^0.7.0
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.21.0

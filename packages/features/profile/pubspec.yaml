@@ -17,6 +17,8 @@ dependencies:
     path: ../../domain_model
   authentication_repository:
     path: ../../repository/authentication_repository
+  user_repository:
+    path: ../../repository/user_repository
   flutter_bloc: ^8.1.4
   rxdart: ^0.27.7
 dev_dependencies:

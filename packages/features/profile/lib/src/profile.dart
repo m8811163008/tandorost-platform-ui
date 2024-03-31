@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/src/cubit/login_cubit.dart';
+import 'package:user_repository/user_repository.dart';
 
 class ProfileRoute extends StatelessWidget {
   const ProfileRoute({super.key});
@@ -10,8 +11,9 @@ class ProfileRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          LoginCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
+      create: (_) => ProfileCubit(
+          RepositoryProvider.of<AuthenticationRepository>(context),
+          RepositoryProvider.of<UserRepostiory>(context)),
       child: Scaffold(
         body: ProfileView(),
       ),
@@ -27,7 +29,7 @@ class ProfileView extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          context.read<LoginCubit>().login();
+          context.read<ProfileCubit>().login();
         },
         child: Text('login'),
       ),

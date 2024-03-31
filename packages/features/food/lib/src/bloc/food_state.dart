@@ -1,21 +1,21 @@
 part of 'food_bloc.dart';
 
 class FoodState {
-  final FetchDataStatus deleteFoodStatus;
+  final ProcessAsyncStatus deleteFoodStatus;
   final List<Food> foodsList;
-  final FetchDataStatus upsertFoodStatus;
+  final ProcessAsyncStatus upsertFoodStatus;
   final Food? updatedFood;
 
   FoodState({
-    this.deleteFoodStatus = FetchDataStatus.initial,
-    this.upsertFoodStatus = FetchDataStatus.initial,
+    this.deleteFoodStatus = ProcessAsyncStatus.initial,
+    this.upsertFoodStatus = ProcessAsyncStatus.initial,
     this.foodsList = const [],
     this.updatedFood,
   });
 
   FoodState copyWith(
-      {FetchDataStatus? deleteFoodStatus,
-      FetchDataStatus? upsertFoodStatus,
+      {ProcessAsyncStatus? deleteFoodStatus,
+      ProcessAsyncStatus? upsertFoodStatus,
       List<Food>? foodsList,
       Food? updatedFood}) {
     return FoodState(

@@ -73,6 +73,7 @@ class BodyCompositionCM {
   late List<BioDataCM> chestCircumference = const [];
   late List<BioDataCM> thightCircumference = const [];
   late List<BioDataCM> calfMuscleCircumference = const [];
+  late DateTime? startBodycompositionChanging;
 }
 
 @embedded

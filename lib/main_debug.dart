@@ -52,3 +52,4 @@ void main() async {
 // add unit of measurments modifiable list 
 // wellcome screen
 // add chat gpt for food and recepies
+// show pictures in profile section , optimize to share on social

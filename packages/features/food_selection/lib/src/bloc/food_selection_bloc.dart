@@ -80,15 +80,15 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       SelectedFoodRemoved event, Emitter<FoodSelectionState> emit) async {
     emit(
       state.copyWith(
-        deleteSelectedFoodStatus: FetchDataStatus.loading,
+        deleteSelectedFoodStatus: ProcessAsyncStatus.loading,
         lastDeletedSelectedFood: event.food,
       ),
     );
     try {
       await _foodRepository.removeSelectedFood(event.food);
-      emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.loaded));
+      emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.loaded));
     } catch (e) {
-      emit(state.copyWith(deleteSelectedFoodStatus: FetchDataStatus.error));
+      emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
     }
   }
 
@@ -100,25 +100,26 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
     emit(
       state.copyWith(
-        upsertSelectedFoodStatus: FetchDataStatus.loading,
+        upsertSelectedFoodStatus: ProcessAsyncStatus.loading,
       ),
     );
     try {
       await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood);
       emit(
         state.copyWith(
-          upsertSelectedFoodStatus: FetchDataStatus.loaded,
+          upsertSelectedFoodStatus: ProcessAsyncStatus.loaded,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error));
+      emit(state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.error));
     }
   }
 
   void _handleSearchedFoodsUpdated(
       SearchedFoodsUpdated event, Emitter<FoodSelectionState> emit) {
     emit(state.copyWith(
-        searchedFoods: event.foods, searchFoodStatus: FetchDataStatus.loaded));
+        searchedFoods: event.foods,
+        searchFoodStatus: ProcessAsyncStatus.loaded));
   }
 
   Future<void> _handleFoodSelected(
@@ -162,13 +163,13 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   Future<void> _handleSearchFood(
       SearchFood event, Emitter<FoodSelectionState> emit) async {
     emit(state.copyWith(
-        query: event.query, searchFoodStatus: FetchDataStatus.loading));
+        query: event.query, searchFoodStatus: ProcessAsyncStatus.loading));
     try {
       await _foodRepository.searchFoods(event.query);
     } catch (e, s) {
       log('message', error: e, stackTrace: s);
       emit(state.copyWith(
-          query: event.query, searchFoodStatus: FetchDataStatus.error));
+          query: event.query, searchFoodStatus: ProcessAsyncStatus.error));
     }
   }
 
@@ -192,7 +193,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       // this.measurementUnitCount,
       // this.unitOfMeasurement,
       emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loading),
+        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.loading),
       );
       await _foodRepository.upsertSelectedFood(
         state.selectedFood.copyWith(
@@ -201,11 +202,11 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       );
 
       emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.loaded),
+        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.loaded),
       );
     } catch (e) {
       emit(
-        state.copyWith(upsertSelectedFoodStatus: FetchDataStatus.error),
+        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.error),
       );
     }
   }

@@ -3,13 +3,13 @@ part of 'food_selection_bloc.dart';
 class FoodSelectionState {
   final String query;
   final List<Food> searchedFoods;
-  final FetchDataStatus searchFoodStatus;
+  final ProcessAsyncStatus searchFoodStatus;
 
   final SelectedFood selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
-  final FetchDataStatus upsertSelectedFoodStatus;
-  final FetchDataStatus deleteSelectedFoodStatus;
+  final ProcessAsyncStatus upsertSelectedFoodStatus;
+  final ProcessAsyncStatus deleteSelectedFoodStatus;
   final DateTimeRange filterSelctedFoodsListDateTimeRange;
   final SelectedFood lastDeletedSelectedFood;
   final List<SelectedFood> selectedFoodsList;
@@ -20,9 +20,9 @@ class FoodSelectionState {
     this.searchedFoods = const [],
     this.unitOfMesurementList = const [],
     this.selectedFoodsList = const [],
-    this.searchFoodStatus = FetchDataStatus.initial,
-    this.upsertSelectedFoodStatus = FetchDataStatus.initial,
-    this.deleteSelectedFoodStatus = FetchDataStatus.initial,
+    this.searchFoodStatus = ProcessAsyncStatus.initial,
+    this.upsertSelectedFoodStatus = ProcessAsyncStatus.initial,
+    this.deleteSelectedFoodStatus = ProcessAsyncStatus.initial,
     this.saveTimeOffset = Duration.zero,
     this.unitOfMeasurementHistory = const {},
     SelectedFood? selectedFood,
@@ -47,9 +47,9 @@ class FoodSelectionState {
   FoodSelectionState copyWith({
     String? query,
     List<Food>? searchedFoods,
-    FetchDataStatus? searchFoodStatus,
-    FetchDataStatus? upsertSelectedFoodStatus,
-    FetchDataStatus? deleteSelectedFoodStatus,
+    ProcessAsyncStatus? searchFoodStatus,
+    ProcessAsyncStatus? upsertSelectedFoodStatus,
+    ProcessAsyncStatus? deleteSelectedFoodStatus,
     SelectedFood? selectedFood,
     SelectedFood? lastDeletedSelectedFood,
     List<UnitOfMeasurement>? unitOfMesurementList,
