@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   equatable: ^2.0.5
   ionicons: ^0.2.2
+  local_storage: 
+    path: ../data/local_storage
 
 dev_dependencies:
   lints: ^3.0.0

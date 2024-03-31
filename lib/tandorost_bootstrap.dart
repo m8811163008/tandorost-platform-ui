@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,9 +36,12 @@ class _TandorostBootstrapState extends State<TandorostBootstrap> {
           late final FoodRepostiory foodRepository = FoodRepostiory(
             cacheStorage,
           );
+          late final AuthenticationRepository authenticationRepository =
+              AuthenticationRepository();
           return MultiRepositoryProvider(
             providers: [
               RepositoryProvider.value(value: foodRepository),
+              RepositoryProvider.value(value: authenticationRepository),
             ],
             child: const TandorostApplication(),
           );

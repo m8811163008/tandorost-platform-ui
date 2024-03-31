@@ -69,6 +69,8 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.foodSelectionList);
         } else if (index == 2) {
           context.goNamed(Routes.foodList);
+        } else if (index == 3) {
+          context.goNamed(Routes.profile);
         }
       },
       selectedIndex: _selectedIndex,
@@ -88,6 +90,10 @@ class _AppDrawerState extends State<AppDrawer> {
           icon: Icon(Ionicons.fish),
           label: Text('لیست خوراکی‌های قابل جستجو'),
         ),
+        NavigationDrawerDestination(
+          icon: Icon(Ionicons.fish),
+          label: Text('نمایه کاربر'),
+        ),
       ],
     );
   }
@@ -102,6 +108,8 @@ extension on String {
         return 1;
       case Routes.foodList:
         return 2;
+      case Routes.profile:
+        return 3;
 
       default:
         throw Exception('Undefined location');

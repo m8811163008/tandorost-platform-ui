@@ -9,6 +9,9 @@ keyPassword=tandorost_dev
 keyAlias=upload
 storeFile= ../../build/app/outputs/bundle/release/tandorost.jks
 
+//icon
+flutter pub run flutter_launcher_icons
+
 // to genrate appbundle 
 // change flutter.versionCode in local.properties
 flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-info=./split-debug-info

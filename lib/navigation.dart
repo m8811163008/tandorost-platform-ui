@@ -7,6 +7,7 @@ import 'package:food_selection/food_selection.dart';
 import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
+import 'package:profile/profile.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -71,6 +72,13 @@ class Navigation {
           path: Routes.foodList,
           builder: (context, state) {
             return const FoodsListRoute();
+          },
+        ),
+        GoRoute(
+          name: Routes.profile,
+          path: Routes.profile,
+          builder: (context, state) {
+            return ProfileRoute();
           },
         ),
       ],

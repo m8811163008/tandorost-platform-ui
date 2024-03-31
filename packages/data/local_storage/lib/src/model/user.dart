@@ -9,8 +9,13 @@ class UserCM {
 
   List<SelectedFoodCM> selectedFoods = const [];
 
-  UserCM copyWith({List<SelectedFoodCM>? selectedFoods}) {
-    return UserCM()..selectedFoods = selectedFoods ?? this.selectedFoods;
+  late ProfileCM profileCM = ProfileCM();
+
+  UserCM copyWith({List<SelectedFoodCM>? selectedFoods, ProfileCM? profileCM}) {
+    return UserCM()
+      ..selectedFoods = selectedFoods ?? this.selectedFoods
+      ..id = this.id
+      ..profileCM = profileCM ?? this.profileCM;
   }
 }
 
@@ -49,4 +54,39 @@ class SelectedFoodCM {
 
   @override
   int get hashCode => selectedDate.hashCode;
+}
+
+@embedded
+class ProfileCM {
+  late DateTime? birthday;
+  late String userName = '';
+  late bool? isMale;
+  late BodyCompositionCM? bodyComposition;
+}
+
+@embedded
+class BodyCompositionCM {
+  late List<BioDataCM> height = const [];
+  late List<BioDataCM> weight = const [];
+  late List<BioDataCM> waistCircumference = const [];
+  late List<BioDataCM> armCircumference = const [];
+  late List<BioDataCM> chestCircumference = const [];
+  late List<BioDataCM> thightCircumference = const [];
+  late List<BioDataCM> calfMuscleCircumference = const [];
+}
+
+@embedded
+class BioDataCM {
+  late DateTime logDate;
+  late double value;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SelectedFoodCM && other.selectedDate == logDate;
+  }
+
+  @override
+  int get hashCode => logDate.hashCode;
 }

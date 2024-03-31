@@ -1,0 +1,13 @@
+name: user_repository
+description: Flutter package which manages the authentication domain.
+publish_to: none
+
+dependencies:
+  local_storage:
+    path: ../../data/local_storage
+  domain_model:
+    path: ../../domain_model
+  rxdart: ^0.27.7
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"

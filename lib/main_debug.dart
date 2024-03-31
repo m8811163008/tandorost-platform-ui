@@ -31,7 +31,7 @@ void main() async {
 
 
 // [x] hold the state of selected food for unit of measurement 
-// add new food when no food found
+// [x] add new food when no food found
 
 // simple profile for bazzar login
 // in app purchase for a test widget

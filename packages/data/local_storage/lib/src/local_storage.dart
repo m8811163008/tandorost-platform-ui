@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:local_storage/local_storage.dart';
 
@@ -69,5 +71,19 @@ class LocalStorage {
 
       return _persistIsarDBInstance!.collection<T>();
     }
+  }
+
+  // TODO add import and export to bazzar storage with plugin
+  // add storage date
+  // when ever logged in if the storage is empty then cache a copy auto
+  // if the storage was not empty then add import and export button.
+  Future<String> decodeDB() async {
+    final uc = await userCollection;
+    return await uc.where().exportJsonRaw((Uint8List bytes) {
+      final string = Utf8Decoder().convert(bytes);
+
+      print(string);
+      return string;
+    });
   }
 }
