@@ -59,5 +59,30 @@
     "filterSelectedFoodsSelectDateTimeOptionRow1" : "تا دیشب ساعت 00:00",
     "filterSelectedFoodsSelectDateTimeOptionRow2" : "از الان تا 7 روز پیش",
     "filterSelectedFoodsSelectDateTimeOptionRow3" : "انتخاب بازه زمانی",
-    "selectedFoodListBannerLabelEnergy" : "جمع ⚡️"
+    "selectedFoodListBannerLabelEnergy" : "جمع ⚡️",
+    "profileHeight" : "قد",
+    "profileWeight" : "وزن",
+    "profileWaistCircumference" : "دور کَمر",
+    "profileArmCircumference" : "دور بازو",
+    "profileChestCircumference" : "دور سینه",
+    "profileThightCircumference" : "دور ران",
+    "profileCalfMuscleCircumference" : "دور ماهیچه ساق پا",
+    "profileBirthday" : "تاریخ تولد",
+    "profileUsername" : "نام کاربری",
+    "profileGender" : "جنسیت",
+    "profileActiviyLevel" : "مقدار فعالیت",
+    "profileCentiMetre" : "سانتی متر",
+    "profileKiloGrams" : "کیلوگرم",
+    "profileMale" : "آقا",
+    "profileFemail" : "خانم",
+    "profileAgeText" : "{year} سال ",
+    "@profileAgeText" : {
+        "placeholders": {
+            "year": {
+                "type": "String"
+                
+            }
+        }
+    }
 }
+

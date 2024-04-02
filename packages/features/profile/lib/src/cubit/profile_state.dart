@@ -1,4 +1,4 @@
-part of 'login_cubit.dart';
+part of 'profile_cubit.dart';
 
 @immutable
 class ProfileState {
@@ -138,22 +138,22 @@ class BodyCompositionValues {
     return bodyCompositionCM;
   }
 
-  final double? height;
-  final double? weight;
-  final double? waistCircumference;
-  final double? armCircumference;
-  final double? chestCircumference;
-  final double? thightCircumference;
-  final double? calfMuscleCircumference;
+  final int? height;
+  final int? weight;
+  final int? waistCircumference;
+  final int? armCircumference;
+  final int? chestCircumference;
+  final int? thightCircumference;
+  final int? calfMuscleCircumference;
 
   BodyCompositionValues copyWith(
-      {ValueGetter<double?>? height,
-      ValueGetter<double?>? weight,
-      ValueGetter<double?>? waistCircumference,
-      ValueGetter<double?>? armCircumference,
-      ValueGetter<double?>? chestCircumference,
-      ValueGetter<double?>? thightCircumference,
-      ValueGetter<double?>? calfMuscleCircumference}) {
+      {ValueGetter<int?>? height,
+      ValueGetter<int?>? weight,
+      ValueGetter<int?>? waistCircumference,
+      ValueGetter<int?>? armCircumference,
+      ValueGetter<int?>? chestCircumference,
+      ValueGetter<int?>? thightCircumference,
+      ValueGetter<int?>? calfMuscleCircumference}) {
     return BodyCompositionValues(
         height: height != null ? height() : this.height,
         weight: weight != null ? weight() : this.weight,

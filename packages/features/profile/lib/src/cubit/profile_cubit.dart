@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:user_repository/user_repository.dart';
 
-part 'login_state.dart';
+part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.authenticationRepository, this.userRepostiory)
@@ -67,7 +67,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertHeight(double value) {
+  void upsertHeight(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -79,7 +79,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertWeight(double value) {
+  void upsertWeight(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -91,7 +91,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertWaistCircumference(double value) {
+  void upsertWaistCircumference(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -102,7 +102,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertArmCircumference(double value) {
+  void upsertArmCircumference(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -113,7 +113,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertChestCircumference(double value) {
+  void upsertChestCircumference(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -124,7 +124,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertThightCircumference(double value) {
+  void upsertThightCircumference(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -135,7 +135,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertCalfMuscleCircumference(double value) {
+  void upsertCalfMuscleCircumference(int value) {
     emit(
       state.copyWith(
         bodyCompositionValues:

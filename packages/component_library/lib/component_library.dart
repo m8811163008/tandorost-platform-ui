@@ -21,3 +21,5 @@ export 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 export 'src/text/text.dart';
 export 'src/list_view/list_view.dart';
+
+export 'src/images/waist_circumference.dart';

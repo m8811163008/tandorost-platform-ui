@@ -222,6 +222,102 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'جمع ⚡️'**
   String get selectedFoodListBannerLabelEnergy;
+
+  /// No description provided for @profileHeight.
+  ///
+  /// In fa, this message translates to:
+  /// **'قد'**
+  String get profileHeight;
+
+  /// No description provided for @profileWeight.
+  ///
+  /// In fa, this message translates to:
+  /// **'وزن'**
+  String get profileWeight;
+
+  /// No description provided for @profileWaistCircumference.
+  ///
+  /// In fa, this message translates to:
+  /// **'دور کَمر'**
+  String get profileWaistCircumference;
+
+  /// No description provided for @profileArmCircumference.
+  ///
+  /// In fa, this message translates to:
+  /// **'دور بازو'**
+  String get profileArmCircumference;
+
+  /// No description provided for @profileChestCircumference.
+  ///
+  /// In fa, this message translates to:
+  /// **'دور سینه'**
+  String get profileChestCircumference;
+
+  /// No description provided for @profileThightCircumference.
+  ///
+  /// In fa, this message translates to:
+  /// **'دور ران'**
+  String get profileThightCircumference;
+
+  /// No description provided for @profileCalfMuscleCircumference.
+  ///
+  /// In fa, this message translates to:
+  /// **'دور ماهیچه ساق پا'**
+  String get profileCalfMuscleCircumference;
+
+  /// No description provided for @profileBirthday.
+  ///
+  /// In fa, this message translates to:
+  /// **'تاریخ تولد'**
+  String get profileBirthday;
+
+  /// No description provided for @profileUsername.
+  ///
+  /// In fa, this message translates to:
+  /// **'نام کاربری'**
+  String get profileUsername;
+
+  /// No description provided for @profileGender.
+  ///
+  /// In fa, this message translates to:
+  /// **'جنسیت'**
+  String get profileGender;
+
+  /// No description provided for @profileActiviyLevel.
+  ///
+  /// In fa, this message translates to:
+  /// **'مقدار فعالیت'**
+  String get profileActiviyLevel;
+
+  /// No description provided for @profileCentiMetre.
+  ///
+  /// In fa, this message translates to:
+  /// **'سانتی متر'**
+  String get profileCentiMetre;
+
+  /// No description provided for @profileKiloGrams.
+  ///
+  /// In fa, this message translates to:
+  /// **'کیلوگرم'**
+  String get profileKiloGrams;
+
+  /// No description provided for @profileMale.
+  ///
+  /// In fa, this message translates to:
+  /// **'آقا'**
+  String get profileMale;
+
+  /// No description provided for @profileFemail.
+  ///
+  /// In fa, this message translates to:
+  /// **'خانم'**
+  String get profileFemail;
+
+  /// No description provided for @profileAgeText.
+  ///
+  /// In fa, this message translates to:
+  /// **'{year} سال '**
+  String profileAgeText(String year);
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

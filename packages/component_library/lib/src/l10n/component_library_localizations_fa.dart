@@ -4,7 +4,7 @@ import 'component_library_localizations.dart';
 
 /// The translations for Persian (`fa`).
 class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
-  ComponentLibraryLocalizationsFa([super.locale = 'fa']);
+  ComponentLibraryLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
   String get foodSelectionScreenTextFieldHint => 'جستجوی غذا';
@@ -14,7 +14,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String foodTimeInputDateTimeLabelText(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'کی خوردید؟',
@@ -23,12 +23,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
   String foodTimeInputDateTimeLabelVelue(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'ساعت پیش',
@@ -37,7 +37,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -60,12 +60,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     );
     final String valueString = valueNumberFormat.format(value);
 
-    return valueString;
+    return '$valueString';
   }
 
   @override
   String unitOfMeasurementTitle(String uomType) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       uomType,
       {
         'grams': 'گرم',
@@ -75,7 +75,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -115,4 +115,54 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String get selectedFoodListBannerLabelEnergy => 'جمع ⚡️';
+
+  @override
+  String get profileHeight => 'قد';
+
+  @override
+  String get profileWeight => 'وزن';
+
+  @override
+  String get profileWaistCircumference => 'دور کَمر';
+
+  @override
+  String get profileArmCircumference => 'دور بازو';
+
+  @override
+  String get profileChestCircumference => 'دور سینه';
+
+  @override
+  String get profileThightCircumference => 'دور ران';
+
+  @override
+  String get profileCalfMuscleCircumference => 'دور ماهیچه ساق پا';
+
+  @override
+  String get profileBirthday => 'تاریخ تولد';
+
+  @override
+  String get profileUsername => 'نام کاربری';
+
+  @override
+  String get profileGender => 'جنسیت';
+
+  @override
+  String get profileActiviyLevel => 'مقدار فعالیت';
+
+  @override
+  String get profileCentiMetre => 'سانتی متر';
+
+  @override
+  String get profileKiloGrams => 'کیلوگرم';
+
+  @override
+  String get profileMale => 'آقا';
+
+  @override
+  String get profileFemail => 'خانم';
+
+  @override
+  String profileAgeText(String year) {
+    return '$year سال ';
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/food.dart';
@@ -8,6 +9,7 @@ import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:profile/profile.dart';
+import 'package:user_repository/user_repository.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -15,7 +17,8 @@ class Navigation {
       observers: [
         SentryNavigatorObserver(),
       ],
-      initialLocation: Routes.splash,
+      initialLocation: '${Routes.profile}/${Routes.activePremiumWizard}',
+      // initialLocation: Routes.splash,
       routes: [
         GoRoute(
           name: Routes.splash,
@@ -74,13 +77,32 @@ class Navigation {
             return const FoodsListRoute();
           },
         ),
-        GoRoute(
-          name: Routes.profile,
-          path: Routes.profile,
-          builder: (context, state) {
-            return ProfileRoute();
-          },
-        ),
+        ShellRoute(
+            builder: (context, state, child) {
+              return BlocProvider(
+                create: (_) => ProfileCubit(
+                    RepositoryProvider.of<AuthenticationRepository>(context),
+                    RepositoryProvider.of<UserRepostiory>(context)),
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                  name: Routes.profile,
+                  path: Routes.profile,
+                  builder: (context, state) {
+                    return ProfileRoute();
+                  },
+                  routes: [
+                    GoRoute(
+                      name: Routes.activePremiumWizard,
+                      path: Routes.activePremiumWizard,
+                      builder: (context, state) {
+                        return ActivePremiumWizardRoute();
+                      },
+                    ),
+                  ]),
+            ]),
       ],
     );
   }

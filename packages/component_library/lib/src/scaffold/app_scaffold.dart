@@ -10,6 +10,7 @@ class AppScaffold extends StatelessWidget {
     this.isShowDrawerButton = false,
     this.scaffoldKey,
     this.bodyPadding,
+    this.title,
   });
 
   final Widget? child;
@@ -17,6 +18,7 @@ class AppScaffold extends StatelessWidget {
   final bool isShowDrawerButton;
   final GlobalKey<ScaffoldState>? scaffoldKey;
   final EdgeInsets? bodyPadding;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class AppScaffold extends StatelessWidget {
       key: scaffoldKey,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
+        title: title,
         actions: actions
             .map((e) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

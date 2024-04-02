@@ -5,4 +5,5 @@ abstract class Routes {
   static const String foodSelectionList = '/selected-foods-list';
   static const String foodList = '/food-list';
   static const String profile = '/profile';
+  static const String activePremiumWizard = 'active-premium-wizard';
 }
