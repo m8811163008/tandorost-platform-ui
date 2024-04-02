@@ -113,6 +113,28 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  void upsertStartBodycompositionChanging(DateTime value) {
+    emit(
+      state.copyWith(
+        bodyCompositionValues:
+            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+          startBodycompositionChanging: () => value,
+        ),
+      ),
+    );
+  }
+
+  void upsertActivityLevelChanging(ActivityLevelCM value) {
+    emit(
+      state.copyWith(
+        bodyCompositionValues:
+            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+          activityLevel: () => value,
+        ),
+      ),
+    );
+  }
+
   void upsertChestCircumference(int value) {
     emit(
       state.copyWith(

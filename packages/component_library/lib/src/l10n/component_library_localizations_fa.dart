@@ -147,6 +147,9 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get profileGender => 'جنسیت';
 
   @override
+  String get profileTarget => 'چند روز دیگر شروع میکنید؟';
+
+  @override
   String get profileActiviyLevel => 'مقدار فعالیت';
 
   @override
@@ -165,4 +168,26 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String profileAgeText(String year) {
     return '$year سال ';
   }
+
+  @override
+  String profileActivityLevelButtonLabel(String activityLevel) {
+    String _temp0 = intl.Intl.selectLogic(
+      activityLevel,
+      {
+        'sedentary': 'غیرفعال و زیاد میشینم',
+        'fairyActive': 'تقریبا فعال، هر هفته یکی دوبار ورزش میکنم و پیاده روی میکنم',
+        'moderatelyActive': 'فعال، هر هفته دو سه روز ورزش میکنم',
+        'active': 'خیلی فعال، هر هفته بیش از 3 بار با شدت بالا ورزش میکنم',
+        'veryActive': 'روزی دوبار ورزش میکنم',
+        'other': 'ترجمه تعریف نشده',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get profileBodyShape => 'شکل بدن';
+
+  @override
+  String get mandetory => 'اختیاری';
 }

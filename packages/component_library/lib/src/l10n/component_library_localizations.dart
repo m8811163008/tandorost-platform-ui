@@ -283,6 +283,12 @@ abstract class ComponentLibraryLocalizations {
   /// **'جنسیت'**
   String get profileGender;
 
+  /// No description provided for @profileTarget.
+  ///
+  /// In fa, this message translates to:
+  /// **'چند روز دیگر شروع میکنید؟'**
+  String get profileTarget;
+
   /// No description provided for @profileActiviyLevel.
   ///
   /// In fa, this message translates to:
@@ -318,6 +324,24 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'{year} سال '**
   String profileAgeText(String year);
+
+  /// No description provided for @profileActivityLevelButtonLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'{activityLevel, select, sedentary{غیرفعال و زیاد میشینم} fairyActive{تقریبا فعال، هر هفته یکی دوبار ورزش میکنم و پیاده روی میکنم} moderatelyActive{فعال، هر هفته دو سه روز ورزش میکنم} active{خیلی فعال، هر هفته بیش از 3 بار با شدت بالا ورزش میکنم} veryActive{روزی دوبار ورزش میکنم} other{ترجمه تعریف نشده}}'**
+  String profileActivityLevelButtonLabel(String activityLevel);
+
+  /// No description provided for @profileBodyShape.
+  ///
+  /// In fa, this message translates to:
+  /// **'شکل بدن'**
+  String get profileBodyShape;
+
+  /// No description provided for @mandetory.
+  ///
+  /// In fa, this message translates to:
+  /// **'اختیاری'**
+  String get mandetory;
 }
 
 class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {

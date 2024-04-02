@@ -43,7 +43,8 @@ const UserCMSchema = CollectionSchema(
     r'UnitOfMeasurmentCM': UnitOfMeasurmentCMSchema,
     r'ProfileCM': ProfileCMSchema,
     r'BodyCompositionCM': BodyCompositionCMSchema,
-    r'BioDataCM': BioDataCMSchema
+    r'BioDataCM': BioDataCMSchema,
+    r'BioDataActivityLevelCM': BioDataActivityLevelCMSchema
   },
   getId: _userCMGetId,
   getLinks: _userCMGetLinks,
@@ -1409,49 +1410,55 @@ const BodyCompositionCMSchema = Schema(
   name: r'BodyCompositionCM',
   id: -1595502616956810877,
   properties: {
-    r'armCircumference': PropertySchema(
+    r'activityLevel': PropertySchema(
       id: 0,
+      name: r'activityLevel',
+      type: IsarType.objectList,
+      target: r'BioDataActivityLevelCM',
+    ),
+    r'armCircumference': PropertySchema(
+      id: 1,
       name: r'armCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'calfMuscleCircumference': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'calfMuscleCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'chestCircumference': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'chestCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'height': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'height',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'startBodycompositionChanging': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'startBodycompositionChanging',
       type: IsarType.dateTime,
     ),
     r'thightCircumference': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'thightCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'waistCircumference': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'waistCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'weight': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'weight',
       type: IsarType.objectList,
       target: r'BioDataCM',
@@ -1469,6 +1476,15 @@ int _bodyCompositionCMEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.activityLevel.length * 3;
+  {
+    final offsets = allOffsets[BioDataActivityLevelCM]!;
+    for (var i = 0; i < object.activityLevel.length; i++) {
+      final value = object.activityLevel[i];
+      bytesCount +=
+          BioDataActivityLevelCMSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   bytesCount += 3 + object.armCircumference.length * 3;
   {
     final offsets = allOffsets[BioDataCM]!;
@@ -1534,45 +1550,51 @@ void _bodyCompositionCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeObjectList<BioDataCM>(
+  writer.writeObjectList<BioDataActivityLevelCM>(
     offsets[0],
     allOffsets,
-    BioDataCMSchema.serialize,
-    object.armCircumference,
+    BioDataActivityLevelCMSchema.serialize,
+    object.activityLevel,
   );
   writer.writeObjectList<BioDataCM>(
     offsets[1],
     allOffsets,
     BioDataCMSchema.serialize,
-    object.calfMuscleCircumference,
+    object.armCircumference,
   );
   writer.writeObjectList<BioDataCM>(
     offsets[2],
     allOffsets,
     BioDataCMSchema.serialize,
-    object.chestCircumference,
+    object.calfMuscleCircumference,
   );
   writer.writeObjectList<BioDataCM>(
     offsets[3],
     allOffsets,
     BioDataCMSchema.serialize,
+    object.chestCircumference,
+  );
+  writer.writeObjectList<BioDataCM>(
+    offsets[4],
+    allOffsets,
+    BioDataCMSchema.serialize,
     object.height,
   );
-  writer.writeDateTime(offsets[4], object.startBodycompositionChanging);
+  writer.writeDateTime(offsets[5], object.startBodycompositionChanging);
   writer.writeObjectList<BioDataCM>(
-    offsets[5],
+    offsets[6],
     allOffsets,
     BioDataCMSchema.serialize,
     object.thightCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[6],
+    offsets[7],
     allOffsets,
     BioDataCMSchema.serialize,
     object.waistCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[7],
+    offsets[8],
     allOffsets,
     BioDataCMSchema.serialize,
     object.weight,
@@ -1586,51 +1608,58 @@ BodyCompositionCM _bodyCompositionCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = BodyCompositionCM();
-  object.armCircumference = reader.readObjectList<BioDataCM>(
+  object.activityLevel = reader.readObjectList<BioDataActivityLevelCM>(
         offsets[0],
-        BioDataCMSchema.deserialize,
+        BioDataActivityLevelCMSchema.deserialize,
         allOffsets,
-        BioDataCM(),
+        BioDataActivityLevelCM(),
       ) ??
       [];
-  object.calfMuscleCircumference = reader.readObjectList<BioDataCM>(
+  object.armCircumference = reader.readObjectList<BioDataCM>(
         offsets[1],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.chestCircumference = reader.readObjectList<BioDataCM>(
+  object.calfMuscleCircumference = reader.readObjectList<BioDataCM>(
         offsets[2],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.height = reader.readObjectList<BioDataCM>(
+  object.chestCircumference = reader.readObjectList<BioDataCM>(
         offsets[3],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.startBodycompositionChanging = reader.readDateTimeOrNull(offsets[4]);
-  object.thightCircumference = reader.readObjectList<BioDataCM>(
-        offsets[5],
+  object.height = reader.readObjectList<BioDataCM>(
+        offsets[4],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.waistCircumference = reader.readObjectList<BioDataCM>(
+  object.startBodycompositionChanging = reader.readDateTimeOrNull(offsets[5]);
+  object.thightCircumference = reader.readObjectList<BioDataCM>(
         offsets[6],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.weight = reader.readObjectList<BioDataCM>(
+  object.waistCircumference = reader.readObjectList<BioDataCM>(
         offsets[7],
+        BioDataCMSchema.deserialize,
+        allOffsets,
+        BioDataCM(),
+      ) ??
+      [];
+  object.weight = reader.readObjectList<BioDataCM>(
+        offsets[8],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
@@ -1647,11 +1676,11 @@ P _bodyCompositionCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readObjectList<BioDataCM>(
+      return (reader.readObjectList<BioDataActivityLevelCM>(
             offset,
-            BioDataCMSchema.deserialize,
+            BioDataActivityLevelCMSchema.deserialize,
             allOffsets,
-            BioDataCM(),
+            BioDataActivityLevelCM(),
           ) ??
           []) as P;
     case 1:
@@ -1679,8 +1708,6 @@ P _bodyCompositionCMDeserializeProp<P>(
           ) ??
           []) as P;
     case 4:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 5:
       return (reader.readObjectList<BioDataCM>(
             offset,
             BioDataCMSchema.deserialize,
@@ -1688,6 +1715,8 @@ P _bodyCompositionCMDeserializeProp<P>(
             BioDataCM(),
           ) ??
           []) as P;
+    case 5:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
       return (reader.readObjectList<BioDataCM>(
             offset,
@@ -1704,6 +1733,14 @@ P _bodyCompositionCMDeserializeProp<P>(
             BioDataCM(),
           ) ??
           []) as P;
+    case 8:
+      return (reader.readObjectList<BioDataCM>(
+            offset,
+            BioDataCMSchema.deserialize,
+            allOffsets,
+            BioDataCM(),
+          ) ??
+          []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -1711,6 +1748,95 @@ P _bodyCompositionCMDeserializeProp<P>(
 
 extension BodyCompositionCMQueryFilter
     on QueryBuilder<BodyCompositionCM, BodyCompositionCM, QFilterCondition> {
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'activityLevel',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
       armCircumferenceLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
@@ -2412,6 +2538,13 @@ extension BodyCompositionCMQueryFilter
 extension BodyCompositionCMQueryObject
     on QueryBuilder<BodyCompositionCM, BodyCompositionCM, QFilterCondition> {
   QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      activityLevelElement(FilterQuery<BioDataActivityLevelCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'activityLevel');
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
       armCircumferenceElement(FilterQuery<BioDataCM> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'armCircumference');
@@ -2704,3 +2837,276 @@ extension BioDataCMQueryFilter
 
 extension BioDataCMQueryObject
     on QueryBuilder<BioDataCM, BioDataCM, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const BioDataActivityLevelCMSchema = Schema(
+  name: r'BioDataActivityLevelCM',
+  id: -6519057763015470941,
+  properties: {
+    r'hashCode': PropertySchema(
+      id: 0,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'logDate': PropertySchema(
+      id: 1,
+      name: r'logDate',
+      type: IsarType.dateTime,
+    ),
+    r'value': PropertySchema(
+      id: 2,
+      name: r'value',
+      type: IsarType.byte,
+      enumMap: _BioDataActivityLevelCMvalueEnumValueMap,
+    )
+  },
+  estimateSize: _bioDataActivityLevelCMEstimateSize,
+  serialize: _bioDataActivityLevelCMSerialize,
+  deserialize: _bioDataActivityLevelCMDeserialize,
+  deserializeProp: _bioDataActivityLevelCMDeserializeProp,
+);
+
+int _bioDataActivityLevelCMEstimateSize(
+  BioDataActivityLevelCM object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  return bytesCount;
+}
+
+void _bioDataActivityLevelCMSerialize(
+  BioDataActivityLevelCM object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.hashCode);
+  writer.writeDateTime(offsets[1], object.logDate);
+  writer.writeByte(offsets[2], object.value.index);
+}
+
+BioDataActivityLevelCM _bioDataActivityLevelCMDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = BioDataActivityLevelCM();
+  object.logDate = reader.readDateTime(offsets[1]);
+  object.value = _BioDataActivityLevelCMvalueValueEnumMap[
+          reader.readByteOrNull(offsets[2])] ??
+      ActivityLevelCM.sedentary;
+  return object;
+}
+
+P _bioDataActivityLevelCMDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readDateTime(offset)) as P;
+    case 2:
+      return (_BioDataActivityLevelCMvalueValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          ActivityLevelCM.sedentary) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+const _BioDataActivityLevelCMvalueEnumValueMap = {
+  'sedentary': 0,
+  'fairyActive': 1,
+  'moderatelyActive': 2,
+  'active': 3,
+  'veryActive': 4,
+};
+const _BioDataActivityLevelCMvalueValueEnumMap = {
+  0: ActivityLevelCM.sedentary,
+  1: ActivityLevelCM.fairyActive,
+  2: ActivityLevelCM.moderatelyActive,
+  3: ActivityLevelCM.active,
+  4: ActivityLevelCM.veryActive,
+};
+
+extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
+    BioDataActivityLevelCM, BioDataActivityLevelCM, QFilterCondition> {
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> hashCodeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> logDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'logDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> logDateGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'logDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> logDateLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'logDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> logDateBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'logDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> valueEqualTo(ActivityLevelCM value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'value',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> valueGreaterThan(
+    ActivityLevelCM value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'value',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> valueLessThan(
+    ActivityLevelCM value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'value',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
+      QAfterFilterCondition> valueBetween(
+    ActivityLevelCM lower,
+    ActivityLevelCM upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'value',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension BioDataActivityLevelCMQueryObject on QueryBuilder<
+    BioDataActivityLevelCM, BioDataActivityLevelCM, QFilterCondition> {}

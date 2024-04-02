@@ -23,3 +23,4 @@ export 'src/text/text.dart';
 export 'src/list_view/list_view.dart';
 
 export 'src/images/waist_circumference.dart';
+export 'src/images/body_composition.dart';

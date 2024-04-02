@@ -70,6 +70,7 @@
     "profileBirthday" : "تاریخ تولد",
     "profileUsername" : "نام کاربری",
     "profileGender" : "جنسیت",
+    "profileTarget" : "چند روز دیگر شروع میکنید؟",
     "profileActiviyLevel" : "مقدار فعالیت",
     "profileCentiMetre" : "سانتی متر",
     "profileKiloGrams" : "کیلوگرم",
@@ -83,6 +84,14 @@
                 
             }
         }
-    }
+    },
+    "profileActivityLevelButtonLabel" : "{activityLevel, select, sedentary{غیرفعال و زیاد میشینم} fairyActive{تقریبا فعال، هر هفته یکی دوبار ورزش میکنم و پیاده روی میکنم} moderatelyActive{فعال، هر هفته دو سه روز ورزش میکنم} active{خیلی فعال، هر هفته بیش از 3 بار با شدت بالا ورزش میکنم} veryActive{روزی دوبار ورزش میکنم} other{ترجمه تعریف نشده}}",
+    "@profileActivityLevelButtonLabel": {
+        "placeholders": {
+            "activityLevel": {}
+        }
+    },
+    "profileBodyShape" : "شکل بدن",
+    "mandetory" : "اختیاری"
 }
 

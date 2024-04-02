@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:local_storage/local_storage.dart';
+import 'package:local_storage/src/model/activity_level.dart';
 
 part 'user.g.dart';
 
@@ -73,6 +74,8 @@ class BodyCompositionCM {
   List<BioDataCM> chestCircumference = const [];
   List<BioDataCM> thightCircumference = const [];
   List<BioDataCM> calfMuscleCircumference = const [];
+  List<BioDataCM> hipCircumference = const [];
+  List<BioDataActivityLevelCM> activityLevel = const [];
   DateTime? startBodycompositionChanging;
 }
 
@@ -80,6 +83,23 @@ class BodyCompositionCM {
 class BioDataCM {
   late DateTime logDate;
   late int value;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SelectedFoodCM && other.selectedDate == logDate;
+  }
+
+  @override
+  int get hashCode => logDate.hashCode;
+}
+
+@embedded
+class BioDataActivityLevelCM {
+  late DateTime logDate;
+  @enumerated
+  late ActivityLevelCM value;
 
   @override
   bool operator ==(Object other) {

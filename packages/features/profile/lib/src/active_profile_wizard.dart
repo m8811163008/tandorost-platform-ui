@@ -24,6 +24,9 @@ class ActivePremiumWizardRoute extends StatelessWidget {
           WizardPage1(),
           WizardPage2(),
           WizardPage3(),
+          WizardPage4(),
+          WizardPage5(),
+          WizardPage6(),
         ],
       ),
     );

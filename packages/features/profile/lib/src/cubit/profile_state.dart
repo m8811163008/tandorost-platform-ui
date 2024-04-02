@@ -65,14 +65,18 @@ class ActivePremiumWizardState {
 }
 
 class BodyCompositionValues {
-  const BodyCompositionValues(
-      {this.height,
-      this.weight,
-      this.waistCircumference,
-      this.armCircumference,
-      this.chestCircumference,
-      this.thightCircumference,
-      this.calfMuscleCircumference});
+  const BodyCompositionValues({
+    this.height,
+    this.weight,
+    this.waistCircumference,
+    this.armCircumference,
+    this.chestCircumference,
+    this.thightCircumference,
+    this.calfMuscleCircumference,
+    this.startBodycompositionChanging,
+    this.activityLevel,
+    this.hipCircumference,
+  });
 
   BodyCompositionCM toBodyCompositionCM() {
     final bodyCompositionCM = BodyCompositionCM();
@@ -134,6 +138,24 @@ class BodyCompositionValues {
           ..value = calfMuscleCircumference!
       ];
     }
+    if (hipCircumference != null) {
+      bodyCompositionCM.hipCircumference = [
+        BioDataCM()
+          ..logDate = logDate
+          ..value = hipCircumference!
+      ];
+    }
+    if (startBodycompositionChanging != null) {
+      bodyCompositionCM.startBodycompositionChanging =
+          startBodycompositionChanging;
+    }
+    if (activityLevel != null) {
+      bodyCompositionCM.activityLevel = [
+        BioDataActivityLevelCM()
+          ..logDate = logDate
+          ..value = activityLevel!
+      ];
+    }
 
     return bodyCompositionCM;
   }
@@ -141,19 +163,26 @@ class BodyCompositionValues {
   final int? height;
   final int? weight;
   final int? waistCircumference;
+  final int? hipCircumference;
   final int? armCircumference;
   final int? chestCircumference;
   final int? thightCircumference;
   final int? calfMuscleCircumference;
+  final DateTime? startBodycompositionChanging;
+  final ActivityLevelCM? activityLevel;
 
-  BodyCompositionValues copyWith(
-      {ValueGetter<int?>? height,
-      ValueGetter<int?>? weight,
-      ValueGetter<int?>? waistCircumference,
-      ValueGetter<int?>? armCircumference,
-      ValueGetter<int?>? chestCircumference,
-      ValueGetter<int?>? thightCircumference,
-      ValueGetter<int?>? calfMuscleCircumference}) {
+  BodyCompositionValues copyWith({
+    ValueGetter<int?>? height,
+    ValueGetter<int?>? weight,
+    ValueGetter<int?>? waistCircumference,
+    ValueGetter<int?>? armCircumference,
+    ValueGetter<int?>? hipCircumference,
+    ValueGetter<int?>? chestCircumference,
+    ValueGetter<int?>? thightCircumference,
+    ValueGetter<int?>? calfMuscleCircumference,
+    ValueGetter<DateTime?>? startBodycompositionChanging,
+    ValueGetter<ActivityLevelCM?>? activityLevel,
+  }) {
     return BodyCompositionValues(
         height: height != null ? height() : this.height,
         weight: weight != null ? weight() : this.weight,
@@ -169,6 +198,14 @@ class BodyCompositionValues {
         thightCircumference: thightCircumference != null
             ? thightCircumference()
             : this.thightCircumference,
+        hipCircumference: hipCircumference != null
+            ? hipCircumference()
+            : this.hipCircumference,
+        startBodycompositionChanging: startBodycompositionChanging != null
+            ? startBodycompositionChanging()
+            : this.startBodycompositionChanging,
+        activityLevel:
+            activityLevel != null ? activityLevel() : this.activityLevel,
         calfMuscleCircumference: calfMuscleCircumference != null
             ? calfMuscleCircumference()
             : this.calfMuscleCircumference);
