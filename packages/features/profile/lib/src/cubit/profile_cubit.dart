@@ -12,7 +12,12 @@ part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.authenticationRepository, this.userRepostiory)
-      : super(ProfileState());
+      : super(ProfileState()) {
+    //
+    emit(state.copyWith(
+      isShowWizard: true,
+    ));
+  }
   final AuthenticationRepository authenticationRepository;
   final UserRepostiory userRepostiory;
 
@@ -200,6 +205,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(
       state.copyWith(
         currentPage: currentPage,
+      ),
+    );
+  }
+
+  void toggleIsShowWizard() {
+    emit(
+      state.copyWith(
+        isShowWizard: !state.isShowWizard,
       ),
     );
   }

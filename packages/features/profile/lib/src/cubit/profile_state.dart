@@ -4,11 +4,13 @@ part of 'profile_cubit.dart';
 class ProfileState {
   final ProcessAsyncStatus loginStatus;
   final ActivePremiumWizardState activePremiumWizardState;
+  final bool isShowWizard;
 
-  ProfileState(
-      {this.loginStatus = ProcessAsyncStatus.initial,
-      ActivePremiumWizardState? activePremiumWizardState})
-      : activePremiumWizardState =
+  ProfileState({
+    this.loginStatus = ProcessAsyncStatus.initial,
+    ActivePremiumWizardState? activePremiumWizardState,
+    this.isShowWizard = false,
+  }) : activePremiumWizardState =
             activePremiumWizardState ?? ActivePremiumWizardState();
 
   ProfileState copyWith({
@@ -19,9 +21,11 @@ class ProfileState {
     ProcessAsyncStatus? formSubmitStatus,
     BodyCompositionValues? bodyCompositionValues,
     bool? isAgreementAccepted,
+    bool? isShowWizard,
   }) =>
       ProfileState(
         loginStatus: loginStatus ?? this.loginStatus,
+        isShowWizard: isShowWizard ?? this.isShowWizard,
         activePremiumWizardState: activePremiumWizardState.copyWith(
           currentPage: currentPage ?? activePremiumWizardState.currentPage,
           profileCM: profileCM ?? activePremiumWizardState.profileCM,

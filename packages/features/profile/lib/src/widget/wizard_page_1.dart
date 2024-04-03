@@ -22,6 +22,16 @@ class WizardPage1 extends StatelessWidget {
           ),
           Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'برای دسترسی به نمایه کاربری فرم زیر را کامل کنید.',
+                    style: context.themeData.textTheme.labelMedium,
+                  ),
+                ),
+              ),
               _buildHeightCard(context),
               _buildWaistCircumferenceCard(context),
             ],
