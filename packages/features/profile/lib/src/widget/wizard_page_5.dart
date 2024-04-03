@@ -1,9 +1,6 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_model/domain_model.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
 import 'package:profile/src/widget/widget.dart';
@@ -21,7 +18,7 @@ class WizardPage5 extends StatelessWidget {
             textDirection: Directionality.of(context),
             start: 0,
             bottom: 80,
-            child: ShimmerTextNavigation(),
+            child: const ShimmerTextNavigation(),
           ),
           _buildActivityLevel(context),
         ],
@@ -31,7 +28,7 @@ class WizardPage5 extends StatelessWidget {
 
   Widget _buildActivityLevel(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -45,7 +42,7 @@ class WizardPage5 extends StatelessWidget {
             SizedBox(
               height: context.sizesExtenstion.medium,
             ),
-            ActivityLevelButtons(),
+            const ActivityLevelButtons(),
           ],
         ),
       ),

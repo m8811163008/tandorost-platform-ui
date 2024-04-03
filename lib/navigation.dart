@@ -91,14 +91,14 @@ class Navigation {
                   name: Routes.profile,
                   path: Routes.profile,
                   builder: (context, state) {
-                    return ProfileRoute();
+                    return const ProfileRoute();
                   },
                   routes: [
                     GoRoute(
                       name: Routes.activePremiumWizard,
                       path: Routes.activePremiumWizard,
                       builder: (context, state) {
-                        return ActivePremiumWizardRoute();
+                        return const ActivePremiumWizardRoute();
                       },
                     ),
                   ]),

@@ -1,0 +1,30 @@
+
+keytool -genkey -v -keystore tandorost.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+Enter keystore password: #Milad021 or tandorost_dev
+
+
+key.properties
+storePassword=tandorost_dev
+keyPassword=tandorost_dev
+keyAlias=upload
+storeFile= ../../build/app/outputs/bundle/release/tandorost.jks
+
+//icon
+flutter pub run flutter_launcher_icons
+
+// to genrate appbundle 
+// change flutter.versionCode in local.properties
+flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-info=./split-debug-info
+
+// To build apks from appbundle
+java -jar bundletool-all-1.15.6.jar build-apks --bund^
+le=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass^
+=pass:tandorost_dev --connected-device
+
+// To install on device apks
+java -jar bundletool-all-1.15.6.jar install-apks --apks=my_app.apks
+
+// bazzar
+java -jar bundlesigner-0.1.13.jar genbin  --bundle app-release.aab --bin bazzar^
+       --v2-signing-enabled true --v3-signing-enabled false^
+       --ks tandorost.jks -v

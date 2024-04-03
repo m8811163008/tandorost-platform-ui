@@ -2,10 +2,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
-import 'package:profile/src/cubit/profile_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ProfileRoute extends StatelessWidget {
@@ -17,7 +15,7 @@ class ProfileRoute extends StatelessWidget {
       create: (_) => ProfileCubit(
           RepositoryProvider.of<AuthenticationRepository>(context),
           RepositoryProvider.of<UserRepostiory>(context)),
-      child: ProfilePageRedirector(),
+      child: const ProfilePageRedirector(),
     );
   }
 }
@@ -32,8 +30,8 @@ class ProfilePageRedirector extends StatelessWidget {
             previous.isShowWizard != current.isShowWizard,
         builder: (context, state) {
           return state.isShowWizard
-              ? ActivePremiumWizardRoute()
-              : ProfileView();
+              ? const ActivePremiumWizardRoute()
+              : const ProfileView();
         });
   }
 }
@@ -42,6 +40,7 @@ class ProfilePageRedirector extends StatelessWidget {
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       isShowDrawerButton: true,
@@ -49,7 +48,7 @@ class ProfileView extends StatelessWidget {
         IconButton(
           tooltip: 'اضافه کردن اندازه گیری جدید',
           onPressed: () {},
-          icon: Icon(Ionicons.add),
+          icon: const Icon(Ionicons.add),
         ),
       ],
       child: ListView(
@@ -62,10 +61,10 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _buildProgreesCard(BuildContext context) {
-    return Card(
+    return const Card(
       margin: EdgeInsets.all(16.0),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,10 +77,10 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _buildProfileCard(BuildContext context) {
-    return Card(
+    return const Card(
       margin: EdgeInsets.all(16.0),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

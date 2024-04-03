@@ -52,7 +52,7 @@ class _SelectBirthdayButtonState extends State<SelectBirthdayButton> {
           _buttonLabel = _buildLabel(_selectedDate);
         });
       },
-      icon: Icon(Ionicons.calendar),
+      icon: const Icon(Ionicons.calendar),
       label: Text(_buttonLabel),
     );
   }

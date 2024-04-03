@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
 import 'package:profile/src/widget/widget.dart';
@@ -17,12 +16,12 @@ class WizardPage4 extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildSetTargetCard(context),
-          Spacer(),
-          Align(
+          const Spacer(),
+          const Align(
             alignment: Alignment.bottomRight,
             child: ShimmerTextNavigation(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 80,
           ),
         ],
@@ -32,7 +31,7 @@ class WizardPage4 extends StatelessWidget {
 
   Widget _buildSetTargetCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -84,10 +83,10 @@ class WizardPage4 extends StatelessWidget {
           context: context,
           builder: ((context) {
             return SimpleDialog(
-              titlePadding: EdgeInsets.all(16.0),
+              titlePadding: const EdgeInsets.all(16.0),
               contentPadding:
-                  EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-              title: Text('انتخاب هدف و تاریخ شروع'),
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              title: const Text('انتخاب هدف و تاریخ شروع'),
               children: [
                 Text.rich(
                   TextSpan(text: '''
@@ -104,7 +103,7 @@ class WizardPage4 extends StatelessWidget {
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                Text('''
+                const Text('''
 این اهداف باید مشخص، مثبت و واقع بینانه باشند مانند ("من 5 کیلوگرم چربی بدن را از دست خواهم داد") به جای اینکه امیدوارانه و نامشخص باشند مانند ("من می خواهم کمی وزن کم کنم")
 '''),
               ],
@@ -112,13 +111,13 @@ class WizardPage4 extends StatelessWidget {
           }),
         );
       },
-      icon: Icon(Ionicons.information_circle_outline),
+      icon: const Icon(Ionicons.information_circle_outline),
     );
   }
 }
 
 class _BirthdayContent extends StatelessWidget {
-  const _BirthdayContent({super.key});
+  const _BirthdayContent();
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +150,7 @@ class _BirthdayContent extends StatelessWidget {
         final birthDay = context.select((ProfileCubit cubit) =>
             cubit.state.activePremiumWizardState.profileCM.birthday);
         if (birthDay == null) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         } else {
           final years = DateTime.now().difference(birthDay).inDays ~/ 365;
 

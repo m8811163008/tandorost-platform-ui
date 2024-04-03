@@ -6,8 +6,8 @@ part 'unit_of_measurement.g.dart';
 class UnitOfMeasurmentCM {
   late String title;
   late String icon;
-  late int? howManyGrams;
+  int? howManyGrams;
 
   /// specify maximum amount of the selection.
-  late int? max;
+  int? max;
 }

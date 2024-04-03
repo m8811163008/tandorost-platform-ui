@@ -12,7 +12,7 @@ class SearchFoodList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (searchedTerm == '') {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
     return ListView.separated(
       scrollDirection: Axis.horizontal,

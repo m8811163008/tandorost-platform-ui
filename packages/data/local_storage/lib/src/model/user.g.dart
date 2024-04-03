@@ -1440,25 +1440,31 @@ const BodyCompositionCMSchema = Schema(
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
-    r'startBodycompositionChanging': PropertySchema(
+    r'hipCircumference': PropertySchema(
       id: 5,
+      name: r'hipCircumference',
+      type: IsarType.objectList,
+      target: r'BioDataCM',
+    ),
+    r'startBodycompositionChanging': PropertySchema(
+      id: 6,
       name: r'startBodycompositionChanging',
       type: IsarType.dateTime,
     ),
     r'thightCircumference': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'thightCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'waistCircumference': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'waistCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'weight': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'weight',
       type: IsarType.objectList,
       target: r'BioDataCM',
@@ -1514,6 +1520,14 @@ int _bodyCompositionCMEstimateSize(
     final offsets = allOffsets[BioDataCM]!;
     for (var i = 0; i < object.height.length; i++) {
       final value = object.height[i];
+      bytesCount += BioDataCMSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
+  bytesCount += 3 + object.hipCircumference.length * 3;
+  {
+    final offsets = allOffsets[BioDataCM]!;
+    for (var i = 0; i < object.hipCircumference.length; i++) {
+      final value = object.hipCircumference[i];
       bytesCount += BioDataCMSchema.estimateSize(value, offsets, allOffsets);
     }
   }
@@ -1580,21 +1594,27 @@ void _bodyCompositionCMSerialize(
     BioDataCMSchema.serialize,
     object.height,
   );
-  writer.writeDateTime(offsets[5], object.startBodycompositionChanging);
   writer.writeObjectList<BioDataCM>(
-    offsets[6],
+    offsets[5],
+    allOffsets,
+    BioDataCMSchema.serialize,
+    object.hipCircumference,
+  );
+  writer.writeDateTime(offsets[6], object.startBodycompositionChanging);
+  writer.writeObjectList<BioDataCM>(
+    offsets[7],
     allOffsets,
     BioDataCMSchema.serialize,
     object.thightCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[7],
+    offsets[8],
     allOffsets,
     BioDataCMSchema.serialize,
     object.waistCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[8],
+    offsets[9],
     allOffsets,
     BioDataCMSchema.serialize,
     object.weight,
@@ -1643,23 +1663,30 @@ BodyCompositionCM _bodyCompositionCMDeserialize(
         BioDataCM(),
       ) ??
       [];
-  object.startBodycompositionChanging = reader.readDateTimeOrNull(offsets[5]);
-  object.thightCircumference = reader.readObjectList<BioDataCM>(
-        offsets[6],
+  object.hipCircumference = reader.readObjectList<BioDataCM>(
+        offsets[5],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.waistCircumference = reader.readObjectList<BioDataCM>(
+  object.startBodycompositionChanging = reader.readDateTimeOrNull(offsets[6]);
+  object.thightCircumference = reader.readObjectList<BioDataCM>(
         offsets[7],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.weight = reader.readObjectList<BioDataCM>(
+  object.waistCircumference = reader.readObjectList<BioDataCM>(
         offsets[8],
+        BioDataCMSchema.deserialize,
+        allOffsets,
+        BioDataCM(),
+      ) ??
+      [];
+  object.weight = reader.readObjectList<BioDataCM>(
+        offsets[9],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
@@ -1716,8 +1743,6 @@ P _bodyCompositionCMDeserializeProp<P>(
           ) ??
           []) as P;
     case 5:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 6:
       return (reader.readObjectList<BioDataCM>(
             offset,
             BioDataCMSchema.deserialize,
@@ -1725,6 +1750,8 @@ P _bodyCompositionCMDeserializeProp<P>(
             BioDataCM(),
           ) ??
           []) as P;
+    case 6:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 7:
       return (reader.readObjectList<BioDataCM>(
             offset,
@@ -1734,6 +1761,14 @@ P _bodyCompositionCMDeserializeProp<P>(
           ) ??
           []) as P;
     case 8:
+      return (reader.readObjectList<BioDataCM>(
+            offset,
+            BioDataCMSchema.deserialize,
+            allOffsets,
+            BioDataCM(),
+          ) ??
+          []) as P;
+    case 9:
       return (reader.readObjectList<BioDataCM>(
             offset,
             BioDataCMSchema.deserialize,
@@ -2194,6 +2229,95 @@ extension BodyCompositionCMQueryFilter
   }
 
   QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'hipCircumference',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
       startBodycompositionChangingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2569,6 +2693,13 @@ extension BodyCompositionCMQueryObject
       heightElement(FilterQuery<BioDataCM> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'height');
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      hipCircumferenceElement(FilterQuery<BioDataCM> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'hipCircumference');
     });
   }
 

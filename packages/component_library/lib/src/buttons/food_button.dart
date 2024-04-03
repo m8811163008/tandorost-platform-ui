@@ -46,7 +46,7 @@ class AddFoodButton extends StatelessWidget {
           constraints: BoxConstraints.tight(
             Size.square(context.sizesExtenstion.xExtraLarge),
           ),
-          child: Center(
+          child: const Center(
             child: Icon(Ionicons.add_circle_outline),
           ),
         ),

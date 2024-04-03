@@ -1,6 +1,5 @@
 import 'package:domain_model/domain_model.dart';
 
-import 'package:local_storage/local_storage.dart';
 
 extension SelectedFoodToCM on SelectedFood {
   SelectedFoodCM toCacheModel() => SelectedFoodCM()

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:cafebazaar_auth/cafebazaar_auth.dart';
-
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
@@ -14,7 +12,7 @@ class AuthenticationRepository {
   }
 
   Future<void> logIn() async {
-    CafeBazaarAccount? account = await CafeBazaarAuth.signIn();
+    // CafeBazaarAccount? account = await CafeBazaarAuth.signIn();
     // TODO check other auth options
     // import cafebazaar_flutter for payment
   }

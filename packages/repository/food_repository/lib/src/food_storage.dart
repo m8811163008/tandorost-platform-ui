@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/json_to_cache.dart';
-import 'package:local_storage/local_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FoodStorage {
@@ -47,8 +46,9 @@ class FoodStorage {
     if (count != 0) return;
     final user = UserCM()..selectedFoods = const [];
 
-    return await userCollection.isar
-        .writeTxn(() async => userCollection.put(user));
+    return await userCollection.isar.writeTxn(() async {
+      await userCollection.put(user);
+    });
   }
 
   /// get list of foods from the food collection. Read

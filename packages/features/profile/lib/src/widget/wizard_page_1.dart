@@ -18,7 +18,7 @@ class WizardPage1 extends StatelessWidget {
             textDirection: Directionality.of(context),
             start: 0,
             bottom: 80,
-            child: ShimmerTextNavigation(),
+            child: const ShimmerTextNavigation(),
           ),
           Column(
             children: [
@@ -43,7 +43,7 @@ class WizardPage1 extends StatelessWidget {
 
   Widget _buildHeightCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -93,7 +93,7 @@ class WizardPage1 extends StatelessWidget {
 
   Widget _buildWaistCircumferenceCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -156,10 +156,10 @@ class WizardPage1 extends StatelessWidget {
           context: context,
           builder: ((context) {
             return SimpleDialog(
-              titlePadding: EdgeInsets.all(16.0),
+              titlePadding: const EdgeInsets.all(16.0),
               contentPadding:
-                  EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-              title: Text('چطور دور کمر را اندازه بگیرم؟'),
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              title: const Text('چطور دور کمر را اندازه بگیرم؟'),
               children: [
                 Text.rich(
                   TextSpan(
@@ -170,7 +170,7 @@ class WizardPage1 extends StatelessWidget {
                             text: 'بین پایین ترین دنده ها و ستیغ تهیگاهی ',
                             style: context.themeData.textTheme.bodyMedium!
                                 .copyWith(fontWeight: FontWeight.bold)),
-                        TextSpan(
+                        const TextSpan(
                           text: 'است. ',
                         )
                       ]),
@@ -178,17 +178,17 @@ class WizardPage1 extends StatelessWidget {
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                WaistCircumferenceImage(),
+                const WaistCircumferenceImage(),
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                Text('بالاتر از ناف باشد و پوست زیر متر جمع نشود')
+                const Text('بالاتر از ناف باشد و پوست زیر متر جمع نشود')
               ],
             );
           }),
         );
       },
-      icon: Icon(Ionicons.information_circle_outline),
+      icon: const Icon(Ionicons.information_circle_outline),
     );
   }
 }

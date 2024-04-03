@@ -21,7 +21,7 @@ class ActivePremiumWizardRoute extends StatelessWidget {
       child: PageView(
         onPageChanged: context.read<ProfileCubit>().updateCurrentPage,
         scrollDirection: Axis.vertical,
-        children: [
+        children: const [
           WizardPage1(),
           WizardPage2(),
           WizardPage3(),

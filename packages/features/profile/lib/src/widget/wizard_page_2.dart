@@ -14,7 +14,7 @@ class WizardPage2 extends StatelessWidget {
         children: [
           _buildWeightCard(context),
           _buildGenderCard(context),
-          Spacer(),
+          const Spacer(),
           Align(
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
@@ -27,7 +27,7 @@ class WizardPage2 extends StatelessWidget {
               );
             }),
           ),
-          SizedBox(
+          const SizedBox(
             height: 80,
           ),
         ],
@@ -37,7 +37,7 @@ class WizardPage2 extends StatelessWidget {
 
   Widget _buildWeightCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -87,7 +87,7 @@ class WizardPage2 extends StatelessWidget {
 
   Widget _buildGenderCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

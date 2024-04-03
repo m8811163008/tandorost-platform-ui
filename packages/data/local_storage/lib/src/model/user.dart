@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 import 'package:local_storage/local_storage.dart';
-import 'package:local_storage/src/model/activity_level.dart';
 
 part 'user.g.dart';
 

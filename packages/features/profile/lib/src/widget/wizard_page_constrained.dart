@@ -8,7 +8,7 @@ class WizardPageConstrained extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       primary: false,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           // 56 is Appbar height

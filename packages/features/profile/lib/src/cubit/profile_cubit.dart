@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -21,7 +18,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final AuthenticationRepository authenticationRepository;
   final UserRepostiory userRepostiory;
 
-  late StreamSubscription<ProfileCM> _profileStreamSubscription;
+  // late StreamSubscription<ProfileCM> _profileStreamSubscription;
 
   void login() async {
     emit(state.copyWith(loginStatus: ProcessAsyncStatus.loading));

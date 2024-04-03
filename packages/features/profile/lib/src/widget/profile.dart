@@ -42,16 +42,16 @@ class WizardPage6 extends StatelessWidget {
 
   Widget _buildUserAgreementInput(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
             TextButton(
               onPressed: () {},
-              child: Text('شرایط استفاده'),
+              child: const Text('شرایط استفاده'),
             ),
-            Text('از تندرست را قبول دارم.'),
+            const Text('از تندرست را قبول دارم.'),
             Builder(builder: (context) {
               return Checkbox(
                 isError: !context
@@ -73,7 +73,7 @@ class WizardPage6 extends StatelessWidget {
 
   Widget _buildBodyCompositionMeasurementsInput(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ExpansionTile(
@@ -83,7 +83,7 @@ class WizardPage6 extends StatelessWidget {
             Padding(
               padding:
                   EdgeInsets.symmetric(vertical: context.sizesExtenstion.small),
-              child: BodyCompositionMeasurementsInputs(),
+              child: const BodyCompositionMeasurementsInputs(),
             ),
           ],
         ),
@@ -111,21 +111,21 @@ class WizardPage6 extends StatelessWidget {
           context: context,
           builder: ((context) {
             return SimpleDialog(
-              titlePadding: EdgeInsets.all(16.0),
+              titlePadding: const EdgeInsets.all(16.0),
               contentPadding:
-                  EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-              title: Text('شکل بدن'),
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              title: const Text('شکل بدن'),
               children: [
-                Text(
+                const Text(
                   'اندازه گیری شکل بدن نسبت به اندازه گیری وزن بیشتر باعث انگیزه تناسب اندام میشود.',
                 ),
-                Text(
+                const Text(
                   'با اندازه گیری شکل بدن متوجه میشوید توزیع کاهش چربی در بدن چه شکلی داشته',
                 ),
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                BodyCompositionImage(),
+                const BodyCompositionImage(),
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
@@ -134,7 +134,7 @@ class WizardPage6 extends StatelessWidget {
                   style: context.themeData.textTheme.bodyMedium!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   'حداکثر انقباض یا قطر ماهیچه را اندازه بگیرید.',
                 ),
               ],
@@ -142,7 +142,7 @@ class WizardPage6 extends StatelessWidget {
           }),
         );
       },
-      icon: Icon(Ionicons.information_circle_outline),
+      icon: const Icon(Ionicons.information_circle_outline),
     );
   }
 }
@@ -156,7 +156,7 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           maxLength: 5,
@@ -177,7 +177,7 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
           height: context.sizesExtenstion.medium,
         ),
         TextFormField(
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           maxLength: 5,
@@ -198,7 +198,7 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
           height: context.sizesExtenstion.medium,
         ),
         TextFormField(
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           maxLength: 5,
@@ -219,7 +219,7 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
           height: context.sizesExtenstion.medium,
         ),
         TextFormField(
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           maxLength: 5,
@@ -240,7 +240,7 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
           height: context.sizesExtenstion.medium,
         ),
         TextFormField(
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           maxLength: 5,

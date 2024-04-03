@@ -319,12 +319,12 @@ class IsVegetableSegmentedButton extends StatelessWidget {
               context: context,
               builder: ((context) {
                 return SimpleDialog(
-                  titlePadding: EdgeInsets.all(16.0),
+                  titlePadding: const EdgeInsets.all(16.0),
                   contentPadding:
-                      EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                  title: Text('کدام کربوهیدرات را انتخاب کنم؟'),
+                      const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                  title: const Text('کدام کربوهیدرات را انتخاب کنم؟'),
                   children: [
-                    Text.rich(
+                    const Text.rich(
                       TextSpan(text: ' میوه و سبزی مانند', children: [
                         TextSpan(
                           text: 'موز، سیب، کاهو و ...',
@@ -334,7 +334,7 @@ class IsVegetableSegmentedButton extends StatelessWidget {
                     SizedBox(
                       height: context.sizesExtenstion.medium,
                     ),
-                    Text.rich(
+                    const Text.rich(
                       TextSpan(text: 'کربوهیدرات غنی مانند ', children: [
                         TextSpan(
                           text: 'جو، برنج، پاستا، سیب زمینی ، نان، حبوبات',
@@ -346,9 +346,9 @@ class IsVegetableSegmentedButton extends StatelessWidget {
               }),
             );
           },
-          icon: Icon(Ionicons.information_circle_outline),
+          icon: const Icon(Ionicons.information_circle_outline),
         ),
-        Spacer(),
+        const Spacer(),
         SegmentedButton<bool>(
           segments: const <ButtonSegment<bool>>[
             ButtonSegment<bool>(

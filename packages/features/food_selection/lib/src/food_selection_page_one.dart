@@ -21,7 +21,7 @@ class FoodSelectionView extends StatelessWidget {
       scaffoldKey: scaffoldKey,
       isShowDrawerButton: true,
       bodyPadding: EdgeInsets.zero,
-      actions: [
+      actions: const [
         // IconButton.outlined(
         //   onPressed: () {
         //     context.pushNamed(Routes.foodSelectionList);
@@ -35,11 +35,11 @@ class FoodSelectionView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          SearchedFoodsListBuilder(),
+          const SearchedFoodsListBuilder(),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: context.sizesExtenstion.medium),
-            child: SearchFieldTextField(
+            child: const SearchFieldTextField(
               key: ValueKey('value'),
             ),
           ),

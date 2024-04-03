@@ -15,21 +15,22 @@ class ShimmerTextNavigation extends StatelessWidget {
       child: !isError
           ? Shimmer.fromColors(
               direction: ShimmerDirection.rtl,
+              baseColor: context.themeData.colorScheme.surface,
+              highlightColor: context.themeData.colorScheme.primary,
               child: Text(
                 !isEnd ? '>>>>' : '>کافه بازار>',
                 style: context.themeData.textTheme.displayLarge,
               ),
-              baseColor: context.themeData.colorScheme.surface,
-              highlightColor: context.themeData.colorScheme.primary,
             )
           : Shimmer.fromColors(
+              // direction: ShimmerDirection.rtl,
+              baseColor: context.themeData.colorScheme.surface,
+              highlightColor: context.themeData.colorScheme.error,
               // direction: ShimmerDirection.rtl,
               child: Text(
                 '--خطا--',
                 style: context.themeData.textTheme.displayLarge,
               ),
-              baseColor: context.themeData.colorScheme.surface,
-              highlightColor: context.themeData.colorScheme.error,
             ),
     );
   }
