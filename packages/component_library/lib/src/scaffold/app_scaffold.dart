@@ -3,17 +3,18 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
-  const AppScaffold({
-    super.key,
-    this.child,
-    this.actions = const [],
-    this.isShowDrawerButton = false,
-    this.scaffoldKey,
-    this.bodyPadding,
-    this.title,
-  });
+  const AppScaffold(
+      {super.key,
+      this.child,
+      this.actions = const [],
+      this.isShowDrawerButton = false,
+      this.scaffoldKey,
+      this.bodyPadding,
+      this.title,
+      this.fab});
 
   final Widget? child;
+  final FloatingActionButton? fab;
   final List<Widget> actions;
   final bool isShowDrawerButton;
   final GlobalKey<ScaffoldState>? scaffoldKey;
@@ -24,15 +25,11 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      floatingActionButton: fab,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         title: title,
-        actions: actions
-            .map((e) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: e,
-                ))
-            .toList(),
+        actions: actions,
       ),
       body: Padding(
           padding: bodyPadding ??

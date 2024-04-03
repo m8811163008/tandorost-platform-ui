@@ -6,7 +6,7 @@ class Food extends Equatable {
   final int calorie;
   // 1 gram weight of each unit for example each apple is 100 grams
   final int gramsPerUnit;
-  // Actual value of macro nutritions
+  // Actual value of macro nutritions per 100gr
   final MacroNutrition macroNutrition;
 
   const Food({
@@ -47,6 +47,7 @@ class Food extends Equatable {
   }
 }
 
+// Actual values per 100 grams
 class MacroNutrition extends Equatable {
   final double carbohydrate;
   final double fat;
