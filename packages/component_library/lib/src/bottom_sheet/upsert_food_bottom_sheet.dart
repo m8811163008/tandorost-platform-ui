@@ -43,6 +43,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
     _initialFood = widget.initalFood;
     if (_initialFood != Food.empty()) {
       _nameTextEditingController.text = _initialFood!.name;
+
       _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
       _calorieTextEditingController.text = widget.initalFood.calorie.toString();
       _carbohydrateTextEditingController.text =
@@ -53,6 +54,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
           _initialFood!.macroNutrition.protein.toString();
     } else {
       _nameTextEditingController.text = widget.initalName ?? _initialFood!.name;
+      _initialFood =
+          _initialFood!.copyWith(name: _nameTextEditingController.text);
     }
 
     super.initState();
@@ -154,7 +157,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
               SizedBox(
                 height: context.sizesExtenstion.medium,
               ),
-              const Text('مشخصات خوراک در 100 گرم'),
+              const Text('مشخصات خوراک در هر واحد متوسط'),
               Divider(
                 height: context.sizesExtenstion.large,
               ),
@@ -280,6 +283,19 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                     });
                     return;
                   } else {
+                    // change nutrition value for 100 grams
+                    if (_initialFood == null) {}
+                    final multiplier = 100 / _initialFood!.gramsPerUnit;
+                    _initialFood = _initialFood!.copyWith(
+                        calorie: (_initialFood!.calorie * multiplier).toInt(),
+                        macroNutrition: _initialFood!.macroNutrition.copyWith(
+                          carbohydrate:
+                              _initialFood!.macroNutrition.carbohydrate *
+                                  multiplier,
+                          fat: _initialFood!.macroNutrition.fat * multiplier,
+                          protein:
+                              _initialFood!.macroNutrition.protein * multiplier,
+                        ));
                     widget.onfoodUpdated?.call(_initialFood!);
                     Navigator.of(context).pop();
                   }
@@ -320,8 +336,8 @@ class IsVegetableSegmentedButton extends StatelessWidget {
               builder: ((context) {
                 return SimpleDialog(
                   titlePadding: const EdgeInsets.all(16.0),
-                  contentPadding:
-                      const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                  contentPadding: const EdgeInsets.only(
+                      left: 16.0, right: 16.0, bottom: 16.0),
                   title: const Text('کدام کربوهیدرات را انتخاب کنم؟'),
                   children: [
                     const Text.rich(
