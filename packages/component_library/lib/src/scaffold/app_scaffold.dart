@@ -94,10 +94,10 @@ class _AppDrawerState extends State<AppDrawer> {
           icon: Icon(Ionicons.fish),
           label: Text('لیست خوراکی‌های قابل جستجو'),
         ),
-        const NavigationDrawerDestination(
-          icon: Icon(Ionicons.person),
-          label: Text('نمایه کاربر و روند پیشرفت'),
-        ),
+        // const NavigationDrawerDestination(
+        //   icon: Icon(Ionicons.person),
+        //   label: Text('نمایه کاربر و روند پیشرفت'),
+        // ),
         SizedBox(
           height: context.sizesExtenstion.extraLarge,
         ),

@@ -17,14 +17,14 @@ flutter pub run flutter_launcher_icons
 flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-info=./split-debug-info
 
 // To build apks from appbundle
-java -jar bundletool-all-1.15.6.jar build-apks --bund^
-le=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass^
+java -jar bundletool-all-1.15.6.jar build-apks --bund
+le=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass
 =pass:tandorost_dev --connected-device
 
 // To install on device apks
 java -jar bundletool-all-1.15.6.jar install-apks --apks=my_app.apks
 
 // bazzar
-java -jar bundlesigner-0.1.13.jar genbin  --bundle app-release.aab --bin bazzar^
-       --v2-signing-enabled true --v3-signing-enabled false^
+java -jar bundlesigner-0.1.13.jar genbin  --bundle app-release.aab --bin bazzar
+       --v2-signing-enabled true --v3-signing-enabled false
        --ks tandorost.jks -v
