@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
@@ -17,6 +20,8 @@ void main() async {
     // log('error in ${details.library}',
     //     stackTrace: details.stack, error: details.exception);
   };
+
+  // e.g. "Moto G (4)"
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -43,6 +48,8 @@ void main() async {
 // add exercise volume in selected food list banner
 // learning material for which food is for weight lose(آموزش خوراکی های کاهش وزن را بشناسید یا همچین چیزی)
 // in app purchase for 1 month subscription and 3 months 
+// add comment and star
+// add FAB to list of selected food
 
 
 

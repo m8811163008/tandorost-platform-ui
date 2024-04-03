@@ -1433,20 +1433,25 @@ const BodyCompositionCMSchema = Schema(
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
-    r'thightCircumference': PropertySchema(
+    r'startBodycompositionChanging': PropertySchema(
       id: 4,
+      name: r'startBodycompositionChanging',
+      type: IsarType.dateTime,
+    ),
+    r'thightCircumference': PropertySchema(
+      id: 5,
       name: r'thightCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'waistCircumference': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'waistCircumference',
       type: IsarType.objectList,
       target: r'BioDataCM',
     ),
     r'weight': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'weight',
       type: IsarType.objectList,
       target: r'BioDataCM',
@@ -1553,20 +1558,21 @@ void _bodyCompositionCMSerialize(
     BioDataCMSchema.serialize,
     object.height,
   );
+  writer.writeDateTime(offsets[4], object.startBodycompositionChanging);
   writer.writeObjectList<BioDataCM>(
-    offsets[4],
+    offsets[5],
     allOffsets,
     BioDataCMSchema.serialize,
     object.thightCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[5],
+    offsets[6],
     allOffsets,
     BioDataCMSchema.serialize,
     object.waistCircumference,
   );
   writer.writeObjectList<BioDataCM>(
-    offsets[6],
+    offsets[7],
     allOffsets,
     BioDataCMSchema.serialize,
     object.weight,
@@ -1608,22 +1614,23 @@ BodyCompositionCM _bodyCompositionCMDeserialize(
         BioDataCM(),
       ) ??
       [];
+  object.startBodycompositionChanging = reader.readDateTimeOrNull(offsets[4]);
   object.thightCircumference = reader.readObjectList<BioDataCM>(
-        offsets[4],
-        BioDataCMSchema.deserialize,
-        allOffsets,
-        BioDataCM(),
-      ) ??
-      [];
-  object.waistCircumference = reader.readObjectList<BioDataCM>(
         offsets[5],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
       ) ??
       [];
-  object.weight = reader.readObjectList<BioDataCM>(
+  object.waistCircumference = reader.readObjectList<BioDataCM>(
         offsets[6],
+        BioDataCMSchema.deserialize,
+        allOffsets,
+        BioDataCM(),
+      ) ??
+      [];
+  object.weight = reader.readObjectList<BioDataCM>(
+        offsets[7],
         BioDataCMSchema.deserialize,
         allOffsets,
         BioDataCM(),
@@ -1672,13 +1679,7 @@ P _bodyCompositionCMDeserializeProp<P>(
           ) ??
           []) as P;
     case 4:
-      return (reader.readObjectList<BioDataCM>(
-            offset,
-            BioDataCMSchema.deserialize,
-            allOffsets,
-            BioDataCM(),
-          ) ??
-          []) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 5:
       return (reader.readObjectList<BioDataCM>(
             offset,
@@ -1688,6 +1689,14 @@ P _bodyCompositionCMDeserializeProp<P>(
           ) ??
           []) as P;
     case 6:
+      return (reader.readObjectList<BioDataCM>(
+            offset,
+            BioDataCMSchema.deserialize,
+            allOffsets,
+            BioDataCM(),
+          ) ??
+          []) as P;
+    case 7:
       return (reader.readObjectList<BioDataCM>(
             offset,
             BioDataCMSchema.deserialize,
@@ -2055,6 +2064,80 @@ extension BodyCompositionCMQueryFilter
         upper,
         includeUpper,
       );
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'startBodycompositionChanging',
+      ));
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'startBodycompositionChanging',
+      ));
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'startBodycompositionChanging',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'startBodycompositionChanging',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'startBodycompositionChanging',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
+      startBodycompositionChangingBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'startBodycompositionChanging',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
     });
   }
 

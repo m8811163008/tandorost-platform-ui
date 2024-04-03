@@ -47,8 +47,9 @@ class FoodStorage {
     if (count != 0) return;
     final user = UserCM()..selectedFoods = const [];
 
-    return await userCollection.isar
-        .writeTxn(() async => userCollection.put(user));
+    return await userCollection.isar.writeTxn(() async {
+      await userCollection.put(user);
+    });
   }
 
   /// get list of foods from the food collection. Read

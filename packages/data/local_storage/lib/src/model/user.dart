@@ -9,7 +9,7 @@ class UserCM {
 
   List<SelectedFoodCM> selectedFoods = const [];
 
-  late ProfileCM profileCM = ProfileCM();
+  ProfileCM profileCM = ProfileCM();
 
   UserCM copyWith({List<SelectedFoodCM>? selectedFoods, ProfileCM? profileCM}) {
     return UserCM()
@@ -58,22 +58,22 @@ class SelectedFoodCM {
 
 @embedded
 class ProfileCM {
-  late DateTime? birthday;
-  late String userName = '';
-  late bool? isMale;
-  late BodyCompositionCM? bodyComposition;
+  DateTime? birthday;
+  String userName = '';
+  bool? isMale;
+  BodyCompositionCM? bodyComposition;
 }
 
 @embedded
 class BodyCompositionCM {
-  late List<BioDataCM> height = const [];
-  late List<BioDataCM> weight = const [];
-  late List<BioDataCM> waistCircumference = const [];
-  late List<BioDataCM> armCircumference = const [];
-  late List<BioDataCM> chestCircumference = const [];
-  late List<BioDataCM> thightCircumference = const [];
-  late List<BioDataCM> calfMuscleCircumference = const [];
-  late DateTime? startBodycompositionChanging;
+  List<BioDataCM> height = const [];
+  List<BioDataCM> weight = const [];
+  List<BioDataCM> waistCircumference = const [];
+  List<BioDataCM> armCircumference = const [];
+  List<BioDataCM> chestCircumference = const [];
+  List<BioDataCM> thightCircumference = const [];
+  List<BioDataCM> calfMuscleCircumference = const [];
+  DateTime? startBodycompositionChanging;
 }
 
 @embedded

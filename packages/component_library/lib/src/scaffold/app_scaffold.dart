@@ -69,9 +69,10 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.foodSelectionList);
         } else if (index == 2) {
           context.goNamed(Routes.foodList);
-        } else if (index == 3) {
-          context.goNamed(Routes.profile);
         }
+        // else if (index == 3) {
+        //   context.goNamed(Routes.profile);
+        // }
       },
       selectedIndex: _selectedIndex,
       children: [
@@ -90,9 +91,19 @@ class _AppDrawerState extends State<AppDrawer> {
           icon: Icon(Ionicons.fish),
           label: Text('لیست خوراکی‌های قابل جستجو'),
         ),
-        NavigationDrawerDestination(
-          icon: Icon(Ionicons.fish),
-          label: Text('نمایه کاربر'),
+        // NavigationDrawerDestination(
+        //   icon: Icon(Ionicons.fish),
+        //   label: Text('منابع استفاده شده در برنامه‌'),
+        // ),
+        SizedBox(
+          height: context.sizesExtenstion.extraLarge,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            'محتوای برنامه متعلق به تیم توسعه دهنده تندرست می باشد',
+            style: context.themeData.textTheme.labelMedium,
+          ),
         ),
       ],
     );
@@ -108,8 +119,8 @@ extension on String {
         return 1;
       case Routes.foodList:
         return 2;
-      case Routes.profile:
-        return 3;
+      // case Routes.profile:
+      //   return 3;
 
       default:
         throw Exception('Undefined location');
