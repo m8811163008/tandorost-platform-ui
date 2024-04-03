@@ -46,6 +46,7 @@ void main() async {
 
 
 
+// reset database and ask do you want restore default foods
 // clean streams in blocs, make them same shape or something like that
 // sort food base on calorie and carbohydrate and fat in selected foods list
 // add unit of measurment when add food, currently it only allow for 100 grams

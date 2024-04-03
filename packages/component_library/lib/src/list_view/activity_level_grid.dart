@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:domain_model/domain_model.dart';
 
 class ActivityLevelsGrid extends StatefulWidget {
-  const ActivityLevelsGrid({
-    super.key,
-    this.onSelected,
-  });
+  const ActivityLevelsGrid({super.key, this.onSelected, this.initialValue});
 
   final ValueSetter<ActivityLevelCM>? onSelected;
+  final ActivityLevelCM? initialValue;
 
   @override
   State<ActivityLevelsGrid> createState() => _ActivityLevelsGridState();
@@ -18,7 +16,7 @@ class _ActivityLevelsGridState extends State<ActivityLevelsGrid> {
   late ActivityLevelCM _selected;
   @override
   void initState() {
-    _selected = ActivityLevelCM.fairyActive;
+    _selected = widget.initialValue ?? ActivityLevelCM.fairyActive;
     super.initState();
   }
 

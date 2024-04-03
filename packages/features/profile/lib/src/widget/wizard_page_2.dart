@@ -17,7 +17,15 @@ class WizardPage2 extends StatelessWidget {
           Spacer(),
           Align(
             alignment: Alignment.bottomRight,
-            child: ShimmerTextNavigation(),
+            child: Builder(builder: (context) {
+              return ShimmerTextNavigation(
+                isError: context.select<ProfileCubit, bool>(
+                  (cubit) =>
+                      cubit.state.activePremiumWizardState.profileCM.isMale ==
+                      null,
+                ),
+              );
+            }),
           ),
           SizedBox(
             height: 80,
@@ -63,6 +71,12 @@ class WizardPage2 extends StatelessWidget {
     return SizedBox(
       height: 96,
       child: ScrollableNumberInput(
+        intialValue: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .bodyCompositionValues
+            .weight,
         axis: Axis.horizontal,
         onSelectedNumberChanged: context.read<ProfileCubit>().upsertWeight,
         min: 40,
@@ -100,25 +114,31 @@ class WizardPage2 extends StatelessWidget {
   }
 
   Widget _buildGenderSegmentedInput(BuildContext context) {
-    return SegmentedButton<bool>(
-      segments: const <ButtonSegment<bool>>[
-        ButtonSegment<bool>(
-          value: true,
-          label: Text('مرد'),
-        ),
-        ButtonSegment<bool>(
-          value: false,
-          label: Text('زن'),
-        ),
-      ],
-      selected: {
-        context.select<ProfileCubit, bool>((cubit) =>
-            cubit.state.activePremiumWizardState.profileCM.isMale ?? false)
-      },
-      emptySelectionAllowed: true,
-      onSelectionChanged: (Set<bool> newSelection) {
-        context.read<ProfileCubit>().updateIsMale(newSelection.contains(true));
-      },
+    return ErrorIndicator(
+      selector: (cubit) =>
+          cubit.activePremiumWizardState.profileCM.isMale == null,
+      child: SegmentedButton<bool>(
+        segments: const <ButtonSegment<bool>>[
+          ButtonSegment<bool>(
+            value: true,
+            label: Text('مرد'),
+          ),
+          ButtonSegment<bool>(
+            value: false,
+            label: Text('زن'),
+          ),
+        ],
+        selected: {
+          context.select<ProfileCubit, bool>((cubit) =>
+              cubit.state.activePremiumWizardState.profileCM.isMale ?? false)
+        },
+        emptySelectionAllowed: true,
+        onSelectionChanged: (Set<bool> newSelection) {
+          context
+              .read<ProfileCubit>()
+              .updateIsMale(newSelection.contains(true));
+        },
+      ),
     );
   }
 }

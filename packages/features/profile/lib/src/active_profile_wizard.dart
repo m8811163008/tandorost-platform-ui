@@ -14,7 +14,7 @@ class ActivePremiumWizardRoute extends StatelessWidget {
       bodyPadding: EdgeInsets.zero,
       title: Builder(builder: (context) {
         final currentPage = context.select<ProfileCubit, String>((cubit) =>
-            'صفحه ${cubit.state.activePremiumWizardState.currentPage + 1} از 5 ');
+            'صفحه ${cubit.state.activePremiumWizardState.currentPage + 1} از 6 ');
         return Text(currentPage);
       }),
       child: PageView(

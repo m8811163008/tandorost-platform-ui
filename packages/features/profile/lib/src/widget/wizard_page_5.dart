@@ -54,16 +54,22 @@ class WizardPage5 extends StatelessWidget {
 }
 
 class ActivityLevelButtons extends StatelessWidget {
-  const ActivityLevelButtons({super.key, this.height = 500});
-  final double height;
+  const ActivityLevelButtons({super.key, this.height});
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 1.3 / 3,
-      height: height,
+      height: height ?? 480,
       child: ActivityLevelsGrid(
         onSelected: context.read<ProfileCubit>().upsertActivityLevelChanging,
+        initialValue: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .bodyCompositionValues
+            .activityLevel,
       ),
     );
   }

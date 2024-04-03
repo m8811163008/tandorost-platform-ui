@@ -3,7 +3,6 @@ import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
@@ -30,14 +29,11 @@ class WizardPage6 extends StatelessWidget {
               );
             }),
           ),
-          SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                _buildBodyCompositionMeasurementsInput(context),
-                _buildUserAgreementInput(context)
-              ],
-            ),
+          Column(
+            children: [
+              _buildBodyCompositionMeasurementsInput(context),
+              _buildUserAgreementInput(context)
+            ],
           )
         ],
       ),
@@ -52,9 +48,7 @@ class WizardPage6 extends StatelessWidget {
         child: Row(
           children: [
             TextButton(
-              onPressed: () {
-                showAgreementDialog(context);
-              },
+              onPressed: () {},
               child: Text('شرایط استفاده'),
             ),
             Text('از تندرست را قبول دارم.'),
@@ -74,37 +68,6 @@ class WizardPage6 extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void showAgreementDialog(BuildContext context) {
-    const userAgrrement = '''
-    تندرست به شما بر اساس جدید ترین تحقیقات علم تغذیه و ورزش برای تناسب اندام به شما پیشنهاد‌هایی برای ترکیب بدنی سالم ارائه میکند.
-
-    قبل از استفاده از محصولات تندرست با پزشک خود مشورت کنید.
-
-    برای افراد زیر 17 سال و بالای 50 سال پشتیبانی نمیشود.
-    ''';
-    showDialog(
-      context: context,
-      builder: ((context) {
-        return Dialog.fullscreen(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'شرایط استفاده',
-              ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                userAgrrement,
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ),
-        );
-      }),
     );
   }
 

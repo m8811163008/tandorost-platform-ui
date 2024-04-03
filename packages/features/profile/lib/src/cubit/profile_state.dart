@@ -18,6 +18,7 @@ class ProfileState {
     bool? isFormValid,
     ProcessAsyncStatus? formSubmitStatus,
     BodyCompositionValues? bodyCompositionValues,
+    bool? isAgreementAccepted,
   }) =>
       ProfileState(
         loginStatus: loginStatus ?? this.loginStatus,
@@ -29,6 +30,8 @@ class ProfileState {
               formSubmitStatus ?? activePremiumWizardState.formSubmitStatus,
           bodyCompositionValues: bodyCompositionValues ??
               activePremiumWizardState.bodyCompositionValues,
+          isAgreementAccepted: isAgreementAccepted ??
+              activePremiumWizardState.isAgreementAccepted,
         ),
       );
 }
@@ -39,26 +42,30 @@ class ActivePremiumWizardState {
   final ProcessAsyncStatus formSubmitStatus;
   final bool isFormValid;
   final BodyCompositionValues bodyCompositionValues;
+  final bool isAgreementAccepted;
 
-  ActivePremiumWizardState(
-      {this.currentPage = 0,
-      ProfileCM? profileCM,
-      this.formSubmitStatus = ProcessAsyncStatus.initial,
-      this.isFormValid = false,
-      this.bodyCompositionValues = const BodyCompositionValues()})
-      : profileCM = profileCM ?? ProfileCM();
+  ActivePremiumWizardState({
+    this.currentPage = 0,
+    ProfileCM? profileCM,
+    this.formSubmitStatus = ProcessAsyncStatus.initial,
+    this.isFormValid = false,
+    this.bodyCompositionValues = const BodyCompositionValues(),
+    this.isAgreementAccepted = false,
+  }) : profileCM = profileCM ?? ProfileCM();
 
   ActivePremiumWizardState copyWith(
           {int? currentPage,
           ProfileCM? profileCM,
           bool? isFormValid,
           ProcessAsyncStatus? formSubmitStatus,
-          BodyCompositionValues? bodyCompositionValues}) =>
+          BodyCompositionValues? bodyCompositionValues,
+          bool? isAgreementAccepted}) =>
       ActivePremiumWizardState(
         currentPage: currentPage ?? this.currentPage,
         profileCM: profileCM ?? this.profileCM,
         formSubmitStatus: formSubmitStatus ?? this.formSubmitStatus,
         isFormValid: isFormValid ?? this.isFormValid,
+        isAgreementAccepted: isAgreementAccepted ?? this.isAgreementAccepted,
         bodyCompositionValues:
             bodyCompositionValues ?? this.bodyCompositionValues,
       );
@@ -85,7 +92,7 @@ class BodyCompositionValues {
       bodyCompositionCM.armCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = armCircumference!
+          ..value = int.parse(armCircumference!)
       ];
     }
     if (height != null) {
@@ -113,7 +120,7 @@ class BodyCompositionValues {
       bodyCompositionCM.armCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = armCircumference!
+          ..value = int.parse(armCircumference!)
       ];
     }
 
@@ -121,28 +128,28 @@ class BodyCompositionValues {
       bodyCompositionCM.chestCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = chestCircumference!
+          ..value = int.parse(chestCircumference!)
       ];
     }
     if (thightCircumference != null) {
       bodyCompositionCM.thightCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = thightCircumference!
+          ..value = int.parse(thightCircumference!)
       ];
     }
     if (calfMuscleCircumference != null) {
       bodyCompositionCM.calfMuscleCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = calfMuscleCircumference!
+          ..value = int.parse(calfMuscleCircumference!)
       ];
     }
     if (hipCircumference != null) {
       bodyCompositionCM.hipCircumference = [
         BioDataCM()
           ..logDate = logDate
-          ..value = hipCircumference!
+          ..value = int.parse(hipCircumference!)
       ];
     }
     if (startBodycompositionChanging != null) {
@@ -163,11 +170,11 @@ class BodyCompositionValues {
   final int? height;
   final int? weight;
   final int? waistCircumference;
-  final int? hipCircumference;
-  final int? armCircumference;
-  final int? chestCircumference;
-  final int? thightCircumference;
-  final int? calfMuscleCircumference;
+  final String? hipCircumference;
+  final String? armCircumference;
+  final String? chestCircumference;
+  final String? thightCircumference;
+  final String? calfMuscleCircumference;
   final DateTime? startBodycompositionChanging;
   final ActivityLevelCM? activityLevel;
 
@@ -175,11 +182,11 @@ class BodyCompositionValues {
     ValueGetter<int?>? height,
     ValueGetter<int?>? weight,
     ValueGetter<int?>? waistCircumference,
-    ValueGetter<int?>? armCircumference,
-    ValueGetter<int?>? hipCircumference,
-    ValueGetter<int?>? chestCircumference,
-    ValueGetter<int?>? thightCircumference,
-    ValueGetter<int?>? calfMuscleCircumference,
+    ValueGetter<String?>? armCircumference,
+    ValueGetter<String?>? hipCircumference,
+    ValueGetter<String?>? chestCircumference,
+    ValueGetter<String?>? thightCircumference,
+    ValueGetter<String?>? calfMuscleCircumference,
     ValueGetter<DateTime?>? startBodycompositionChanging,
     ValueGetter<ActivityLevelCM?>? activityLevel,
   }) {

@@ -5,3 +5,4 @@ export 'wizard_page_constrained.dart';
 export 'wizard_page_4.dart';
 export 'wizard_page_5.dart';
 export 'wizard_page_6.dart';
+export 'error_indicator.dart';

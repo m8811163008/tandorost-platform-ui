@@ -21,7 +21,15 @@ class WizardPage3 extends StatelessWidget {
           Spacer(),
           Align(
             alignment: Alignment.bottomRight,
-            child: ShimmerTextNavigation(),
+            child: Builder(builder: (context) {
+              return ShimmerTextNavigation(
+                isError: context.select<ProfileCubit, bool>((cubit) =>
+                    cubit.state.activePremiumWizardState.profileCM.userName
+                        .isEmpty ||
+                    cubit.state.activePremiumWizardState.profileCM.birthday ==
+                        null),
+              );
+            }),
           ),
           SizedBox(
             height: 80,
@@ -57,18 +65,32 @@ class WizardPage3 extends StatelessWidget {
   Widget _buildUsernameInput(BuildContext context) {
     return SizedBox(
       height: 96,
-      child: TextField(
-        autofocus: true,
-        keyboardType: TextInputType.name,
-        textInputAction: TextInputAction.done,
-        maxLength: 50,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          counterText: '',
-        ),
-        onChanged: context.read<ProfileCubit>().updateUsername,
-        onTapOutside: (event) => FocusScope.of(context).unfocus(),
-      ),
+      child: Builder(builder: (context) {
+        return TextFormField(
+          autofocus: true,
+          keyboardType: TextInputType.name,
+          textInputAction: TextInputAction.done,
+          maxLength: 50,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            errorText: context.select<ProfileCubit, String?>(
+              (cubit) => cubit
+                      .state.activePremiumWizardState.profileCM.userName.isEmpty
+                  ? 'نام کاربری خالی است'
+                  : null,
+            ),
+            counterText: '',
+          ),
+          initialValue: context
+              .read<ProfileCubit>()
+              .state
+              .activePremiumWizardState
+              .profileCM
+              .userName,
+          onChanged: context.read<ProfileCubit>().updateUsername,
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        );
+      }),
     );
   }
 
@@ -157,14 +179,18 @@ class _BirthdayContent extends StatelessWidget {
   }
 
   Widget _buildBirthdayInput(BuildContext context) {
-    return SelectBirthdayButton(
-      initialDate: context
-          .read<ProfileCubit>()
-          .state
-          .activePremiumWizardState
-          .profileCM
-          .birthday,
-      onSelectDate: context.read<ProfileCubit>().updateBirthDay,
+    return ErrorIndicator(
+      selector: (cubit) =>
+          cubit.activePremiumWizardState.profileCM.birthday == null,
+      child: SelectBirthdayButton(
+        initialDate: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .profileCM
+            .birthday,
+        onSelectDate: context.read<ProfileCubit>().updateBirthDay,
+      ),
     );
   }
 

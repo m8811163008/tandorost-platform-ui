@@ -94,8 +94,8 @@ class _AppDrawerState extends State<AppDrawer> {
           label: Text('لیست خوراکی‌های قابل جستجو'),
         ),
         NavigationDrawerDestination(
-          icon: Icon(Ionicons.fish),
-          label: Text('نمایه کاربر'),
+          icon: Icon(Ionicons.person),
+          label: Text('نمایه کاربر و روند پیشرفت'),
         ),
       ],
     );

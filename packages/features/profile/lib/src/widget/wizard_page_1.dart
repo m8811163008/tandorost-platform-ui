@@ -3,25 +3,31 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
+import 'package:profile/src/widget/widget.dart';
 
 class WizardPage1 extends StatelessWidget {
   const WizardPage1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildHeightCard(context),
-        _buildWaistCircumferenceCard(context),
-        Spacer(),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: ShimmerTextNavigation(),
-        ),
-        SizedBox(
-          height: 80,
-        ),
-      ],
+    return WizardPageConstrained(
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Positioned.directional(
+            textDirection: Directionality.of(context),
+            start: 0,
+            bottom: 80,
+            child: ShimmerTextNavigation(),
+          ),
+          Column(
+            children: [
+              _buildHeightCard(context),
+              _buildWaistCircumferenceCard(context),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -61,6 +67,12 @@ class WizardPage1 extends StatelessWidget {
     return SizedBox(
       height: 96,
       child: ScrollableNumberInput(
+        intialValue: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .bodyCompositionValues
+            .height,
         axis: Axis.horizontal,
         onSelectedNumberChanged: context.read<ProfileCubit>().upsertHeight,
         min: 138,
@@ -112,6 +124,12 @@ class WizardPage1 extends StatelessWidget {
     return SizedBox(
       height: 96,
       child: ScrollableNumberInput(
+        intialValue: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .bodyCompositionValues
+            .waistCircumference,
         axis: Axis.horizontal,
         onSelectedNumberChanged:
             context.read<ProfileCubit>().upsertWaistCircumference,

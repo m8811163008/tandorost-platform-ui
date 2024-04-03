@@ -33,7 +33,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       state.activePremiumWizardState.profileCM.birthday != null &&
       state.activePremiumWizardState.profileCM.userName.isNotEmpty &&
       state.activePremiumWizardState.bodyCompositionValues.height != null &&
-      state.activePremiumWizardState.bodyCompositionValues.weight != null;
+      state.activePremiumWizardState.bodyCompositionValues.weight != null &&
+      state.activePremiumWizardState.isAgreementAccepted;
 
   void updateBirthDay(DateTime birthday) {
     emit(
@@ -41,9 +42,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         profileCM: state.activePremiumWizardState.profileCM.copyWith(
           birthday: birthday,
         ),
-        isFormValid: _isValidActivatePremiumForm,
       ),
     );
+    _validateForm();
   }
 
   void updateUsername(String userName) {
@@ -52,9 +53,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       state.copyWith(
         profileCM: state.activePremiumWizardState.profileCM
             .copyWith(userName: userName),
-        isFormValid: _isValidActivatePremiumForm,
       ),
     );
+    _validateForm();
   }
 
   void updateIsMale(bool isMale) {
@@ -62,9 +63,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       state.copyWith(
         profileCM:
             state.activePremiumWizardState.profileCM.copyWith(isMale: isMale),
-        isFormValid: _isValidActivatePremiumForm,
       ),
     );
+    _validateForm();
   }
 
   void upsertHeight(int value) {
@@ -74,9 +75,15 @@ class ProfileCubit extends Cubit<ProfileState> {
             state.activePremiumWizardState.bodyCompositionValues.copyWith(
           height: () => value,
         ),
-        isFormValid: _isValidActivatePremiumForm,
       ),
     );
+    _validateForm();
+  }
+
+  void _validateForm() {
+    emit(state.copyWith(
+      isFormValid: _isValidActivatePremiumForm,
+    ));
   }
 
   void upsertWeight(int value) {
@@ -86,9 +93,9 @@ class ProfileCubit extends Cubit<ProfileState> {
             state.activePremiumWizardState.bodyCompositionValues.copyWith(
           weight: () => value,
         ),
-        isFormValid: _isValidActivatePremiumForm,
       ),
     );
+    _validateForm();
   }
 
   void upsertWaistCircumference(int value) {
@@ -102,7 +109,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertArmCircumference(int value) {
+  void toggleIsAgreementAccepted() {
+    emit(
+      state.copyWith(
+        isAgreementAccepted:
+            !state.activePremiumWizardState.isAgreementAccepted,
+      ),
+    );
+    _validateForm();
+  }
+
+  void upsertArmCircumference(String value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -135,7 +152,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertChestCircumference(int value) {
+  void upsertChestCircumference(String value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -146,7 +163,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertThightCircumference(int value) {
+  void upsertThightCircumference(String value) {
     emit(
       state.copyWith(
         bodyCompositionValues:
@@ -157,7 +174,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void upsertCalfMuscleCircumference(int value) {
+  void upsertHipCircumference(String value) {
+    emit(
+      state.copyWith(
+        bodyCompositionValues:
+            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+          hipCircumference: () => value,
+        ),
+      ),
+    );
+  }
+
+  void upsertCalfMuscleCircumference(String value) {
     emit(
       state.copyWith(
         bodyCompositionValues:

@@ -63,6 +63,7 @@ class WizardPage4 extends StatelessWidget {
     return SizedBox(
       height: 96,
       child: ScrollableNumberInput(
+        // TODO reserve state
         axis: Axis.horizontal,
         onSelectedNumberChanged: (days) {
           final targetDate = DateTime.now().add(Duration(days: days));
