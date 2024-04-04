@@ -1,3 +1,4 @@
+import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
@@ -11,6 +12,11 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   FlutterError.onError = (FlutterErrorDetails details) async {
+    // showDialog(context: context, builder: ((context) => AlertDialog(
+    //   icon: Icon(Ionicons.bug),
+    //   title: Text('خطایی رخ داده'),
+    //   content: Text('آیا اجازه میدهید خطا را به پشتیبانی ارسال کنیم؟'),
+    // ));
     await Sentry.captureException(
       details.exception,
       stackTrace: details.stack,
