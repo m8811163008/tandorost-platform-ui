@@ -6,4 +6,5 @@ abstract class Routes {
   static const String foodList = '/food-list';
   static const String profile = '/profile';
   static const String activePremiumWizard = 'active-premium-wizard';
+  static const String addBodyCompositionWizard = 'add-body-composition-wizard';
 }

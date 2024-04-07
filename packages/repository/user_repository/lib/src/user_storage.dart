@@ -18,7 +18,10 @@ class UserStorage {
     yield* await userCollection.isar.txn<Stream<ProfileCM>>(() async {
       final user = await userCollection.get(0);
       if (user == null) throw Exception('User is null');
-      return userCollection.watchObject(0).map((event) => event!.profileCM);
+      return userCollection
+          .watchObject(0, fireImmediately: true)
+          .map((event) => event!.profileCM)
+          .asBroadcastStream();
     });
   }
 }

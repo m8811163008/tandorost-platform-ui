@@ -4,32 +4,40 @@ part of 'profile_cubit.dart';
 class ProfileState {
   final ProcessAsyncStatus loginStatus;
   final ActivePremiumWizardState activePremiumWizardState;
-  final bool isShowWizard;
+  final NewMeasurementState newMeasurementState;
+
+  final ProfileCM? lastUpdatedProfileCM;
+
+  // final BodyCompositionValues newBodyComposition;
 
   ProfileState({
     this.loginStatus = ProcessAsyncStatus.initial,
     ActivePremiumWizardState? activePremiumWizardState,
-    this.isShowWizard = false,
+    this.lastUpdatedProfileCM,
+    this.newMeasurementState = const NewMeasurementState(),
   }) : activePremiumWizardState =
             activePremiumWizardState ?? ActivePremiumWizardState();
 
   ProfileState copyWith({
     ProcessAsyncStatus? loginStatus,
     int? currentPage,
-    ProfileCM? profileCM,
+    ProfileCM? wizardUpdatedProfileCM,
+    ProfileCM? lastUpdatedProfileCM,
     bool? isFormValid,
     ProcessAsyncStatus? formSubmitStatus,
     BodyCompositionValues? bodyCompositionValues,
+    BodyCompositionCM? bodyCompositionCM,
     bool? isAgreementAccepted,
     bool? isShowWizard,
+    NewMeasurementState? newMeasurementState,
   }) =>
       ProfileState(
         loginStatus: loginStatus ?? this.loginStatus,
-        isShowWizard: isShowWizard ?? this.isShowWizard,
+        lastUpdatedProfileCM: lastUpdatedProfileCM ?? lastUpdatedProfileCM,
         activePremiumWizardState: activePremiumWizardState.copyWith(
           currentPage: currentPage ?? activePremiumWizardState.currentPage,
-          profileCM: profileCM ?? activePremiumWizardState.profileCM,
-          isFormValid: isFormValid ?? activePremiumWizardState.isFormValid,
+          profileCM: wizardUpdatedProfileCM ??
+              activePremiumWizardState.createdProfileCM,
           formSubmitStatus:
               formSubmitStatus ?? activePremiumWizardState.formSubmitStatus,
           bodyCompositionValues: bodyCompositionValues ??
@@ -37,14 +45,22 @@ class ProfileState {
           isAgreementAccepted: isAgreementAccepted ??
               activePremiumWizardState.isAgreementAccepted,
         ),
+        newMeasurementState: newMeasurementState ?? this.newMeasurementState,
       );
+  bool get isValidActivatePremiumForm =>
+      activePremiumWizardState.createdProfileCM.isMale != null &&
+      activePremiumWizardState.createdProfileCM.birthday != null &&
+      activePremiumWizardState.createdProfileCM.userName.isNotEmpty &&
+      activePremiumWizardState.bodyCompositionValues.height != null &&
+      activePremiumWizardState.bodyCompositionValues.weight != null &&
+      activePremiumWizardState.isAgreementAccepted;
 }
 
 class ActivePremiumWizardState {
   final int currentPage;
-  final ProfileCM profileCM;
+  final ProfileCM createdProfileCM;
   final ProcessAsyncStatus formSubmitStatus;
-  final bool isFormValid;
+
   final BodyCompositionValues bodyCompositionValues;
   final bool isAgreementAccepted;
 
@@ -52,10 +68,9 @@ class ActivePremiumWizardState {
     this.currentPage = 0,
     ProfileCM? profileCM,
     this.formSubmitStatus = ProcessAsyncStatus.initial,
-    this.isFormValid = false,
     this.bodyCompositionValues = const BodyCompositionValues(),
     this.isAgreementAccepted = false,
-  }) : profileCM = profileCM ?? ProfileCM();
+  }) : createdProfileCM = profileCM ?? ProfileCM();
 
   ActivePremiumWizardState copyWith(
           {int? currentPage,
@@ -66,159 +81,45 @@ class ActivePremiumWizardState {
           bool? isAgreementAccepted}) =>
       ActivePremiumWizardState(
         currentPage: currentPage ?? this.currentPage,
-        profileCM: profileCM ?? this.profileCM,
+        profileCM: profileCM ?? this.createdProfileCM,
         formSubmitStatus: formSubmitStatus ?? this.formSubmitStatus,
-        isFormValid: isFormValid ?? this.isFormValid,
         isAgreementAccepted: isAgreementAccepted ?? this.isAgreementAccepted,
         bodyCompositionValues:
             bodyCompositionValues ?? this.bodyCompositionValues,
       );
 }
 
-class BodyCompositionValues {
-  const BodyCompositionValues({
-    this.height,
-    this.weight,
-    this.waistCircumference,
-    this.armCircumference,
-    this.chestCircumference,
-    this.thightCircumference,
-    this.calfMuscleCircumference,
-    this.startBodycompositionChanging,
-    this.activityLevel,
-    this.hipCircumference,
+class NewMeasurementState {
+  final BodyCompositionValues bodyCompositionValues;
+  final ProcessAsyncStatus insertStatus;
+
+  const NewMeasurementState({
+    this.bodyCompositionValues = const BodyCompositionValues(),
+    this.insertStatus = ProcessAsyncStatus.initial,
   });
 
-  BodyCompositionCM toBodyCompositionCM() {
-    final bodyCompositionCM = BodyCompositionCM();
-    final logDate = DateTime.now();
-    if (armCircumference != null) {
-      bodyCompositionCM.armCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(armCircumference!)
-      ];
-    }
-    if (height != null) {
-      bodyCompositionCM.height = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = height!
-      ];
-    }
-    if (weight != null) {
-      bodyCompositionCM.weight = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = weight!
-      ];
-    }
-    if (waistCircumference != null) {
-      bodyCompositionCM.waistCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = waistCircumference!
-      ];
-    }
-    if (armCircumference != null) {
-      bodyCompositionCM.armCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(armCircumference!)
-      ];
-    }
-
-    if (chestCircumference != null) {
-      bodyCompositionCM.chestCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(chestCircumference!)
-      ];
-    }
-    if (thightCircumference != null) {
-      bodyCompositionCM.thightCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(thightCircumference!)
-      ];
-    }
-    if (calfMuscleCircumference != null) {
-      bodyCompositionCM.calfMuscleCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(calfMuscleCircumference!)
-      ];
-    }
-    if (hipCircumference != null) {
-      bodyCompositionCM.hipCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(hipCircumference!)
-      ];
-    }
-    if (startBodycompositionChanging != null) {
-      bodyCompositionCM.startBodycompositionChanging =
-          startBodycompositionChanging;
-    }
-    if (activityLevel != null) {
-      bodyCompositionCM.activityLevel = [
-        BioDataActivityLevelCM()
-          ..logDate = logDate
-          ..value = activityLevel!
-      ];
-    }
-
-    return bodyCompositionCM;
-  }
-
-  final int? height;
-  final int? weight;
-  final int? waistCircumference;
-  final String? hipCircumference;
-  final String? armCircumference;
-  final String? chestCircumference;
-  final String? thightCircumference;
-  final String? calfMuscleCircumference;
-  final DateTime? startBodycompositionChanging;
-  final ActivityLevelCM? activityLevel;
-
-  BodyCompositionValues copyWith({
-    ValueGetter<int?>? height,
-    ValueGetter<int?>? weight,
-    ValueGetter<int?>? waistCircumference,
-    ValueGetter<String?>? armCircumference,
-    ValueGetter<String?>? hipCircumference,
-    ValueGetter<String?>? chestCircumference,
-    ValueGetter<String?>? thightCircumference,
-    ValueGetter<String?>? calfMuscleCircumference,
-    ValueGetter<DateTime?>? startBodycompositionChanging,
-    ValueGetter<ActivityLevelCM?>? activityLevel,
-  }) {
-    return BodyCompositionValues(
-        height: height != null ? height() : this.height,
-        weight: weight != null ? weight() : this.weight,
-        waistCircumference: waistCircumference != null
-            ? waistCircumference()
-            : this.waistCircumference,
-        armCircumference: armCircumference != null
-            ? armCircumference()
-            : this.armCircumference,
-        chestCircumference: chestCircumference != null
-            ? chestCircumference()
-            : this.chestCircumference,
-        thightCircumference: thightCircumference != null
-            ? thightCircumference()
-            : this.thightCircumference,
-        hipCircumference: hipCircumference != null
-            ? hipCircumference()
-            : this.hipCircumference,
-        startBodycompositionChanging: startBodycompositionChanging != null
-            ? startBodycompositionChanging()
-            : this.startBodycompositionChanging,
-        activityLevel:
-            activityLevel != null ? activityLevel() : this.activityLevel,
-        calfMuscleCircumference: calfMuscleCircumference != null
-            ? calfMuscleCircumference()
-            : this.calfMuscleCircumference);
+  NewMeasurementState copyWith(
+      {ProcessAsyncStatus? insertStatus,
+      ValueGetter<int?>? weight,
+      ValueGetter<int?>? waistCircumference,
+      ValueGetter<String?>? hipCircumference,
+      ValueGetter<String?>? armCircumference,
+      ValueGetter<String?>? chestCircumference,
+      ValueGetter<String?>? thightCircumference,
+      ValueGetter<String?>? calfMuscleCircumference,
+      ValueGetter<ActivityLevelCM?>? activityLevel}) {
+    return NewMeasurementState(
+      insertStatus: insertStatus ?? this.insertStatus,
+      bodyCompositionValues: bodyCompositionValues.copyWith(
+        weight: weight,
+        waistCircumference: waistCircumference,
+        hipCircumference: hipCircumference,
+        armCircumference: armCircumference,
+        chestCircumference: chestCircumference,
+        thightCircumference: thightCircumference,
+        calfMuscleCircumference: calfMuscleCircumference,
+        activityLevel: activityLevel,
+      ),
+    );
   }
 }

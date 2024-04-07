@@ -48,6 +48,8 @@ void main() async {
 // in app purchase for 1 month subscription and 3 months 
 // add comment and star
 // add FAB to list of selected food
+// show how to use counters or expand counter for now to use thumb
+// hold to create recipe from list
 
 
 

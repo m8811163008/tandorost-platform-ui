@@ -69,10 +69,9 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.foodSelectionList);
         } else if (index == 2) {
           context.goNamed(Routes.foodList);
+        } else if (index == 3) {
+          context.goNamed(Routes.profile);
         }
-        // else if (index == 3) {
-        //   context.goNamed(Routes.profile);
-        // }
       },
       selectedIndex: _selectedIndex,
       children: [
@@ -91,10 +90,10 @@ class _AppDrawerState extends State<AppDrawer> {
           icon: Icon(Ionicons.fish),
           label: Text('لیست خوراکی‌های قابل جستجو'),
         ),
-        // const NavigationDrawerDestination(
-        //   icon: Icon(Ionicons.person),
-        //   label: Text('نمایه کاربر و روند پیشرفت'),
-        // ),
+        const NavigationDrawerDestination(
+          icon: Icon(Ionicons.person),
+          label: Text('نمایه کاربر و روند پیشرفت'),
+        ),
         SizedBox(
           height: context.sizesExtenstion.extraLarge,
         ),
@@ -112,18 +111,16 @@ class _AppDrawerState extends State<AppDrawer> {
 
 extension on String {
   int toIndex() {
-    switch (this) {
-      case Routes.foodSelection:
-        return 0;
-      case Routes.foodSelectionList:
-        return 1;
-      case Routes.foodList:
-        return 2;
-      // case Routes.profile:
-      //   return 3;
-
-      default:
-        throw Exception('Undefined location');
+    if (contains(Routes.foodSelection)) {
+      return 0;
+    } else if (contains(Routes.foodSelectionList)) {
+      return 1;
+    } else if (contains(Routes.foodList)) {
+      return 2;
+    } else if (contains(Routes.profile)) {
+      return 3;
+    } else {
+      throw Exception('Undefined location');
     }
   }
 }

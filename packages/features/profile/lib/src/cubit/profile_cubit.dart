@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
@@ -10,64 +12,64 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.authenticationRepository, this.userRepostiory)
       : super(ProfileState()) {
-    //
-    emit(state.copyWith(
-      isShowWizard: true,
-    ));
+    _initializeProfileCm();
   }
   final AuthenticationRepository authenticationRepository;
   final UserRepostiory userRepostiory;
 
-  // late StreamSubscription<ProfileCM> _profileStreamSubscription;
-
-  void login() async {
-    emit(state.copyWith(loginStatus: ProcessAsyncStatus.loading));
-    try {
-      await authenticationRepository.logIn();
-      emit(state.copyWith(loginStatus: ProcessAsyncStatus.loaded));
-    } catch (e) {
-      emit(state.copyWith(loginStatus: ProcessAsyncStatus.error));
-    }
+  void _initializeProfileCm() {
+    _profileStreamSubscription = userRepostiory.userProfile.listen((event) {
+      emit(state.copyWith(
+        lastUpdatedProfileCM: event,
+      ));
+    });
   }
 
-  bool get _isValidActivatePremiumForm =>
-      state.activePremiumWizardState.profileCM.isMale != null &&
-      state.activePremiumWizardState.profileCM.birthday != null &&
-      state.activePremiumWizardState.profileCM.userName.isNotEmpty &&
-      state.activePremiumWizardState.bodyCompositionValues.height != null &&
-      state.activePremiumWizardState.bodyCompositionValues.weight != null &&
-      state.activePremiumWizardState.isAgreementAccepted;
+  late StreamSubscription<ProfileCM> _profileStreamSubscription;
+  @override
+  Future<void> close() {
+    _profileStreamSubscription.cancel();
+    return super.close();
+  }
+
+  // void login() async {
+  //   emit(state.copyWith(loginStatus: ProcessAsyncStatus.loading));
+  //   try {
+  //     await authenticationRepository.logIn();
+  //     emit(state.copyWith(loginStatus: ProcessAsyncStatus.loaded));
+  //   } catch (e) {
+  //     emit(state.copyWith(loginStatus: ProcessAsyncStatus.error));
+  //   }
+  // }
 
   void updateBirthDay(DateTime birthday) {
     emit(
       state.copyWith(
-        profileCM: state.activePremiumWizardState.profileCM.copyWith(
+        wizardUpdatedProfileCM:
+            state.activePremiumWizardState.createdProfileCM.copyWith(
           birthday: birthday,
         ),
       ),
     );
-    _validateForm();
   }
 
   void updateUsername(String userName) {
     assert(userName.isNotEmpty);
     emit(
       state.copyWith(
-        profileCM: state.activePremiumWizardState.profileCM
+        wizardUpdatedProfileCM: state.activePremiumWizardState.createdProfileCM
             .copyWith(userName: userName),
       ),
     );
-    _validateForm();
   }
 
   void updateIsMale(bool isMale) {
     emit(
       state.copyWith(
-        profileCM:
-            state.activePremiumWizardState.profileCM.copyWith(isMale: isMale),
+        wizardUpdatedProfileCM: state.activePremiumWizardState.createdProfileCM
+            .copyWith(isMale: isMale),
       ),
     );
-    _validateForm();
   }
 
   void upsertHeight(int value) {
@@ -79,13 +81,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ),
     );
-    _validateForm();
-  }
-
-  void _validateForm() {
-    emit(state.copyWith(
-      isFormValid: _isValidActivatePremiumForm,
-    ));
   }
 
   void upsertWeight(int value) {
@@ -97,7 +92,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ),
     );
-    _validateForm();
   }
 
   void upsertWaistCircumference(int value) {
@@ -118,7 +112,6 @@ class ProfileCubit extends Cubit<ProfileState> {
             !state.activePremiumWizardState.isAgreementAccepted,
       ),
     );
-    _validateForm();
   }
 
   void upsertArmCircumference(String value) {
@@ -206,25 +199,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void toggleIsShowWizard() {
-    emit(
-      state.copyWith(
-        isShowWizard: !state.isShowWizard,
-      ),
-    );
-  }
-
   void activePremiumWizardCreateProfile() async {
-    if (state.activePremiumWizardState.isFormValid) {
+    if (state.isValidActivatePremiumForm) {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
-      state.activePremiumWizardState.profileCM.bodyComposition = state
+      state.activePremiumWizardState.createdProfileCM.bodyComposition = state
           .activePremiumWizardState.bodyCompositionValues
           .toBodyCompositionCM();
       try {
         await userRepostiory
-            .updateProfile(state.activePremiumWizardState.profileCM);
+            .updateProfile(state.activePremiumWizardState.createdProfileCM);
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.loaded,
         ));
@@ -234,5 +219,24 @@ class ProfileCubit extends Cubit<ProfileState> {
         ));
       }
     }
+  }
+
+  void updateNewMesurementWeight(String value) {
+    emit(
+      state.copyWith(
+        newMeasurementState: state.newMeasurementState.copyWith(
+          weight: () => int.parse(value),
+        ),
+      ),
+    );
+  }
+  void updateNewMesurementWaistCircumference(String value) {
+    emit(
+      state.copyWith(
+        newMeasurementState: state.newMeasurementState.copyWith(
+          waistCircumference: () => int.parse(value),
+        ),
+      ),
+    );
   }
 }

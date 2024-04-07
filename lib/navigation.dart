@@ -17,7 +17,7 @@ class Navigation {
       observers: [
         SentryNavigatorObserver(),
       ],
-      // initialLocation: '${Routes.profile}/${Routes.activePremiumWizard}',
+      // initialLocation: Routes.profile,
       initialLocation: Routes.splash,
       routes: [
         GoRoute(

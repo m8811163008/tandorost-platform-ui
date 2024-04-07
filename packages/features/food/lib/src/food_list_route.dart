@@ -105,7 +105,7 @@ class _FoodListViewState extends State<FoodListView> {
             textInputAction: TextInputAction.search,
           ),
         ),
-        IconButton.outlined(
+        IconButton(
           icon: const Icon(Ionicons.add),
           onPressed: () async {
             showModalBottomSheet(

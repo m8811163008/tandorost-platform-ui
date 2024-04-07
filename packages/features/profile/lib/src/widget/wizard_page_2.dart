@@ -21,7 +21,8 @@ class WizardPage2 extends StatelessWidget {
               return ShimmerTextNavigation(
                 isError: context.select<ProfileCubit, bool>(
                   (cubit) =>
-                      cubit.state.activePremiumWizardState.profileCM.isMale ==
+                      cubit.state.activePremiumWizardState.createdProfileCM
+                          .isMale ==
                       null,
                 ),
               );
@@ -114,9 +115,11 @@ class WizardPage2 extends StatelessWidget {
   }
 
   Widget _buildGenderSegmentedInput(BuildContext context) {
+    final intialValue = context.select<ProfileCubit, bool?>((cubit) =>
+        cubit.state.activePremiumWizardState.createdProfileCM.isMale);
     return ErrorIndicator(
       selector: (cubit) =>
-          cubit.activePremiumWizardState.profileCM.isMale == null,
+          cubit.activePremiumWizardState.createdProfileCM.isMale == null,
       child: SegmentedButton<bool>(
         segments: const <ButtonSegment<bool>>[
           ButtonSegment<bool>(
@@ -128,10 +131,7 @@ class WizardPage2 extends StatelessWidget {
             label: Text('زن'),
           ),
         ],
-        selected: {
-          context.select<ProfileCubit, bool>((cubit) =>
-              cubit.state.activePremiumWizardState.profileCM.isMale ?? false)
-        },
+        selected: {if (intialValue != null) intialValue},
         emptySelectionAllowed: true,
         onSelectionChanged: (Set<bool> newSelection) {
           context

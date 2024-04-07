@@ -23,9 +23,8 @@ class WizardPage6 extends StatelessWidget {
             bottom: 80,
             child: Builder(builder: (context) {
               return ShimmerTextNavigation(
-                isEnd: true,
-                isError: !context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.isFormValid),
+                isError: !context.select<ProfileCubit, bool>(
+                    (cubit) => cubit.state.isValidActivatePremiumForm),
               );
             }),
           ),

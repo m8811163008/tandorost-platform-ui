@@ -23,9 +23,10 @@ class WizardPage3 extends StatelessWidget {
             child: Builder(builder: (context) {
               return ShimmerTextNavigation(
                 isError: context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.profileCM.userName
-                        .isEmpty ||
-                    cubit.state.activePremiumWizardState.profileCM.birthday ==
+                    cubit.state.activePremiumWizardState.createdProfileCM
+                        .userName.isEmpty ||
+                    cubit.state.activePremiumWizardState.createdProfileCM
+                            .birthday ==
                         null),
               );
             }),
@@ -73,8 +74,8 @@ class WizardPage3 extends StatelessWidget {
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             errorText: context.select<ProfileCubit, String?>(
-              (cubit) => cubit
-                      .state.activePremiumWizardState.profileCM.userName.isEmpty
+              (cubit) => cubit.state.activePremiumWizardState.createdProfileCM
+                      .userName.isEmpty
                   ? 'نام کاربری خالی است'
                   : null,
             ),
@@ -84,7 +85,7 @@ class WizardPage3 extends StatelessWidget {
               .read<ProfileCubit>()
               .state
               .activePremiumWizardState
-              .profileCM
+              .createdProfileCM
               .userName,
           onChanged: context.read<ProfileCubit>().updateUsername,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -180,13 +181,13 @@ class _BirthdayContent extends StatelessWidget {
   Widget _buildBirthdayInput(BuildContext context) {
     return ErrorIndicator(
       selector: (cubit) =>
-          cubit.activePremiumWizardState.profileCM.birthday == null,
+          cubit.activePremiumWizardState.createdProfileCM.birthday == null,
       child: SelectBirthdayButton(
         initialDate: context
             .read<ProfileCubit>()
             .state
             .activePremiumWizardState
-            .profileCM
+            .createdProfileCM
             .birthday,
         onSelectDate: context.read<ProfileCubit>().updateBirthDay,
       ),
@@ -197,7 +198,7 @@ class _BirthdayContent extends StatelessWidget {
     return Builder(
       builder: (context) {
         final birthDay = context.select((ProfileCubit cubit) =>
-            cubit.state.activePremiumWizardState.profileCM.birthday);
+            cubit.state.activePremiumWizardState.createdProfileCM.birthday);
         if (birthDay == null) {
           return const SizedBox.shrink();
         } else {

@@ -1,4 +1,5 @@
 import 'package:component_library/component_library.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,19 +16,22 @@ class ActivePremiumWizardRoute extends StatelessWidget {
       bodyPadding: EdgeInsets.zero,
       title: Builder(builder: (context) {
         final currentPage = context.select<ProfileCubit, String>((cubit) =>
-            'صفحه ${cubit.state.activePremiumWizardState.currentPage + 1} از 6 ');
+            'صفحه ${cubit.state.activePremiumWizardState.currentPage + 1} از 7 ');
         return Text(currentPage);
       }),
       child: PageView(
         onPageChanged: context.read<ProfileCubit>().updateCurrentPage,
         scrollDirection: Axis.vertical,
-        children: const [
+        children: [
           WizardPage1(),
           WizardPage2(),
           WizardPage3(),
           WizardPage4(),
           WizardPage5(),
           WizardPage6(),
+          WizardPageLast(
+            key: UniqueKey(),
+          ),
         ],
       ),
     );

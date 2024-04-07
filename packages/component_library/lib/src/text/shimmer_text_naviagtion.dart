@@ -4,9 +4,10 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerTextNavigation extends StatelessWidget {
   const ShimmerTextNavigation(
-      {super.key, this.isEnd = false, this.isError = false});
+      {super.key, this.isEnd = false, this.isError = false, this.title = ''});
   final bool isEnd;
   final bool isError;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ShimmerTextNavigation extends StatelessWidget {
               baseColor: context.themeData.colorScheme.surface,
               highlightColor: context.themeData.colorScheme.primary,
               child: Text(
-                !isEnd ? '>>>>' : '>کافه بازار>',
+                !isEnd ? '>>>>' : '>$title>',
                 style: context.themeData.textTheme.displayLarge,
               ),
             )

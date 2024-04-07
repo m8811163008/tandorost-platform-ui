@@ -6,3 +6,4 @@ export 'wizard_page_4.dart';
 export 'wizard_page_5.dart';
 export 'wizard_page_6.dart';
 export 'error_indicator.dart';
+export 'wizard_page_last_page.dart';
