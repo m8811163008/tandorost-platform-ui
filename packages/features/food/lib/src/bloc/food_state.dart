@@ -2,9 +2,9 @@ part of 'food_bloc.dart';
 
 class FoodState {
   final ProcessAsyncStatus deleteFoodStatus;
-  final List<Food> foodsList;
+  final List<FoodCM> foodsList;
   final ProcessAsyncStatus upsertFoodStatus;
-  final Food? updatedFood;
+  final FoodCM? updatedFood;
 
   FoodState({
     this.deleteFoodStatus = ProcessAsyncStatus.initial,
@@ -16,8 +16,8 @@ class FoodState {
   FoodState copyWith(
       {ProcessAsyncStatus? deleteFoodStatus,
       ProcessAsyncStatus? upsertFoodStatus,
-      List<Food>? foodsList,
-      Food? updatedFood}) {
+      List<FoodCM>? foodsList,
+      FoodCM? updatedFood}) {
     return FoodState(
       deleteFoodStatus: deleteFoodStatus ?? this.deleteFoodStatus,
       upsertFoodStatus: upsertFoodStatus ?? this.upsertFoodStatus,

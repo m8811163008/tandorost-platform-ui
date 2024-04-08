@@ -51,8 +51,8 @@ void main() async {
 // show how to use counters or expand counter for now to use thumb
 // hold to create recipe from list
 
-
-
+// create outlined icons
+// add dashboard
 // reset database and ask do you want restore default foods
 // clean streams in blocs, make them same shape or something like that
 // sort food base on calorie and carbohydrate and fat in selected foods list
@@ -61,3 +61,4 @@ void main() async {
 // wellcome screen
 // add chat gpt for food and recepies
 // show pictures in profile section , optimize to share on social
+//recalculate

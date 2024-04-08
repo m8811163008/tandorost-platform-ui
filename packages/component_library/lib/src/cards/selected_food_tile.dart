@@ -5,8 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
-  const SelectedFoodListTile({super.key, required this.selectedFood});
-  final SelectedFood selectedFood;
+  const SelectedFoodListTile(
+      {super.key,
+      required this.selectedFood,
+      this.onTap,
+      this.onLongTap,
+      this.isSelected = false});
+  final SelectedFoodCM selectedFood;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +26,11 @@ class SelectedFoodListTile extends StatelessWidget {
 
     return SizedBox(
       child: Card(
+        color:
+            isSelected ? context.themeData.colorScheme.tertiaryContainer : null,
         child: ListTile(
           // minLeadingWidth: 104,
+          selected: isSelected,
           isThreeLine: true,
           title: Text(
             '$count $unitOfMeasurement $title',
@@ -28,6 +39,8 @@ class SelectedFoodListTile extends StatelessWidget {
             macroNutrition: macroNutrition,
           ),
           subtitle: _buildSubtitle(context),
+          onLongPress: onLongTap,
+          onTap: onTap,
         ),
       ),
     );

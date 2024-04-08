@@ -13,8 +13,8 @@ class FoodRepostiory {
 
   // Stream controller of list of food provider stream.
   // The new listener does not need to get last cache emmited data.
-  final StreamController<List<Food>> _foodsController =
-      StreamController<List<Food>>.broadcast();
+  final StreamController<List<FoodCM>> _foodsController =
+      StreamController<List<FoodCM>>.broadcast();
 
   //Remember, it's important to always close your
   // StreamControllers when you're done with them to prevent memory leaks.
@@ -23,13 +23,12 @@ class FoodRepostiory {
   }
 
   // Emits the List<Food> searched by `searchFoods` method.
-  Stream<List<Food>> get searchedFoodsStream async* {
+  Stream<List<FoodCM>> get searchedFoodsStream async* {
     yield* _foodsController.stream;
   }
 
-  Stream<List<Food>> get foodsStream async* {
-    yield* _foodStorage.getFoods().map(
-        (listFoodCM) => listFoodCM.map((foodCm) => foodCm.toDomain()).toList());
+  Stream<List<FoodCM>> get foodsStream async* {
+    yield* _foodStorage.getFoods();
   }
 
   Future<void> searchFoods(String query) async {
@@ -38,12 +37,11 @@ class FoodRepostiory {
       _foodsController.add([]);
       return;
     }
-    final storageFoods = await _foodStorage.getFoods().first;
+    final storageFoods = await _foodStorage.getFoods().last;
 
     final domainFoods = storageFoods
-        .where(
-            (foodCm) => foodCm.name.toLowerCase().contains(query.toLowerCase()))
-        .map((foodCm) => foodCm.toDomain())
+        .where((foodCm) =>
+            foodCm.name!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     _foodsController.add(domainFoods);
 
@@ -53,40 +51,32 @@ class FoodRepostiory {
   Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
     final unitsCM = await _foodStorage.units;
     return unitsCM.map((e) => e.toDomain()).toList();
-    
   }
 
   Future<void> clearCollections() async {
     await _foodStorage.clearCollections();
   }
 
-  Stream<List<SelectedFood>> selectedFoodsListStream(
+  Stream<List<SelectedFoodCM>> selectedFoodsListStream(
       {required DateTimeRange dateTimeRange}) async* {
     final foodStream = _foodStorage.selectedFoodsList(
         start: dateTimeRange.start, end: dateTimeRange.end);
-    yield* foodStream.map(
-      (event) => event.map((e) => e.toDomain()).toList(),
-    );
+    yield* foodStream;
   }
 
-  Future<void> upsertSelectedFood(SelectedFood selectedFood) async {
-    final selectedFoodCM = selectedFood.toCacheModel();
-    await _foodStorage.upsertSelectedFood(selectedFoodCM);
+  Future<void> upsertSelectedFood(SelectedFoodCM selectedFood) async {
+    await _foodStorage.upsertSelectedFood(selectedFood);
   }
 
-  Future<void> removeSelectedFood(SelectedFood selectedFood) async {
-    final selectedFoodCM = selectedFood.toCacheModel();
-    await _foodStorage.removeSelectedFood(selectedFoodCM);
+  Future<void> removeSelectedFood(SelectedFoodCM selectedFood) async {
+    await _foodStorage.removeSelectedFood(selectedFood);
   }
 
-  Future<void> upsertFood(Food food) async {
-    
-    final foodCM = food.toCacheModel();
-    await _foodStorage.upsertFood(foodCM);
+  Future<void> upsertFood(FoodCM food) async {
+    await _foodStorage.upsertFood(food);
   }
 
-  Future<void> removeFood(Food food) async {
-    final foodCM = food.toCacheModel();
-    await _foodStorage.removeFood(foodCM);
+  Future<void> removeFood(FoodCM food) async {
+    await _foodStorage.removeFood(food);
   }
 }

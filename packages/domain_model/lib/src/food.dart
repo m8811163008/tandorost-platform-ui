@@ -1,51 +1,51 @@
 import 'package:equatable/equatable.dart';
 
-class Food extends Equatable {
-  final String name;
-  // calorie per 100 grams
-  final int calorie;
-  // 1 gram weight of each unit for example each apple is 100 grams
-  final int gramsPerUnit;
-  // Actual value of macro nutritions per 100gr
-  final MacroNutrition macroNutrition;
+// class Food extends Equatable {
+//   final String name;
+//   // calorie per 100 grams
+//   final int calorie;
+//   // gram per one unit of food for example each apple is 100 grams
+//   final int gramsPerUnit;
+//   // Actual value of macro nutritions per 100gr
+//   final MacroNutrition macroNutrition;
 
-  const Food({
-    required this.name,
-    required this.calorie,
-    required this.gramsPerUnit,
-    required this.macroNutrition,
-  });
+//   const Food({
+//     required this.name,
+//     required this.calorie,
+//     required this.gramsPerUnit,
+//     required this.macroNutrition,
+//   });
 
-  @override
-  List<Object?> get props => [
-        name,
-        calorie,
-        gramsPerUnit,
-        macroNutrition,
-      ];
-  // create empty food
-  factory Food.empty() => Food(
-        name: '',
-        macroNutrition: MacroNutrition.empty,
-        calorie: 0,
-        gramsPerUnit: 0,
-      );
+//   @override
+//   List<Object?> get props => [
+//         name,
+//         calorie,
+//         gramsPerUnit,
+//         macroNutrition,
+//       ];
+//   // create empty food
+//   factory Food.empty() => Food(
+//         name: '',
+//         macroNutrition: MacroNutrition.empty,
+//         calorie: 0,
+//         gramsPerUnit: 0,
+//       );
 
-  //copywith
-  Food copyWith({
-    String? name,
-    int? calorie,
-    int? gramsPerUnit,
-    MacroNutrition? macroNutrition,
-  }) {
-    return Food(
-      name: name ?? this.name,
-      calorie: calorie ?? this.calorie,
-      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
-      macroNutrition: macroNutrition ?? this.macroNutrition,
-    );
-  }
-}
+//   //copywith
+//   Food copyWith({
+//     String? name,
+//     int? calorie,
+//     int? gramsPerUnit,
+//     MacroNutrition? macroNutrition,
+//   }) {
+//     return Food(
+//       name: name ?? this.name,
+//       calorie: calorie ?? this.calorie,
+//       gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
+//       macroNutrition: macroNutrition ?? this.macroNutrition,
+//     );
+//   }
+// }
 
 // Actual values per 100 grams
 class MacroNutrition extends Equatable {
@@ -91,6 +91,15 @@ class MacroNutrition extends Equatable {
       fat: fat ?? this.fat,
       protein: protein ?? this.protein,
       isVegetable: isVegetable ?? this.isVegetable,
+    );
+  }
+
+  MacroNutrition operator +(MacroNutrition other) {
+    return MacroNutrition(
+      carbohydrate: carbohydrate + other.carbohydrate,
+      fat: fat + other.fat,
+      protein: protein + other.protein,
+      isVegetable: isVegetable && other.isVegetable,
     );
   }
 }

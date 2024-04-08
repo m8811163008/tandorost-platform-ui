@@ -9,9 +9,9 @@ class FoodListTile extends StatefulWidget {
     this.onFoodDelete,
     this.onFoodUpdate,
   });
-  final Food food;
-  final ValueSetter<Food>? onFoodUpdate;
-  final ValueSetter<Food>? onFoodDelete;
+  final FoodCM food;
+  final ValueSetter<FoodCM>? onFoodUpdate;
+  final ValueSetter<FoodCM>? onFoodDelete;
 
   @override
   State<FoodListTile> createState() => _FoodListTileState();
@@ -29,13 +29,16 @@ class _FoodListTileState extends State<FoodListTile>
     final selectedFoodCalarieLabel = _createLabel(
         '${widget.food.calorie}', context.l10n.foodDataCalarieLabel);
     final selectedFoodFatLabel = _createLabel(
-        context.l10n.foodDataPercentValue(widget.food.macroNutrition.fatPercent),
+        context.l10n
+            .foodDataPercentValue(widget.food.macroNutrition.fatPercent),
         context.l10n.nutritionDataFatLabel);
     final selectedFoodProteinLabel = _createLabel(
-        context.l10n.foodDataPercentValue(widget.food.macroNutrition.proteinPercent),
+        context.l10n
+            .foodDataPercentValue(widget.food.macroNutrition.proteinPercent),
         context.l10n.nutritionDataProteinLabel);
     final selectedFoodCarbohydrateLabel = _createLabel(
-        context.l10n.foodDataPercentValue(widget.food.macroNutrition.carbohydratePercent),
+        context.l10n.foodDataPercentValue(
+            widget.food.macroNutrition.carbohydratePercent),
         context.l10n.nutritionDataCarbohydrateLabel);
 
     return Card(

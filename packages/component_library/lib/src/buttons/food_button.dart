@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class FoodButton extends StatelessWidget {
   const FoodButton({super.key, required this.food, this.onTap});
 
-  final Food food;
+  final FoodCM food;
   final VoidCallback? onTap;
 
   @override

@@ -9,11 +9,11 @@ final class ListenedFoodListStream extends FoodEvent {}
 sealed class FoodUpsertedScreen extends FoodEvent {}
 
 final class FoodUpdate extends FoodUpsertedScreen {
-  final Food food;
+  final FoodCM food;
   FoodUpdate({required this.food});
 }
 
 final class FoodDeleted extends FoodUpsertedScreen {
-  final Food food;
+  final FoodCM food;
   FoodDeleted({required this.food});
 }

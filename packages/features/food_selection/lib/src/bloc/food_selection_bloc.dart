@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 
@@ -26,8 +27,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   }
 
   final FoodRepostiory _foodRepository;
-  late final StreamSubscription<List<Food>> _foodsSubscription;
-  late StreamSubscription<List<SelectedFood>> _selectedFoodStreamSubscription;
+  late final StreamSubscription<List<FoodCM>> _foodsSubscription;
+  late StreamSubscription<List<SelectedFoodCM>> _selectedFoodStreamSubscription;
 
   @override
   Future<void> close() async {
@@ -61,6 +62,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         await _handleSelectedFoodUndoRemoved(event, emit);
       } else if (event is UnitOfMeasurementAmountChanged) {
         _handleUnitOfMeasurementAmountChanged(event, emit);
+      } else if (event is FoodSelectedForNewFood) {
+        _handleFoodSelectedForNewFood(event, emit);
+      } else if (event is NewFoodFromSelectedFoodsCreated) {
+        await _handleNewFoodFromSelectedFoodsCreated(event, emit);
+      } else if (event is NewFoodNameUpdated) {
+        _handleNewFoodNameUpdated(event, emit);
       }
     });
   }
@@ -94,7 +101,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   Future<void> _handleSelectedFoodUndoRemoved(
       SelectedFoodUndoRemoved event, Emitter<FoodSelectionState> emit) async {
-    assert(state.lastDeletedSelectedFood != SelectedFood.empty(),
+    assert(state.lastDeletedSelectedFood != SelectedFoodCM(),
         'propebly you call this method to early, or the state reseted');
     // to prevent call this method unnecessasarily.
     if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
@@ -126,7 +133,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       FoodSelected event, Emitter<FoodSelectionState> emit) async {
     List<UnitOfMeasurement> units = await _foodRepository.unitOfMeasurement;
     final updatedUnits = units.map((e) {
-      if (e.type != UnitOfMeasurementType.gramsPerUnit) return e;
+      if (e.title != UnitOfMeasurementType.gramsPerUnit) return e;
       return e.copyWith(
         howManyGrams: event.food.gramsPerUnit,
         max: _calculateGramsPerUnitMax(event.food.gramsPerUnit),
@@ -137,11 +144,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       state.copyWith(
         unitOfMesurementList: updatedUnits,
         selectedFood: state.selectedFood.copyWith(
-          name: event.food.name,
-          calorie: event.food.calorie,
-          gramsPerUnit: event.food.gramsPerUnit,
-          macroNutrition: event.food.macroNutrition,
-          unitOfMeasurement: updatedUnits.first,
+          foodId: event.food.id,
+          unitOfMeasurmentCMTitle: updatedUnits.first.title.name,
         ),
       ),
     );
@@ -243,5 +247,97 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         unitOfMeasurementHistory: history,
       ),
     );
+  }
+
+  void _handleFoodSelectedForNewFood(
+      FoodSelectedForNewFood event, Emitter<FoodSelectionState> emit) {
+    final selectedFoodsForNewFood =
+        Set<SelectedFoodCM>.from(state.selectedFoodsForNewFood);
+    if (state.selectedFoodsForNewFood.contains(event.selectedFood)) {
+      //remove
+      selectedFoodsForNewFood.remove(event.selectedFood);
+    } else {
+      selectedFoodsForNewFood.add(event.selectedFood);
+    }
+    emit(
+      state.copyWith(
+        selectedFoodsForNewFood: selectedFoodsForNewFood,
+      ),
+    );
+  }
+
+  void _handleNewFoodNameUpdated(
+      NewFoodNameUpdated event, Emitter<FoodSelectionState> emit) {
+    emit(
+      state.copyWith(
+        newFoodName: event.value,
+      ),
+    );
+  }
+
+  Future<void> _handleNewFoodFromSelectedFoodsCreated(
+      NewFoodFromSelectedFoodsCreated event,
+      Emitter<FoodSelectionState> emit) async {
+    assert(state.selectedFoodsForNewFood.isNotEmpty);
+    emit(
+      state.copyWith(
+        creatingNewFood: ProcessAsyncStatus.loading,
+      ),
+    );
+    // create FoodCM
+    // FoodCM(name: 'Input', calorie: calorie, gramsPerUnit: gramsPerUnit, macroNutrition: macroNutrition);
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+final foods = await _foodRepository.foodsStream.last;
+    // upsert new food
+    var newFood = state.selectedFoodsForNewFood.fold<SelectedFoodCM>(SelectedFoodCM.empty(),
+        (previousValue, currentValue) {
+           
+final previousValueSelectedFood = state.selectedFoodsForNewFood.singleWhere((whereClauseElement) => whereClauseElement.name == previousValue.name);
+final currentValueSelectedFood = state.selectedFoodsForNewFood.singleWhere((whereClauseElement) => whereClauseElement.name == currentValue.name);
+
+      final previousValueGramsPerUnitTotal =
+          previousValue.gramsPerUnit * previousValueSelectedFood.;
+      // final elementValueGramsPerUnitTotal = element.gramsPerUnit * 'tedad' ;
+      return previousValue.copyWith(
+        calorie: currentValue.calorie + previousValue.calorie,
+        gramsPerUnit: currentValue.gramsPerUnit + previousValue.gramsPerUnit,
+        macroNutrition: currentValue.macroNutrition + previousValue.macroNutrition,
+      );
+    });
+    // Todo handle is vegetable is approciate
+    newFood = newFood.copyWith(
+      name: state.newFoodName,
+    );
+    try {
+      // dont let to overwrite but inform
+      await _foodRepository.upsertFood(newFood);
+      emit(
+        state.copyWith(
+          creatingNewFood: ProcessAsyncStatus.loaded,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          creatingNewFood: ProcessAsyncStatus.error,
+        ),
+      );
+    }
+
+    // clear selectedFoodsForNewFood and name
   }
 }

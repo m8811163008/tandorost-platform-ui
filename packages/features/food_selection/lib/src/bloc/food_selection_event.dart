@@ -10,7 +10,7 @@ final class SearchFood extends FoodSelectionEvent {
 }
 
 final class SearchedFoodsUpdated extends FoodSelectionEvent {
-  final List<Food> foods;
+  final List<FoodCM> foods;
   SearchedFoodsUpdated(this.foods);
 }
 
@@ -19,7 +19,7 @@ final class FetchedUnitOfMeasurement extends FoodSelectionEvent {
 }
 
 final class FoodSelected extends FoodSelectionEvent {
-  final Food food;
+  final FoodCM food;
   FoodSelected(this.food);
 }
 
@@ -45,18 +45,20 @@ final class SelectedFoodSaved extends InputPageEvent {
 }
 
 final class SelectedFoodsListFetched extends InputPageEvent {
-  final List<SelectedFood> selectedFoods;
+  final List<SelectedFoodCM> selectedFoods;
   const SelectedFoodsListFetched({this.selectedFoods = const []});
 }
 
 final class SearchFoodFormReset extends InputPageEvent {
   const SearchFoodFormReset();
 }
+
 /// Used to save unit of measurement amount in state.
 final class UnitOfMeasurementAmountChanged extends InputPageEvent {
   final UnitOfMeasurement unitOfMeasurement;
   final int amount;
-  const UnitOfMeasurementAmountChanged({required this.amount, required this.unitOfMeasurement});
+  const UnitOfMeasurementAmountChanged(
+      {required this.amount, required this.unitOfMeasurement});
 }
 
 base class SlectedFoodListPageEvent extends FoodSelectionEvent {
@@ -69,7 +71,7 @@ final class SlectedFoodListFiltered extends SlectedFoodListPageEvent {
 }
 
 final class SelectedFoodRemoved extends SlectedFoodListPageEvent {
-  final SelectedFood food;
+  final SelectedFoodCM food;
   const SelectedFoodRemoved({required this.food});
 }
 
@@ -77,3 +79,23 @@ final class SelectedFoodUndoRemoved extends SlectedFoodListPageEvent {
   const SelectedFoodUndoRemoved();
 }
 
+abstract base class CreatedNewFoodEvent extends SlectedFoodListPageEvent {
+  const CreatedNewFoodEvent();
+}
+
+/// Used when the user hold for long tap or onTap of list tile.
+///
+///
+final class FoodSelectedForNewFood extends CreatedNewFoodEvent {
+  final SelectedFoodCM selectedFood;
+  const FoodSelectedForNewFood({required this.selectedFood});
+}
+
+final class NewFoodNameUpdated extends CreatedNewFoodEvent {
+  final String value;
+  const NewFoodNameUpdated({required this.value});
+}
+
+final class NewFoodFromSelectedFoodsCreated extends CreatedNewFoodEvent {
+  const NewFoodFromSelectedFoodsCreated();
+}

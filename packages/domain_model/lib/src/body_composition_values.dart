@@ -89,7 +89,7 @@ class BodyCompositionValues {
     }
     if (activityLevel != null) {
       bodyCompositionCM.activityLevel = [
-        BioDataActivityLevelCM()
+        ActivityLevelCMData()
           ..logDate = logDate
           ..value = activityLevel!
       ];

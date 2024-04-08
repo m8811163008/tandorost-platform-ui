@@ -54,6 +54,9 @@ final class AppThemeLightThemeData extends AppThemeThemeData {
             side: BorderSide.none,
           ),
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
       );
 
   @override

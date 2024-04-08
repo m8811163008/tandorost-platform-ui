@@ -56,7 +56,7 @@ class _FoodListViewState extends State<FoodListView> {
             initalName: newFoodName,
             initalFood: context.read<FoodBloc>().state.foodsList.singleWhere(
                   (element) => element.name == newFoodName,
-                  orElse: Food.empty,
+                  orElse: () => FoodCM(),
                 ),
           ),
         );
@@ -67,7 +67,7 @@ class _FoodListViewState extends State<FoodListView> {
   }
 
   // Method to create FoodListTile
-  Widget _createFoodListTile(Food food, BuildContext context) {
+  Widget _createFoodListTile(FoodCM food, BuildContext context) {
     return FoodListTile(
       food: food,
       onFoodUpdate: (food) {
@@ -105,8 +105,9 @@ class _FoodListViewState extends State<FoodListView> {
             textInputAction: TextInputAction.search,
           ),
         ),
-        IconButton(
+        TextButton.icon(
           icon: const Icon(Ionicons.add),
+          label: Text('خوراک جدید'),
           onPressed: () async {
             showModalBottomSheet(
               context: context,
@@ -153,7 +154,7 @@ class _FoodListViewState extends State<FoodListView> {
           if (state.foodsList.isEmpty) {
             return const Center(child: Text('غذایی یافت نشد'));
           }
-          List<Food> foods = state.foodsList;
+          List<FoodCM> foods = state.foodsList;
           foods = foods.reversed
               .where((element) => element.name.contains(_controller.text))
               .toList();

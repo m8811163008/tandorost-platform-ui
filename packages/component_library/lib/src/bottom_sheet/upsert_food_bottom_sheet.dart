@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 
 class UpsertFoodBottomSheet extends StatefulWidget {
   UpsertFoodBottomSheet(
-      {super.key, this.onfoodUpdated, Food? initalFood, this.initalName})
-      : initalFood = initalFood ?? Food.empty();
-  final ValueSetter<Food>? onfoodUpdated;
+      {super.key, this.onfoodUpdated, FoodCM? initalFood, this.initalName})
+      : initalFood = initalFood ?? FoodCM();
+  final ValueSetter<FoodCM>? onfoodUpdated;
 
-  final Food initalFood;
+  final FoodCM initalFood;
   final String? initalName;
 
   @override
@@ -31,7 +31,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   final TextEditingController _proteinTextEditingController =
       TextEditingController();
   String _errorMessage = '';
-  Food? _initialFood;
+  FoodCM? _initialFood;
 
   final doubleInputFormater =
       FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,4}(\.[0-9]{0,1})?$'));
@@ -41,7 +41,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   @override
   void initState() {
     _initialFood = widget.initalFood;
-    if (_initialFood != Food.empty()) {
+    if (_initialFood != FoodCM()) {
       _nameTextEditingController.text = _initialFood!.name;
 
       _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
@@ -107,7 +107,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   @override
   Widget build(BuildContext context) {
     final title =
-        widget.initalFood == Food.empty() ? 'اضافه کردن خوراک' : 'ویرایش خوراک';
+        widget.initalFood == FoodCM() ? 'اضافه کردن خوراک' : 'ویرایش خوراک';
     return BottomSheet(
       animationController: BottomSheet.createAnimationController(this),
       builder: (context) => Padding(

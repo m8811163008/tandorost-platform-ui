@@ -8,20 +8,18 @@ class UserStorage {
     userCollection.isar.writeTxn(() async {
       final user = await userCollection.get(0);
       if (user == null) throw Exception('User is null');
-      user.profileCM = profileCM;
+      user.profileCM ??= ProfileCM();
+
+      user.profileCM!.update(profileCM);
+
       await userCollection.put(user);
     });
   }
 
   Stream<ProfileCM> get userProfile async* {
     final userCollection = await localStorage.userCollection;
-    yield* await userCollection.isar.txn<Stream<ProfileCM>>(() async {
-      final user = await userCollection.get(0);
-      if (user == null) throw Exception('User is null');
-      return userCollection
-          .watchObject(0, fireImmediately: true)
-          .map((event) => event!.profileCM)
-          .asBroadcastStream();
-    });
+    yield* userCollection
+        .watchObject(0, fireImmediately: true)
+        .map((event) => event!.profileCM);
   }
 }

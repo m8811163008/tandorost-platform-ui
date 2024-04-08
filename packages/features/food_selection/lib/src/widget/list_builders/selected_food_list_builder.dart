@@ -37,7 +37,8 @@ class SelectedFoodListBuilder extends StatelessWidget {
         }
       },
       buildWhen: (previous, current) =>
-          previous.selectedFoodsList != current.selectedFoodsList,
+          previous.selectedFoodsList != current.selectedFoodsList ||
+          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood,
       builder: (context, state) {
         if (state.selectedFoodsList.isEmpty) {
           return Column(
@@ -53,7 +54,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
             ],
           );
         }
-        List<SelectedFood> selectedFoods = state.selectedFoodsList;
+        List<SelectedFoodCM> selectedFoods = state.selectedFoodsList;
         // To show last element to the top of the list.
         selectedFoods = selectedFoods.reversed.toList();
         return ListView.builder(
@@ -65,12 +66,26 @@ class SelectedFoodListBuilder extends StatelessWidget {
             final selectedFood = selectedFoods[index - 1];
 
             return SelectedFoodListTileDissmissable(
-              selectedFood: selectedFood,
-              onDissmiss: (selectedFood) {
+              food: selectedFood,
+              isDismissActive: state.selectedFoodsForNewFood.isEmpty,
+              onDissmiss: () {
                 context
                     .read<FoodSelectionBloc>()
                     .add(SelectedFoodRemoved(food: selectedFood));
               },
+              onLongPressed: () {
+                context
+                    .read<FoodSelectionBloc>()
+                    .add(FoodSelectedForNewFood(selectedFood: selectedFood));
+              },
+              onTap: () {
+                if (state.selectedFoodsForNewFood.isNotEmpty) {
+                  context
+                      .read<FoodSelectionBloc>()
+                      .add(FoodSelectedForNewFood(selectedFood: selectedFood));
+                }
+              },
+              isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
             );
           },
         );

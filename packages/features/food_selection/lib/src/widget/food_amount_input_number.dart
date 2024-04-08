@@ -12,16 +12,18 @@ class FoodAmountInputNumber extends StatelessWidget {
     const extend = 104.0;
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(
-        width: extend * 1.68,
+        // width: extend * 1.68,
         height: extend * 2.5,
       ),
       child: BlocSelector<FoodSelectionBloc, FoodSelectionState,
-          UnitOfMeasurement?>(
-        selector: (bloc) {
-          return bloc.selectedFood.unitOfMeasurement;
+          UnitOfMeasurement>(
+        selector: (state) {
+          final title = state.selectedFood.unitOfMeasurmentCMTitle!;
+          return state.unitOfMesurementList
+              .singleWhere((element) => element.title.name == title);
         },
         builder: (context, unitOfMeasurement) {
-          final max = unitOfMeasurement?.max ?? 100;
+          final max = unitOfMeasurement.max ?? 100;
           final min = max <= 300 ? 1 : 10;
           final step = (max - min) <= 300 ? 1 : 10;
           final intialValue = context

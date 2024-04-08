@@ -10,7 +10,7 @@ class SelectedFoodListBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<FoodSelectionBloc, FoodSelectionState,
-            List<SelectedFood>>(
+            List<SelectedFoodCM>>(
         selector: (state) => state.selectedFoodsList,
         builder: ((context, listSelectedFood) {
           final energySum = listSelectedFood.fold(

@@ -2,17 +2,20 @@ part of 'food_selection_bloc.dart';
 
 class FoodSelectionState {
   final String query;
-  final List<Food> searchedFoods;
+  final List<FoodCM> searchedFoods;
   final ProcessAsyncStatus searchFoodStatus;
 
-  final SelectedFood selectedFood;
+  final SelectedFoodCM selectedFood;
   final List<UnitOfMeasurement> unitOfMesurementList;
   final Duration saveTimeOffset;
   final ProcessAsyncStatus upsertSelectedFoodStatus;
   final ProcessAsyncStatus deleteSelectedFoodStatus;
   final DateTimeRange filterSelctedFoodsListDateTimeRange;
-  final SelectedFood lastDeletedSelectedFood;
-  final List<SelectedFood> selectedFoodsList;
+  final SelectedFoodCM lastDeletedSelectedFood;
+  final List<SelectedFoodCM> selectedFoodsList;
+  final Set<SelectedFoodCM> selectedFoodsForNewFood;
+  final ProcessAsyncStatus creatingNewFood;
+  final String newFoodName;
   final Map<UnitOfMeasurement, int> unitOfMeasurementHistory;
 
   FoodSelectionState({
@@ -20,17 +23,19 @@ class FoodSelectionState {
     this.searchedFoods = const [],
     this.unitOfMesurementList = const [],
     this.selectedFoodsList = const [],
+    this.selectedFoodsForNewFood = const {},
     this.searchFoodStatus = ProcessAsyncStatus.initial,
     this.upsertSelectedFoodStatus = ProcessAsyncStatus.initial,
     this.deleteSelectedFoodStatus = ProcessAsyncStatus.initial,
+    this.creatingNewFood = ProcessAsyncStatus.initial,
     this.saveTimeOffset = Duration.zero,
     this.unitOfMeasurementHistory = const {},
-    SelectedFood? selectedFood,
+    SelectedFoodCM? selectedFood,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
-    SelectedFood? lastDeletedSelectedFood,
-  })  : selectedFood = selectedFood ?? SelectedFood.empty(),
-        lastDeletedSelectedFood =
-            lastDeletedSelectedFood ?? SelectedFood.empty(),
+    SelectedFoodCM? lastDeletedSelectedFood,
+    this.newFoodName = '',
+  })  : selectedFood = selectedFood ?? SelectedFoodCM(),
+        lastDeletedSelectedFood = lastDeletedSelectedFood ?? SelectedFoodCM(),
         filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
@@ -46,17 +51,20 @@ class FoodSelectionState {
 
   FoodSelectionState copyWith({
     String? query,
-    List<Food>? searchedFoods,
+    List<FoodCM>? searchedFoods,
     ProcessAsyncStatus? searchFoodStatus,
     ProcessAsyncStatus? upsertSelectedFoodStatus,
     ProcessAsyncStatus? deleteSelectedFoodStatus,
-    SelectedFood? selectedFood,
-    SelectedFood? lastDeletedSelectedFood,
+    SelectedFoodCM? selectedFood,
+    SelectedFoodCM? lastDeletedSelectedFood,
     List<UnitOfMeasurement>? unitOfMesurementList,
     Duration? saveTimeOffset,
-    List<SelectedFood>? selectedFoodsList,
+    List<SelectedFoodCM>? selectedFoodsList,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
     Map<UnitOfMeasurement, int>? unitOfMeasurementHistory,
+    Set<SelectedFoodCM>? selectedFoodsForNewFood,
+    ProcessAsyncStatus? creatingNewFood,
+    String? newFoodName,
   }) {
     return FoodSelectionState(
       query: query ?? this.query,
@@ -77,6 +85,10 @@ class FoodSelectionState {
           deleteSelectedFoodStatus ?? this.deleteSelectedFoodStatus,
       unitOfMeasurementHistory:
           unitOfMeasurementHistory ?? this.unitOfMeasurementHistory,
+      selectedFoodsForNewFood:
+          selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
+      creatingNewFood: creatingNewFood ?? this.creatingNewFood,
+      newFoodName: newFoodName ?? this.newFoodName,
     );
   }
 }

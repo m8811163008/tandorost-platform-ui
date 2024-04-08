@@ -39,12 +39,10 @@ const UserCMSchema = CollectionSchema(
   links: {},
   embeddedSchemas: {
     r'SelectedFoodCM': SelectedFoodCMSchema,
-    r'MacroNutritionCM': MacroNutritionCMSchema,
-    r'UnitOfMeasurmentCM': UnitOfMeasurmentCMSchema,
     r'ProfileCM': ProfileCMSchema,
     r'BodyCompositionCM': BodyCompositionCMSchema,
     r'BioDataCM': BioDataCMSchema,
-    r'BioDataActivityLevelCM': BioDataActivityLevelCMSchema
+    r'ActivityLevelCMData': ActivityLevelCMDataSchema
   },
   getId: _userCMGetId,
   getLinks: _userCMGetLinks,
@@ -441,47 +439,40 @@ const SelectedFoodCMSchema = Schema(
   name: r'SelectedFoodCM',
   id: -3216707772304739627,
   properties: {
-    r'calorie': PropertySchema(
+    r'foodId': PropertySchema(
       id: 0,
-      name: r'calorie',
-      type: IsarType.long,
-    ),
-    r'gramsPerUnit': PropertySchema(
-      id: 1,
-      name: r'gramsPerUnit',
+      name: r'foodId',
       type: IsarType.long,
     ),
     r'hashCode': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'hashCode',
       type: IsarType.long,
     ),
-    r'macroNutrition': PropertySchema(
-      id: 3,
-      name: r'macroNutrition',
-      type: IsarType.object,
-      target: r'MacroNutritionCM',
-    ),
-    r'name': PropertySchema(
-      id: 4,
-      name: r'name',
-      type: IsarType.string,
+    r'numberOfUnitOfMeasurement': PropertySchema(
+      id: 2,
+      name: r'numberOfUnitOfMeasurement',
+      type: IsarType.long,
     ),
     r'numberOfUnits': PropertySchema(
-      id: 5,
+      id: 3,
       name: r'numberOfUnits',
       type: IsarType.long,
     ),
     r'selectedDate': PropertySchema(
-      id: 6,
+      id: 4,
       name: r'selectedDate',
       type: IsarType.dateTime,
     ),
-    r'unitOfMeasurmentCM': PropertySchema(
-      id: 7,
-      name: r'unitOfMeasurmentCM',
-      type: IsarType.object,
-      target: r'UnitOfMeasurmentCM',
+    r'totalWeight': PropertySchema(
+      id: 5,
+      name: r'totalWeight',
+      type: IsarType.long,
+    ),
+    r'unitOfMeasurmentCMTitle': PropertySchema(
+      id: 6,
+      name: r'unitOfMeasurmentCMTitle',
+      type: IsarType.string,
     )
   },
   estimateSize: _selectedFoodCMEstimateSize,
@@ -496,13 +487,12 @@ int _selectedFoodCMEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 +
-      MacroNutritionCMSchema.estimateSize(
-          object.macroNutrition, allOffsets[MacroNutritionCM]!, allOffsets);
-  bytesCount += 3 + object.name.length * 3;
-  bytesCount += 3 +
-      UnitOfMeasurmentCMSchema.estimateSize(object.unitOfMeasurmentCM,
-          allOffsets[UnitOfMeasurmentCM]!, allOffsets);
+  {
+    final value = object.unitOfMeasurmentCMTitle;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -512,24 +502,13 @@ void _selectedFoodCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.calorie);
-  writer.writeLong(offsets[1], object.gramsPerUnit);
-  writer.writeLong(offsets[2], object.hashCode);
-  writer.writeObject<MacroNutritionCM>(
-    offsets[3],
-    allOffsets,
-    MacroNutritionCMSchema.serialize,
-    object.macroNutrition,
-  );
-  writer.writeString(offsets[4], object.name);
-  writer.writeLong(offsets[5], object.numberOfUnits);
-  writer.writeDateTime(offsets[6], object.selectedDate);
-  writer.writeObject<UnitOfMeasurmentCM>(
-    offsets[7],
-    allOffsets,
-    UnitOfMeasurmentCMSchema.serialize,
-    object.unitOfMeasurmentCM,
-  );
+  writer.writeLong(offsets[0], object.foodId);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeLong(offsets[2], object.numberOfUnitOfMeasurement);
+  writer.writeLong(offsets[3], object.numberOfUnits);
+  writer.writeDateTime(offsets[4], object.selectedDate);
+  writer.writeLong(offsets[5], object.totalWeight);
+  writer.writeString(offsets[6], object.unitOfMeasurmentCMTitle);
 }
 
 SelectedFoodCM _selectedFoodCMDeserialize(
@@ -539,23 +518,12 @@ SelectedFoodCM _selectedFoodCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = SelectedFoodCM();
-  object.calorie = reader.readLong(offsets[0]);
-  object.gramsPerUnit = reader.readLong(offsets[1]);
-  object.macroNutrition = reader.readObjectOrNull<MacroNutritionCM>(
-        offsets[3],
-        MacroNutritionCMSchema.deserialize,
-        allOffsets,
-      ) ??
-      MacroNutritionCM();
-  object.name = reader.readString(offsets[4]);
-  object.numberOfUnits = reader.readLong(offsets[5]);
-  object.selectedDate = reader.readDateTime(offsets[6]);
-  object.unitOfMeasurmentCM = reader.readObjectOrNull<UnitOfMeasurmentCM>(
-        offsets[7],
-        UnitOfMeasurmentCMSchema.deserialize,
-        allOffsets,
-      ) ??
-      UnitOfMeasurmentCM();
+  object.foodId = reader.readLongOrNull(offsets[0]);
+  object.numberOfUnitOfMeasurement = reader.readLongOrNull(offsets[2]);
+  object.numberOfUnits = reader.readLongOrNull(offsets[3]);
+  object.selectedDate = reader.readDateTimeOrNull(offsets[4]);
+  object.totalWeight = reader.readLongOrNull(offsets[5]);
+  object.unitOfMeasurmentCMTitle = reader.readStringOrNull(offsets[6]);
   return object;
 }
 
@@ -567,31 +535,19 @@ P _selectedFoodCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readObjectOrNull<MacroNutritionCM>(
-            offset,
-            MacroNutritionCMSchema.deserialize,
-            allOffsets,
-          ) ??
-          MacroNutritionCM()) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 5:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
-      return (reader.readDateTime(offset)) as P;
-    case 7:
-      return (reader.readObjectOrNull<UnitOfMeasurmentCM>(
-            offset,
-            UnitOfMeasurmentCMSchema.deserialize,
-            allOffsets,
-          ) ??
-          UnitOfMeasurmentCM()) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -600,109 +556,71 @@ P _selectedFoodCMDeserializeProp<P>(
 extension SelectedFoodCMQueryFilter
     on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calorieEqualTo(int value) {
+      foodIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'foodId',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      foodIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'foodId',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      foodIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'calorie',
+        property: r'foodId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calorieGreaterThan(
-    int value, {
+      foodIdGreaterThan(
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'calorie',
+        property: r'foodId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calorieLessThan(
-    int value, {
+      foodIdLessThan(
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'calorie',
+        property: r'foodId',
         value: value,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      calorieBetween(
-    int lower,
-    int upper, {
+      foodIdBetween(
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'calorie',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      gramsPerUnitEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'gramsPerUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      gramsPerUnitGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'gramsPerUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      gramsPerUnitLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'gramsPerUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      gramsPerUnitBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'gramsPerUnit',
+        property: r'foodId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -768,143 +686,99 @@ extension SelectedFoodCMQueryFilter
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      numberOfUnitOfMeasurementIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'numberOfUnitOfMeasurement',
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameGreaterThan(
-    String value, {
+      numberOfUnitOfMeasurementIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'numberOfUnitOfMeasurement',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitOfMeasurementEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'numberOfUnitOfMeasurement',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      numberOfUnitOfMeasurementGreaterThan(
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'name',
+        property: r'numberOfUnitOfMeasurement',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameLessThan(
-    String value, {
+      numberOfUnitOfMeasurementLessThan(
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'name',
+        property: r'numberOfUnitOfMeasurement',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameBetween(
-    String lower,
-    String upper, {
+      numberOfUnitOfMeasurementBetween(
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
+        property: r'numberOfUnitOfMeasurement',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      numberOfUnitsIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'numberOfUnits',
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      numberOfUnitsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'numberOfUnits',
       ));
     });
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      nameIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      numberOfUnitsEqualTo(int value) {
+      numberOfUnitsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'numberOfUnits',
@@ -915,7 +789,7 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       numberOfUnitsGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -929,7 +803,7 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       numberOfUnitsLessThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -943,8 +817,8 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       numberOfUnitsBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -960,7 +834,25 @@ extension SelectedFoodCMQueryFilter
   }
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      selectedDateEqualTo(DateTime value) {
+      selectedDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'selectedDate',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'selectedDate',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      selectedDateEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'selectedDate',
@@ -971,7 +863,7 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       selectedDateGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -985,7 +877,7 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       selectedDateLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -999,8 +891,8 @@ extension SelectedFoodCMQueryFilter
 
   QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
       selectedDateBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1014,24 +906,240 @@ extension SelectedFoodCMQueryFilter
       ));
     });
   }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'totalWeight',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'totalWeight',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'totalWeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'totalWeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'totalWeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      totalWeightBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'totalWeight',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'unitOfMeasurmentCMTitle',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'unitOfMeasurmentCMTitle',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'unitOfMeasurmentCMTitle',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleContains(String value,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'unitOfMeasurmentCMTitle',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'unitOfMeasurmentCMTitle',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unitOfMeasurmentCMTitle',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
+      unitOfMeasurmentCMTitleIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'unitOfMeasurmentCMTitle',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension SelectedFoodCMQueryObject
-    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      macroNutrition(FilterQuery<MacroNutritionCM> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'macroNutrition');
-    });
-  }
-
-  QueryBuilder<SelectedFoodCM, SelectedFoodCM, QAfterFilterCondition>
-      unitOfMeasurmentCM(FilterQuery<UnitOfMeasurmentCM> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'unitOfMeasurmentCM');
-    });
-  }
-}
+    on QueryBuilder<SelectedFoodCM, SelectedFoodCM, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -1045,19 +1153,24 @@ const ProfileCMSchema = Schema(
       name: r'birthday',
       type: IsarType.dateTime,
     ),
-    r'bodyComposition': PropertySchema(
+    r'birthdayShamsi': PropertySchema(
       id: 1,
+      name: r'birthdayShamsi',
+      type: IsarType.string,
+    ),
+    r'bodyComposition': PropertySchema(
+      id: 2,
       name: r'bodyComposition',
       type: IsarType.object,
       target: r'BodyCompositionCM',
     ),
     r'isMale': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isMale',
       type: IsarType.bool,
     ),
     r'userName': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'userName',
       type: IsarType.string,
     )
@@ -1074,6 +1187,12 @@ int _profileCMEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.birthdayShamsi;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   {
     final value = object.bodyComposition;
     if (value != null) {
@@ -1093,14 +1212,15 @@ void _profileCMSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.birthday);
+  writer.writeString(offsets[1], object.birthdayShamsi);
   writer.writeObject<BodyCompositionCM>(
-    offsets[1],
+    offsets[2],
     allOffsets,
     BodyCompositionCMSchema.serialize,
     object.bodyComposition,
   );
-  writer.writeBool(offsets[2], object.isMale);
-  writer.writeString(offsets[3], object.userName);
+  writer.writeBool(offsets[3], object.isMale);
+  writer.writeString(offsets[4], object.userName);
 }
 
 ProfileCM _profileCMDeserialize(
@@ -1111,13 +1231,14 @@ ProfileCM _profileCMDeserialize(
 ) {
   final object = ProfileCM();
   object.birthday = reader.readDateTimeOrNull(offsets[0]);
+  object.birthdayShamsi = reader.readStringOrNull(offsets[1]);
   object.bodyComposition = reader.readObjectOrNull<BodyCompositionCM>(
-    offsets[1],
+    offsets[2],
     BodyCompositionCMSchema.deserialize,
     allOffsets,
   );
-  object.isMale = reader.readBoolOrNull(offsets[2]);
-  object.userName = reader.readString(offsets[3]);
+  object.isMale = reader.readBoolOrNull(offsets[3]);
+  object.userName = reader.readString(offsets[4]);
   return object;
 }
 
@@ -1131,14 +1252,16 @@ P _profileCMDeserializeProp<P>(
     case 0:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
+      return (reader.readStringOrNull(offset)) as P;
+    case 2:
       return (reader.readObjectOrNull<BodyCompositionCM>(
         offset,
         BodyCompositionCMSchema.deserialize,
         allOffsets,
       )) as P;
-    case 2:
-      return (reader.readBoolOrNull(offset)) as P;
     case 3:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1213,6 +1336,160 @@ extension ProfileCMQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'birthdayShamsi',
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'birthdayShamsi',
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'birthdayShamsi',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'birthdayShamsi',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'birthdayShamsi',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'birthdayShamsi',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileCM, ProfileCM, QAfterFilterCondition>
+      birthdayShamsiIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'birthdayShamsi',
+        value: '',
       ));
     });
   }
@@ -1414,7 +1691,7 @@ const BodyCompositionCMSchema = Schema(
       id: 0,
       name: r'activityLevel',
       type: IsarType.objectList,
-      target: r'BioDataActivityLevelCM',
+      target: r'ActivityLevelCMData',
     ),
     r'armCircumference': PropertySchema(
       id: 1,
@@ -1484,11 +1761,11 @@ int _bodyCompositionCMEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.activityLevel.length * 3;
   {
-    final offsets = allOffsets[BioDataActivityLevelCM]!;
+    final offsets = allOffsets[ActivityLevelCMData]!;
     for (var i = 0; i < object.activityLevel.length; i++) {
       final value = object.activityLevel[i];
       bytesCount +=
-          BioDataActivityLevelCMSchema.estimateSize(value, offsets, allOffsets);
+          ActivityLevelCMDataSchema.estimateSize(value, offsets, allOffsets);
     }
   }
   bytesCount += 3 + object.armCircumference.length * 3;
@@ -1564,10 +1841,10 @@ void _bodyCompositionCMSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeObjectList<BioDataActivityLevelCM>(
+  writer.writeObjectList<ActivityLevelCMData>(
     offsets[0],
     allOffsets,
-    BioDataActivityLevelCMSchema.serialize,
+    ActivityLevelCMDataSchema.serialize,
     object.activityLevel,
   );
   writer.writeObjectList<BioDataCM>(
@@ -1628,11 +1905,11 @@ BodyCompositionCM _bodyCompositionCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = BodyCompositionCM();
-  object.activityLevel = reader.readObjectList<BioDataActivityLevelCM>(
+  object.activityLevel = reader.readObjectList<ActivityLevelCMData>(
         offsets[0],
-        BioDataActivityLevelCMSchema.deserialize,
+        ActivityLevelCMDataSchema.deserialize,
         allOffsets,
-        BioDataActivityLevelCM(),
+        ActivityLevelCMData(),
       ) ??
       [];
   object.armCircumference = reader.readObjectList<BioDataCM>(
@@ -1703,11 +1980,11 @@ P _bodyCompositionCMDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readObjectList<BioDataActivityLevelCM>(
+      return (reader.readObjectList<ActivityLevelCMData>(
             offset,
-            BioDataActivityLevelCMSchema.deserialize,
+            ActivityLevelCMDataSchema.deserialize,
             allOffsets,
-            BioDataActivityLevelCM(),
+            ActivityLevelCMData(),
           ) ??
           []) as P;
     case 1:
@@ -2662,7 +2939,7 @@ extension BodyCompositionCMQueryFilter
 extension BodyCompositionCMQueryObject
     on QueryBuilder<BodyCompositionCM, BodyCompositionCM, QFilterCondition> {
   QueryBuilder<BodyCompositionCM, BodyCompositionCM, QAfterFilterCondition>
-      activityLevelElement(FilterQuery<BioDataActivityLevelCM> q) {
+      activityLevelElement(FilterQuery<ActivityLevelCMData> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'activityLevel');
     });
@@ -2781,8 +3058,8 @@ BioDataCM _bioDataCMDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = BioDataCM();
-  object.logDate = reader.readDateTime(offsets[1]);
-  object.value = reader.readLong(offsets[2]);
+  object.logDate = reader.readDateTimeOrNull(offsets[1]);
+  object.value = reader.readLongOrNull(offsets[2]);
   return object;
 }
 
@@ -2796,9 +3073,9 @@ P _bioDataCMDeserializeProp<P>(
     case 0:
       return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -2859,8 +3136,24 @@ extension BioDataCMQueryFilter
     });
   }
 
+  QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'logDate',
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'logDate',
+      ));
+    });
+  }
+
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'logDate',
@@ -2870,7 +3163,7 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2883,7 +3176,7 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2896,8 +3189,8 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> logDateBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -2912,8 +3205,24 @@ extension BioDataCMQueryFilter
     });
   }
 
+  QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'value',
+      ));
+    });
+  }
+
+  QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'value',
+      ));
+    });
+  }
+
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueEqualTo(
-      int value) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'value',
@@ -2923,7 +3232,7 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2936,7 +3245,7 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueLessThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2949,8 +3258,8 @@ extension BioDataCMQueryFilter
   }
 
   QueryBuilder<BioDataCM, BioDataCM, QAfterFilterCondition> valueBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -2972,9 +3281,9 @@ extension BioDataCMQueryObject
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-const BioDataActivityLevelCMSchema = Schema(
-  name: r'BioDataActivityLevelCM',
-  id: -6519057763015470941,
+const ActivityLevelCMDataSchema = Schema(
+  name: r'ActivityLevelCMData',
+  id: -1421644521385204752,
   properties: {
     r'hashCode': PropertySchema(
       id: 0,
@@ -2989,51 +3298,56 @@ const BioDataActivityLevelCMSchema = Schema(
     r'value': PropertySchema(
       id: 2,
       name: r'value',
-      type: IsarType.byte,
-      enumMap: _BioDataActivityLevelCMvalueEnumValueMap,
+      type: IsarType.string,
+      enumMap: _ActivityLevelCMDatavalueEnumValueMap,
     )
   },
-  estimateSize: _bioDataActivityLevelCMEstimateSize,
-  serialize: _bioDataActivityLevelCMSerialize,
-  deserialize: _bioDataActivityLevelCMDeserialize,
-  deserializeProp: _bioDataActivityLevelCMDeserializeProp,
+  estimateSize: _activityLevelCMDataEstimateSize,
+  serialize: _activityLevelCMDataSerialize,
+  deserialize: _activityLevelCMDataDeserialize,
+  deserializeProp: _activityLevelCMDataDeserializeProp,
 );
 
-int _bioDataActivityLevelCMEstimateSize(
-  BioDataActivityLevelCM object,
+int _activityLevelCMDataEstimateSize(
+  ActivityLevelCMData object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.value;
+    if (value != null) {
+      bytesCount += 3 + value.name.length * 3;
+    }
+  }
   return bytesCount;
 }
 
-void _bioDataActivityLevelCMSerialize(
-  BioDataActivityLevelCM object,
+void _activityLevelCMDataSerialize(
+  ActivityLevelCMData object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.hashCode);
   writer.writeDateTime(offsets[1], object.logDate);
-  writer.writeByte(offsets[2], object.value.index);
+  writer.writeString(offsets[2], object.value?.name);
 }
 
-BioDataActivityLevelCM _bioDataActivityLevelCMDeserialize(
+ActivityLevelCMData _activityLevelCMDataDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = BioDataActivityLevelCM();
-  object.logDate = reader.readDateTime(offsets[1]);
-  object.value = _BioDataActivityLevelCMvalueValueEnumMap[
-          reader.readByteOrNull(offsets[2])] ??
-      ActivityLevelCM.sedentary;
+  final object = ActivityLevelCMData();
+  object.logDate = reader.readDateTimeOrNull(offsets[1]);
+  object.value = _ActivityLevelCMDatavalueValueEnumMap[
+      reader.readStringOrNull(offsets[2])];
   return object;
 }
 
-P _bioDataActivityLevelCMDeserializeProp<P>(
+P _activityLevelCMDataDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -3043,35 +3357,34 @@ P _bioDataActivityLevelCMDeserializeProp<P>(
     case 0:
       return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (_BioDataActivityLevelCMvalueValueEnumMap[
-              reader.readByteOrNull(offset)] ??
-          ActivityLevelCM.sedentary) as P;
+      return (_ActivityLevelCMDatavalueValueEnumMap[
+          reader.readStringOrNull(offset)]) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _BioDataActivityLevelCMvalueEnumValueMap = {
-  'sedentary': 0,
-  'fairyActive': 1,
-  'moderatelyActive': 2,
-  'active': 3,
-  'veryActive': 4,
+const _ActivityLevelCMDatavalueEnumValueMap = {
+  r'sedentary': r'sedentary',
+  r'fairyActive': r'fairyActive',
+  r'moderatelyActive': r'moderatelyActive',
+  r'active': r'active',
+  r'veryActive': r'veryActive',
 };
-const _BioDataActivityLevelCMvalueValueEnumMap = {
-  0: ActivityLevelCM.sedentary,
-  1: ActivityLevelCM.fairyActive,
-  2: ActivityLevelCM.moderatelyActive,
-  3: ActivityLevelCM.active,
-  4: ActivityLevelCM.veryActive,
+const _ActivityLevelCMDatavalueValueEnumMap = {
+  r'sedentary': ActivityLevelCM.sedentary,
+  r'fairyActive': ActivityLevelCM.fairyActive,
+  r'moderatelyActive': ActivityLevelCM.moderatelyActive,
+  r'active': ActivityLevelCM.active,
+  r'veryActive': ActivityLevelCM.veryActive,
 };
 
-extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
-    BioDataActivityLevelCM, BioDataActivityLevelCM, QFilterCondition> {
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> hashCodeEqualTo(int value) {
+extension ActivityLevelCMDataQueryFilter on QueryBuilder<ActivityLevelCMData,
+    ActivityLevelCMData, QFilterCondition> {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      hashCodeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'hashCode',
@@ -3080,8 +3393,8 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> hashCodeGreaterThan(
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      hashCodeGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -3094,8 +3407,8 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> hashCodeLessThan(
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      hashCodeLessThan(
     int value, {
     bool include = false,
   }) {
@@ -3108,8 +3421,8 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> hashCodeBetween(
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      hashCodeBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -3126,8 +3439,26 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> logDateEqualTo(DateTime value) {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'logDate',
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'logDate',
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'logDate',
@@ -3136,9 +3467,9 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> logDateGreaterThan(
-    DateTime value, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateGreaterThan(
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -3150,9 +3481,9 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> logDateLessThan(
-    DateTime value, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateLessThan(
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -3164,10 +3495,10 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> logDateBetween(
-    DateTime lower,
-    DateTime upper, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      logDateBetween(
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -3182,50 +3513,77 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> valueEqualTo(ActivityLevelCM value) {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
+      return query.addFilterCondition(const FilterCondition.isNull(
         property: r'value',
-        value: value,
       ));
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> valueGreaterThan(
-    ActivityLevelCM value, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'value',
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueEqualTo(
+    ActivityLevelCM? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'value',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueGreaterThan(
+    ActivityLevelCM? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'value',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> valueLessThan(
-    ActivityLevelCM value, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueLessThan(
+    ActivityLevelCM? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'value',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<BioDataActivityLevelCM, BioDataActivityLevelCM,
-      QAfterFilterCondition> valueBetween(
-    ActivityLevelCM lower,
-    ActivityLevelCM upper, {
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueBetween(
+    ActivityLevelCM? lower,
+    ActivityLevelCM? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3234,10 +3592,81 @@ extension BioDataActivityLevelCMQueryFilter on QueryBuilder<
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'value',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'value',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'value',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'value',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'value',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ActivityLevelCMData, ActivityLevelCMData, QAfterFilterCondition>
+      valueIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'value',
+        value: '',
       ));
     });
   }
 }
 
-extension BioDataActivityLevelCMQueryObject on QueryBuilder<
-    BioDataActivityLevelCM, BioDataActivityLevelCM, QFilterCondition> {}
+extension ActivityLevelCMDataQueryObject on QueryBuilder<ActivityLevelCMData,
+    ActivityLevelCMData, QFilterCondition> {}

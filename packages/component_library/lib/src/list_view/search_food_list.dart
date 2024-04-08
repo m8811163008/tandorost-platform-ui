@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class SearchFoodList extends StatelessWidget {
   const SearchFoodList(
       {super.key, this.foods = const [], this.onTap, this.searchedTerm});
-  final List<Food> foods;
-  final ValueSetter<Food>? onTap;
+  final List<FoodCM> foods;
+  final ValueSetter<FoodCM>? onTap;
   final String? searchedTerm;
 
   @override

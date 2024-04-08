@@ -30,13 +30,11 @@ class LocalStorage {
       _openCollection<UserCM>(
         isTemporary: false,
       );
-  Future<UserCM> get currentUser async {
-    final userCollectionSync = await userCollection;
-    final user = await userCollectionSync.isar.txn<UserCM?>(() {
-      return userCollectionSync.isar.collection<UserCM>().get(0);
-    });
-    return user!;
-  }
+  Future<IsarCollection<UnitOfMeasurmentCM>>
+      get unitsOfMeasurementCollection async =>
+          _openCollection<UnitOfMeasurmentCM>(
+            isTemporary: false,
+          );
 
   Future<IsarCollection<T>> _openCollection<T>(
       {required bool isTemporary}) async {
@@ -64,7 +62,7 @@ class LocalStorage {
             FoodCMSchema,
             UserCMSchema,
           ],
-          directory: tempDirectory.path,
+          directory: appDirectory.path,
           name: _persistIsarName,
         );
       }

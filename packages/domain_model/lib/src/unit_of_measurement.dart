@@ -5,17 +5,17 @@ class UnitOfMeasurement extends Equatable {
   final IoniconsData icon;
   final int? howManyGrams;
   final int? max;
-  final UnitOfMeasurementType type;
+  final UnitOfMeasurementType title;
 
   const UnitOfMeasurement({
-    required this.type,
+    required this.title,
     required this.icon,
     this.howManyGrams,
     this.max,
   });
 
   static UnitOfMeasurement empty() => UnitOfMeasurement(
-        type: UnitOfMeasurementType.grams,
+        title: UnitOfMeasurementType.grams,
         icon: Ionicons.ellipse_outline,
       );
 
@@ -24,18 +24,18 @@ class UnitOfMeasurement extends Equatable {
     IoniconsData? icon,
     int? howManyGrams,
     int? max,
-    UnitOfMeasurementType? type,
+    UnitOfMeasurementType? title,
   }) {
     return UnitOfMeasurement(
       icon: icon ?? this.icon,
       howManyGrams: howManyGrams ?? this.howManyGrams,
       max: max ?? this.max,
-      type: type ?? this.type,
+      title: title ?? this.title,
     );
   }
 
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [title];
 }
 
-enum UnitOfMeasurementType { grams, tableSpoon, calorie, gramsPerUnit }
+enum UnitOfMeasurementType { grams, calorie }

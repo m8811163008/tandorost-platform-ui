@@ -55,22 +55,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  cafebazaar_auth:
-    dependency: transitive
-    description:
-      name: cafebazaar_auth
-      sha256: "3129c0155de33c973f0270952bdea7ff32002fec892da80b0d56d2d27aef4518"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  cafebazaar_flutter:
-    dependency: transitive
-    description:
-      name: cafebazaar_flutter
-      sha256: "644f63e901b9f3531aa35f84bf692128d02632d3326b1448658e9b00e70d100f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   characters:
     dependency: transitive
     description:
