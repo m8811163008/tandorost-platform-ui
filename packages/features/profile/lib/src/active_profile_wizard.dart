@@ -1,5 +1,4 @@
 import 'package:component_library/component_library.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +22,12 @@ class ActivePremiumWizardRoute extends StatelessWidget {
         onPageChanged: context.read<ProfileCubit>().updateCurrentPage,
         scrollDirection: Axis.vertical,
         children: [
-          WizardPage1(),
-          WizardPage2(),
-          WizardPage3(),
-          WizardPage4(),
-          WizardPage5(),
-          WizardPage6(),
+          const WizardPage1(),
+          const WizardPage2(),
+          const WizardPage3(),
+          const WizardPage4(),
+          const WizardPage5(),
+          const WizardPage6(),
           WizardPageLast(
             key: UniqueKey(),
           ),

@@ -149,19 +149,15 @@ class _BirthdayContent extends StatelessWidget {
       builder: (context) {
         final birthDay = context.select((ProfileCubit cubit) =>
             cubit.state.activePremiumWizardState.createdProfileCM.birthday);
-        if (birthDay == null) {
-          return const SizedBox.shrink();
-        } else {
-          final years = DateTime.now().difference(birthDay).inDays ~/ 365;
+        final years = DateTime.now().difference(birthDay).inDays ~/ 365;
 
-          return FittedBox(
-            child: Text(
-              context.l10n.profileAgeText(
-                years.toString(),
-              ),
+        return FittedBox(
+          child: Text(
+            context.l10n.profileAgeText(
+              years.toString(),
             ),
-          );
-        }
+          ),
+        );
       },
     );
   }

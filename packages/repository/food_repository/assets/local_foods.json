@@ -198,17 +198,6 @@
         }
     },
     {
-        "name": "دانه کلزا",
-        "calorie": 500,
-        "gramsPerUnit": 25,
-        "macroNutrition": {
-            "protein": 20.0,
-            "fat": 49.0,
-            "carbohydrate": 34.0,
-            "isVegetable": false
-        }
-    },
-    {
         "name": "بادام",
         "calorie": 576,
         "gramsPerUnit": 25,
@@ -323,9 +312,9 @@
         "calorie": 600,
         "gramsPerUnit": 50,
         "macroNutrition": {
-            "protein": 28.0,
-            "fat": 47.0,
-            "carbohydrate": 55.0,
+            "protein": 30.0,
+            "fat": 51.16,
+            "carbohydrate": 16.53,
             "isVegetable": false
         }
     },

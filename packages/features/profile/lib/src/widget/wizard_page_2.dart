@@ -18,14 +18,7 @@ class WizardPage2 extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
-              return ShimmerTextNavigation(
-                isError: context.select<ProfileCubit, bool>(
-                  (cubit) =>
-                      cubit.state.activePremiumWizardState.createdProfileCM
-                          .isMale ==
-                      null,
-                ),
-              );
+              return const ShimmerTextNavigation();
             }),
           ),
           const SizedBox(
@@ -117,28 +110,22 @@ class WizardPage2 extends StatelessWidget {
   Widget _buildGenderSegmentedInput(BuildContext context) {
     final intialValue = context.select<ProfileCubit, bool?>((cubit) =>
         cubit.state.activePremiumWizardState.createdProfileCM.isMale);
-    return ErrorIndicator(
-      selector: (cubit) =>
-          cubit.activePremiumWizardState.createdProfileCM.isMale == null,
-      child: SegmentedButton<bool>(
-        segments: const <ButtonSegment<bool>>[
-          ButtonSegment<bool>(
-            value: true,
-            label: Text('مرد'),
-          ),
-          ButtonSegment<bool>(
-            value: false,
-            label: Text('زن'),
-          ),
-        ],
-        selected: {if (intialValue != null) intialValue},
-        emptySelectionAllowed: true,
-        onSelectionChanged: (Set<bool> newSelection) {
-          context
-              .read<ProfileCubit>()
-              .updateIsMale(newSelection.contains(true));
-        },
-      ),
+    return SegmentedButton<bool>(
+      segments: const <ButtonSegment<bool>>[
+        ButtonSegment<bool>(
+          value: true,
+          label: Text('مرد'),
+        ),
+        ButtonSegment<bool>(
+          value: false,
+          label: Text('زن'),
+        ),
+      ],
+      selected: {if (intialValue != null) intialValue},
+      emptySelectionAllowed: true,
+      onSelectionChanged: (Set<bool> newSelection) {
+        context.read<ProfileCubit>().updateIsMale(newSelection.contains(true));
+      },
     );
   }
 }

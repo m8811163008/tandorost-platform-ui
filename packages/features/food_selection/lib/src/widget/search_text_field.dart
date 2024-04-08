@@ -29,7 +29,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
       listenWhen: (previous, current) =>
           previous.upsertSelectedFoodStatus != current.upsertSelectedFoodStatus,
       listener: (context, state) {
-        if (state.upsertSelectedFoodStatus.isLoaded) {
+        if (state.upsertSelectedFoodStatus.isSuccess) {
           _controller.clear();
         }
       },
@@ -55,7 +55,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
               .add(FoodSelected(serchedFoods.single));
           // navigation
           context.pushNamed(
-            Routes.foodAmountInput,
+            Routes.foodSelectionFoodAmountInput,
           );
         },
         onTapOutside: (_) => FocusScope.of(context).unfocus(),

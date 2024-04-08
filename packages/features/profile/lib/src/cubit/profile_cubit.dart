@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
@@ -10,11 +9,10 @@ import 'package:user_repository/user_repository.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this.authenticationRepository, this.userRepostiory)
-      : super(ProfileState()) {
+  ProfileCubit(this.userRepostiory) : super(ProfileState()) {
     _initializeProfileCm();
   }
-  final AuthenticationRepository authenticationRepository;
+
   final UserRepostiory userRepostiory;
 
   void _initializeProfileCm() {
@@ -204,14 +202,16 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
-      state.activePremiumWizardState.createdProfileCM.bodyComposition = state
-          .activePremiumWizardState.bodyCompositionValues
-          .toBodyCompositionCM();
+      // final profile = state.activePremiumWizardState.createdProfileCM.copyWith(
+      //   bodyComposition: state.activePremiumWizardState.bodyCompositionValues
+      //       .toBodyCompositionCM(),
+      // );
+
       try {
         await userRepostiory
             .updateProfile(state.activePremiumWizardState.createdProfileCM);
         emit(state.copyWith(
-          formSubmitStatus: ProcessAsyncStatus.loaded,
+          formSubmitStatus: ProcessAsyncStatus.success,
         ));
       } catch (e) {
         emit(state.copyWith(
@@ -230,6 +230,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void updateNewMesurementWaistCircumference(String value) {
     emit(
       state.copyWith(

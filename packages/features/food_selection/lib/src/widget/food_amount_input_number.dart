@@ -18,9 +18,9 @@ class FoodAmountInputNumber extends StatelessWidget {
       child: BlocSelector<FoodSelectionBloc, FoodSelectionState,
           UnitOfMeasurement>(
         selector: (state) {
-          final title = state.selectedFood.unitOfMeasurmentCMTitle!;
-          return state.unitOfMesurementList
-              .singleWhere((element) => element.title.name == title);
+          final unitOfMeasurmentCM = state.selectedFood.unitOfMeasurmentCM;
+          return state.unitOfMesurementList.singleWhere(
+              (element) => element.title.name == unitOfMeasurmentCM.title);
         },
         builder: (context, unitOfMeasurement) {
           final max = unitOfMeasurement.max ?? 100;

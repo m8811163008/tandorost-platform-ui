@@ -13,7 +13,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
       listenWhen: (previous, current) =>
           previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
       listener: (context, state) {
-        if (state.deleteSelectedFoodStatus.isLoaded) {
+        if (state.deleteSelectedFoodStatus.isSuccess) {
           context.showBanner(
             materialBanner: AppMaterialBanner(
               text: 'حذف شد',
@@ -101,7 +101,8 @@ class SelectedFoodListBuilder extends StatelessWidget {
       child: FloatingActionButton(
         child: const Text('غذا اضافه کنید'),
         onPressed: () {
-          context.pop();
+          //TODO fix this navigation
+          // context.pop();
         },
       ),
     );

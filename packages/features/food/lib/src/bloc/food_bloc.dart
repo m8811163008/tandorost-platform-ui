@@ -18,8 +18,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodEvent>((event, emit) async {
       if (event is ListenedFoodListStream) {
         await _handleListenedFoodListStream(event, emit);
-      } else if (event is FoodUpdate) {
-        await _handleFoodUpdate(event, emit);
+      } else if (event is FoodUpserted) {
+        await _handleFoodUpserted(event, emit);
       } else if (event is FoodDeleted) {
         await _handleFoodDeleted(event, emit);
       }
@@ -28,14 +28,17 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
   Future<void> _handleListenedFoodListStream(
       ListenedFoodListStream event, Emitter<FoodState> emit) async {
+    final last = await foodRepostiory.foodsStream.first;
     await emit.forEach(
       foodRepostiory.foodsStream,
-      onData: (foodList) => state.copyWith(foodsList: foodList),
+      onData: (foodList) {
+        return state.copyWith(foodsList: foodList);
+      },
     );
   }
 
-  Future<void> _handleFoodUpdate(
-      FoodUpdate event, Emitter<FoodState> emit) async {
+  Future<void> _handleFoodUpserted(
+      FoodUpserted event, Emitter<FoodState> emit) async {
     await foodRepostiory.upsertFood(event.food);
     add(ListenedFoodListStream());
   }
@@ -45,6 +48,4 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     await foodRepostiory.removeFood(event.food);
     add(ListenedFoodListStream());
   }
-
-
 }

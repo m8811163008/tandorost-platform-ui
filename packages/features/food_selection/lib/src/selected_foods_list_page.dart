@@ -25,12 +25,12 @@ class SelectedFoodsListPage extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(Routes.foodSelection);
                 },
-                icon: Icon(Ionicons.add),
+                icon: const Icon(Ionicons.add),
                 tooltip: 'اضافه کردن خوراک جدید',
               ),
-              FilterDateTimeIconButton(),
+              const FilterDateTimeIconButton(),
             ],
-            child: SelectedFoodListBuilder(),
+            child: const SelectedFoodListBuilder(),
           );
         } else {
           return AppScaffold(
@@ -48,13 +48,13 @@ class SelectedFoodsListPage extends StatelessWidget {
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        child: CreateNewFoodBottomSheet(),
+                        child: const CreateNewFoodBottomSheet(),
                       );
                     },
                   );
                 },
                 tooltip: 'ساخت خوراک جدید از غذاهای انتخاب شده',
-                icon: Icon(
+                icon: const Icon(
                   Ionicons.create_outline,
                 ),
               ),
@@ -70,19 +70,19 @@ class SelectedFoodsListPage extends StatelessWidget {
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        child: CreateNewFoodBottomSheet(),
+                        child: const CreateNewFoodBottomSheet(),
                       );
                     },
                   );
                 },
                 tooltip: 'تکرار خوردن غذای انتخاب شده',
-                icon: Icon(
+                icon: const Icon(
                   Ionicons.repeat_outline,
                 ),
               ),
               // FilterDateTimeIconButton(),
             ],
-            child: SelectedFoodListBuilder(),
+            child: const SelectedFoodListBuilder(),
           );
         }
       },
@@ -99,7 +99,7 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
       listenWhen: (previous, current) =>
           previous.creatingNewFood != current.creatingNewFood,
       listener: (context, state) {
-        if (state.creatingNewFood == ProcessAsyncStatus.loaded) {
+        if (state.creatingNewFood == ProcessAsyncStatus.success) {
           context.showBanner(
             materialBanner: AppMaterialBanner(
               text: '${state.newFoodName} ساخته شد',
@@ -109,14 +109,14 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
           context.pop();
         } else {
           context.showSnackbar(
-            snackBar: SnackBar(
+            snackBar: const SnackBar(
               content: Text('با موفقیت ذخیره شد '),
             ),
           );
         }
       },
       builder: (context, state) {
-        final isLoading = state.creatingNewFood == ProcessAsyncStatus.loaded;
+        final isLoading = state.creatingNewFood == ProcessAsyncStatus.success;
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -132,7 +132,7 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
                     50,
                   ),
                 ],
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'نام غذا',
                 ),
                 onChanged: (value) {
@@ -150,18 +150,18 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
                           ? () {
                               context
                                   .read<FoodSelectionBloc>()
-                                  .add(NewFoodFromSelectedFoodsCreated());
+                                  .add(const NewFoodFromSelectedFoodsCreated());
                             }
                           : null,
-                      child: Text('ذخیره'),
+                      child: const Text('ذخیره'),
                     )
                   : ElevatedButton.icon(
                       onPressed: null,
                       icon: Transform.scale(
                         scale: 0.7,
-                        child: CircularProgressIndicator(),
+                        child: const CircularProgressIndicator(),
                       ),
-                      label: Text('ذخیره'),
+                      label: const Text('ذخیره'),
                     )
             ],
           ),

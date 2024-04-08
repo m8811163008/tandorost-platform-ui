@@ -62,3 +62,4 @@ void main() async {
 // add chat gpt for food and recepies
 // show pictures in profile section , optimize to share on social
 //recalculate
+// error handling of forms for example UpsertFoodBottomSheet

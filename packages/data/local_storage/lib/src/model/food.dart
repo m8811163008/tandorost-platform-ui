@@ -1,36 +1,74 @@
-import 'package:isar/isar.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:hive/hive.dart';
 
 part 'food.g.dart';
 
-@collection
+@HiveType(typeId: 1)
 class FoodCM {
-  Id id = Isar.autoIncrement;
-
-  String? name;
+  @HiveField(0)
+  final String name;
 
   // Calaries per 1 grams of this food.
-  int? calorie;
+  @HiveField(1)
+  final int calorie;
 
   /// gram per one unit of food for example each apple is 100 grams
-  int? gramsPerUnit;
+  @HiveField(2)
+  final int gramsPerUnit;
 
   /// The actual value of macro nutrition of the food per 1 gram.
   ///
   /// For example 1 grams of apple has 0.003g protein and 0.004g fat and 0.005g carbohydrate.
-  MacroNutritionCM macroNutrition = MacroNutritionCM();
+  @HiveField(3)
+  final MacroNutritionCM macroNutrition;
+
+  @HiveField(4)
 
   /// Whether this food is vegetable or fruit or not.
-  bool? isVegetable;
+  final bool isVegetable;
 
-  FoodCM update(
-    FoodCM foodCM,
-  ) {
-    return FoodCM()
-      ..name = foodCM.name ?? this.name
-      ..calorie = foodCM.calorie ?? this.calorie
-      ..gramsPerUnit = foodCM.gramsPerUnit ?? this.gramsPerUnit
-      ..macroNutrition = this.macroNutrition.update(foodCM.macroNutrition)
-      ..isVegetable = foodCM.isVegetable ?? this.isVegetable;
+  const FoodCM(
+      {required this.name,
+      required this.calorie,
+      required this.gramsPerUnit,
+      required this.macroNutrition,
+      required this.isVegetable});
+  factory FoodCM.empty() {
+    return FoodCM(
+      name: '',
+      calorie: -1,
+      gramsPerUnit: -1,
+      macroNutrition: MacroNutritionCM.empty(),
+      isVegetable: false,
+    );
+  }
+
+  FoodCM copyWith({
+    String? name,
+    int? calorie,
+    int? gramsPerUnit,
+    MacroNutritionCM? macroNutrition,
+    bool? isVegetable,
+  }) {
+    return FoodCM(
+      name: name ?? this.name,
+      calorie: calorie ?? this.calorie,
+      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
+      macroNutrition: macroNutrition ?? this.macroNutrition,
+      isVegetable: isVegetable ?? this.isVegetable,
+    );
+  }
+
+  @override
+  bool operator ==(covariant FoodCM other) {
+    if (identical(this, other)) return true;
+
+    return other.name == name;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode;
   }
 }
 
@@ -38,24 +76,39 @@ class FoodCM {
 ///
 /// For example 1 grams of apple has 0.003g protein and 0.004g fat and 0.005g carbohydrate.
 
-@embedded
+@HiveType(typeId: 2)
 class MacroNutritionCM {
-  double? carbohydrate;
-  double? fat;
-  double? protein;
+  @HiveField(0)
+  final double carbohydrate;
+  @HiveField(1)
+  final double fat;
+  @HiveField(2)
+  final double protein;
+
+  MacroNutritionCM({
+    required this.carbohydrate,
+    required this.fat,
+    required this.protein,
+  });
+  factory MacroNutritionCM.empty() {
+    return MacroNutritionCM(
+      carbohydrate: -1,
+      fat: -1,
+      protein: -1,
+    );
+  }
 
   double get totalWeight {
-    final sum = carbohydrate! + fat! + carbohydrate!;
-    if (sum > 1.0) throw Exception('sum is more than 1 gram');
+    final sum = carbohydrate + fat + protein;
+    // if (sum > 1.0) throw Exception('sum is more than 1 gram');
     return sum;
   }
 
-  MacroNutritionCM update(
-    MacroNutritionCM macroNutritionCM,
-  ) {
-    return MacroNutritionCM()
-      ..carbohydrate = macroNutritionCM.carbohydrate ?? this.carbohydrate
-      ..fat = macroNutritionCM.fat ?? this.fat
-      ..protein = macroNutritionCM.protein ?? this.protein;
+  MacroNutritionCM copyWith(
+      {double? carbohydrate, double? fat, double? protein}) {
+    return MacroNutritionCM(
+        carbohydrate: carbohydrate ?? this.carbohydrate,
+        fat: fat ?? this.fat,
+        protein: protein ?? this.protein);
   }
 }

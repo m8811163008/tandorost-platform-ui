@@ -11,30 +11,33 @@ class SearchedFoodsListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
-      builder: (context, state) {
-        if (state.searchFoodStatus.isLoading) {
-          return const CircularProgressIndicator();
-        } else if (state.searchFoodStatus.isError) {
-          return const Text('Error');
-        } else if (state.searchFoodStatus.isLoaded) {
-          return SizedBox(
-            height: context.sizesExtenstion.xExtraLarge,
-            child: SearchFoodList(
-              foods: state.searchedFoods,
-              searchedTerm: state.query,
-              onTap: (food) {
-                context.read<FoodSelectionBloc>().add(FoodSelected(food));
-                // navigation
-                context.pushNamed(
-                  Routes.foodAmountInput,
-                );
-              },
-            ),
-          );
-        }
-        return const SizedBox();
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+        builder: (context, state) {
+          if (state.searchFoodStatus.isLoading) {
+            return const CircularProgressIndicator();
+          } else if (state.searchFoodStatus.isError) {
+            return const Text('Error');
+          } else if (state.searchFoodStatus.isSuccess) {
+            return SizedBox(
+              height: context.sizesExtenstion.xExtraLarge,
+              child: SearchFoodList(
+                foods: state.searchedFoods,
+                searchedTerm: state.query,
+                onTap: (food) {
+                  context.read<FoodSelectionBloc>().add(FoodSelected(food));
+                  // navigation
+                  context.pushNamed(
+                    Routes.foodSelectionFoodAmountInput,
+                  );
+                },
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }

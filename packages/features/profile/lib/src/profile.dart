@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +13,8 @@ class ProfileRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ProfileCubit(
-          RepositoryProvider.of<AuthenticationRepository>(context),
-          RepositoryProvider.of<UserRepostiory>(context)),
+        RepositoryProvider.of<UserRepostiory>(context),
+      ),
       child: const ProfilePageRedirector(),
     );
   }
@@ -29,21 +28,19 @@ class ProfilePageRedirector extends StatelessWidget {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listenWhen: (previous, current) => current.lastUpdatedProfileCM != null,
       listener: (context, state) {
-        if (state.lastUpdatedProfileCM!.bodyComposition == null) {
-          context.goNamed(Routes.activePremiumWizard);
-        }
+        context.goNamed(Routes.profileActivePremiumWizard);
       },
       buildWhen: (previous, current) => current.lastUpdatedProfileCM != null,
       builder: (context, state) {
         if (state.lastUpdatedProfileCM == null) {
-          return AppScaffold(
+          return const AppScaffold(
             isShowDrawerButton: true,
             child: Center(
               child: CircularProgressIndicator(),
             ),
           );
         }
-        return ProfileView();
+        return const ProfileView();
       },
     );
   }
@@ -61,7 +58,7 @@ class ProfileView extends StatelessWidget {
         IconButton(
           tooltip: 'اضافه کردن اندازه گیری جدید',
           onPressed: () {
-            context.pushNamed(Routes.addBodyCompositionWizard);
+            context.pushNamed(Routes.profileAddBodyCompositionWizard);
           },
           icon: const Icon(
             Ionicons.add,
@@ -79,9 +76,9 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProgreesCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +86,12 @@ class ProfileView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('روند پیشرفت'),
+                const Text('روند پیشرفت'),
                 _buildBodyCompositionInfoIcon(context),
               ],
             ),
-            AppLineChartBuilder(),
-            AppLineChartInputChips(),
+            const AppLineChartBuilder(),
+            const AppLineChartInputChips(),
           ],
         ),
       ),
@@ -129,7 +126,7 @@ class ProfileView extends StatelessWidget {
                   const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               title: const Text('شکل بدن'),
               children: [
-                Text(
+                const Text(
                     'بخاطر پیشگیری از وسواس فکری بیش از هفته‌ای یکبار خود را وزن نکنید.'),
                 const Text(
                   'اندازه گیری شکل بدن نسبت به اندازه گیری وزن بیشتر باعث انگیزه تناسب اندام میشود.',
@@ -152,7 +149,7 @@ class ProfileView extends StatelessWidget {
                 const Text(
                   'حداکثر انقباض یا قطر ماهیچه را اندازه بگیرید.',
                 ),
-                Divider(),
+                const Divider(),
                 Text.rich(
                   TextSpan(
                       text:
@@ -189,10 +186,10 @@ class AppLineChartBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<ProfileCubit, ProfileState, List<BioDataCM>?>(
-      selector: (state) => state.lastUpdatedProfileCM?.bodyComposition?.height,
+      selector: (state) => state.lastUpdatedProfileCM?.bodyComposition.height,
       builder: (context, listData) {
         if (listData == null || listData.isEmpty) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
         return AppLineChart(
           bioDataCMList: listData,
@@ -210,12 +207,12 @@ class AppLineChartInputChips extends StatelessWidget {
     return Wrap(
       children: [
         InputChip(
-          label: Text('وزن'),
+          label: const Text('وزن'),
           onPressed: () {},
           selected: true,
         ),
         InputChip(
-          label: Text('وزن'),
+          label: const Text('وزن'),
           onPressed: () {},
           selected: false,
         ),

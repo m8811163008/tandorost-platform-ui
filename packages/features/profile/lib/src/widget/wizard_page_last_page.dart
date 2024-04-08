@@ -35,8 +35,8 @@ class _WizardPageLastState extends State<WizardPageLast> {
               ProcessAsyncStatus.error) {
             context.showSnackbar(
               snackBar: SnackBar(
-                duration: Duration(seconds: 10),
-                content: Text('خطایی رخ داده است '),
+                duration: const Duration(seconds: 10),
+                content: const Text('خطایی رخ داده است '),
                 action: SnackBarAction(
                     label: 'خروج برنامه',
                     onPressed: () async {
@@ -46,9 +46,9 @@ class _WizardPageLastState extends State<WizardPageLast> {
               ),
             );
           } else if (state.activePremiumWizardState.formSubmitStatus ==
-              ProcessAsyncStatus.loaded) {
+              ProcessAsyncStatus.success) {
             context.showSnackbar(
-              snackBar: SnackBar(
+              snackBar: const SnackBar(
                 content: Text('با موفقیت ذخیره شد '),
               ),
             );

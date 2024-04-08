@@ -41,7 +41,7 @@ class _AppLineChartState extends State<AppLineChart> {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     if (value.toDouble() < widget.bioDataCMList.length) {
       Widget text =
-          _buildBottomTitle(widget.bioDataCMList[value.toInt()].logDate!);
+          _buildBottomTitle(widget.bioDataCMList[value.toInt()].logDate);
 
       return SideTitleWidget(
         axisSide: meta.axisSide,
@@ -50,7 +50,7 @@ class _AppLineChartState extends State<AppLineChart> {
     } else {
       return SideTitleWidget(
         axisSide: meta.axisSide,
-        child: Text('+'),
+        child: const Text('+'),
       );
     }
   }
@@ -108,7 +108,7 @@ class _AppLineChartState extends State<AppLineChart> {
           }).toList();
         },
       ),
-      gridData: FlGridData(
+      gridData: const FlGridData(
         show: true,
         drawVerticalLine: true,
         drawHorizontalLine: true,
@@ -147,11 +147,9 @@ class _AppLineChartState extends State<AppLineChart> {
       minX: 0,
       maxX: 9,
       // parmeter
-      minY:
-          widget.bioDataCMList.map((e) => e.value!).reduce(min).toDouble() - 1,
+      minY: widget.bioDataCMList.map((e) => e.value).reduce(min).toDouble() - 1,
       // parmeter
-      maxY:
-          widget.bioDataCMList.map((e) => e.value!).reduce(max).toDouble() + 1,
+      maxY: widget.bioDataCMList.map((e) => e.value).reduce(max).toDouble() + 1,
       lineBarsData: [
         LineChartBarData(
           // parmeter
@@ -159,13 +157,13 @@ class _AppLineChartState extends State<AppLineChart> {
             10,
             (index) {
               if (index < widget.bioDataCMList.length) {
-                final value = widget.bioDataCMList[index].value!.toDouble();
+                final value = widget.bioDataCMList[index].value.toDouble();
                 return FlSpot(index.toDouble(), value);
               }
 
               return FlSpot(
                 index.toDouble(),
-                widget.bioDataCMList.last.value!.toDouble(),
+                widget.bioDataCMList.last.value.toDouble(),
               );
             },
           ),

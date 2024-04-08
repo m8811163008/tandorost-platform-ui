@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/food.dart';
@@ -49,8 +48,8 @@ class Navigation {
               },
               routes: [
                 GoRoute(
-                  name: Routes.foodAmountInput,
-                  path: Routes.foodAmountInput,
+                  name: Routes.foodSelectionFoodAmountInput,
+                  path: Routes.foodSelectionFoodAmountInput,
                   builder: (context, state) {
                     return const FoodAmountPage();
                   },
@@ -81,8 +80,8 @@ class Navigation {
             builder: (context, state, child) {
               return BlocProvider(
                 create: (_) => ProfileCubit(
-                    RepositoryProvider.of<AuthenticationRepository>(context),
-                    RepositoryProvider.of<UserRepostiory>(context)),
+                  RepositoryProvider.of<UserRepostiory>(context),
+                ),
                 child: child,
               );
             },
@@ -95,8 +94,8 @@ class Navigation {
                   },
                   routes: [
                     GoRoute(
-                      name: Routes.activePremiumWizard,
-                      path: Routes.activePremiumWizard,
+                      name: Routes.profileActivePremiumWizard,
+                      path: Routes.profileActivePremiumWizard,
                       builder: (context, state) {
                         return const ActivePremiumWizardRoute();
                       },

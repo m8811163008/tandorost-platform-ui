@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:domain_model/domain_model.dart';
-import 'package:food_repository/mapper/cache_to_domain.dart';
+
 import 'package:food_repository/src/food_storage.dart';
+import 'package:food_repository/src/mapper/cache_to_domain.dart';
 
 class FoodRepostiory {
   final FoodStorage _foodStorage;
@@ -12,39 +13,28 @@ class FoodRepostiory {
 
   // Stream controller of list of food provider stream.
   // The new listener does not need to get last cache emmited data.
-  final StreamController<List<FoodCM>> _foodsController =
-      StreamController<List<FoodCM>>.broadcast();
 
   //Remember, it's important to always close your
   // StreamControllers when you're done with them to prevent memory leaks.
-  Future<void> dispose() async {
-    await _foodsController.close();
-  }
-
-  // Emits the List<Food> searched by `searchFoods` method.
-  Stream<List<FoodCM>> get searchedFoodsStream async* {
-    yield* _foodsController.stream;
-  }
 
   Stream<List<FoodCM>> get foodsStream async* {
     yield* _foodStorage.getFoods();
   }
 
-  Future<void> searchFoods(String query) async {
+  Future<List<FoodCM>> searchFoods(String query) async {
     if (query.isEmpty) {
       //TODO:  use for return latest selection
-      _foodsController.add([]);
-      return;
+
+      return const [];
     }
     final storageFoods = await _foodStorage.getFoods().last;
 
     final domainFoods = storageFoods
-        .where((foodCm) =>
-            foodCm.name!.toLowerCase().contains(query.toLowerCase()))
+        .where(
+            (foodCm) => foodCm.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    _foodsController.add(domainFoods);
 
-    // var storageFoods = await _foodStorage.getFoods().first;
+    return domainFoods;
   }
 
   Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
@@ -58,9 +48,8 @@ class FoodRepostiory {
 
   Stream<List<SelectedFoodCM>> selectedFoodsListStream(
       {required DateTimeRange dateTimeRange}) async* {
-    final foodStream = _foodStorage.selectedFoodsList(
+    yield* _foodStorage.selectedFoodsList(
         start: dateTimeRange.start, end: dateTimeRange.end);
-    yield* foodStream;
   }
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFood) async {

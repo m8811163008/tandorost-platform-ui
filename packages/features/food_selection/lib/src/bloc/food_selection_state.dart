@@ -34,8 +34,9 @@ class FoodSelectionState {
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
     SelectedFoodCM? lastDeletedSelectedFood,
     this.newFoodName = '',
-  })  : selectedFood = selectedFood ?? SelectedFoodCM(),
-        lastDeletedSelectedFood = lastDeletedSelectedFood ?? SelectedFoodCM(),
+  })  : selectedFood = selectedFood ?? SelectedFoodCM.empty(),
+        lastDeletedSelectedFood =
+            lastDeletedSelectedFood ?? SelectedFoodCM.empty(),
         filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
@@ -93,9 +94,9 @@ class FoodSelectionState {
   }
 
   UnitOfMeasurement get selectedUnitOfMeasurement =>
-      unitOfMesurementList.singleWhere((element) =>
-          element.title.name == selectedFood.unitOfMeasurmentCMTitle);
+      unitOfMesurementList.singleWhere(
+          (element) => element.title.name == selectedFood.unitOfMeasurmentCM);
 
   FoodCM get selectedFoodFoodCM =>
-      searchedFoods.singleWhere((element) => element.id == selectedFood.foodId);
+      searchedFoods.singleWhere((element) => element == selectedFood.food);
 }

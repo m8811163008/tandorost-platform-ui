@@ -16,87 +16,89 @@ class BodyCompositionValues {
     this.hipCircumference,
   });
 
-  BodyCompositionCM toBodyCompositionCM() {
-    final bodyCompositionCM = BodyCompositionCM();
-    final logDate = DateTime.now();
-    if (armCircumference != null) {
-      bodyCompositionCM.armCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(armCircumference!)
-      ];
-    }
-    if (height != null) {
-      bodyCompositionCM.height = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = height!
-      ];
-    }
-    if (weight != null) {
-      bodyCompositionCM.weight = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = weight!
-      ];
-    }
-    if (waistCircumference != null) {
-      bodyCompositionCM.waistCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = waistCircumference!
-      ];
-    }
-    if (armCircumference != null) {
-      bodyCompositionCM.armCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(armCircumference!)
-      ];
-    }
+  // BodyCompositionCM toBodyCompositionCM() {
+  //   final logDate = DateTime.now();
 
-    if (chestCircumference != null) {
-      bodyCompositionCM.chestCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(chestCircumference!)
-      ];
-    }
-    if (thightCircumference != null) {
-      bodyCompositionCM.thightCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(thightCircumference!)
-      ];
-    }
-    if (calfMuscleCircumference != null) {
-      bodyCompositionCM.calfMuscleCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(calfMuscleCircumference!)
-      ];
-    }
-    if (hipCircumference != null) {
-      bodyCompositionCM.hipCircumference = [
-        BioDataCM()
-          ..logDate = logDate
-          ..value = int.parse(hipCircumference!)
-      ];
-    }
-    if (startBodycompositionChanging != null) {
-      bodyCompositionCM.startBodycompositionChanging =
-          startBodycompositionChanging;
-    }
-    if (activityLevel != null) {
-      bodyCompositionCM.activityLevel = [
-        ActivityLevelCMData()
-          ..logDate = logDate
-          ..value = activityLevel!
-      ];
-    }
+  //   final bodyCompositionCM = BodyCompositionCM.empty();
 
-    return bodyCompositionCM;
-  }
+  //       if (startBodycompositionChanging != null) {
+  //     bodyCompositionCM.startBodycompositionChanging =
+  //         ;
+  //   }
+
+  //   if (armCircumference != null) {
+  //     bodyCompositionCM.armCircumference = [
+  //       BioDataCM(logDate: logDate, value: int.parse(armCircumference!))
+  //     ];
+  //   }
+  //   if (height != null) {
+  //     bodyCompositionCM.height = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = height!
+  //     ];
+  //   }
+  //   if (weight != null) {
+  //     bodyCompositionCM.weight = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = weight!
+  //     ];
+  //   }
+  //   if (waistCircumference != null) {
+  //     bodyCompositionCM.waistCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = waistCircumference!
+  //     ];
+  //   }
+  //   if (armCircumference != null) {
+  //     bodyCompositionCM.armCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = int.parse(armCircumference!)
+  //     ];
+  //   }
+
+  //   if (chestCircumference != null) {
+  //     bodyCompositionCM.chestCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = int.parse(chestCircumference!)
+  //     ];
+  //   }
+  //   if (thightCircumference != null) {
+  //     bodyCompositionCM.thightCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = int.parse(thightCircumference!)
+  //     ];
+  //   }
+  //   if (calfMuscleCircumference != null) {
+  //     bodyCompositionCM.calfMuscleCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = int.parse(calfMuscleCircumference!)
+  //     ];
+  //   }
+  //   if (hipCircumference != null) {
+  //     bodyCompositionCM.hipCircumference = [
+  //       BioDataCM()
+  //         ..logDate = logDate
+  //         ..value = int.parse(hipCircumference!)
+  //     ];
+  //   }
+
+  //   if (activityLevel != null) {
+  //     bodyCompositionCM.activityLevel = [
+  //       ActivityLevelCMData()
+  //         ..logDate = logDate
+  //         ..value = activityLevel!
+  //     ];
+  //   }
+
+  //   return bodyCompositionCM;
+  // }
 
   final int? height;
   final int? weight;

@@ -15,8 +15,6 @@ dependencies:
     path: ../../component_library
   domain_model:
     path: ../../domain_model
-  authentication_repository:
-    path: ../../repository/authentication_repository
   user_repository:
     path: ../../repository/user_repository
   flutter_bloc: ^8.1.4

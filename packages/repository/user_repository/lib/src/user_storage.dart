@@ -4,21 +4,15 @@ class UserStorage {
   final LocalStorage localStorage;
   UserStorage(this.localStorage);
   Future<void> updateProfile(ProfileCM profileCM) async {
-    final userCollection = await localStorage.userCollection;
-    userCollection.isar.writeTxn(() async {
-      final user = await userCollection.get(0);
-      if (user == null) throw Exception('User is null');
+    final profileBox = await localStorage.profileBox;
 
-      user.profileCM.update(profileCM);
-
-      await userCollection.put(user);
-    });
+    profileBox.put(ProfileCM.id, profileCM);
   }
 
   Stream<ProfileCM> get userProfile async* {
-    final userCollection = await localStorage.userCollection;
-    yield* userCollection
-        .watchObject(0, fireImmediately: true)
-        .map((event) => event!.profileCM);
+    final profileBox = await localStorage.profileBox;
+    yield* profileBox.watch(key: ProfileCM.id).map(
+          (event) => profileBox.get(ProfileCM.id)!,
+        );
   }
 }

@@ -51,12 +51,12 @@ class _FoodListViewState extends State<FoodListView> {
           isDismissible: true,
           builder: (_) => UpsertFoodBottomSheet(
             onfoodUpdated: (food) {
-              context.read<FoodBloc>().add(FoodUpdate(food: food));
+              context.read<FoodBloc>().add(FoodUpserted(food: food));
             },
             initalName: newFoodName,
             initalFood: context.read<FoodBloc>().state.foodsList.singleWhere(
                   (element) => element.name == newFoodName,
-                  orElse: () => FoodCM(),
+                  orElse: () => FoodCM.empty(),
                 ),
           ),
         );
@@ -71,7 +71,7 @@ class _FoodListViewState extends State<FoodListView> {
     return FoodListTile(
       food: food,
       onFoodUpdate: (food) {
-        context.read<FoodBloc>().add(FoodUpdate(food: food));
+        context.read<FoodBloc>().add(FoodUpserted(food: food));
       },
       onFoodDelete: (food) {
         context.read<FoodBloc>().add(FoodDeleted(food: food));
@@ -107,7 +107,7 @@ class _FoodListViewState extends State<FoodListView> {
         ),
         TextButton.icon(
           icon: const Icon(Ionicons.add),
-          label: Text('خوراک جدید'),
+          label: const Text('خوراک جدید'),
           onPressed: () async {
             showModalBottomSheet(
               context: context,
@@ -117,7 +117,7 @@ class _FoodListViewState extends State<FoodListView> {
               isDismissible: true,
               builder: (_) => UpsertFoodBottomSheet(
                 onfoodUpdated: (food) {
-                  context.read<FoodBloc>().add(FoodUpdate(food: food));
+                  context.read<FoodBloc>().add(FoodUpserted(food: food));
                 },
               ),
             );
@@ -128,7 +128,7 @@ class _FoodListViewState extends State<FoodListView> {
         listenWhen: (previous, current) =>
             previous.deleteFoodStatus != current.deleteFoodStatus,
         listener: (context, state) {
-          if (state.deleteFoodStatus.isLoaded) {
+          if (state.deleteFoodStatus.isSuccess) {
             context.showBanner(
                 materialBanner: AppMaterialBanner(
               text: 'حذف شد',
@@ -156,7 +156,7 @@ class _FoodListViewState extends State<FoodListView> {
           }
           List<FoodCM> foods = state.foodsList;
           foods = foods.reversed
-              .where((element) => element.name!.contains(_controller.text))
+              .where((element) => element.name.contains(_controller.text))
               .toList();
           return ListView.builder(
             itemCount: foods.length,

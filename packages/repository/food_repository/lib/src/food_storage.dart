@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
-import 'package:food_repository/mapper/json_to_cache.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:food_repository/src/mapper/json_to_cache.dart';
 
 class FoodStorage {
   final LocalStorage _localStorage;
@@ -17,16 +16,16 @@ class FoodStorage {
     // await clearCollections();
     await Future.wait([
       initializeFood(),
-      initializeUser(),
-      initializeUnitOfMeasurement(),
+      // initializeProfile(),
+      // initializeUnitOfMeasurement(),
     ]);
   }
 
   /// Initialize food collection.Create for every for a unique id.
   Future<void> initializeFood() async {
-    final foodCollection = await _localStorage.foodCollection;
+    final foodCollection = await _localStorage.foodBox;
 
-    final count = await foodCollection.count();
+    final count = foodCollection.length;
     if (count != 0) return;
     final jsonFile = await _loadAsset('local_foods.json');
 
@@ -35,28 +34,26 @@ class FoodStorage {
         .map((dynamic jsonFood) =>
             (jsonFood as Map<String, dynamic>).foodCMfromJson())
         .toList();
+    final foodListMapEntry = foodList.map((e) => MapEntry(e.name, e)).toList();
+    final foodMap = Map.fromEntries(foodListMapEntry);
 
-    await foodCollection.isar.writeTxn(() async {
-      await foodCollection.isar.foodCMs.putAll(foodList);
-    });
+    await foodCollection.putAll(foodMap);
   }
 
-  Future<void> initializeUser() async {
-    final userCollection = await _localStorage.userCollection;
-    final count = await userCollection.count();
+  Future<void> initializeProfile() async {
+    final userCollection = await _localStorage.profileBox;
+    final count = userCollection.length;
     if (count != 0) return;
-    final user = UserCM();
+    final user = ProfileCM.empty();
 
-    return await userCollection.isar.writeTxn(() async {
-      await userCollection.put(user);
-    });
+    await userCollection.put(ProfileCM.id, user);
   }
 
   Future<void> initializeUnitOfMeasurement() async {
     final unitsOfMeasurementCollection =
         await _localStorage.unitsOfMeasurementCollection;
 
-    final count = await unitsOfMeasurementCollection.count();
+    final count = unitsOfMeasurementCollection.length;
     if (count != 0) return;
     final jsonFile = await _loadAsset('local_unit_of_measurement.json');
 
@@ -66,39 +63,21 @@ class FoodStorage {
             (jsonFood as Map<String, dynamic>).unitOfMeasurmentCMFromJson())
         .toList();
 
-    await unitsOfMeasurementCollection.isar.writeTxn(() async {
-      await unitsOfMeasurementCollection.isar.unitOfMeasurmentCMs
-          .putAll(unitOfMeasurmentList);
-    });
+    unitsOfMeasurementCollection.addAll(unitOfMeasurmentList);
   }
 
   /// get list of foods from the food collection. Read
 
   Stream<List<FoodCM>> getFoods() async* {
-    final foodCollection = await _localStorage.foodCollection;
-    yield* await foodCollection.isar.txn<Stream<List<FoodCM>>>(() async {
-      return foodCollection
-          .watchLazy(fireImmediately: true)
-          .asBroadcastStream()
-          .mapTo(await foodCollection.where().findAll());
-    });
+    final foodBox = await _localStorage.foodBox;
+    yield foodBox.values.toList();
+    yield* foodBox.watch().map((event) => foodBox.values.toList());
   }
 
-  /// add a food to food collection. C
+  /// add a food to food collection.
   Future<void> upsertFood(FoodCM foodCM) async {
-    final foodCollection = await _localStorage.foodCollection;
-    await foodCollection.isar.writeTxn(() async {
-      // TODO find efficient way
-      final foods = await foodCollection.where().findAll();
-      FoodCM upsertSubjectFood = foods.singleWhere(
-        (element) => element.name == foodCM.name,
-        orElse: () => foodCM,
-      );
-      upsertSubjectFood = upsertSubjectFood.update(foodCM);
-      await foodCollection.isar.foodCMs.put(upsertSubjectFood);
-    });
-
-    return;
+    final foodBox = await _localStorage.foodBox;
+    await foodBox.put(foodCM.name, foodCM);
   }
 
   Future<String> _loadAsset(String fileName) async {
@@ -110,98 +89,46 @@ class FoodStorage {
   Future<Set<UnitOfMeasurmentCM>> get units async {
     final unitsOfMeasurementCollection =
         await _localStorage.unitsOfMeasurementCollection;
-    return unitsOfMeasurementCollection.isar.txn(() async {
-      final units = await unitsOfMeasurementCollection.where().findAll();
-      return units.toSet();
-    });
+
+    return unitsOfMeasurementCollection.values.toSet();
   }
 
   Future<void> clearCollections() async {
-    final foodCollection = await _localStorage.foodCollection;
-    await foodCollection.isar.writeTxn(() => foodCollection.clear());
-    final userCollection = await _localStorage.userCollection;
-    await userCollection.isar.writeTxn(() => userCollection.clear());
+    final foodCollection = await _localStorage.foodBox;
+    await foodCollection.clear();
+    final userCollection = await _localStorage.profileBox;
+    await userCollection.clear();
     final unitsOfMeasurementCollection =
         await _localStorage.unitsOfMeasurementCollection;
-    await unitsOfMeasurementCollection.isar
-        .writeTxn(() => unitsOfMeasurementCollection.clear());
+    await unitsOfMeasurementCollection.clear();
+
     log('Cleared database collection');
   }
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
-    // assert(
-    //     selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
-    final userCollection = await _localStorage.userCollection;
-
-    await userCollection.isar.writeTxn(() async {
-      UserCM? user = await userCollection.get(0);
-      assert(user != null, 'initilize user when construct this object');
-
-      final updatedUser = user!.copyWith(
-        selectedFoods: [selectedFoodCM, ...user.selectedFoods],
-      );
-      await userCollection.put(updatedUser);
-    });
+    final selectedFoodBox = await _localStorage.selectedFoodBox;
+    await selectedFoodBox.put(selectedFoodCM.food.name, selectedFoodCM);
   }
 
   Future<void> removeSelectedFood(SelectedFoodCM selectedFoodCM) async {
-    // assert(
-    //     selectedFoodCM.selectedDate.isUtc, 'The selected date should be utc');
-    final userCollection = await _localStorage.userCollection;
-
-    await userCollection.isar.writeTxn(() async {
-      UserCM? user = await userCollection.get(0);
-      assert(user != null, 'initilize user when construct this object');
-
-      final updatedUser = user!.copyWith(
-        selectedFoods: user.selectedFoods
-            .where((element) => element != selectedFoodCM)
-            .toList(),
-      );
-      await userCollection.put(updatedUser);
-    });
+    final selectedFoodBox = await _localStorage.selectedFoodBox;
+    await selectedFoodBox.delete(selectedFoodCM.food.name);
   }
 
   Future<void> removeFood(FoodCM food) async {
-    final foodCollection = await _localStorage.foodCollection;
-    await foodCollection.isar.writeTxn(() async {
-      final filteredFood =
-          await foodCollection.filter().nameEqualTo(food.name).findFirst();
-      if (filteredFood == null) return;
-
-      await foodCollection.delete(filteredFood.id);
-    });
+    final foodBox = await _localStorage.foodBox;
+    await foodBox.delete(food.name);
   }
 
   Stream<List<SelectedFoodCM>> selectedFoodsList(
       {required DateTime start, required DateTime end}) async* {
-    final userCollection = await _localStorage.userCollection;
-    yield* userCollection
-        .watchObject(0, fireImmediately: true)
-        .asBroadcastStream()
-        .map((userCm) {
-      final selectedFood = userCm?.selectedFoods
-          .where((element) =>
-              element.selectedDate!.isAfter(start) &&
-              element.selectedDate!.isBefore(end))
-          .toList();
-      return selectedFood ?? const [];
-    });
-    // final stream =
-    //     await userCollection.isar.txn<Stream<List<SelectedFoodCM>>>(() async {
-    //   return userCollection
-    //       .watchObject(0, fireImmediately: true)
-    //       .asBroadcastStream()
-    //       .map((userCm) {
-    //     final selectedFood = userCm?.selectedFoods
-    //         .where((element) =>
-    //             element.selectedDate.isAfter(start) &&
-    //             element.selectedDate.isBefore(end))
-    //         .toList();
-    //     return selectedFood ?? const [];
-    //   });
-    // });
-
-    // yield* stream;
+    final selectedFoodBox = await _localStorage.selectedFoodBox;
+    yield* selectedFoodBox.watch().map(
+          (event) => selectedFoodBox.values
+              .where((element) =>
+                  element.selectedDate.isAfter(start) &&
+                  element.selectedDate.isBefore(end))
+              .toList(),
+        );
   }
 }

@@ -16,7 +16,8 @@ class SelectedFoodInfo extends StatelessWidget {
         builder: (context, state) {
           final selectedUnitOfMeasurement = state.selectedUnitOfMeasurement;
 
-          final measurementUnitCount = state.selectedFood.numberOfUnits;
+          final measurementUnitCount =
+              state.selectedFood.numberOfUnitOfMeasurement;
           final unitOfMeasuremnetTitle = context.l10n
               .unitOfMeasurementTitle(selectedUnitOfMeasurement.title.name);
 
@@ -58,7 +59,7 @@ class SelectedFoodInfo extends StatelessWidget {
                         child: FittedBox(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
-                            state.selectedFoodFoodCM.name!,
+                            state.selectedFoodFoodCM.name,
                             maxLines: 2,
                             style: context.themeData.textTheme.displaySmall,
                           ),

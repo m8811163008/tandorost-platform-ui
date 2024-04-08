@@ -48,8 +48,6 @@ class ProfileState {
         newMeasurementState: newMeasurementState ?? this.newMeasurementState,
       );
   bool get isValidActivatePremiumForm =>
-      activePremiumWizardState.createdProfileCM.isMale != null &&
-      activePremiumWizardState.createdProfileCM.birthday != null &&
       activePremiumWizardState.createdProfileCM.userName.isNotEmpty &&
       activePremiumWizardState.bodyCompositionValues.height != null &&
       activePremiumWizardState.bodyCompositionValues.weight != null &&
@@ -70,7 +68,7 @@ class ActivePremiumWizardState {
     this.formSubmitStatus = ProcessAsyncStatus.initial,
     this.bodyCompositionValues = const BodyCompositionValues(),
     this.isAgreementAccepted = false,
-  }) : createdProfileCM = profileCM ?? ProfileCM();
+  }) : createdProfileCM = profileCM ?? ProfileCM.empty();
 
   ActivePremiumWizardState copyWith(
           {int? currentPage,

@@ -31,20 +31,20 @@ class _FoodListTileState extends State<FoodListTile>
     final macroNutrition = widget.food.macroNutrition;
     final selectedFoodFatLabel = _createLabel(
         context.l10n.foodDataPercentValue(
-            macroNutrition.fat! / macroNutrition.totalWeight),
+            macroNutrition.fat / macroNutrition.totalWeight),
         context.l10n.nutritionDataFatLabel);
     final selectedFoodProteinLabel = _createLabel(
         context.l10n.foodDataPercentValue(
-            macroNutrition.protein! / macroNutrition.totalWeight),
+            macroNutrition.protein / macroNutrition.totalWeight),
         context.l10n.nutritionDataProteinLabel);
     final selectedFoodCarbohydrateLabel = _createLabel(
         context.l10n.foodDataPercentValue(
-            macroNutrition.carbohydrate! / macroNutrition.totalWeight),
+            macroNutrition.carbohydrate / macroNutrition.totalWeight),
         context.l10n.nutritionDataCarbohydrateLabel);
 
     return Card(
       child: ListTile(
-        title: Text(widget.food.name!),
+        title: Text(widget.food.name),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

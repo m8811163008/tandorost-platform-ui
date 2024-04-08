@@ -1,11 +1,11 @@
 enum ProcessAsyncStatus {
   initial,
   loading,
-  loaded,
+  success,
   error;
 
   bool get isInitial => this == ProcessAsyncStatus.initial;
   bool get isLoading => this == ProcessAsyncStatus.loading;
-  bool get isLoaded => this == ProcessAsyncStatus.loaded;
+  bool get isSuccess => this == ProcessAsyncStatus.success;
   bool get isError => this == ProcessAsyncStatus.error;
 }

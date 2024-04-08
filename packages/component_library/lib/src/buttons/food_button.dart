@@ -20,7 +20,7 @@ class FoodButton extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              food.name!,
+              food.name,
               maxLines: 3,
               overflow: TextOverflow.clip,
             ),

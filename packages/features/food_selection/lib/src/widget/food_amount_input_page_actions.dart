@@ -24,7 +24,7 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                 content: Text('An error occurred!'),
               ),
             );
-          } else if (state.upsertSelectedFoodStatus.isLoaded) {
+          } else if (state.upsertSelectedFoodStatus.isSuccess) {
             context.showBanner(
               materialBanner: AppMaterialBanner(
                 text: 'ذخیره شد',

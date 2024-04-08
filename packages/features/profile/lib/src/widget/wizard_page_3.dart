@@ -21,14 +21,7 @@ class WizardPage3 extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
-              return ShimmerTextNavigation(
-                isError: context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.createdProfileCM
-                        .userName.isEmpty ||
-                    cubit.state.activePremiumWizardState.createdProfileCM
-                            .birthday ==
-                        null),
-              );
+              return const ShimmerTextNavigation();
             }),
           ),
           const SizedBox(
@@ -179,18 +172,14 @@ class _BirthdayContent extends StatelessWidget {
   }
 
   Widget _buildBirthdayInput(BuildContext context) {
-    return ErrorIndicator(
-      selector: (cubit) =>
-          cubit.activePremiumWizardState.createdProfileCM.birthday == null,
-      child: SelectBirthdayButton(
-        initialDate: context
-            .read<ProfileCubit>()
-            .state
-            .activePremiumWizardState
-            .createdProfileCM
-            .birthday,
-        onSelectDate: context.read<ProfileCubit>().updateBirthDay,
-      ),
+    return SelectBirthdayButton(
+      initialDate: context
+          .read<ProfileCubit>()
+          .state
+          .activePremiumWizardState
+          .createdProfileCM
+          .birthday,
+      onSelectDate: context.read<ProfileCubit>().updateBirthDay,
     );
   }
 
@@ -199,19 +188,15 @@ class _BirthdayContent extends StatelessWidget {
       builder: (context) {
         final birthDay = context.select((ProfileCubit cubit) =>
             cubit.state.activePremiumWizardState.createdProfileCM.birthday);
-        if (birthDay == null) {
-          return const SizedBox.shrink();
-        } else {
-          final years = DateTime.now().difference(birthDay).inDays ~/ 365;
+        final years = DateTime.now().difference(birthDay).inDays ~/ 365;
 
-          return FittedBox(
-            child: Text(
-              context.l10n.profileAgeText(
-                years.toString(),
-              ),
+        return FittedBox(
+          child: Text(
+            context.l10n.profileAgeText(
+              years.toString(),
             ),
-          );
-        }
+          ),
+        );
       },
     );
   }

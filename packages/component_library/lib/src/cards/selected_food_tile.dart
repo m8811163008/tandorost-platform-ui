@@ -26,7 +26,7 @@ class SelectedFoodListTile extends StatelessWidget {
     final title = selectedFoodFoodCM.name;
     final unitOfMeasurement = context.l10n
         .unitOfMeasurementTitle(selectedFoodUnitOfMeasurement.title.name);
-    final count = selectedFood.numberOfUnits;
+    final count = selectedFood.numberOfUnitOfMeasurement;
 
     return SizedBox(
       child: Card(
@@ -52,16 +52,16 @@ class SelectedFoodListTile extends StatelessWidget {
 
   Widget _buildSubtitle(BuildContext context) {
     final selectedFoodCalarieLabel =
-        '${selectedFood.totalWeight! * selectedFoodFoodCM.calorie!} ${context.l10n.foodDataCalarieLabel}';
+        '${selectedFood.totalWeight * selectedFoodFoodCM.calorie} ${context.l10n.foodDataCalarieLabel}';
     final macroNutrition = selectedFoodFoodCM.macroNutrition;
     final selectedFoodFatLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.fat! / macroNutrition.totalWeight)} ${context.l10n.nutritionDataFatLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.fat / macroNutrition.totalWeight)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.protein! / macroNutrition.totalWeight)} ${context.l10n.nutritionDataProteinLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.protein / macroNutrition.totalWeight)} ${context.l10n.nutritionDataProteinLabel}';
     final selectedFoodCarbohydrateLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.carbohydrate! / macroNutrition.totalWeight)} ${context.l10n.nutritionDataCarbohydrateLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.carbohydrate / macroNutrition.totalWeight)} ${context.l10n.nutritionDataCarbohydrateLabel}';
 
-    final localTime = selectedFood.selectedDate!.toLocal();
+    final localTime = selectedFood.selectedDate.toLocal();
     final dateFormatter = localTime.toJalali().formatter;
     final date =
         '${dateFormatter.yyyy}/${dateFormatter.mm}/${dateFormatter.dd}';
@@ -121,10 +121,10 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
         child: PieChart(
           chartType: ChartType.ring,
           dataMap: {
-            'پروتئین': macroNutrition.protein! / macroNutrition.totalWeight,
-            'چربی': macroNutrition.fat! / macroNutrition.totalWeight,
+            'پروتئین': macroNutrition.protein / macroNutrition.totalWeight,
+            'چربی': macroNutrition.fat / macroNutrition.totalWeight,
             'کربوهیدات':
-                macroNutrition.carbohydrate! / macroNutrition.totalWeight,
+                macroNutrition.carbohydrate / macroNutrition.totalWeight,
           },
           ringStrokeWidth: 16,
           chartValuesOptions: const ChartValuesOptions(showChartValues: false),

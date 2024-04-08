@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:domain_model/domain_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 
@@ -15,28 +14,14 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         super(FoodSelectionState()) {
     _registerHandlers();
 
-    _foodsSubscription = _foodRepository.searchedFoodsStream.listen((foods) {
-      add(SearchedFoodsUpdated(foods));
-    });
-
     add(
-      // TODO add this event when the proper pages open
       SlectedFoodListFiltered(
-          dateTimeRange: state.filterSelctedFoodsListDateTimeRange),
+        dateTimeRange: state.filterSelctedFoodsListDateTimeRange,
+      ),
     );
   }
 
   final FoodRepostiory _foodRepository;
-  late final StreamSubscription<List<FoodCM>> _foodsSubscription;
-  late StreamSubscription<List<SelectedFoodCM>> _selectedFoodStreamSubscription;
-
-  @override
-  Future<void> close() async {
-    await _foodsSubscription.cancel();
-    await _selectedFoodStreamSubscription.cancel();
-
-    return super.close();
-  }
 
   void _registerHandlers() {
     on<FoodSelectionEvent>((event, emit) async {
@@ -74,7 +59,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   Future<void> _handleSlectedFoodListFiltered(
       SlectedFoodListFiltered event, Emitter<FoodSelectionState> emit) async {
-    _selectedFoodStreamSubscription = _foodRepository
+    _foodRepository
         .selectedFoodsListStream(dateTimeRange: event.dateTimeRange)
         .listen((selectedFoodList) {
       add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
@@ -93,7 +78,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     );
     try {
       await _foodRepository.removeSelectedFood(event.food);
-      emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.loaded));
+      emit(
+          state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.success));
     } catch (e) {
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
     }
@@ -101,7 +87,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
 
   Future<void> _handleSelectedFoodUndoRemoved(
       SelectedFoodUndoRemoved event, Emitter<FoodSelectionState> emit) async {
-    assert(state.lastDeletedSelectedFood != SelectedFoodCM(),
+    assert(state.lastDeletedSelectedFood != SelectedFoodCM.empty(),
         'propebly you call this method to early, or the state reseted');
     // to prevent call this method unnecessasarily.
     if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
@@ -114,7 +100,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood);
       emit(
         state.copyWith(
-          upsertSelectedFoodStatus: ProcessAsyncStatus.loaded,
+          upsertSelectedFoodStatus: ProcessAsyncStatus.success,
         ),
       );
     } catch (e) {
@@ -126,7 +112,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       SearchedFoodsUpdated event, Emitter<FoodSelectionState> emit) {
     emit(state.copyWith(
         searchedFoods: event.foods,
-        searchFoodStatus: ProcessAsyncStatus.loaded));
+        searchFoodStatus: ProcessAsyncStatus.success));
   }
 
   Future<void> _handleFoodSelected(
@@ -135,8 +121,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     final updatedUnits = units.map((e) {
       if (e.title != UnitOfMeasurementType.gramsPerUnit) return e;
       return e.copyWith(
-        howManyGrams: event.food.gramsPerUnit,
-        max: _calculateGramsPerUnitMax(event.food.gramsPerUnit),
+        howManyGrams: () => event.food.gramsPerUnit,
+        max: () => _calculateGramsPerUnitMax(event.food.gramsPerUnit),
       );
     }).toList();
 
@@ -144,8 +130,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       state.copyWith(
         unitOfMesurementList: updatedUnits,
         selectedFood: state.selectedFood.copyWith(
-          foodId: event.food.id,
-          unitOfMeasurmentCMTitle: updatedUnits.first.title.name,
+          food: event.food,
+          unitOfMeasurmentCM: updatedUnits.first.toCacheModel(),
         ),
       ),
     );
@@ -183,8 +169,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       state.copyWith(
         saveTimeOffset: event.saveEatDateTimeOffset,
         selectedFood: state.selectedFood.copyWith(
-          numberOfUnits: event.measurementUnitCount,
-          unitOfMeasurmentCMTitle: event.unitOfMeasurement!.title.name,
+          numberOfUnitOfMeasurement: event.measurementUnitCount,
+          unitOfMeasurmentCM: event.unitOfMeasurement?.toCacheModel(),
         ),
       ),
     );
@@ -206,7 +192,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       );
 
       emit(
-        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.loaded),
+        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.success),
       );
     } catch (e) {
       emit(
@@ -218,8 +204,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   void _handleSelectedFoodsListFetched(
       SelectedFoodsListFetched event, Emitter<FoodSelectionState> emit) {
     final selectedFoodsList = event.selectedFoods;
-    selectedFoodsList
-        .sort((a, b) => a.selectedDate!.compareTo(b.selectedDate!));
+    selectedFoodsList.sort((a, b) => a.selectedDate.compareTo(b.selectedDate));
     emit(
       state.copyWith(selectedFoodsList: selectedFoodsList),
     );

@@ -155,7 +155,7 @@ class WizardPage1 extends StatelessWidget {
         showDialog(
           context: context,
           builder: ((context) {
-            return WaistCircumferenceSimpleDoialog();
+            return const WaistCircumferenceSimpleDoialog();
           }),
         );
       },

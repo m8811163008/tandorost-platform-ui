@@ -1,41 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'unit_of_measurement.dart';
+part of 'selected_foods.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UnitOfMeasurmentCMAdapter extends TypeAdapter<UnitOfMeasurmentCM> {
+class SelectedFoodCMAdapter extends TypeAdapter<SelectedFoodCM> {
   @override
-  final int typeId = 9;
+  final int typeId = 4;
 
   @override
-  UnitOfMeasurmentCM read(BinaryReader reader) {
+  SelectedFoodCM read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UnitOfMeasurmentCM(
-      title: fields[0] as String,
-      icon: fields[1] as String,
-      max: fields[3] as int?,
-      howManyGrams: fields[2] as int?,
+    return SelectedFoodCM(
+      food: fields[0] as FoodCM,
+      unitOfMeasurmentCM: fields[1] as UnitOfMeasurmentCM,
+      numberOfUnitOfMeasurement: fields[2] as int,
+      selectedDate: fields[3] as DateTime,
+      totalWeight: fields[4] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, UnitOfMeasurmentCM obj) {
+  void write(BinaryWriter writer, SelectedFoodCM obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.food)
       ..writeByte(1)
-      ..write(obj.icon)
+      ..write(obj.unitOfMeasurmentCM)
       ..writeByte(2)
-      ..write(obj.howManyGrams)
+      ..write(obj.numberOfUnitOfMeasurement)
       ..writeByte(3)
-      ..write(obj.max);
+      ..write(obj.selectedDate)
+      ..writeByte(4)
+      ..write(obj.totalWeight);
   }
 
   @override
@@ -44,7 +47,7 @@ class UnitOfMeasurmentCMAdapter extends TypeAdapter<UnitOfMeasurmentCM> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UnitOfMeasurmentCMAdapter &&
+      other is SelectedFoodCMAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
