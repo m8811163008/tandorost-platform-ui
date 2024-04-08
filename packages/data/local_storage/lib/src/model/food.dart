@@ -44,6 +44,12 @@ class MacroNutritionCM {
   double? fat;
   double? protein;
 
+  double get totalWeight {
+    final sum = carbohydrate! + fat! + carbohydrate!;
+    if (sum > 1.0) throw Exception('sum is more than 1 gram');
+    return sum;
+  }
+
   MacroNutritionCM update(
     MacroNutritionCM macroNutritionCM,
   ) {

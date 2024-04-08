@@ -8,9 +8,8 @@ class UserStorage {
     userCollection.isar.writeTxn(() async {
       final user = await userCollection.get(0);
       if (user == null) throw Exception('User is null');
-      user.profileCM ??= ProfileCM();
 
-      user.profileCM!.update(profileCM);
+      user.profileCM.update(profileCM);
 
       await userCollection.put(user);
     });

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/mapper/cache_to_domain.dart';
-import 'package:food_repository/mapper/domain_to_cache.dart';
 import 'package:food_repository/src/food_storage.dart';
 
 class FoodRepostiory {

@@ -28,22 +28,23 @@ class _FoodListTileState extends State<FoodListTile>
   Widget build(BuildContext context) {
     final selectedFoodCalarieLabel = _createLabel(
         '${widget.food.calorie}', context.l10n.foodDataCalarieLabel);
+    final macroNutrition = widget.food.macroNutrition;
     final selectedFoodFatLabel = _createLabel(
-        context.l10n
-            .foodDataPercentValue(widget.food.macroNutrition.fatPercent),
+        context.l10n.foodDataPercentValue(
+            macroNutrition.fat! / macroNutrition.totalWeight),
         context.l10n.nutritionDataFatLabel);
     final selectedFoodProteinLabel = _createLabel(
-        context.l10n
-            .foodDataPercentValue(widget.food.macroNutrition.proteinPercent),
+        context.l10n.foodDataPercentValue(
+            macroNutrition.protein! / macroNutrition.totalWeight),
         context.l10n.nutritionDataProteinLabel);
     final selectedFoodCarbohydrateLabel = _createLabel(
         context.l10n.foodDataPercentValue(
-            widget.food.macroNutrition.carbohydratePercent),
+            macroNutrition.carbohydrate! / macroNutrition.totalWeight),
         context.l10n.nutritionDataCarbohydrateLabel);
 
     return Card(
       child: ListTile(
-        title: Text(widget.food.name),
+        title: Text(widget.food.name!),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

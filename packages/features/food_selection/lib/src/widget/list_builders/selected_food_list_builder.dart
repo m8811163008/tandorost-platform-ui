@@ -86,6 +86,8 @@ class SelectedFoodListBuilder extends StatelessWidget {
                 }
               },
               isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
+              selectedFoodFoodCM: state.selectedFoodFoodCM,
+              selectedFoodUnitOfMeasurement: state.selectedUnitOfMeasurement,
             );
           },
         );

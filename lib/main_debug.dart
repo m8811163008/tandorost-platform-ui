@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
@@ -50,6 +49,7 @@ void main() async {
 // add FAB to list of selected food
 // show how to use counters or expand counter for now to use thumb
 // hold to create recipe from list
+//handle create a new food and name conflict in creating new food in creating new food from selectedFoods
 
 // create outlined icons
 // add dashboard

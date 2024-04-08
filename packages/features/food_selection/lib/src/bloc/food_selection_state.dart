@@ -91,4 +91,11 @@ class FoodSelectionState {
       newFoodName: newFoodName ?? this.newFoodName,
     );
   }
+
+  UnitOfMeasurement get selectedUnitOfMeasurement =>
+      unitOfMesurementList.singleWhere((element) =>
+          element.title.name == selectedFood.unitOfMeasurmentCMTitle);
+
+  FoodCM get selectedFoodFoodCM =>
+      searchedFoods.singleWhere((element) => element.id == selectedFood.foodId);
 }

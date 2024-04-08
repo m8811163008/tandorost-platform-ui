@@ -47,7 +47,7 @@ class FoodAmountInputNumber extends StatelessWidget {
                 ..add(
                   UnitOfMeasurementAmountChanged(
                     amount: value,
-                    unitOfMeasurement: unitOfMeasurement!,
+                    unitOfMeasurement: unitOfMeasurement,
                   ),
                 );
             },

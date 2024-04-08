@@ -38,4 +38,4 @@ class UnitOfMeasurement extends Equatable {
   List<Object?> get props => [title];
 }
 
-enum UnitOfMeasurementType { grams, calorie }
+enum UnitOfMeasurementType { grams, tableSpoon, calorie, gramsPerUnit }

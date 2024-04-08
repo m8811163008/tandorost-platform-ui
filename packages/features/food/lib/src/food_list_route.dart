@@ -156,7 +156,7 @@ class _FoodListViewState extends State<FoodListView> {
           }
           List<FoodCM> foods = state.foodsList;
           foods = foods.reversed
-              .where((element) => element.name.contains(_controller.text))
+              .where((element) => element.name!.contains(_controller.text))
               .toList();
           return ListView.builder(
             itemCount: foods.length,

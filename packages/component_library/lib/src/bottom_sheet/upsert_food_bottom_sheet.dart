@@ -42,7 +42,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   void initState() {
     _initialFood = widget.initalFood;
     if (_initialFood != FoodCM()) {
-      _nameTextEditingController.text = _initialFood!.name;
+      _nameTextEditingController.text = _initialFood!.name!;
 
       _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
       _calorieTextEditingController.text = widget.initalFood.calorie.toString();
@@ -53,9 +53,10 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
       _proteinTextEditingController.text =
           _initialFood!.macroNutrition.protein.toString();
     } else {
-      _nameTextEditingController.text = widget.initalName ?? _initialFood!.name;
-      _initialFood =
-          _initialFood!.copyWith(name: _nameTextEditingController.text);
+      _nameTextEditingController.text =
+          widget.initalName ?? _initialFood!.name!;
+
+      _initialFood!.name = _nameTextEditingController.text;
     }
 
     super.initState();
@@ -129,8 +130,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 controller: _nameTextEditingController,
                 labelText: 'نام خوراکی',
                 onChanged: (_) {
-                  _initialFood = _initialFood!
-                      .copyWith(name: _nameTextEditingController.text);
+                  _initialFood!.name = _nameTextEditingController.text;
                 },
                 textInputFormatter:
                     FilteringTextInputFormatter.singleLineFormatter,
@@ -145,10 +145,10 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 labelText: 'وزن هر واحد متوسط',
                 suffix: 'گرم',
                 onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                      gramsPerUnit: _weightTextEditingController.text.isEmpty
+                  _initialFood!.gramsPerUnit =
+                      _weightTextEditingController.text.isEmpty
                           ? 0
-                          : int.parse(_weightTextEditingController.text));
+                          : int.parse(_weightTextEditingController.text);
                 },
                 textInputFormatter: intInputFormater,
                 textInputType: const TextInputType.numberWithOptions(),
@@ -170,10 +170,10 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 labelText: 'انرژی',
                 suffix: 'کیلوکالری',
                 onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                      calorie: _calorieTextEditingController.text.isEmpty
+                  _initialFood!.calorie =
+                      _calorieTextEditingController.text.isEmpty
                           ? 0
-                          : int.parse(_calorieTextEditingController.text));
+                          : int.parse(_calorieTextEditingController.text);
                 },
                 textInputFormatter: intInputFormater,
                 textInputType: const TextInputType.numberWithOptions(),
@@ -187,13 +187,12 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 labelText: 'کربوهیدرات',
                 suffix: 'گرم',
                 onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                      macroNutrition: _initialFood!.macroNutrition.copyWith(
-                          carbohydrate: _carbohydrateTextEditingController
-                                  .text.isEmpty
-                              ? 0.0
-                              : double.parse(
-                                  _carbohydrateTextEditingController.text)));
+                  final carbohydrate = _initialFood!.macroNutrition
+                      .carbohydrate = _carbohydrateTextEditingController
+                          .text.isEmpty
+                      ? 0.0
+                      : double.parse(_carbohydrateTextEditingController.text);
+                  _initialFood!.macroNutrition.carbohydrate = carbohydrate;
                 },
                 textInputFormatter: doubleInputFormater,
                 textInputType:
@@ -208,11 +207,11 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 labelText: 'چربی',
                 suffix: 'گرم',
                 onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                      macroNutrition: _initialFood!.macroNutrition.copyWith(
-                          fat: _fatTextEditingController.text.isEmpty
-                              ? 0.0
-                              : double.parse(_fatTextEditingController.text)));
+                  final fat = _initialFood!.macroNutrition.fat =
+                      _fatTextEditingController.text.isEmpty
+                          ? 0.0
+                          : double.parse(_fatTextEditingController.text);
+                  _initialFood!.macroNutrition.fat = fat;
                 },
                 textInputFormatter: doubleInputFormater,
                 textInputType:
@@ -229,12 +228,11 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 labelText: 'پروتئین',
                 suffix: 'گرم',
                 onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                      macroNutrition: _initialFood!.macroNutrition.copyWith(
-                          protein: _proteinTextEditingController.text.isEmpty
-                              ? 0.0
-                              : double.parse(
-                                  _proteinTextEditingController.text)));
+                  final protein = _initialFood!.macroNutrition.protein =
+                      _proteinTextEditingController.text.isEmpty
+                          ? 0.0
+                          : double.parse(_proteinTextEditingController.text);
+                  _initialFood!.macroNutrition.protein = protein;
                 },
                 textInputFormatter: doubleInputFormater,
                 textInputType:
@@ -246,14 +244,10 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 height: context.sizesExtenstion.medium,
               ),
               IsVegetableSegmentedButton(
-                isSelected: _initialFood!.macroNutrition.isVegetable,
+                isSelected: _initialFood!.isVegetable!,
                 onChange: (value) {
                   setState(() {
-                    _initialFood = _initialFood!.copyWith(
-                      macroNutrition: _initialFood!.macroNutrition.copyWith(
-                        isVegetable: value,
-                      ),
-                    );
+                    _initialFood!.isVegetable = value;
                   });
                 },
               ),
@@ -273,7 +267,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                   });
                   if (_initialFood?.calorie == null ||
                       _initialFood?.gramsPerUnit == null ||
-                      _initialFood!.name.isEmpty ||
+                      _initialFood!.name!.isEmpty ||
                       _initialFood?.macroNutrition == null ||
                       _initialFood?.macroNutrition.carbohydrate == null ||
                       _initialFood?.macroNutrition.fat == null ||
@@ -285,17 +279,17 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                   } else {
                     // change nutrition value for 100 grams
                     if (_initialFood == null) {}
-                    final multiplier = 100 / _initialFood!.gramsPerUnit;
-                    _initialFood = _initialFood!.copyWith(
-                        calorie: (_initialFood!.calorie * multiplier).toInt(),
-                        macroNutrition: _initialFood!.macroNutrition.copyWith(
-                          carbohydrate:
-                              _initialFood!.macroNutrition.carbohydrate *
-                                  multiplier,
-                          fat: _initialFood!.macroNutrition.fat * multiplier,
-                          protein:
-                              _initialFood!.macroNutrition.protein * multiplier,
-                        ));
+                    // final multiplier = 100 / _initialFood!.gramsPerUnit;
+                    // _initialFood = _initialFood!.copyWith(
+                    //     calorie: (_initialFood!.calorie * multiplier).toInt(),
+                    //     macroNutrition: _initialFood!.macroNutrition.copyWith(
+                    //       carbohydrate:
+                    //           _initialFood!.macroNutrition.carbohydrate *
+                    //               multiplier,
+                    //       fat: _initialFood!.macroNutrition.fat * multiplier,
+                    //       protein:
+                    //           _initialFood!.macroNutrition.protein * multiplier,
+                    //     ));
                     widget.onfoodUpdated?.call(_initialFood!);
                     Navigator.of(context).pop();
                   }

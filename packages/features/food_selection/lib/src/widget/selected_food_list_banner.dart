@@ -13,14 +13,13 @@ class SelectedFoodListBanner extends StatelessWidget {
             List<SelectedFoodCM>>(
         selector: (state) => state.selectedFoodsList,
         builder: ((context, listSelectedFood) {
-          final energySum = listSelectedFood.fold(
-              0, (prev, current) => prev + current.calculateActualCalorie());
-          final carbohydrateSum = listSelectedFood.fold(0.0,
-              (prev, current) => prev + current.macroNutrition.carbohydrate);
-          final fatSum = listSelectedFood.fold(
-              0.0, (prev, current) => prev + current.macroNutrition.fat);
-          final proteinSum = listSelectedFood.fold(
-              0.0, (prev, current) => prev + current.macroNutrition.protein);
+          final energySum = listSelectedFood.fold(0, (prev, current) => 0);
+          final carbohydrateSum =
+              listSelectedFood.fold(0.0, (prev, current) => prev + 0);
+          final fatSum =
+              listSelectedFood.fold(0.0, (prev, current) => prev + 0);
+          final proteinSum =
+              listSelectedFood.fold(0.0, (prev, current) => prev + 0);
           final sum = carbohydrateSum + fatSum + proteinSum;
           final carbPercent = carbohydrateSum / sum;
           final fatPercent = fatSum / sum;
