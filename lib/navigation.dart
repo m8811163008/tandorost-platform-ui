@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:food/food.dart';
-import 'package:food_repository/food_repository.dart';
+
 import 'package:food_selection/food_selection.dart';
 
 import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:profile/profile.dart';
-import 'package:user_repository/user_repository.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -32,12 +31,7 @@ class Navigation {
         ),
         ShellRoute(
           builder: (context, state, child) {
-            return BlocProvider(
-              create: (context) => FoodSelectionBloc(
-                RepositoryProvider.of<FoodRepostiory>(context),
-              ),
-              child: child,
-            );
+            return child;
           },
           routes: [
             GoRoute(
@@ -55,6 +49,36 @@ class Navigation {
                   },
                 ),
               ],
+              // onExit: (context) async {
+              //   return await showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return AlertDialog(
+              //         title: const Text('آیا میخواهید خارج شوید؟'),
+              //         actions: <Widget>[
+              //           TextButton(
+              //             style: TextButton.styleFrom(
+              //               textStyle: Theme.of(context).textTheme.labelLarge,
+              //             ),
+              //             child: const Text('بازگشت'),
+              //             onPressed: () {
+              //               Navigator.of(context).pop(false);
+              //             },
+              //           ),
+              //           TextButton(
+              //             style: TextButton.styleFrom(
+              //               textStyle: Theme.of(context).textTheme.labelLarge,
+              //             ),
+              //             child: const Text('تایید'),
+              //             onPressed: () {
+              //               Navigator.of(context).pop(true);
+              //             },
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //   );
+              // },
             ),
             GoRoute(
               name: Routes.foodSelectionList,
@@ -78,12 +102,7 @@ class Navigation {
         ),
         ShellRoute(
             builder: (context, state, child) {
-              return BlocProvider(
-                create: (_) => ProfileCubit(
-                  RepositoryProvider.of<UserRepostiory>(context),
-                ),
-                child: child,
-              );
+              return child;
             },
             routes: [
               GoRoute(

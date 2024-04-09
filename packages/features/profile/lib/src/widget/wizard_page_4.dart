@@ -65,11 +65,20 @@ class WizardPage4 extends StatelessWidget {
         // TODO reserve state
         axis: Axis.horizontal,
         onSelectedNumberChanged: (days) {
-          final targetDate = DateTime.now().add(Duration(days: days));
+          final targetDate =
+              DateTime.now().add(Duration(days: days, minutes: 10));
           context
               .read<ProfileCubit>()
               .upsertStartBodycompositionChanging(targetDate);
         },
+        intialValue: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .bodyCompositionValues
+            .startBodycompositionChanging
+            ?.difference(DateTime.now())
+            .inDays,
         min: 0,
         max: 15,
       ),

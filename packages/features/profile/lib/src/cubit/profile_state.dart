@@ -33,7 +33,7 @@ class ProfileState {
   }) =>
       ProfileState(
         loginStatus: loginStatus ?? this.loginStatus,
-        lastUpdatedProfileCM: lastUpdatedProfileCM ?? lastUpdatedProfileCM,
+        lastUpdatedProfileCM: lastUpdatedProfileCM ?? this.lastUpdatedProfileCM,
         activePremiumWizardState: activePremiumWizardState.copyWith(
           currentPage: currentPage ?? activePremiumWizardState.currentPage,
           profileCM: wizardUpdatedProfileCM ??
@@ -69,7 +69,8 @@ class ActivePremiumWizardState {
     this.currentPage = 0,
     ProfileCM? profileCM,
     this.formSubmitStatus = ProcessAsyncStatus.initial,
-    this.bodyCompositionValues = const BodyCompositionValues(),
+    this.bodyCompositionValues =
+        const BodyCompositionValues(activityLevel: ActivityLevelCM.fairyActive),
     this.isAgreementAccepted = false,
   }) : createdProfileCM = profileCM ?? ProfileCM.empty();
 

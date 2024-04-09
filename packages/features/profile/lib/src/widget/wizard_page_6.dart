@@ -21,10 +21,7 @@ class WizardPage6 extends StatelessWidget {
             start: 0,
             bottom: 80,
             child: Builder(builder: (context) {
-              return ShimmerTextNavigation(
-                isError: !context.select<ProfileCubit, bool>(
-                    (cubit) => cubit.state.isValidActivatePremiumForm),
-              );
+              return ShimmerTextNavigation();
             }),
           ),
           SingleChildScrollView(
@@ -32,76 +29,11 @@ class WizardPage6 extends StatelessWidget {
             child: Column(
               children: [
                 _buildBodyCompositionMeasurementsInput(context),
-                _buildUserAgreementInput(context)
               ],
             ),
           )
         ],
       ),
-    );
-  }
-
-  Widget _buildUserAgreementInput(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            TextButton(
-              onPressed: () {
-                showAgreementDialog(context);
-              },
-              child: const Text('شرایط استفاده'),
-            ),
-            const Text('از تندرست را قبول دارم.'),
-            Builder(builder: (context) {
-              return Checkbox(
-                isError: !context
-                    .read<ProfileCubit>()
-                    .state
-                    .activePremiumWizardState
-                    .isAgreementAccepted,
-                value: context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.isAgreementAccepted),
-                onChanged: (_) =>
-                    context.read<ProfileCubit>().toggleIsAgreementAccepted(),
-              );
-            })
-          ],
-        ),
-      ),
-    );
-  }
-
-  void showAgreementDialog(BuildContext context) {
-    const userAgrrement = '''
-    تندرست به شما بر اساس جدید ترین تحقیقات علم تغذیه و ورزش برای تناسب اندام به شما پیشنهاد‌هایی برای ترکیب بدنی سالم ارائه میکند.
-
-    قبل از استفاده از محصولات تندرست با پزشک خود مشورت کنید.
-
-    برای افراد زیر 17 سال و بالای 50 سال پشتیبانی نمیشود.
-    ''';
-    showDialog(
-      context: context,
-      builder: ((context) {
-        return Dialog.fullscreen(
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                'شرایط استفاده',
-              ),
-            ),
-            body: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                userAgrrement,
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ),
-        );
-      }),
     );
   }
 

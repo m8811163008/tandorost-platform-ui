@@ -12,12 +12,7 @@ class ProfileRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfileCubit(
-        RepositoryProvider.of<UserRepostiory>(context),
-      ),
-      child: const ProfilePageRedirector(),
-    );
+    return const ProfilePageRedirector();
   }
 }
 
@@ -30,8 +25,8 @@ class ProfilePageRedirector extends StatelessWidget {
       listenWhen: (previous, current) =>
           current.lastUpdatedProfileCM != previous.lastUpdatedProfileCM,
       listener: (context, state) {
-        if (state.lastUpdatedProfileCM == null) {
-          context.goNamed(Routes.profileActivePremiumWizard);
+        if (state.lastUpdatedProfileCM == ProfileCM.empty()) {
+          context.pushReplacementNamed(Routes.profileActivePremiumWizard);
         }
       },
       buildWhen: (previous, current) =>
@@ -69,8 +64,19 @@ class ProfileView extends StatelessWidget {
               isScrollControlled: true,
               isDismissible: false,
               enableDrag: false,
+              showDragHandle: false,
               builder: (context) {
-                return MeasurementBottomSheet();
+                return PopScope(
+                  canPop: false,
+                  child: BottomSheet(
+                    enableDrag: false,
+                    showDragHandle: false,
+                    builder: (context) {
+                      return MeasurementBottomSheet();
+                    },
+                    onClosing: () {},
+                  ),
+                );
               },
             );
           },
@@ -113,7 +119,7 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _buildProfileCard(BuildContext context) {
-    return const Card(
+    return Card(
       margin: EdgeInsets.all(16.0),
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -121,6 +127,33 @@ class ProfileView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('آیا مطمئن هستید؟ تمام داده ها ریست میشود.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          RepositoryProvider.of<UserRepostiory>(context)
+                              .clear();
+                          context.goNamed(Routes.splash);
+                        },
+                        child: Text('ریست داده ها'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        child: Text('بازگشت'),
+                      )
+                    ],
+                  ),
+                );
+              },
+              child: Text('reset'),
+            ),
             Placeholder(),
           ],
         ),

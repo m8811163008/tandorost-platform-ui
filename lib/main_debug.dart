@@ -35,19 +35,19 @@ void main() async {
 // [x] hold the state of selected food for unit of measurement 
 // [x] add new food when no food found
 
+// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels)
+// in app purchase for 1 month subscription and 3 months 
 // simple profile for bazzar login
 // in app purchase for a test widget
 // user agreement and add phycology of writing calorie and its telorance and perception of food calories
 // add support with insta page
 // add form of energy and macro nutrition requirements
 // suggest learning and sport and some nutrition considiration
-// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels)
 // add exercise volume in selected food list banner
 // learning material for which food is for weight lose(آموزش خوراکی های کاهش وزن را بشناسید یا همچین چیزی)
-// in app purchase for 1 month subscription and 3 months 
 // add comment and star
-// add FAB to list of selected food
-// show how to use counters or expand counter for now to use thumb
+// [x]add FAB to list of selected food
+// [x]show how to use counters or expand counter for now to use thumb
 // hold to create recipe from list
 //handle create a new food and name conflict in creating new food in creating new food from selectedFoods
 
@@ -64,3 +64,6 @@ void main() async {
 // show pictures in profile section , optimize to share on social
 //recalculate
 // error handling of forms for example UpsertFoodBottomSheet
+// animation to text field of first page
+// center search text field
+// initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed

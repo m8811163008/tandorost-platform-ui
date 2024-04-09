@@ -1,5 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
+
 import 'package:food_selection/food_selection.dart';
 
 class FoodSelectionRoute extends StatelessWidget {
@@ -7,12 +8,14 @@ class FoodSelectionRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FoodSelectionView();
+    return FoodSelectionView();
   }
 }
 
 class FoodSelectionView extends StatelessWidget {
-  const FoodSelectionView({super.key});
+  const FoodSelectionView({
+    super.key,
+  });
   static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -35,14 +38,22 @@ class FoodSelectionView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const SearchedFoodsListBuilder(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.sizesExtenstion.medium),
-            child: const SearchFieldTextField(
-              key: ValueKey('value'),
+          SearchedFoodsListBuilder(),
+          // if (MediaQuery.of(context).viewInsets.bottom == 0.0) Spacer(),
+          // if (value) Spacer(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: context.sizesExtenstion.medium,
+                  vertical: context.sizesExtenstion.small),
+              child: const SearchFieldTextField(
+                key: ValueKey('value'),
+              ),
             ),
           ),
+          // if (value) Spacer(),
+          // if (MediaQuery.of(context).viewInsets.bottom == 0.0) Spacer(),
         ],
       ),
     );

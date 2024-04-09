@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:local_storage/src/model/model.dart';
@@ -52,6 +53,26 @@ class ProfileCM {
       isMale: isMale ?? this.isMale,
       bodyComposition: bodyComposition ?? this.bodyComposition,
     );
+  }
+
+  @override
+  bool operator ==(covariant ProfileCM other) {
+    if (identical(this, other)) return true;
+
+    return other.userName == userName &&
+        other.birthday == birthday &&
+        other.birthdayShamsi == birthdayShamsi &&
+        other.isMale == isMale &&
+        other.bodyComposition == bodyComposition;
+  }
+
+  @override
+  int get hashCode {
+    return userName.hashCode ^
+        birthday.hashCode ^
+        birthdayShamsi.hashCode ^
+        isMale.hashCode ^
+        bodyComposition.hashCode;
   }
 }
 
@@ -121,6 +142,36 @@ class BodyCompositionCM {
       startBodycompositionChanging:
           startBodycompositionChanging ?? this.startBodycompositionChanging,
     );
+  }
+
+  @override
+  bool operator ==(covariant BodyCompositionCM other) {
+    if (identical(this, other)) return true;
+
+    return listEquals(other.height, height) &&
+        listEquals(other.weight, weight) &&
+        listEquals(other.waistCircumference, waistCircumference) &&
+        listEquals(other.armCircumference, armCircumference) &&
+        listEquals(other.chestCircumference, chestCircumference) &&
+        listEquals(other.thightCircumference, thightCircumference) &&
+        listEquals(other.calfMuscleCircumference, calfMuscleCircumference) &&
+        listEquals(other.hipCircumference, hipCircumference) &&
+        listEquals(other.activityLevel, activityLevel) &&
+        other.startBodycompositionChanging == startBodycompositionChanging;
+  }
+
+  @override
+  int get hashCode {
+    return height.hashCode ^
+        weight.hashCode ^
+        waistCircumference.hashCode ^
+        armCircumference.hashCode ^
+        chestCircumference.hashCode ^
+        thightCircumference.hashCode ^
+        calfMuscleCircumference.hashCode ^
+        hipCircumference.hashCode ^
+        activityLevel.hashCode ^
+        startBodycompositionChanging.hashCode;
   }
 }
 

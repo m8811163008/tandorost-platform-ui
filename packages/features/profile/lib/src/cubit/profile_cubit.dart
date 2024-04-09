@@ -199,17 +199,23 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void activePremiumWizardCreateProfile() async {
+    assert(state.lastUpdatedProfileCM != null);
     if (state.isValidActivatePremiumForm) {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
 
-      final profile = state.activePremiumWizardState.createdProfileCM.copyWith(
+      final updatedProfile = state.lastUpdatedProfileCM!.copyWith(
         bodyComposition: _calculateBodyComposition(),
+        userName: state.activePremiumWizardState.createdProfileCM.userName,
+        birthday: state.activePremiumWizardState.createdProfileCM.birthday,
+        birthdayShamsi:
+            state.activePremiumWizardState.createdProfileCM.birthdayShamsi,
+        isMale: state.activePremiumWizardState.createdProfileCM.isMale,
       );
 
       try {
-        await userRepostiory.updateProfile(profile);
+        await userRepostiory.updateProfile(updatedProfile);
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.success,
         ));

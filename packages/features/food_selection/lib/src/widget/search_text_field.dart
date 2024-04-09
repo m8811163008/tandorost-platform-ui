@@ -35,7 +35,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
       },
       child: TextField(
         controller: _controller,
-        autofocus: true,
+        // autofocus: true,
         focusNode: _focus,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.search,
