@@ -61,7 +61,7 @@ class ProfileView extends StatelessWidget {
       isShowDrawerButton: true,
       actions: [
         IconButton(
-          tooltip: 'اضافه کردن اندازه گیری جدید',
+          tooltip: 'بروز رسانی اندازه گیری جدید',
           onPressed: () {
             showModalBottomSheet(
               useSafeArea: true,
