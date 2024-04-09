@@ -21,7 +21,16 @@ class WizardPage3 extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
-              return const ShimmerTextNavigation();
+              return ShimmerTextNavigation(
+                isError: context.select<ProfileCubit, bool>(
+                  (cubit) =>
+                      cubit.state.activePremiumWizardState.createdProfileCM
+                          .userName.isEmpty ||
+                      cubit.state.activePremiumWizardState.createdProfileCM
+                              .birthday ==
+                          null,
+                ),
+              );
             }),
           ),
           const SizedBox(
@@ -172,14 +181,18 @@ class _BirthdayContent extends StatelessWidget {
   }
 
   Widget _buildBirthdayInput(BuildContext context) {
-    return SelectBirthdayButton(
-      initialDate: context
-          .read<ProfileCubit>()
-          .state
-          .activePremiumWizardState
-          .createdProfileCM
-          .birthday,
-      onSelectDate: context.read<ProfileCubit>().updateBirthDay,
+    return ErrorIndicator(
+      selector: (state) =>
+          state.activePremiumWizardState.createdProfileCM.birthday == null,
+      child: SelectBirthdayButton(
+        initialDate: context
+            .read<ProfileCubit>()
+            .state
+            .activePremiumWizardState
+            .createdProfileCM
+            .birthday,
+        onSelectDate: context.read<ProfileCubit>().updateBirthDay,
+      ),
     );
   }
 
@@ -188,6 +201,9 @@ class _BirthdayContent extends StatelessWidget {
       builder: (context) {
         final birthDay = context.select((ProfileCubit cubit) =>
             cubit.state.activePremiumWizardState.createdProfileCM.birthday);
+        if (birthDay == null) {
+          return SizedBox.shrink();
+        }
         final years = DateTime.now().difference(birthDay).inDays ~/ 365;
 
         return FittedBox(

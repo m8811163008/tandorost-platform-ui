@@ -40,12 +40,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   //   }
   // }
 
-  void updateBirthDay(DateTime birthday) {
+  void updateBirthDay(DateTime birthday, String birthdayShamsi) {
     emit(
       state.copyWith(
         wizardUpdatedProfileCM:
             state.activePremiumWizardState.createdProfileCM.copyWith(
           birthday: birthday,
+          birthdayShamsi: birthdayShamsi,
         ),
       ),
     );
@@ -202,14 +203,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
-      // final profile = state.activePremiumWizardState.createdProfileCM.copyWith(
-      //   bodyComposition: state.activePremiumWizardState.bodyCompositionValues
-      //       .toBodyCompositionCM(),
-      // );
+
+      final profile = state.activePremiumWizardState.createdProfileCM.copyWith(
+        bodyComposition: _calculateBodyComposition(),
+      );
 
       try {
-        await userRepostiory
-            .updateProfile(state.activePremiumWizardState.createdProfileCM);
+        await userRepostiory.updateProfile(profile);
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.success,
         ));
@@ -239,5 +239,103 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ),
     );
+  }
+
+  BodyCompositionCM _calculateBodyComposition() {
+    final logDate = DateTime.now();
+    BodyCompositionCM bodyCompositionCM = BodyCompositionCM.empty();
+    final height = state.activePremiumWizardState.bodyCompositionValues.height;
+    if (height != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: height,
+      );
+      bodyCompositionCM = bodyCompositionCM.copyWith(height: [bioData]);
+    }
+    final weight = state.activePremiumWizardState.bodyCompositionValues.weight;
+    if (weight != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: weight,
+      );
+      bodyCompositionCM = bodyCompositionCM.copyWith(weight: [bioData]);
+    }
+    final armCircumference =
+        state.activePremiumWizardState.bodyCompositionValues.armCircumference;
+    if (armCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: int.parse(armCircumference),
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(armCircumference: [bioData]);
+    }
+    final calfMuscleCircumference = state
+        .activePremiumWizardState.bodyCompositionValues.calfMuscleCircumference;
+    if (calfMuscleCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: int.parse(calfMuscleCircumference),
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(calfMuscleCircumference: [bioData]);
+    }
+    final chestCircumference =
+        state.activePremiumWizardState.bodyCompositionValues.chestCircumference;
+    if (chestCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: int.parse(chestCircumference),
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(chestCircumference: [bioData]);
+    }
+    final hipCircumference =
+        state.activePremiumWizardState.bodyCompositionValues.hipCircumference;
+    if (hipCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: int.parse(hipCircumference),
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(hipCircumference: [bioData]);
+    }
+    final thightCircumference = state
+        .activePremiumWizardState.bodyCompositionValues.thightCircumference;
+    if (thightCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: int.parse(thightCircumference),
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(thightCircumference: [bioData]);
+    }
+    final waistCircumference =
+        state.activePremiumWizardState.bodyCompositionValues.waistCircumference;
+    if (waistCircumference != null) {
+      final bioData = BioDataCM(
+        logDate: logDate,
+        value: waistCircumference,
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(waistCircumference: [bioData]);
+    }
+    final activityLevel =
+        state.activePremiumWizardState.bodyCompositionValues.activityLevel;
+    if (activityLevel != null) {
+      final activityData = ActivityLevelCMData(
+        logDate: logDate,
+        value: activityLevel,
+      );
+      bodyCompositionCM =
+          bodyCompositionCM.copyWith(activityLevel: [activityData]);
+    }
+    final startBodycompositionChanging = state.activePremiumWizardState
+        .bodyCompositionValues.startBodycompositionChanging;
+    if (startBodycompositionChanging != null) {
+      bodyCompositionCM = bodyCompositionCM.copyWith(
+          startBodycompositionChanging: startBodycompositionChanging);
+    }
+    return bodyCompositionCM;
   }
 }

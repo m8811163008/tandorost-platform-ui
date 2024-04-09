@@ -8,7 +8,7 @@ class SelectBirthdayButton extends StatefulWidget {
     this.onSelectDate,
     this.initialDate,
   });
-  final ValueSetter<DateTime>? onSelectDate;
+  final void Function(DateTime birthday, String birthdayShamsi)? onSelectDate;
 
   final DateTime? initialDate;
 
@@ -45,7 +45,8 @@ class _SelectBirthdayButtonState extends State<SelectBirthdayButton> {
         );
         if (picked == null) return;
 
-        widget.onSelectDate?.call(picked.toDateTime());
+        widget.onSelectDate
+            ?.call(picked.toDateTime(), _buildShamsiDate(picked));
 
         setState(() {
           _selectedDate = picked;
@@ -61,5 +62,11 @@ class _SelectBirthdayButtonState extends State<SelectBirthdayButton> {
     final formatter = selectedDate.formatter;
 
     return '${formatter.dd} ${formatter.mN} ${formatter.yyyy}';
+  }
+
+  String _buildShamsiDate(Jalali selectedDate) {
+    final formatter = selectedDate.formatter;
+
+    return '${formatter.dd}/${formatter.mm}/${formatter.yyyy}';
   }
 }

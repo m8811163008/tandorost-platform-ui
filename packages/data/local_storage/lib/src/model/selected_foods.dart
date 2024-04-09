@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:local_storage/src/model/model.dart';
@@ -42,16 +43,6 @@ class SelectedFoodCM {
     required this.totalWeight,
   });
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is SelectedFoodCM && other.selectedDate == selectedDate;
-  }
-
-  @override
-  int get hashCode => selectedDate.hashCode;
-
   SelectedFoodCM copyWith({
     FoodCM? food,
     UnitOfMeasurmentCM? unitOfMeasurmentCM,
@@ -67,5 +58,25 @@ class SelectedFoodCM {
       selectedDate: selectedDate ?? this.selectedDate,
       totalWeight: totalWeight ?? this.totalWeight,
     );
+  }
+
+  @override
+  bool operator ==(covariant SelectedFoodCM other) {
+    if (identical(this, other)) return true;
+
+    return other.food == food &&
+        other.unitOfMeasurmentCM == unitOfMeasurmentCM &&
+        other.numberOfUnitOfMeasurement == numberOfUnitOfMeasurement &&
+        other.selectedDate == selectedDate &&
+        other.totalWeight == totalWeight;
+  }
+
+  @override
+  int get hashCode {
+    return food.hashCode ^
+        unitOfMeasurmentCM.hashCode ^
+        numberOfUnitOfMeasurement.hashCode ^
+        selectedDate.hashCode ^
+        totalWeight.hashCode;
   }
 }

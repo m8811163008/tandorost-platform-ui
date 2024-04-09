@@ -48,6 +48,9 @@ class ProfileState {
         newMeasurementState: newMeasurementState ?? this.newMeasurementState,
       );
   bool get isValidActivatePremiumForm =>
+      activePremiumWizardState.createdProfileCM.birthday != null &&
+      activePremiumWizardState.createdProfileCM.birthdayShamsi != null &&
+      activePremiumWizardState.createdProfileCM.isMale != null &&
       activePremiumWizardState.createdProfileCM.userName.isNotEmpty &&
       activePremiumWizardState.bodyCompositionValues.height != null &&
       activePremiumWizardState.bodyCompositionValues.weight != null &&

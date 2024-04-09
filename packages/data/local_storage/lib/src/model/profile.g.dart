@@ -18,9 +18,9 @@ class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
     };
     return ProfileCM(
       userName: fields[0] as String,
-      birthday: fields[1] as DateTime,
-      birthdayShamsi: fields[2] as String,
-      isMale: fields[3] as bool,
+      birthday: fields[1] as DateTime?,
+      birthdayShamsi: fields[2] as String?,
+      isMale: fields[3] as bool?,
       bodyComposition: fields[4] as BodyCompositionCM,
     );
   }
@@ -72,7 +72,7 @@ class BodyCompositionCMAdapter extends TypeAdapter<BodyCompositionCM> {
       calfMuscleCircumference: (fields[6] as List).cast<BioDataCM>(),
       hipCircumference: (fields[7] as List).cast<BioDataCM>(),
       activityLevel: (fields[8] as List).cast<ActivityLevelCMData>(),
-      startBodycompositionChanging: fields[9] as DateTime,
+      startBodycompositionChanging: fields[9] as DateTime?,
     );
   }
 

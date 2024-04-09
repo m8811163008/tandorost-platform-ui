@@ -30,6 +30,13 @@ class FoodAmountInputNumber extends StatelessWidget {
               .read<FoodSelectionBloc>()
               .state
               .unitOfMeasurementHistory[unitOfMeasurement];
+          if (intialValue != null) {
+            context.read<FoodSelectionBloc>().add(
+                  SelectedFoodUpdated(
+                    measurementUnitCount: intialValue,
+                  ),
+                );
+          }
 
           return ScrollableNumberInput(
             key: UniqueKey(),

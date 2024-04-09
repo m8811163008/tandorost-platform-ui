@@ -16,8 +16,8 @@ class FoodStorage {
     // await clearCollections();
     await Future.wait([
       initializeFood(),
-      // initializeProfile(),
-      // initializeUnitOfMeasurement(),
+      initializeProfile(),
+      initializeUnitOfMeasurement(),
     ]);
   }
 
@@ -107,12 +107,18 @@ class FoodStorage {
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
     final selectedFoodBox = await _localStorage.selectedFoodBox;
-    await selectedFoodBox.put(selectedFoodCM.food.name, selectedFoodCM);
+    await selectedFoodBox.add(selectedFoodCM);
   }
 
   Future<void> removeSelectedFood(SelectedFoodCM selectedFoodCM) async {
     final selectedFoodBox = await _localStorage.selectedFoodBox;
-    await selectedFoodBox.delete(selectedFoodCM.food.name);
+    final key = selectedFoodBox
+        .toMap()
+        .entries
+        .singleWhere((element) => element.value == selectedFoodCM)
+        .key;
+
+    await selectedFoodBox.delete(key);
   }
 
   Future<void> removeFood(FoodCM food) async {
@@ -123,6 +129,11 @@ class FoodStorage {
   Stream<List<SelectedFoodCM>> selectedFoodsList(
       {required DateTime start, required DateTime end}) async* {
     final selectedFoodBox = await _localStorage.selectedFoodBox;
+    yield selectedFoodBox.values
+        .where((element) =>
+            element.selectedDate.isAfter(start) &&
+            element.selectedDate.isBefore(end))
+        .toList();
     yield* selectedFoodBox.watch().map(
           (event) => selectedFoodBox.values
               .where((element) =>

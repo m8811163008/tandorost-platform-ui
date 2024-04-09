@@ -11,6 +11,7 @@ class UserStorage {
 
   Stream<ProfileCM> get userProfile async* {
     final profileBox = await localStorage.profileBox;
+    yield profileBox.get(ProfileCM.id)!;
     yield* profileBox.watch(key: ProfileCM.id).map(
           (event) => profileBox.get(ProfileCM.id)!,
         );

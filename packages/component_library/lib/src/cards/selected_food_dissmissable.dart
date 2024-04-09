@@ -6,8 +6,6 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
   const SelectedFoodListTileDissmissable({
     super.key,
     required this.food,
-    required this.selectedFoodFoodCM,
-    required this.selectedFoodUnitOfMeasurement,
     this.onDissmiss,
     this.onLongPressed,
     this.onTap,
@@ -15,8 +13,7 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
     this.isDismissActive = true,
   });
   final SelectedFoodCM food;
-  final FoodCM selectedFoodFoodCM;
-  final UnitOfMeasurement selectedFoodUnitOfMeasurement;
+
   final VoidCallback? onDissmiss;
   final VoidCallback? onTap;
   final VoidCallback? onLongPressed;
@@ -48,8 +45,6 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
           onTap: onTap,
           onLongTap: onLongPressed,
           isSelected: isSelcted,
-          selectedFoodFoodCM: selectedFoodFoodCM,
-          selectedFoodUnitOfMeasurement: selectedFoodUnitOfMeasurement,
         ),
       ),
     );

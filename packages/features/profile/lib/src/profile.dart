@@ -3,6 +3,7 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
+import 'package:profile/src/add_new_measurement_bottom_sheet/measurement_bottom_sheet.dart';
 import 'package:profile/src/line_chart.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -26,11 +27,15 @@ class ProfilePageRedirector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listenWhen: (previous, current) => current.lastUpdatedProfileCM != null,
+      listenWhen: (previous, current) =>
+          current.lastUpdatedProfileCM != previous.lastUpdatedProfileCM,
       listener: (context, state) {
-        context.goNamed(Routes.profileActivePremiumWizard);
+        if (state.lastUpdatedProfileCM == null) {
+          context.goNamed(Routes.profileActivePremiumWizard);
+        }
       },
-      buildWhen: (previous, current) => current.lastUpdatedProfileCM != null,
+      buildWhen: (previous, current) =>
+          current.lastUpdatedProfileCM != previous.lastUpdatedProfileCM,
       builder: (context, state) {
         if (state.lastUpdatedProfileCM == null) {
           return const AppScaffold(
@@ -58,7 +63,16 @@ class ProfileView extends StatelessWidget {
         IconButton(
           tooltip: 'اضافه کردن اندازه گیری جدید',
           onPressed: () {
-            context.pushNamed(Routes.profileAddBodyCompositionWizard);
+            showModalBottomSheet(
+              useSafeArea: true,
+              context: context,
+              isScrollControlled: true,
+              isDismissible: false,
+              enableDrag: false,
+              builder: (context) {
+                return MeasurementBottomSheet();
+              },
+            );
           },
           icon: const Icon(
             Ionicons.add,

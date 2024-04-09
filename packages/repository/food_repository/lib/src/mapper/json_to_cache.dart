@@ -4,7 +4,7 @@ extension MapToCM on Map<String, dynamic> {
   FoodCM foodCMfromJson() {
     final food = FoodCM(
         name: this['name'] as String,
-        calorie: this['calorie'] as int,
+        calorie: (this['calorie'] as int) / 100,
         gramsPerUnit: this['gramsPerUnit'] as int,
         macroNutrition: macroNutritionFromJson(),
         isVegetable: this['macroNutrition']['isVegetable'] as bool);

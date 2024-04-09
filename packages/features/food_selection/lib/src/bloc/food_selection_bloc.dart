@@ -61,8 +61,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       SlectedFoodListFiltered event, Emitter<FoodSelectionState> emit) async {
     _foodRepository
         .selectedFoodsListStream(dateTimeRange: event.dateTimeRange)
-        .listen((selectedFoodList) {
-      add(SelectedFoodsListFetched(selectedFoods: selectedFoodList));
+        .listen((selectedFoods) {
+      add(SelectedFoodsListFetched(selectedFoods: selectedFoods));
     });
     emit(state.copyWith(
         filterSelctedFoodsListDateTimeRange: event.dateTimeRange));
@@ -78,10 +78,18 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     );
     try {
       await _foodRepository.removeSelectedFood(event.food);
+
       emit(
           state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.success));
     } catch (e) {
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
+    } finally {
+      // refresh the state list
+      add(
+        SlectedFoodListFiltered(
+          dateTimeRange: state.filterSelctedFoodsListDateTimeRange,
+        ),
+      );
     }
   }
 
@@ -155,7 +163,13 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
     emit(state.copyWith(
         query: event.query, searchFoodStatus: ProcessAsyncStatus.loading));
     try {
-      await _foodRepository.searchFoods(event.query);
+      final searchedList = await _foodRepository.searchFoods(event.query);
+      emit(
+        state.copyWith(
+          searchFoodStatus: ProcessAsyncStatus.success,
+          searchedFoods: searchedList,
+        ),
+      );
     } catch (e, s) {
       log('message', error: e, stackTrace: s);
       emit(state.copyWith(
@@ -185,8 +199,19 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       emit(
         state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.loading),
       );
+      SelectedFoodCM selectedFood = SelectedFoodCM.empty();
+      if (state.selectedFood.unitOfMeasurmentCM.title ==
+          UnitOfMeasurementType.calorie.name) {
+        selectedFood = state.selectedFood.copyWith(
+            totalWeight: state.selectedFood.numberOfUnitOfMeasurement ~/
+                state.selectedFood.food.calorie);
+      } else {
+        selectedFood = state.selectedFood.copyWith(
+            totalWeight: state.selectedFood.numberOfUnitOfMeasurement *
+                state.selectedFood.unitOfMeasurmentCM.howManyGrams!);
+      }
       await _foodRepository.upsertSelectedFood(
-        state.selectedFood.copyWith(
+        selectedFood.copyWith(
           selectedDate: DateTime.now().add(state.saveTimeOffset).toUtc(),
         ),
       );

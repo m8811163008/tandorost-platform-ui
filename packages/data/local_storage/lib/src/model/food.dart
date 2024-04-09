@@ -12,7 +12,7 @@ class FoodCM {
 
   // Calaries per 1 grams of this food.
   @HiveField(1)
-  final int calorie;
+  final double calorie;
 
   /// gram per one unit of food for example each apple is 100 grams
   @HiveField(2)
@@ -47,7 +47,7 @@ class FoodCM {
 
   FoodCM copyWith({
     String? name,
-    int? calorie,
+    double? calorie,
     int? gramsPerUnit,
     MacroNutritionCM? macroNutrition,
     bool? isVegetable,

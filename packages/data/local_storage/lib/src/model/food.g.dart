@@ -18,7 +18,7 @@ class FoodCMAdapter extends TypeAdapter<FoodCM> {
     };
     return FoodCM(
       name: fields[0] as String,
-      calorie: fields[1] as int,
+      calorie: fields[1] as double,
       gramsPerUnit: fields[2] as int,
       macroNutrition: fields[3] as MacroNutritionCM,
       isVegetable: fields[4] as bool,

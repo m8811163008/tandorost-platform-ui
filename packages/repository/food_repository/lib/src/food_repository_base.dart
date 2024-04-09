@@ -27,7 +27,7 @@ class FoodRepostiory {
 
       return const [];
     }
-    final storageFoods = await _foodStorage.getFoods().last;
+    final storageFoods = await _foodStorage.getFoods().first;
 
     final domainFoods = storageFoods
         .where(

@@ -8,24 +8,21 @@ class SelectedFoodListTile extends StatelessWidget {
   const SelectedFoodListTile(
       {super.key,
       required this.selectedFood,
-      required this.selectedFoodFoodCM,
-      required this.selectedFoodUnitOfMeasurement,
       this.onTap,
       this.onLongTap,
       this.isSelected = false});
   final SelectedFoodCM selectedFood;
-  final FoodCM selectedFoodFoodCM;
-  final UnitOfMeasurement selectedFoodUnitOfMeasurement;
+
   final VoidCallback? onTap;
   final VoidCallback? onLongTap;
   final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    final macroNutrition = selectedFoodFoodCM.macroNutrition;
-    final title = selectedFoodFoodCM.name;
+    final macroNutrition = selectedFood.food.macroNutrition;
+    final title = selectedFood.food.name;
     final unitOfMeasurement = context.l10n
-        .unitOfMeasurementTitle(selectedFoodUnitOfMeasurement.title.name);
+        .unitOfMeasurementTitle(selectedFood.unitOfMeasurmentCM.title);
     final count = selectedFood.numberOfUnitOfMeasurement;
 
     return SizedBox(
@@ -52,8 +49,8 @@ class SelectedFoodListTile extends StatelessWidget {
 
   Widget _buildSubtitle(BuildContext context) {
     final selectedFoodCalarieLabel =
-        '${selectedFood.totalWeight * selectedFoodFoodCM.calorie} ${context.l10n.foodDataCalarieLabel}';
-    final macroNutrition = selectedFoodFoodCM.macroNutrition;
+        '${(selectedFood.totalWeight * selectedFood.food.calorie).toInt()} ${context.l10n.foodDataCalarieLabel}';
+    final macroNutrition = selectedFood.food.macroNutrition;
     final selectedFoodFatLabel =
         '${context.l10n.foodDataPercentValue(macroNutrition.fat / macroNutrition.sum)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =

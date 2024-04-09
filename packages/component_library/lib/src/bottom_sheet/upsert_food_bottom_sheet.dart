@@ -184,8 +184,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 suffix: 'کیلوکالری',
                 onChanged: (_) {
                   final calorie = _calorieTextEditingController.text.isEmpty
-                      ? 0
-                      : int.parse(_calorieTextEditingController.text);
+                      ? 0.0
+                      : double.parse(_calorieTextEditingController.text);
 
                   _initialFood = _initialFood!.copyWith(
                     calorie: calorie,
@@ -311,6 +311,9 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                       return;
                     }
                     _initialFood = _initialFood!.copyWith(
+                      // calorie per 1 grams
+                      calorie:
+                          _initialFood!.calorie / _initialFood!.gramsPerUnit,
                       macroNutrition: MacroNutritionCM.empty().copyWith(
                         carbohydrate: _cacheMacronutrition.carbohydrate /
                             _initialFood!.gramsPerUnit,

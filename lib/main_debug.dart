@@ -52,6 +52,7 @@ void main() async {
 //handle create a new food and name conflict in creating new food in creating new food from selectedFoods
 
 // create outlined icons
+//refactor text fields to stateless
 // add dashboard
 // reset database and ask do you want restore default foods
 // clean streams in blocs, make them same shape or something like that

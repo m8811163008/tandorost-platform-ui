@@ -92,11 +92,4 @@ class FoodSelectionState {
       newFoodName: newFoodName ?? this.newFoodName,
     );
   }
-
-  UnitOfMeasurement get selectedUnitOfMeasurement =>
-      unitOfMesurementList.singleWhere(
-          (element) => element.title.name == selectedFood.unitOfMeasurmentCM);
-
-  FoodCM get selectedFoodFoodCM =>
-      searchedFoods.singleWhere((element) => element == selectedFood.food);
 }

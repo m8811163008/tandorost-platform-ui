@@ -14,12 +14,13 @@ class SelectedFoodInfo extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.selectedFood != current.selectedFood,
         builder: (context, state) {
-          final selectedUnitOfMeasurement = state.selectedUnitOfMeasurement;
+          final selectedUnitOfMeasurement =
+              state.selectedFood.unitOfMeasurmentCM;
 
           final measurementUnitCount =
               state.selectedFood.numberOfUnitOfMeasurement;
           final unitOfMeasuremnetTitle = context.l10n
-              .unitOfMeasurementTitle(selectedUnitOfMeasurement.title.name);
+              .unitOfMeasurementTitle(selectedUnitOfMeasurement.title);
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +60,7 @@ class SelectedFoodInfo extends StatelessWidget {
                         child: FittedBox(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
-                            state.selectedFoodFoodCM.name,
+                            state.selectedFood.food.name,
                             maxLines: 2,
                             style: context.themeData.textTheme.displaySmall,
                           ),

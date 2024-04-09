@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:local_storage/src/model/model.dart';
-import 'package:local_storage/src/model/type_id.dart';
 
 part 'profile.g.dart';
 
@@ -15,31 +13,28 @@ class ProfileCM {
   @HiveField(0)
   final String userName;
   @HiveField(1)
-  final DateTime birthday;
+  final DateTime? birthday;
 
   /// in format of --/--/----
   @HiveField(2)
-  final String birthdayShamsi;
+  final String? birthdayShamsi;
   @HiveField(3)
-  final bool isMale;
+  final bool? isMale;
   @HiveField(4)
   final BodyCompositionCM bodyComposition;
 
   factory ProfileCM.empty() {
     return ProfileCM(
       userName: '',
-      birthday: DateTime.now(),
-      birthdayShamsi: '--/--/----',
-      isMale: false,
       bodyComposition: BodyCompositionCM.empty(),
     );
   }
 
   ProfileCM({
     required this.userName,
-    required this.birthday,
-    required this.birthdayShamsi,
-    required this.isMale,
+    this.birthday,
+    this.birthdayShamsi,
+    this.isMale,
     required this.bodyComposition,
   });
 
@@ -81,7 +76,7 @@ class BodyCompositionCM {
   @HiveField(8)
   final List<ActivityLevelCMData> activityLevel;
   @HiveField(9)
-  final DateTime startBodycompositionChanging;
+  final DateTime? startBodycompositionChanging;
 
   const BodyCompositionCM({
     this.height = const [],
@@ -93,13 +88,11 @@ class BodyCompositionCM {
     this.calfMuscleCircumference = const [],
     this.hipCircumference = const [],
     this.activityLevel = const [],
-    required this.startBodycompositionChanging,
+    this.startBodycompositionChanging,
   });
 
   factory BodyCompositionCM.empty() {
-    return BodyCompositionCM(
-      startBodycompositionChanging: DateTime.now(),
-    );
+    return BodyCompositionCM();
   }
 
   BodyCompositionCM copyWith({
