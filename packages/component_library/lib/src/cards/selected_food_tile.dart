@@ -55,11 +55,11 @@ class SelectedFoodListTile extends StatelessWidget {
         '${selectedFood.totalWeight * selectedFoodFoodCM.calorie} ${context.l10n.foodDataCalarieLabel}';
     final macroNutrition = selectedFoodFoodCM.macroNutrition;
     final selectedFoodFatLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.fat / macroNutrition.totalWeight)} ${context.l10n.nutritionDataFatLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.fat / macroNutrition.sum)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.protein / macroNutrition.totalWeight)} ${context.l10n.nutritionDataProteinLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.protein / macroNutrition.sum)} ${context.l10n.nutritionDataProteinLabel}';
     final selectedFoodCarbohydrateLabel =
-        '${context.l10n.foodDataPercentValue(macroNutrition.carbohydrate / macroNutrition.totalWeight)} ${context.l10n.nutritionDataCarbohydrateLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.carbohydrate / macroNutrition.sum)} ${context.l10n.nutritionDataCarbohydrateLabel}';
 
     final localTime = selectedFood.selectedDate.toLocal();
     final dateFormatter = localTime.toJalali().formatter;
@@ -121,10 +121,9 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
         child: PieChart(
           chartType: ChartType.ring,
           dataMap: {
-            'پروتئین': macroNutrition.protein / macroNutrition.totalWeight,
-            'چربی': macroNutrition.fat / macroNutrition.totalWeight,
-            'کربوهیدات':
-                macroNutrition.carbohydrate / macroNutrition.totalWeight,
+            'پروتئین': macroNutrition.protein / macroNutrition.sum,
+            'چربی': macroNutrition.fat / macroNutrition.sum,
+            'کربوهیدات': macroNutrition.carbohydrate / macroNutrition.sum,
           },
           ringStrokeWidth: 16,
           chartValuesOptions: const ChartValuesOptions(showChartValues: false),

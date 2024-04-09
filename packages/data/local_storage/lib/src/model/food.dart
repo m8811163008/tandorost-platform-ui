@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
+import 'package:local_storage/local_storage.dart';
+import 'package:local_storage/src/model/model.dart';
 
 part 'food.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: TypeIDs.foodCM)
 class FoodCM {
   @HiveField(0)
   final String name;
@@ -76,7 +78,7 @@ class FoodCM {
 ///
 /// For example 1 grams of apple has 0.003g protein and 0.004g fat and 0.005g carbohydrate.
 
-@HiveType(typeId: 2)
+@HiveType(typeId: TypeIDs.macroNutritionCM)
 class MacroNutritionCM {
   @HiveField(0)
   final double carbohydrate;
@@ -98,7 +100,7 @@ class MacroNutritionCM {
     );
   }
 
-  double get totalWeight {
+  double get sum {
     final sum = carbohydrate + fat + protein;
     // if (sum > 1.0) throw Exception('sum is more than 1 gram');
     return sum;

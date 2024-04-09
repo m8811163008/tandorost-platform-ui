@@ -32,6 +32,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
       TextEditingController();
   String _errorMessage = '';
   FoodCM? _initialFood;
+  MacroNutritionCM _cacheMacronutrition = MacroNutritionCM.empty();
 
   final doubleInputFormater =
       FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,4}(\.[0-9]{0,1})?$'));
@@ -46,12 +47,19 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
 
       _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
       _calorieTextEditingController.text = widget.initalFood.calorie.toString();
-      _carbohydrateTextEditingController.text =
-          _initialFood!.macroNutrition.carbohydrate.toString();
-      _fatTextEditingController.text =
-          _initialFood!.macroNutrition.fat.toString();
-      _proteinTextEditingController.text =
-          _initialFood!.macroNutrition.protein.toString();
+      final carbohydrate = _initialFood!.macroNutrition.carbohydrate *
+          _initialFood!.gramsPerUnit;
+      final fat = _initialFood!.macroNutrition.fat * _initialFood!.gramsPerUnit;
+      final protein =
+          _initialFood!.macroNutrition.protein * _initialFood!.gramsPerUnit;
+      _carbohydrateTextEditingController.text = carbohydrate.toString();
+      _fatTextEditingController.text = fat.toString();
+      _proteinTextEditingController.text = protein.toString();
+      _cacheMacronutrition = _cacheMacronutrition.copyWith(
+        carbohydrate: carbohydrate,
+        fat: fat,
+        protein: protein,
+      );
     } else {
       _nameTextEditingController.text = widget.initalName ?? _initialFood!.name;
 
@@ -199,10 +207,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                           .text.isEmpty
                       ? 0.0
                       : double.parse(_carbohydrateTextEditingController.text);
-                  _initialFood = _initialFood!.copyWith(
-                    macroNutrition: _initialFood!.macroNutrition.copyWith(
-                      carbohydrate: carbohydrate,
-                    ),
+                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                    carbohydrate: carbohydrate,
                   );
                 },
                 textInputFormatter: doubleInputFormater,
@@ -221,10 +227,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                   final fat = _fatTextEditingController.text.isEmpty
                       ? 0.0
                       : double.parse(_fatTextEditingController.text);
-                  _initialFood = _initialFood!.copyWith(
-                    macroNutrition: _initialFood!.macroNutrition.copyWith(
-                      fat: fat,
-                    ),
+                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                    fat: fat,
                   );
                 },
                 textInputFormatter: doubleInputFormater,
@@ -245,10 +249,8 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                   final protein = _proteinTextEditingController.text.isEmpty
                       ? 0.0
                       : double.parse(_proteinTextEditingController.text);
-                  _initialFood = _initialFood!.copyWith(
-                    macroNutrition: _initialFood!.macroNutrition.copyWith(
-                      protein: protein,
-                    ),
+                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                    protein: protein,
                   );
                 },
                 textInputFormatter: doubleInputFormater,
@@ -282,13 +284,13 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                   setState(() {
                     _errorMessage = '';
                   });
-                  if (_initialFood?.calorie == null ||
-                      _initialFood?.gramsPerUnit == null ||
+                  if (_initialFood == null ||
+                      _initialFood!.calorie.isNegative ||
+                      _initialFood!.gramsPerUnit.isNegative ||
                       _initialFood!.name.isEmpty ||
-                      _initialFood?.macroNutrition == null ||
-                      _initialFood?.macroNutrition.carbohydrate == null ||
-                      _initialFood?.macroNutrition.fat == null ||
-                      _initialFood?.macroNutrition.protein == null) {
+                      _cacheMacronutrition.carbohydrate.isNegative ||
+                      _cacheMacronutrition.fat.isNegative ||
+                      _cacheMacronutrition.protein.isNegative) {
                     setState(() {
                       _errorMessage = 'همه فیلدها باید تکمیل شوند';
                     });
@@ -296,7 +298,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                     setState(() {
                       _errorMessage = 'وزن هر واحد متوسط نمیتواند 0 باشد';
                     });
-                  } else if (_initialFood!.macroNutrition.totalWeight /
+                  } else if (_cacheMacronutrition.sum /
                           _initialFood!.gramsPerUnit >
                       1) {
                     setState(() {
@@ -308,6 +310,16 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                     if (_initialFood == null) {
                       return;
                     }
+                    _initialFood = _initialFood!.copyWith(
+                      macroNutrition: MacroNutritionCM.empty().copyWith(
+                        carbohydrate: _cacheMacronutrition.carbohydrate /
+                            _initialFood!.gramsPerUnit,
+                        fat: _cacheMacronutrition.fat /
+                            _initialFood!.gramsPerUnit,
+                        protein: _cacheMacronutrition.protein /
+                            _initialFood!.gramsPerUnit,
+                      ),
+                    );
 
                     widget.onfoodUpdated?.call(_initialFood!);
                     context.pop();

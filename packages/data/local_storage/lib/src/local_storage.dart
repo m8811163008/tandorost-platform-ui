@@ -25,18 +25,20 @@ class LocalStorage {
         _secureStorage = secureStorage ?? FlutterSecureStorage() {
     try {
       //encripted box
+      if (!_hive.isAdapterRegistered(TypeIDs.activityLevelCM)) {
+        _hive.init(appDirectory.path);
 
-      _hive.init(appDirectory.path);
-      _hive.registerAdapter(ActivityLevelCMAdapter());
-      _hive.registerAdapter(ActivityLevelCMDataAdapter());
-      _hive.registerAdapter(FoodCMAdapter());
-      _hive.registerAdapter(MacroNutritionCMAdapter());
-      _hive.registerAdapter(UnitOfMeasurmentCMAdapter());
+        _hive.registerAdapter(ActivityLevelCMAdapter());
+        _hive.registerAdapter(ActivityLevelCMDataAdapter());
+        _hive.registerAdapter(FoodCMAdapter());
+        _hive.registerAdapter(MacroNutritionCMAdapter());
+        _hive.registerAdapter(UnitOfMeasurmentCMAdapter());
 
-      _hive.registerAdapter(SelectedFoodCMAdapter());
-      _hive.registerAdapter(ProfileCMAdapter());
-      _hive.registerAdapter(BodyCompositionCMAdapter());
-      _hive.registerAdapter(BioDataCMAdapter());
+        _hive.registerAdapter(SelectedFoodCMAdapter());
+        _hive.registerAdapter(ProfileCMAdapter());
+        _hive.registerAdapter(BodyCompositionCMAdapter());
+        _hive.registerAdapter(BioDataCMAdapter());
+      }
     } catch (_) {
       throw Exception(
         'shouldn\'t have more than one [KeyValueStorage] instance in your project',

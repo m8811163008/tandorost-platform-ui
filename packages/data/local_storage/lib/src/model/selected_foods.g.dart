@@ -8,7 +8,7 @@ part of 'selected_foods.dart';
 
 class SelectedFoodCMAdapter extends TypeAdapter<SelectedFoodCM> {
   @override
-  final int typeId = 4;
+  final int typeId = 7;
 
   @override
   SelectedFoodCM read(BinaryReader reader) {

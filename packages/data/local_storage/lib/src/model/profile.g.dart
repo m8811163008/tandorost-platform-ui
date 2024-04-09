@@ -8,7 +8,7 @@ part of 'profile.dart';
 
 class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
   @override
-  final int typeId = 5;
+  final int typeId = 3;
 
   @override
   ProfileCM read(BinaryReader reader) {
@@ -54,7 +54,7 @@ class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
 
 class BodyCompositionCMAdapter extends TypeAdapter<BodyCompositionCM> {
   @override
-  final int typeId = 6;
+  final int typeId = 4;
 
   @override
   BodyCompositionCM read(BinaryReader reader) {
@@ -115,7 +115,7 @@ class BodyCompositionCMAdapter extends TypeAdapter<BodyCompositionCM> {
 
 class BioDataCMAdapter extends TypeAdapter<BioDataCM> {
   @override
-  final int typeId = 7;
+  final int typeId = 5;
 
   @override
   BioDataCM read(BinaryReader reader) {
@@ -152,7 +152,7 @@ class BioDataCMAdapter extends TypeAdapter<BioDataCM> {
 
 class ActivityLevelCMDataAdapter extends TypeAdapter<ActivityLevelCMData> {
   @override
-  final int typeId = 10;
+  final int typeId = 6;
 
   @override
   ActivityLevelCMData read(BinaryReader reader) {

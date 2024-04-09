@@ -8,7 +8,7 @@ part of 'unit_of_measurement.dart';
 
 class UnitOfMeasurmentCMAdapter extends TypeAdapter<UnitOfMeasurmentCM> {
   @override
-  final int typeId = 9;
+  final int typeId = 8;
 
   @override
   UnitOfMeasurmentCM read(BinaryReader reader) {

@@ -1,9 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:local_storage/local_storage.dart';
 
 part 'unit_of_measurement.g.dart';
 
 /// Holds the data for unit of measurement.
-@HiveType(typeId: 9)
+@HiveType(typeId: TypeIDs.unitOfMeasurmentCM)
 class UnitOfMeasurmentCM {
   @HiveField(0)
   final String title;

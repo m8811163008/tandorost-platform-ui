@@ -1,11 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:local_storage/src/model/model.dart';
+import 'package:local_storage/src/model/type_id.dart';
 
 part 'profile.g.dart';
 
-@HiveType(typeId: 5)
+@HiveType(typeId: TypeIDs.profileCM)
 class ProfileCM {
   static const id = 0;
 
@@ -57,7 +60,7 @@ class ProfileCM {
   }
 }
 
-@HiveType(typeId: 6)
+@HiveType(typeId: TypeIDs.bodyCompositionCM)
 class BodyCompositionCM {
   @HiveField(0)
   final List<BioDataCM> height;
@@ -128,7 +131,7 @@ class BodyCompositionCM {
   }
 }
 
-@HiveType(typeId: 7)
+@HiveType(typeId: TypeIDs.bioDataCM)
 class BioDataCM {
   @HiveField(0)
   final DateTime logDate;
@@ -162,7 +165,7 @@ class BioDataCM {
   }
 }
 
-@HiveType(typeId: 10)
+@HiveType(typeId: TypeIDs.activityLevelCMData)
 class ActivityLevelCMData {
   @HiveField(0)
   final DateTime logDate;

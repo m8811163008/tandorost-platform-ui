@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
+import 'package:local_storage/local_storage.dart';
 part 'activity_level.g.dart';
 
-@HiveType(typeId: 8)
+@HiveType(typeId: TypeIDs.activityLevelCM)
 enum ActivityLevelCM {
   @HiveField(0)
   sedentary(1.2),

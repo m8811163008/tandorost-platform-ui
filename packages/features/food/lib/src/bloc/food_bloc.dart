@@ -28,10 +28,10 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
   Future<void> _handleListenedFoodListStream(
       ListenedFoodListStream event, Emitter<FoodState> emit) async {
-    final last = await foodRepostiory.foodsStream.first;
     await emit.forEach(
       foodRepostiory.foodsStream,
       onData: (foodList) {
+        foodList.sort((a, b) => b.name.compareTo(a.name));
         return state.copyWith(foodsList: foodList);
       },
     );

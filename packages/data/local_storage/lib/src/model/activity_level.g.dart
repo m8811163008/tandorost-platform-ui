@@ -8,7 +8,7 @@ part of 'activity_level.dart';
 
 class ActivityLevelCMAdapter extends TypeAdapter<ActivityLevelCM> {
   @override
-  final int typeId = 8;
+  final int typeId = 0;
 
   @override
   ActivityLevelCM read(BinaryReader reader) {
