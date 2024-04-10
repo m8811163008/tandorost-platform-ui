@@ -5,6 +5,7 @@ class ProfileState {
   final ProcessAsyncStatus loginStatus;
   final ActivePremiumWizardState activePremiumWizardState;
   final NewMeasurementState newMeasurementState;
+  final ProcessAsyncStatus resettingStatus;
 
   final ProfileCM? lastUpdatedProfileCM;
 
@@ -12,6 +13,7 @@ class ProfileState {
 
   ProfileState({
     this.loginStatus = ProcessAsyncStatus.initial,
+    this.resettingStatus = ProcessAsyncStatus.initial,
     ActivePremiumWizardState? activePremiumWizardState,
     this.lastUpdatedProfileCM,
     this.newMeasurementState = const NewMeasurementState(),
@@ -20,6 +22,7 @@ class ProfileState {
 
   ProfileState copyWith({
     ProcessAsyncStatus? loginStatus,
+    ProcessAsyncStatus? resettingStatus,
     int? currentPage,
     ProfileCM? wizardUpdatedProfileCM,
     ProfileCM? lastUpdatedProfileCM,
@@ -33,6 +36,7 @@ class ProfileState {
   }) =>
       ProfileState(
         loginStatus: loginStatus ?? this.loginStatus,
+        resettingStatus: resettingStatus ?? this.resettingStatus,
         lastUpdatedProfileCM: lastUpdatedProfileCM ?? this.lastUpdatedProfileCM,
         activePremiumWizardState: activePremiumWizardState.copyWith(
           currentPage: currentPage ?? activePremiumWizardState.currentPage,

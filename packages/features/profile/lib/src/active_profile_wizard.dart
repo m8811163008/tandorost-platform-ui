@@ -19,7 +19,12 @@ class ActivePremiumWizardRoute extends StatelessWidget {
         return Text(currentPage);
       }),
       child: PageView(
-        onPageChanged: context.read<ProfileCubit>().updateCurrentPage,
+        onPageChanged: (value) {
+          context.read<ProfileCubit>().updateCurrentPage(value);
+          if (value == 6) {
+            FocusScope.of(context).unfocus();
+          }
+        },
         scrollDirection: Axis.vertical,
         children: [
           const WizardPage1(),

@@ -2,6 +2,7 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:food_selection/food_selection.dart';
 
 class FoodAmountInputNumber extends StatelessWidget {
@@ -19,8 +20,12 @@ class FoodAmountInputNumber extends StatelessWidget {
           UnitOfMeasurement>(
         selector: (state) {
           final unitOfMeasurmentCM = state.selectedFood.unitOfMeasurmentCM;
+
           return state.unitOfMesurementList.singleWhere(
-              (element) => element.title.name == unitOfMeasurmentCM.title);
+              (element) => element.title.name == unitOfMeasurmentCM.title,
+              orElse: () {
+            return UnitOfMeasurement.empty();
+          });
         },
         builder: (context, unitOfMeasurement) {
           final max = unitOfMeasurement.max ?? 100;

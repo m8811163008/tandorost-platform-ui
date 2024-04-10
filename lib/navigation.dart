@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:food/food.dart';
 
@@ -8,6 +11,7 @@ import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:profile/profile.dart';
+import 'package:user_repository/user_repository.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -25,6 +29,10 @@ class Navigation {
             return Splash(
               onDone: () async {
                 context.goNamed(Routes.foodSelection);
+              },
+              onInit: () async {
+                // TODO: then initialize each repostiory seperately, for now user repostiory is initialized in
+                // food repostiory
               },
             );
           },
@@ -122,6 +130,37 @@ class Navigation {
                   ]),
             ]),
       ],
+      refreshListenable: RedirectListenable(
+          profileStream:
+              RepositoryProvider.of<UserRepostiory>(context).userProfile),
+      redirect: (context, state) async {
+        if (state.uri.path.contains(Routes.profile)) {
+          final userProfile =
+              await RepositoryProvider.of<UserRepostiory>(context)
+                  .userProfile
+                  .first;
+          if (userProfile == ProfileCM.empty()) {
+            return '${Routes.profile}/${Routes.profileActivePremiumWizard}';
+          }
+        }
+        return null;
+      },
     );
+  }
+}
+
+class RedirectListenable extends ChangeNotifier {
+  final Stream<ProfileCM> profileStream;
+  late final StreamSubscription subscription;
+
+  RedirectListenable({required this.profileStream}) {
+    subscription = profileStream.listen((event) {
+      notifyListeners();
+    });
+  }
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 }

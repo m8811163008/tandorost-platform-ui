@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
 import 'package:profile/src/add_new_measurement_bottom_sheet/measurement_bottom_sheet.dart';
 import 'package:profile/src/line_chart.dart';
-import 'package:user_repository/user_repository.dart';
 
 class ProfileRoute extends StatelessWidget {
   const ProfileRoute({super.key});
@@ -21,18 +20,12 @@ class ProfilePageRedirector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProfileCubit, ProfileState>(
-      listenWhen: (previous, current) =>
-          current.lastUpdatedProfileCM != previous.lastUpdatedProfileCM,
-      listener: (context, state) {
-        if (state.lastUpdatedProfileCM == ProfileCM.empty()) {
-          context.pushReplacementNamed(Routes.profileActivePremiumWizard);
-        }
-      },
+    return BlocBuilder<ProfileCubit, ProfileState>(
       buildWhen: (previous, current) =>
-          current.lastUpdatedProfileCM != previous.lastUpdatedProfileCM,
+          previous.lastUpdatedProfileCM != current.lastUpdatedProfileCM,
       builder: (context, state) {
-        if (state.lastUpdatedProfileCM == null) {
+        if (state.lastUpdatedProfileCM == null ||
+            state.lastUpdatedProfileCM == ProfileCM.empty()) {
           return const AppScaffold(
             isShowDrawerButton: true,
             child: Center(
@@ -40,6 +33,7 @@ class ProfilePageRedirector extends StatelessWidget {
             ),
           );
         }
+
         return const ProfileView();
       },
     );
@@ -134,14 +128,7 @@ class ProfileView extends StatelessWidget {
                   builder: (context) => AlertDialog(
                     title: Text('آیا مطمئن هستید؟ تمام داده ها ریست میشود.'),
                     actions: [
-                      TextButton(
-                        onPressed: () {
-                          RepositoryProvider.of<UserRepostiory>(context)
-                              .clear();
-                          context.goNamed(Routes.splash);
-                        },
-                        child: Text('ریست داده ها'),
-                      ),
+                      ResetButton(),
                       TextButton(
                         onPressed: () {
                           context.pop();
@@ -221,6 +208,34 @@ class ProfileView extends StatelessWidget {
         );
       },
       icon: const Icon(Ionicons.information_circle_outline),
+    );
+  }
+}
+
+class ResetButton extends StatelessWidget {
+  const ResetButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state.resettingStatus.isSuccess) {
+          context.goNamed(Routes.splash);
+        }
+      },
+      builder: (context, state) {
+        return TextButton.icon(
+          onPressed: !state.resettingStatus.isLoading
+              ? context.read<ProfileCubit>().resetCollections
+              : null,
+          label: Text('ریست داده ها'),
+          icon: !state.resettingStatus.isLoading
+              ? SizedBox.shrink()
+              : CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

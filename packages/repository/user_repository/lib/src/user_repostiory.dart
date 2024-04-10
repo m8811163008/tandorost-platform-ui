@@ -13,4 +13,8 @@ class UserRepostiory {
   Stream<ProfileCM> get userProfile async* {
     yield* _userStorage.userProfile;
   }
+
+  Future<void> clearCollections() async {
+    await _userStorage.clearProfile();
+  }
 }

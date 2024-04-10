@@ -9,14 +9,14 @@ class FoodStorage {
   final LocalStorage _localStorage;
   Set<UnitOfMeasurmentCM> unitOfMeasurementCache = const {};
   FoodStorage(this._localStorage) {
-    _initialize();
+    initialize();
   }
 
-  void _initialize() async {
+  Future<void> initialize() async {
     // await clearCollections();
+    //TODO initialize boxes in data layer adn expose method for client, prevent to reinitialize when
     await Future.wait([
       initializeFood(),
-      initializeProfile(),
       initializeUnitOfMeasurement(),
     ]);
   }
@@ -38,15 +38,6 @@ class FoodStorage {
     final foodMap = Map.fromEntries(foodListMapEntry);
 
     await foodCollection.putAll(foodMap);
-  }
-
-  Future<void> initializeProfile() async {
-    final userCollection = await _localStorage.profileBox;
-    final count = userCollection.length;
-    if (count != 0) return;
-    final user = ProfileCM.empty();
-
-    await userCollection.put(ProfileCM.id, user);
   }
 
   Future<void> initializeUnitOfMeasurement() async {
@@ -96,13 +87,15 @@ class FoodStorage {
   Future<void> clearCollections() async {
     final foodCollection = await _localStorage.foodBox;
     await foodCollection.clear();
-    final userCollection = await _localStorage.profileBox;
-    await userCollection.clear();
     final unitsOfMeasurementCollection =
         await _localStorage.unitsOfMeasurementCollection;
     await unitsOfMeasurementCollection.clear();
+    final selectedFoodBox = await _localStorage.selectedFoodBox;
+    await selectedFoodBox.clear();
 
-    log('Cleared database collection');
+    log('Cleared foodBox and unitsOfMeasurementBox');
+    await initialize();
+    log('Initialized foodBox and unitOfmeasurementBox');
   }
 
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {

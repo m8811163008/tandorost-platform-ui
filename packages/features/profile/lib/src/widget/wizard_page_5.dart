@@ -66,7 +66,7 @@ class ActivityLevelButtons extends StatelessWidget {
             .state
             .activePremiumWizardState
             .bodyCompositionValues
-            .activityLevel,
+            .activityLevel!,
       ),
     );
   }

@@ -1,8 +1,10 @@
+import 'package:food_selection/food_selection.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:profile/profile.dart';
 import 'package:tandorost/tandorost_application.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -45,7 +47,21 @@ class _TandorostBootstrapState extends State<TandorostBootstrap> {
               RepositoryProvider.value(value: foodRepository),
               RepositoryProvider.value(value: userRepository),
             ],
-            child: const TandorostApplication(),
+            child: MultiBlocProvider(providers: [
+              BlocProvider(
+                create: (context) => ProfileCubit(
+                  RepositoryProvider.of<UserRepostiory>(context),
+                  RepositoryProvider.of<FoodRepostiory>(context),
+                ),
+                lazy: true,
+              ),
+              BlocProvider(
+                create: (context) => FoodSelectionBloc(
+                  RepositoryProvider.of<FoodRepostiory>(context),
+                ),
+                lazy: true,
+              ),
+            ], child: const TandorostApplication()),
           );
         });
   }
