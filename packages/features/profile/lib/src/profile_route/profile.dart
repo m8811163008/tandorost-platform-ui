@@ -2,16 +2,24 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_repository/food_repository.dart';
 import 'package:profile/profile.dart';
 import 'package:profile/src/add_new_measurement_bottom_sheet/measurement_bottom_sheet.dart';
-import 'package:profile/src/line_chart.dart';
+import 'package:profile/src/profile_route/line_chart.dart';
+import 'package:user_repository/user_repository.dart';
 
 class ProfileRoute extends StatelessWidget {
   const ProfileRoute({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ProfilePageRedirector();
+    return BlocProvider(
+      create: (context) => ProfileCubit(
+        RepositoryProvider.of<UserRepostiory>(context),
+        RepositoryProvider.of<FoodRepostiory>(context),
+      ),
+      child: const ProfilePageRedirector(),
+    );
   }
 }
 
@@ -66,7 +74,7 @@ class ProfileView extends StatelessWidget {
                     enableDrag: false,
                     showDragHandle: false,
                     builder: (context) {
-                      return MeasurementBottomSheet();
+                      return const MeasurementBottomSheet();
                     },
                     onClosing: () {},
                   ),
@@ -114,9 +122,9 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProfileCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,23 +133,28 @@ class ProfileView extends StatelessWidget {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text('آیا مطمئن هستید؟ تمام داده ها ریست میشود.'),
-                    actions: [
-                      ResetButton(),
-                      TextButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        child: Text('بازگشت'),
-                      )
-                    ],
+                  useRootNavigator: false,
+                  builder: (_) => BlocProvider.value(
+                    value: BlocProvider.of<ProfileCubit>(context),
+                    child: AlertDialog(
+                      title: const Text(
+                          'آیا مطمئن هستید؟ تمام داده ها ریست میشود.'),
+                      actions: [
+                        const ResetButton(),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: const Text('بازگشت'),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
-              child: Text('reset'),
+              child: const Text('reset'),
             ),
-            Placeholder(),
+            const Placeholder(),
           ],
         ),
       ),
@@ -230,10 +243,10 @@ class ResetButton extends StatelessWidget {
           onPressed: !state.resettingStatus.isLoading
               ? context.read<ProfileCubit>().resetCollections
               : null,
-          label: Text('ریست داده ها'),
+          label: const Text('ریست داده ها'),
           icon: !state.resettingStatus.isLoading
-              ? SizedBox.shrink()
-              : CircularProgressIndicator(),
+              ? const SizedBox.shrink()
+              : const CircularProgressIndicator(),
         );
       },
     );

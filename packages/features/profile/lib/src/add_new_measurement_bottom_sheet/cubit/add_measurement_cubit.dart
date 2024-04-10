@@ -122,7 +122,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   BodyCompositionCM _createBodyComposition(ProfileCM profile) {
-    var bodyCompositionCM = BodyCompositionCM();
+    var bodyCompositionCM = const BodyCompositionCM();
     final logTime = DateTime.now();
 
     if (state.bodyCompositionValues.activityLevel != null) {

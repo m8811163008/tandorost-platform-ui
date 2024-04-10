@@ -2,7 +2,7 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage1 extends StatelessWidget {
@@ -63,9 +63,8 @@ class WizardPage1 extends StatelessWidget {
 
   Widget _buildHeightLabel(BuildContext context) {
     return Builder(builder: (context) {
-      final value = context.select<ProfileCubit, int>((cubit) =>
-          cubit.state.activePremiumWizardState.bodyCompositionValues.height ??
-          0);
+      final value = context.select<InitializeUserCubit, int>(
+          (cubit) => cubit.state.bodyCompositionValues.height ?? 0);
       return Text(
         '${context.l10n.profileHeight} $value ${context.l10n.profileCentiMetre}',
         style: context.themeData.textTheme.labelLarge,
@@ -78,13 +77,13 @@ class WizardPage1 extends StatelessWidget {
       height: 96,
       child: ScrollableNumberInput(
         intialValue: context
-            .read<ProfileCubit>()
+            .read<InitializeUserCubit>()
             .state
-            .activePremiumWizardState
             .bodyCompositionValues
             .height,
         axis: Axis.horizontal,
-        onSelectedNumberChanged: context.read<ProfileCubit>().upsertHeight,
+        onSelectedNumberChanged:
+            context.read<InitializeUserCubit>().upsertHeight,
         min: 138,
         max: 222,
       ),
@@ -119,10 +118,8 @@ class WizardPage1 extends StatelessWidget {
 
   Widget _buildWaistCircumferenceLabel(BuildContext context) {
     return Builder(builder: (context) {
-      final value = context.select<ProfileCubit, int>((cubit) =>
-          cubit.state.activePremiumWizardState.bodyCompositionValues
-              .waistCircumference ??
-          0);
+      final value = context.select<InitializeUserCubit, int>(
+          (cubit) => cubit.state.bodyCompositionValues.waistCircumference ?? 0);
       return Text(
         '${context.l10n.profileWaistCircumference} $value ${context.l10n.profileCentiMetre}',
         style: context.themeData.textTheme.labelLarge,
@@ -135,14 +132,13 @@ class WizardPage1 extends StatelessWidget {
       height: 96,
       child: ScrollableNumberInput(
         intialValue: context
-            .read<ProfileCubit>()
+            .read<InitializeUserCubit>()
             .state
-            .activePremiumWizardState
             .bodyCompositionValues
             .waistCircumference,
         axis: Axis.horizontal,
         onSelectedNumberChanged:
-            context.read<ProfileCubit>().upsertWaistCircumference,
+            context.read<InitializeUserCubit>().upsertWaistCircumference,
         min: 68,
         max: 111,
       ),

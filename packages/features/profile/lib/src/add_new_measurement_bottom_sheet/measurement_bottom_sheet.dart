@@ -108,7 +108,7 @@ class MesurementForm extends StatelessWidget {
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
-        ActivityLevelDropdown(),
+        const ActivityLevelDropdown(),
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
@@ -117,7 +117,7 @@ class MesurementForm extends StatelessWidget {
             ElevatedButton(
                 onPressed:
                     context.read<AddMeasurementCubit>().saveNewMeasurement,
-                child: Text('ذخیره')),
+                child: const Text('ذخیره')),
             SizedBox(
               width: context.sizesExtenstion.medium,
             ),
@@ -125,7 +125,7 @@ class MesurementForm extends StatelessWidget {
               onPressed: () {
                 context.pop();
               },
-              child: Text('انصراف'),
+              child: const Text('انصراف'),
             ),
           ],
         ),
@@ -142,7 +142,7 @@ class MesurementForm extends StatelessWidget {
       ValueSetter<String>? onChanged}) {
     return TextFormField(
       autofocus: autoFocus,
-      keyboardType: TextInputType.numberWithOptions(),
+      keyboardType: const TextInputType.numberWithOptions(),
       textInputAction: textInputAction,
       inputFormatters: [
         LengthLimitingTextInputFormatter(5),
@@ -166,7 +166,7 @@ class ActivityLevelDropdown extends StatelessWidget {
     return DropdownButtonFormField<ActivityLevelCM>(
       onChanged:
           context.read<AddMeasurementCubit>().upsertActivityLevelChanging,
-      hint: Text('مقدار فعالیت در هفته'),
+      hint: const Text('مقدار فعالیت در هفته'),
       items: ActivityLevelCM.values.map<DropdownMenuItem<ActivityLevelCM>>(
         (ActivityLevelCM activityLevelCM) {
           return DropdownMenuItem<ActivityLevelCM>(

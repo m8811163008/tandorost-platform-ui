@@ -1,66 +1,18 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:food_repository/food_repository.dart';
+
 import 'package:user_repository/user_repository.dart';
 
-part 'profile_state.dart';
+part 'initialize_user_state.dart';
 
-class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this.userRepostiory, this.foodRepostiory)
-      : super(ProfileState()) {
-    _initializeProfileCm();
-  }
-
+class InitializeUserCubit extends Cubit<InitializeUserState> {
+  InitializeUserCubit(this.userRepostiory) : super(InitializeUserState());
   final UserRepostiory userRepostiory;
-  final FoodRepostiory foodRepostiory;
-
-  void _initializeProfileCm() {
-    _profileStreamSubscription = userRepostiory.userProfile.listen((event) {
-      emit(state.copyWith(
-        lastUpdatedProfileCM: event,
-      ));
-    });
-  }
-
-  void resetCollections() async {
-    emit(state.copyWith(resettingStatus: ProcessAsyncStatus.loading));
-    try {
-      await Future.wait([
-        userRepostiory.clearCollections(),
-        foodRepostiory.clearCollections(),
-      ]);
-      emit(state.copyWith(resettingStatus: ProcessAsyncStatus.success));
-    } catch (e) {
-      emit(state.copyWith(resettingStatus: ProcessAsyncStatus.error));
-    }
-  }
-
-  late StreamSubscription<ProfileCM> _profileStreamSubscription;
-  @override
-  Future<void> close() {
-    _profileStreamSubscription.cancel();
-    return super.close();
-  }
-
-  // void login() async {
-  //   emit(state.copyWith(loginStatus: ProcessAsyncStatus.loading));
-  //   try {
-  //     await authenticationRepository.logIn();
-  //     emit(state.copyWith(loginStatus: ProcessAsyncStatus.loaded));
-  //   } catch (e) {
-  //     emit(state.copyWith(loginStatus: ProcessAsyncStatus.error));
-  //   }
-  // }
-
   void updateBirthDay(DateTime birthday, String birthdayShamsi) {
     emit(
       state.copyWith(
-        wizardUpdatedProfileCM:
-            state.activePremiumWizardState.createdProfileCM.copyWith(
+        wizardUpdatedProfileCM: state.createdProfileCM.copyWith(
           birthday: birthday,
           birthdayShamsi: birthdayShamsi,
         ),
@@ -72,8 +24,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     assert(userName.isNotEmpty);
     emit(
       state.copyWith(
-        wizardUpdatedProfileCM: state.activePremiumWizardState.createdProfileCM
-            .copyWith(userName: userName),
+        wizardUpdatedProfileCM:
+            state.createdProfileCM.copyWith(userName: userName),
       ),
     );
   }
@@ -81,8 +33,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void updateIsMale(bool isMale) {
     emit(
       state.copyWith(
-        wizardUpdatedProfileCM: state.activePremiumWizardState.createdProfileCM
-            .copyWith(isMale: isMale),
+        wizardUpdatedProfileCM: state.createdProfileCM.copyWith(isMale: isMale),
       ),
     );
   }
@@ -90,8 +41,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertHeight(int value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           height: () => value,
         ),
       ),
@@ -101,8 +51,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertWeight(int value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           weight: () => value,
         ),
       ),
@@ -112,8 +61,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertWaistCircumference(int value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           waistCircumference: () => value,
         ),
       ),
@@ -123,8 +71,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void toggleIsAgreementAccepted() {
     emit(
       state.copyWith(
-        isAgreementAccepted:
-            !state.activePremiumWizardState.isAgreementAccepted,
+        isAgreementAccepted: !state.isAgreementAccepted,
       ),
     );
   }
@@ -132,8 +79,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertArmCircumference(String value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           armCircumference: () => value,
         ),
       ),
@@ -143,8 +89,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertStartBodycompositionChanging(DateTime value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           startBodycompositionChanging: () => value,
         ),
       ),
@@ -154,8 +99,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertActivityLevelChanging(ActivityLevelCM value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           activityLevel: () => value,
         ),
       ),
@@ -165,8 +109,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertChestCircumference(String value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           chestCircumference: () => value,
         ),
       ),
@@ -176,8 +119,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertThightCircumference(String value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           thightCircumference: () => value,
         ),
       ),
@@ -187,8 +129,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertHipCircumference(String value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           hipCircumference: () => value,
         ),
       ),
@@ -198,8 +139,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void upsertCalfMuscleCircumference(String value) {
     emit(
       state.copyWith(
-        bodyCompositionValues:
-            state.activePremiumWizardState.bodyCompositionValues.copyWith(
+        bodyCompositionValues: state.bodyCompositionValues.copyWith(
           calfMuscleCircumference: () => value,
         ),
       ),
@@ -215,19 +155,19 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void activePremiumWizardCreateProfile() async {
-    assert(state.lastUpdatedProfileCM != null);
+    final lastProfile = await userRepostiory.userProfile.first;
+    assert(lastProfile == ProfileCM.empty());
     if (state.isValidActivatePremiumForm) {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
 
-      final updatedProfile = state.lastUpdatedProfileCM!.copyWith(
+      final updatedProfile = lastProfile.copyWith(
         bodyComposition: _calculateBodyComposition(),
-        userName: state.activePremiumWizardState.createdProfileCM.userName,
-        birthday: state.activePremiumWizardState.createdProfileCM.birthday,
-        birthdayShamsi:
-            state.activePremiumWizardState.createdProfileCM.birthdayShamsi,
-        isMale: state.activePremiumWizardState.createdProfileCM.isMale,
+        userName: state.createdProfileCM.userName,
+        birthday: state.createdProfileCM.birthday,
+        birthdayShamsi: state.createdProfileCM.birthdayShamsi,
+        isMale: state.createdProfileCM.isMale,
       );
 
       try {
@@ -243,30 +183,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void updateNewMesurementWeight(String value) {
-    emit(
-      state.copyWith(
-        newMeasurementState: state.newMeasurementState.copyWith(
-          weight: () => int.parse(value),
-        ),
-      ),
-    );
-  }
-
-  void updateNewMesurementWaistCircumference(String value) {
-    emit(
-      state.copyWith(
-        newMeasurementState: state.newMeasurementState.copyWith(
-          waistCircumference: () => int.parse(value),
-        ),
-      ),
-    );
-  }
-
   BodyCompositionCM _calculateBodyComposition() {
     final logDate = DateTime.now();
     BodyCompositionCM bodyCompositionCM = BodyCompositionCM.empty();
-    final height = state.activePremiumWizardState.bodyCompositionValues.height;
+    final height = state.bodyCompositionValues.height;
     if (height != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -274,7 +194,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
       bodyCompositionCM = bodyCompositionCM.copyWith(height: [bioData]);
     }
-    final weight = state.activePremiumWizardState.bodyCompositionValues.weight;
+    final weight = state.bodyCompositionValues.weight;
     if (weight != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -282,8 +202,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
       bodyCompositionCM = bodyCompositionCM.copyWith(weight: [bioData]);
     }
-    final armCircumference =
-        state.activePremiumWizardState.bodyCompositionValues.armCircumference;
+    final armCircumference = state.bodyCompositionValues.armCircumference;
     if (armCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -292,8 +211,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(armCircumference: [bioData]);
     }
-    final calfMuscleCircumference = state
-        .activePremiumWizardState.bodyCompositionValues.calfMuscleCircumference;
+    final calfMuscleCircumference =
+        state.bodyCompositionValues.calfMuscleCircumference;
     if (calfMuscleCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -302,8 +221,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(calfMuscleCircumference: [bioData]);
     }
-    final chestCircumference =
-        state.activePremiumWizardState.bodyCompositionValues.chestCircumference;
+    final chestCircumference = state.bodyCompositionValues.chestCircumference;
     if (chestCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -312,8 +230,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(chestCircumference: [bioData]);
     }
-    final hipCircumference =
-        state.activePremiumWizardState.bodyCompositionValues.hipCircumference;
+    final hipCircumference = state.bodyCompositionValues.hipCircumference;
     if (hipCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -322,8 +239,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(hipCircumference: [bioData]);
     }
-    final thightCircumference = state
-        .activePremiumWizardState.bodyCompositionValues.thightCircumference;
+    final thightCircumference = state.bodyCompositionValues.thightCircumference;
     if (thightCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -332,8 +248,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(thightCircumference: [bioData]);
     }
-    final waistCircumference =
-        state.activePremiumWizardState.bodyCompositionValues.waistCircumference;
+    final waistCircumference = state.bodyCompositionValues.waistCircumference;
     if (waistCircumference != null) {
       final bioData = BioDataCM(
         logDate: logDate,
@@ -342,8 +257,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(waistCircumference: [bioData]);
     }
-    final activityLevel =
-        state.activePremiumWizardState.bodyCompositionValues.activityLevel;
+    final activityLevel = state.bodyCompositionValues.activityLevel;
     if (activityLevel != null) {
       final activityData = ActivityLevelCMData(
         logDate: logDate,
@@ -352,8 +266,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       bodyCompositionCM =
           bodyCompositionCM.copyWith(activityLevel: [activityData]);
     }
-    final startBodycompositionChanging = state.activePremiumWizardState
-        .bodyCompositionValues.startBodycompositionChanging;
+    final startBodycompositionChanging =
+        state.bodyCompositionValues.startBodycompositionChanging;
     if (startBodycompositionChanging != null) {
       bodyCompositionCM = bodyCompositionCM.copyWith(
           startBodycompositionChanging: startBodycompositionChanging);

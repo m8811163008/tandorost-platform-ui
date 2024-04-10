@@ -3,7 +3,7 @@ import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage4 extends StatelessWidget {
@@ -68,13 +68,12 @@ class WizardPage4 extends StatelessWidget {
           final targetDate =
               DateTime.now().add(Duration(days: days, minutes: 10));
           context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .upsertStartBodycompositionChanging(targetDate);
         },
         intialValue: context
-            .read<ProfileCubit>()
+            .read<InitializeUserCubit>()
             .state
-            .activePremiumWizardState
             .bodyCompositionValues
             .startBodycompositionChanging
             ?.difference(DateTime.now())

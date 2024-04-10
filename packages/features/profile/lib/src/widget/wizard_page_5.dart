@@ -2,7 +2,7 @@ import 'package:component_library/component_library.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage5 extends StatelessWidget {
@@ -60,11 +60,11 @@ class ActivityLevelButtons extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 1.3 / 3,
       height: height ?? 500,
       child: ActivityLevelsGrid(
-        onSelected: context.read<ProfileCubit>().upsertActivityLevelChanging,
+        onSelected:
+            context.read<InitializeUserCubit>().upsertActivityLevelChanging,
         initialValue: context
-            .read<ProfileCubit>()
+            .read<InitializeUserCubit>()
             .state
-            .activePremiumWizardState
             .bodyCompositionValues
             .activityLevel!,
       ),

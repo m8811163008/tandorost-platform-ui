@@ -3,7 +3,7 @@ import 'package:domain_model/domain_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage3 extends StatelessWidget {
@@ -22,13 +22,10 @@ class WizardPage3 extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
               return ShimmerTextNavigation(
-                isError: context.select<ProfileCubit, bool>(
+                isError: context.select<InitializeUserCubit, bool>(
                   (cubit) =>
-                      cubit.state.activePremiumWizardState.createdProfileCM
-                          .userName.isEmpty ||
-                      cubit.state.activePremiumWizardState.createdProfileCM
-                              .birthday ==
-                          null,
+                      cubit.state.createdProfileCM.userName.isEmpty ||
+                      cubit.state.createdProfileCM.birthday == null,
                 ),
               );
             }),
@@ -75,21 +72,19 @@ class WizardPage3 extends StatelessWidget {
           maxLength: 50,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
-            errorText: context.select<ProfileCubit, String?>(
-              (cubit) => cubit.state.activePremiumWizardState.createdProfileCM
-                      .userName.isEmpty
+            errorText: context.select<InitializeUserCubit, String?>(
+              (cubit) => cubit.state.createdProfileCM.userName.isEmpty
                   ? 'نام کاربری خالی است'
                   : null,
             ),
             counterText: '',
           ),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .createdProfileCM
               .userName,
-          onChanged: context.read<ProfileCubit>().updateUsername,
+          onChanged: context.read<InitializeUserCubit>().updateUsername,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         );
       }),
@@ -182,16 +177,11 @@ class _BirthdayContent extends StatelessWidget {
 
   Widget _buildBirthdayInput(BuildContext context) {
     return ErrorIndicator(
-      selector: (state) =>
-          state.activePremiumWizardState.createdProfileCM.birthday == null,
+      selector: (state) => state.createdProfileCM.birthday == null,
       child: SelectBirthdayButton(
-        initialDate: context
-            .read<ProfileCubit>()
-            .state
-            .activePremiumWizardState
-            .createdProfileCM
-            .birthday,
-        onSelectDate: context.read<ProfileCubit>().updateBirthDay,
+        initialDate:
+            context.read<InitializeUserCubit>().state.createdProfileCM.birthday,
+        onSelectDate: context.read<InitializeUserCubit>().updateBirthDay,
       ),
     );
   }
@@ -199,10 +189,10 @@ class _BirthdayContent extends StatelessWidget {
   Widget _buildBirthdayLabel(BuildContext context) {
     return Builder(
       builder: (context) {
-        final birthDay = context.select((ProfileCubit cubit) =>
-            cubit.state.activePremiumWizardState.createdProfileCM.birthday);
+        final birthDay = context.select((InitializeUserCubit cubit) =>
+            cubit.state.createdProfileCM.birthday);
         if (birthDay == null) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
         final years = DateTime.now().difference(birthDay).inDays ~/ 365;
 

@@ -1,7 +1,7 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage2 extends StatelessWidget {
@@ -19,11 +19,8 @@ class WizardPage2 extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Builder(builder: (context) {
               return ShimmerTextNavigation(
-                isError: context.select<ProfileCubit, bool>(
-                  (cubit) =>
-                      cubit.state.activePremiumWizardState.createdProfileCM
-                          .isMale ==
-                      null,
+                isError: context.select<InitializeUserCubit, bool>(
+                  (cubit) => cubit.state.createdProfileCM.isMale == null,
                 ),
               );
             }),
@@ -58,9 +55,8 @@ class WizardPage2 extends StatelessWidget {
 
   Widget _buildWeightLabel(BuildContext context) {
     return Builder(builder: (context) {
-      final value = context.select<ProfileCubit, int>((cubit) =>
-          cubit.state.activePremiumWizardState.bodyCompositionValues.weight ??
-          0);
+      final value = context.select<InitializeUserCubit, int>(
+          (cubit) => cubit.state.bodyCompositionValues.weight ?? 0);
       return Text(
         '${context.l10n.profileWeight} $value ${context.l10n.profileKiloGrams}',
         style: context.themeData.textTheme.labelLarge,
@@ -73,13 +69,13 @@ class WizardPage2 extends StatelessWidget {
       height: 96,
       child: ScrollableNumberInput(
         intialValue: context
-            .read<ProfileCubit>()
+            .read<InitializeUserCubit>()
             .state
-            .activePremiumWizardState
             .bodyCompositionValues
             .weight,
         axis: Axis.horizontal,
-        onSelectedNumberChanged: context.read<ProfileCubit>().upsertWeight,
+        onSelectedNumberChanged:
+            context.read<InitializeUserCubit>().upsertWeight,
         min: 40,
         max: 170,
       ),
@@ -115,11 +111,10 @@ class WizardPage2 extends StatelessWidget {
   }
 
   Widget _buildGenderSegmentedInput(BuildContext context) {
-    final intialValue = context.select<ProfileCubit, bool?>((cubit) =>
-        cubit.state.activePremiumWizardState.createdProfileCM.isMale);
+    final intialValue = context.select<InitializeUserCubit, bool?>(
+        (cubit) => cubit.state.createdProfileCM.isMale);
     return ErrorIndicator(
-      selector: (state) =>
-          state.activePremiumWizardState.createdProfileCM.isMale == null,
+      selector: (state) => state.createdProfileCM.isMale == null,
       child: SegmentedButton<bool>(
         segments: const <ButtonSegment<bool>>[
           ButtonSegment<bool>(
@@ -135,7 +130,7 @@ class WizardPage2 extends StatelessWidget {
         emptySelectionAllowed: true,
         onSelectionChanged: (Set<bool> newSelection) {
           context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .updateIsMale(newSelection.contains(true));
         },
       ),

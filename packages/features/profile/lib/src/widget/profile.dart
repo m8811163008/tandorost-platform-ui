@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 import 'package:profile/src/widget/widget.dart';
 
 class WizardPage6 extends StatelessWidget {
@@ -24,7 +24,7 @@ class WizardPage6 extends StatelessWidget {
             child: Builder(builder: (context) {
               return ShimmerTextNavigation(
                 isEnd: true,
-                isError: !context.select<ProfileCubit, bool>(
+                isError: !context.select<InitializeUserCubit, bool>(
                     (cubit) => cubit.state.isValidActivatePremiumForm),
               );
             }),
@@ -55,14 +55,14 @@ class WizardPage6 extends StatelessWidget {
             Builder(builder: (context) {
               return Checkbox(
                 isError: !context
-                    .read<ProfileCubit>()
+                    .read<InitializeUserCubit>()
                     .state
-                    .activePremiumWizardState
                     .isAgreementAccepted,
-                value: context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.isAgreementAccepted),
-                onChanged: (_) =>
-                    context.read<ProfileCubit>().toggleIsAgreementAccepted(),
+                value: context.select<InitializeUserCubit, bool>(
+                    (cubit) => cubit.state.isAgreementAccepted),
+                onChanged: (_) => context
+                    .read<InitializeUserCubit>()
+                    .toggleIsAgreementAccepted(),
               );
             })
           ],
@@ -165,12 +165,11 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               counterText: '',
               labelText: 'دور باسن'),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .bodyCompositionValues
               .hipCircumference,
-          onChanged: context.read<ProfileCubit>().upsertHipCircumference,
+          onChanged: context.read<InitializeUserCubit>().upsertHipCircumference,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
@@ -186,12 +185,12 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               counterText: '',
               labelText: 'دور ران'),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .bodyCompositionValues
               .thightCircumference,
-          onChanged: context.read<ProfileCubit>().upsertThightCircumference,
+          onChanged:
+              context.read<InitializeUserCubit>().upsertThightCircumference,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
@@ -207,12 +206,12 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               counterText: '',
               labelText: 'دور سینه'),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .bodyCompositionValues
               .chestCircumference,
-          onChanged: context.read<ProfileCubit>().upsertChestCircumference,
+          onChanged:
+              context.read<InitializeUserCubit>().upsertChestCircumference,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
@@ -228,12 +227,11 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               counterText: '',
               labelText: 'دور بازو'),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .bodyCompositionValues
               .armCircumference,
-          onChanged: context.read<ProfileCubit>().upsertArmCircumference,
+          onChanged: context.read<InitializeUserCubit>().upsertArmCircumference,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
@@ -250,12 +248,12 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               labelText: 'دور ماهیچه ساق پا',
               hintText: 'حداکثر اندازه ماهیچه ساق پا'),
           initialValue: context
-              .read<ProfileCubit>()
+              .read<InitializeUserCubit>()
               .state
-              .activePremiumWizardState
               .bodyCompositionValues
               .calfMuscleCircumference,
-          onChanged: context.read<ProfileCubit>().upsertCalfMuscleCircumference,
+          onChanged:
+              context.read<InitializeUserCubit>().upsertCalfMuscleCircumference,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
       ],

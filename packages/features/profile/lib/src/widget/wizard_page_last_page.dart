@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 
@@ -5,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile/profile.dart';
+import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 
 class WizardPageLast extends StatelessWidget {
   const WizardPageLast({super.key});
@@ -14,13 +16,11 @@ class WizardPageLast extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
         listeners: [
-          BlocListener<ProfileCubit, ProfileState>(
+          BlocListener<InitializeUserCubit, InitializeUserState>(
             listenWhen: (previous, current) =>
-                previous.activePremiumWizardState.formSubmitStatus !=
-                current.activePremiumWizardState.formSubmitStatus,
+                previous.formSubmitStatus != current.formSubmitStatus,
             listener: (context, state) {
-              if (state.activePremiumWizardState.formSubmitStatus ==
-                  ProcessAsyncStatus.error) {
+              if (state.formSubmitStatus == ProcessAsyncStatus.error) {
                 context.showSnackbar(
                   snackBar: SnackBar(
                     duration: const Duration(seconds: 10),
@@ -33,26 +33,30 @@ class WizardPageLast extends StatelessWidget {
                         }),
                   ),
                 );
-              } else if (state.activePremiumWizardState.formSubmitStatus ==
-                  ProcessAsyncStatus.success) {
+              } else if (state.formSubmitStatus == ProcessAsyncStatus.success) {
                 context.showSnackbar(
                   snackBar: const SnackBar(
                     content: Text('با موفقیت ذخیره شد '),
                   ),
                 );
-                // Navigate to bazzar if is not active subscription
-                // Navigate to profile
-                context.goNamed(Routes.profile);
+                // to show shimmer
+                Timer(Duration(seconds: 2), () {
+                  // Navigate to bazzar if is not active subscription
+                  // Navigate to profile
+                  context.goNamed(Routes.profile);
+                });
               }
             },
           ),
-          BlocListener<ProfileCubit, ProfileState>(
+          BlocListener<InitializeUserCubit, InitializeUserState>(
             listenWhen: (previous, current) =>
                 previous.isValidActivatePremiumForm !=
                 current.isValidActivatePremiumForm,
             listener: (context, state) {
               if (state.isValidActivatePremiumForm) {
-                context.read<ProfileCubit>().activePremiumWizardCreateProfile();
+                context
+                    .read<InitializeUserCubit>()
+                    .activePremiumWizardCreateProfile();
               }
             },
           )
@@ -64,7 +68,7 @@ class WizardPageLast extends StatelessWidget {
               child: ShimmerTextNavigation(
                 isEnd: true,
                 title: 'کافه بازار',
-                isError: !context.select<ProfileCubit, bool>(
+                isError: !context.select<InitializeUserCubit, bool>(
                     (cubit) => cubit.state.isValidActivatePremiumForm),
               ),
             ),
@@ -89,14 +93,14 @@ class WizardPageLast extends StatelessWidget {
             Builder(builder: (context) {
               return Checkbox(
                 isError: !context
-                    .read<ProfileCubit>()
+                    .read<InitializeUserCubit>()
                     .state
-                    .activePremiumWizardState
                     .isAgreementAccepted,
-                value: context.select<ProfileCubit, bool>((cubit) =>
-                    cubit.state.activePremiumWizardState.isAgreementAccepted),
-                onChanged: (_) =>
-                    context.read<ProfileCubit>().toggleIsAgreementAccepted(),
+                value: context.select<InitializeUserCubit, bool>(
+                    (cubit) => cubit.state.isAgreementAccepted),
+                onChanged: (_) => context
+                    .read<InitializeUserCubit>()
+                    .toggleIsAgreementAccepted(),
               );
             })
           ],

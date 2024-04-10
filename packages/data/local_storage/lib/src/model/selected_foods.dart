@@ -2,7 +2,6 @@
 import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:local_storage/src/model/model.dart';
-import 'package:local_storage/src/model/type_id.dart';
 
 part 'selected_foods.g.dart';
 

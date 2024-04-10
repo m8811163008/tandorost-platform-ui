@@ -8,7 +8,7 @@ class FoodSelectionRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FoodSelectionView();
+    return const FoodSelectionView();
   }
 }
 
@@ -38,7 +38,7 @@ class FoodSelectionView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          SearchedFoodsListBuilder(),
+          const SearchedFoodsListBuilder(),
           // if (MediaQuery.of(context).viewInsets.bottom == 0.0) Spacer(),
           // if (value) Spacer(),
           Align(
