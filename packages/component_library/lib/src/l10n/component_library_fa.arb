@@ -91,6 +91,18 @@
             "activityLevel": {}
         }
     },
+    "profileChartTypeLabel" : "{chartType, select, weight{وزن} waistCircumference{دور کمر} armCircumference{دور بازو} chestCircumference{دور سینه} thightCircumference{دور ران} calfMuscleCircumference{ماهیچه ساق پا} hipCircumference{دور باسن} activityLevel{سطح فعالیت} other{ترجمه تعریف نشده}}",
+    "@profileChartTypeLabel": {
+        "placeholders": {
+            "chartType": {}
+        }
+    },
+    "profileChangeWeightSpeedButtonLabel" : "{changeWeightSpeed, select, none{تثبیت وزن} slowAndEasy{آهسته و آسان} medium{طبیعی} fastAndHard{سریع و سخت}  other{ترجمه تعریف نشده}}",
+    "@profileChangeWeightSpeedButtonLabel": {
+        "placeholders": {
+            "changeWeightSpeed": {}
+        }
+    },
     "profileBodyShape" : "شکل بدن",
     "mandetory" : "اختیاری"
 }

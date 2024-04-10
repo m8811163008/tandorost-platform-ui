@@ -4,7 +4,7 @@ import 'component_library_localizations.dart';
 
 /// The translations for Persian (`fa`).
 class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
-  ComponentLibraryLocalizationsFa([super.locale = 'fa']);
+  ComponentLibraryLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
   String get foodSelectionScreenTextFieldHint => 'جستجوی غذا';
@@ -14,7 +14,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String foodTimeInputDateTimeLabelText(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'کی خوردید؟',
@@ -23,12 +23,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
   String foodTimeInputDateTimeLabelVelue(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'ساعت پیش',
@@ -37,7 +37,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -60,12 +60,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     );
     final String valueString = valueNumberFormat.format(value);
 
-    return valueString;
+    return '$valueString';
   }
 
   @override
   String unitOfMeasurementTitle(String uomType) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       uomType,
       {
         'grams': 'گرم',
@@ -75,7 +75,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -171,7 +171,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String profileActivityLevelButtonLabel(String activityLevel) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       activityLevel,
       {
         'sedentary': 'غیرفعال و زیاد میشینم',
@@ -182,7 +182,41 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
+  }
+
+  @override
+  String profileChartTypeLabel(String chartType) {
+    String _temp0 = intl.Intl.selectLogic(
+      chartType,
+      {
+        'weight': 'وزن',
+        'waistCircumference': 'دور کمر',
+        'armCircumference': 'دور بازو',
+        'chestCircumference': 'دور سینه',
+        'thightCircumference': 'دور ران',
+        'calfMuscleCircumference': 'ماهیچه ساق پا',
+        'hipCircumference': 'دور باسن',
+        'activityLevel': 'سطح فعالیت',
+        'other': 'ترجمه تعریف نشده',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String profileChangeWeightSpeedButtonLabel(String changeWeightSpeed) {
+    String _temp0 = intl.Intl.selectLogic(
+      changeWeightSpeed,
+      {
+        'none': 'تثبیت وزن',
+        'slowAndEasy': 'آهسته و آسان',
+        'medium': 'طبیعی',
+        'fastAndHard': 'سریع و سخت',
+        'other': 'ترجمه تعریف نشده',
+      },
+    );
+    return '$_temp0';
   }
 
   @override

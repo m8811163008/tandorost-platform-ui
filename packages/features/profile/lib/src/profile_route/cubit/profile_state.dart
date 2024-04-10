@@ -5,31 +5,57 @@ part of 'profile_cubit.dart';
 class ProfileState {
   final ProcessAsyncStatus resettingStatus;
 
-  final ProfileCM? lastUpdatedProfileCM;
+  final ProfileCM profile;
+  final DomainChartType chartType;
+  final ChangeWeightSpeed changeWeightSpeed;
+  final Set<DomainChartType> supportedChartType;
+
+  List<BioDataCM> get chartData {
+    return switch (chartType) {
+      DomainChartType.weight => profile.bodyComposition.weight,
+      DomainChartType.waistCircumference =>
+        profile.bodyComposition.waistCircumference,
+      DomainChartType.armCircumference =>
+        profile.bodyComposition.armCircumference,
+      DomainChartType.chestCircumference =>
+        profile.bodyComposition.chestCircumference,
+      DomainChartType.thightCircumference =>
+        profile.bodyComposition.thightCircumference,
+      DomainChartType.calfMuscleCircumference =>
+        profile.bodyComposition.calfMuscleCircumference,
+      DomainChartType.hipCircumference =>
+        profile.bodyComposition.hipCircumference,
+      DomainChartType.activityLevel => profile.bodyComposition.activityLevel
+          .map((e) => e.toBioData())
+          .toList(),
+    };
+  }
 
   const ProfileState({
     this.resettingStatus = ProcessAsyncStatus.initial,
-    this.lastUpdatedProfileCM,
+    this.profile = const ProfileCM.empty(),
+    this.chartType = DomainChartType.weight,
+    this.supportedChartType = const {},
+    this.changeWeightSpeed = ChangeWeightSpeed.slowAndEasy,
   });
 
   ProfileState copyWith({
     ProcessAsyncStatus? resettingStatus,
-    ProfileCM? lastUpdatedProfileCM,
+    ProfileCM? profile,
+    DomainChartType? chartType,
+    Set<DomainChartType>? supportedChartType,
+    ChangeWeightSpeed? changeWeightSpeed,
   }) {
     return ProfileState(
       resettingStatus: resettingStatus ?? this.resettingStatus,
-      lastUpdatedProfileCM: lastUpdatedProfileCM ?? this.lastUpdatedProfileCM,
+      profile: profile ?? this.profile,
+      chartType: chartType ?? this.chartType,
+      supportedChartType: supportedChartType ?? this.supportedChartType,
+      changeWeightSpeed: changeWeightSpeed ?? this.changeWeightSpeed,
     );
   }
+}
 
-  @override
-  bool operator ==(covariant ProfileState other) {
-    if (identical(this, other)) return true;
-
-    return other.resettingStatus == resettingStatus &&
-        other.lastUpdatedProfileCM == lastUpdatedProfileCM;
-  }
-
-  @override
-  int get hashCode => resettingStatus.hashCode ^ lastUpdatedProfileCM.hashCode;
+extension on ActivityLevelCMData {
+  BioDataCM toBioData() => BioDataCM(logDate: logDate, value: value.index);
 }

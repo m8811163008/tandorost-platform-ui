@@ -1,5 +1,4 @@
 enum DomainChartType {
-  height,
   weight,
   waistCircumference,
   armCircumference,

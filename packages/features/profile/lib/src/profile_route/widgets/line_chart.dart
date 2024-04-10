@@ -98,7 +98,8 @@ class _AppLineChartState extends State<AppLineChart> {
 
             final dotData = FlDotData(
               getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-                radius: 64,
+                // uncommend when enable long press to edit
+                // radius: 64,
                 color: context.themeData.colorScheme.inversePrimary
                     .withOpacity(0.3),
               ),
@@ -113,9 +114,9 @@ class _AppLineChartState extends State<AppLineChart> {
         drawVerticalLine: true,
         drawHorizontalLine: true,
         // parmeter
-        verticalInterval: 1,
+        // verticalInterval: 1,
 
-        horizontalInterval: 1,
+        // horizontalInterval: 1,
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -129,7 +130,7 @@ class _AppLineChartState extends State<AppLineChart> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 80,
-            interval: 1,
+            // interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -137,7 +138,7 @@ class _AppLineChartState extends State<AppLineChart> {
           sideTitles: SideTitles(
             showTitles: true,
             // parmeter
-            interval: 1,
+            // interval: 1,
             getTitlesWidget: leftTitleWidgets,
             //// parmeter
             reservedSize: 24,
@@ -147,9 +148,9 @@ class _AppLineChartState extends State<AppLineChart> {
       minX: 0,
       maxX: 9,
       // parmeter
-      minY: widget.bioDataCMList.map((e) => e.value).reduce(min).toDouble() - 1,
+      minY: widget.bioDataCMList.map((e) => e.value).reduce(min).toDouble() - 2,
       // parmeter
-      maxY: widget.bioDataCMList.map((e) => e.value).reduce(max).toDouble() + 1,
+      maxY: widget.bioDataCMList.map((e) => e.value).reduce(max).toDouble() + 2,
       lineBarsData: [
         LineChartBarData(
           // parmeter

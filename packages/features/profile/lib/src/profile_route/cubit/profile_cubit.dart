@@ -5,6 +5,7 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_repository/food_repository.dart';
+import 'package:profile/src/profile_route/model/chart_type.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'profile_state.dart';
@@ -20,8 +21,36 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void _initializeProfileCm() {
     _profileStreamSubscription = userRepostiory.userProfile.listen((event) {
+      Set<DomainChartType> supportedCharts = {};
+      if (event.bodyComposition.weight.isNotEmpty) {
+        supportedCharts.add(DomainChartType.weight);
+      }
+
+      if (event.bodyComposition.activityLevel.isNotEmpty) {
+        supportedCharts.add(DomainChartType.activityLevel);
+      }
+      if (event.bodyComposition.armCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.armCircumference);
+      }
+      if (event.bodyComposition.calfMuscleCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.calfMuscleCircumference);
+      }
+      if (event.bodyComposition.chestCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.chestCircumference);
+      }
+      if (event.bodyComposition.hipCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.hipCircumference);
+      }
+      if (event.bodyComposition.thightCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.thightCircumference);
+      }
+      if (event.bodyComposition.waistCircumference.isNotEmpty) {
+        supportedCharts.add(DomainChartType.waistCircumference);
+      }
+
       emit(state.copyWith(
-        lastUpdatedProfileCM: event,
+        profile: event,
+        supportedChartType: supportedCharts,
       ));
     });
   }
@@ -37,6 +66,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(state.copyWith(resettingStatus: ProcessAsyncStatus.error));
     }
+  }
+
+  void updateChartType(DomainChartType domainChartType) {
+    emit(state.copyWith(chartType: domainChartType));
+  }
+
+  void updateChangeWeightSpeed(ChangeWeightSpeed changeWeightSpeed) {
+    emit(state.copyWith(changeWeightSpeed: changeWeightSpeed));
   }
 
   late StreamSubscription<ProfileCM> _profileStreamSubscription;

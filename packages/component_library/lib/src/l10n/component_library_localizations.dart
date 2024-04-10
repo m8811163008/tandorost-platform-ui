@@ -331,6 +331,18 @@ abstract class ComponentLibraryLocalizations {
   /// **'{activityLevel, select, sedentary{غیرفعال و زیاد میشینم} fairyActive{تقریبا فعال، هر هفته یکی دوبار ورزش میکنم و پیاده روی میکنم} moderatelyActive{فعال، هر هفته دو سه روز ورزش میکنم} active{خیلی فعال، هر هفته بیش از 3 بار با شدت بالا ورزش میکنم} veryActive{روزی دوبار ورزش میکنم} other{ترجمه تعریف نشده}}'**
   String profileActivityLevelButtonLabel(String activityLevel);
 
+  /// No description provided for @profileChartTypeLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'{chartType, select, weight{وزن} waistCircumference{دور کمر} armCircumference{دور بازو} chestCircumference{دور سینه} thightCircumference{دور ران} calfMuscleCircumference{ماهیچه ساق پا} hipCircumference{دور باسن} activityLevel{سطح فعالیت} other{ترجمه تعریف نشده}}'**
+  String profileChartTypeLabel(String chartType);
+
+  /// No description provided for @profileChangeWeightSpeedButtonLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'{changeWeightSpeed, select, none{تثبیت وزن} slowAndEasy{آهسته و آسان} medium{طبیعی} fastAndHard{سریع و سخت}  other{ترجمه تعریف نشده}}'**
+  String profileChangeWeightSpeedButtonLabel(String changeWeightSpeed);
+
   /// No description provided for @profileBodyShape.
   ///
   /// In fa, this message translates to:

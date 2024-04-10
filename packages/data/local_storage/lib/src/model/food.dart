@@ -35,15 +35,12 @@ class FoodCM {
       required this.gramsPerUnit,
       required this.macroNutrition,
       required this.isVegetable});
-  factory FoodCM.empty() {
-    return FoodCM(
-      name: '',
-      calorie: -1,
-      gramsPerUnit: -1,
-      macroNutrition: MacroNutritionCM.empty(),
-      isVegetable: false,
-    );
-  }
+  const FoodCM.empty()
+      : name = '',
+        calorie = -1,
+        gramsPerUnit = -1,
+        macroNutrition = const MacroNutritionCM.empty(),
+        isVegetable = false;
 
   FoodCM copyWith({
     String? name,
@@ -87,18 +84,15 @@ class MacroNutritionCM {
   @HiveField(2)
   final double protein;
 
-  MacroNutritionCM({
+  const MacroNutritionCM({
     required this.carbohydrate,
     required this.fat,
     required this.protein,
   });
-  factory MacroNutritionCM.empty() {
-    return MacroNutritionCM(
-      carbohydrate: -1,
-      fat: -1,
-      protein: -1,
-    );
-  }
+  const MacroNutritionCM.empty()
+      : carbohydrate = -1,
+        fat = -1,
+        protein = -1;
 
   double get sum {
     final sum = carbohydrate + fat + protein;

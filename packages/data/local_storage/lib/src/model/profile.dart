@@ -24,14 +24,14 @@ class ProfileCM {
   @HiveField(4)
   final BodyCompositionCM bodyComposition;
 
-  factory ProfileCM.empty() {
-    return ProfileCM(
-      userName: '',
-      bodyComposition: BodyCompositionCM.empty(),
-    );
-  }
+  const ProfileCM.empty()
+      : userName = '',
+        bodyComposition = const BodyCompositionCM.empty(),
+        birthday = null,
+        birthdayShamsi = null,
+        isMale = null;
 
-  ProfileCM({
+  const ProfileCM({
     required this.userName,
     this.birthday,
     this.birthdayShamsi,
@@ -112,9 +112,17 @@ class BodyCompositionCM {
     this.startBodycompositionChanging,
   });
 
-  factory BodyCompositionCM.empty() {
-    return BodyCompositionCM();
-  }
+  const BodyCompositionCM.empty()
+      : height = const [],
+        weight = const [],
+        waistCircumference = const [],
+        armCircumference = const [],
+        chestCircumference = const [],
+        thightCircumference = const [],
+        calfMuscleCircumference = const [],
+        hipCircumference = const [],
+        activityLevel = const [],
+        startBodycompositionChanging = null;
 
   BodyCompositionCM copyWith({
     List<BioDataCM>? height,
