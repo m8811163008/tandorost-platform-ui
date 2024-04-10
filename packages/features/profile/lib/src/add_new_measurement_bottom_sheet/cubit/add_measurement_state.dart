@@ -6,6 +6,8 @@ class AddMeasurementState {
   final ProcessAsyncStatus formSubmitStatus;
 
   final BodyCompositionValues bodyCompositionValues;
+  bool get isFormValid =>
+      bodyCompositionValues != const BodyCompositionValues();
 
   const AddMeasurementState({
     this.formSubmitStatus = ProcessAsyncStatus.initial,

@@ -33,103 +33,112 @@ class MesurementForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddMeasurementCubit>();
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'بروزرسانی اندازه جدید (اختیاری)',
-              style: context.themeData.textTheme.labelMedium,
-            ),
-            const BodycompositionInfoIcon(),
-          ],
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          autoFocus: true,
-          label: 'دور کمر',
-          suffixText: 'سانتی متر',
-          hint: 'بین پایین ترین دنده ها و ستیغ تهیگاهی ',
-          onChanged: cubit.upsertWaiseCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          autoFocus: true,
-          label: 'وزن',
-          suffixText: 'کیلوگرم',
-          onChanged: cubit.upsertWeight,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          label: 'دور باسن',
-          suffixText: 'سانتی متر',
-          onChanged: cubit.upsertHipCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          label: 'دور ران',
-          suffixText: 'سانتی متر',
-          onChanged: cubit.upsertThightCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          label: 'دور سینه',
-          suffixText: 'سانتی متر',
-          onChanged: cubit.upsertChestCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          label: 'دور بازو',
-          suffixText: 'سانتی متر',
-          onChanged: cubit.upsertArmCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        _buildTextFormField(
-          label: 'دور ماهیچه ساق پا',
-          hint: 'حداکثر دور ماهیچه در حالت انقباض',
-          suffixText: 'سانتی متر',
-          onChanged: cubit.upsertCalfMuscleCircumference,
-        ),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        const ActivityLevelDropdown(),
-        SizedBox(
-          height: context.sizesExtenstion.medium,
-        ),
-        Row(
-          children: [
-            ElevatedButton(
-                onPressed:
-                    context.read<AddMeasurementCubit>().saveNewMeasurement,
-                child: const Text('ذخیره')),
-            SizedBox(
-              width: context.sizesExtenstion.medium,
-            ),
-            OutlinedButton(
-              onPressed: () {
-                context.pop();
-              },
-              child: const Text('انصراف'),
-            ),
-          ],
-        ),
-      ],
+    return BlocListener<AddMeasurementCubit, AddMeasurementState>(
+      listenWhen: (previous, current) =>
+          previous.formSubmitStatus != current.formSubmitStatus,
+      listener: (context, state) {
+        if (state.formSubmitStatus.isError) {
+          context.showSnackbar(
+              snackBar: SnackBar(content: Text('Erro has accured.')));
+        } else if (state.formSubmitStatus.isSuccess) {
+          context.pop();
+        }
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'بروزرسانی اندازه جدید (اختیاری)',
+                style: context.themeData.textTheme.labelMedium,
+              ),
+              const BodycompositionInfoIcon(),
+            ],
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            autoFocus: true,
+            label: 'دور کمر',
+            suffixText: 'سانتی متر',
+            hint: 'بین پایین ترین دنده ها و ستیغ تهیگاهی ',
+            onChanged: cubit.upsertWaiseCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            autoFocus: true,
+            label: 'وزن',
+            suffixText: 'کیلوگرم',
+            onChanged: cubit.upsertWeight,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            label: 'دور باسن',
+            suffixText: 'سانتی متر',
+            onChanged: cubit.upsertHipCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            label: 'دور ران',
+            suffixText: 'سانتی متر',
+            onChanged: cubit.upsertThightCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            label: 'دور سینه',
+            suffixText: 'سانتی متر',
+            onChanged: cubit.upsertChestCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            label: 'دور بازو',
+            suffixText: 'سانتی متر',
+            onChanged: cubit.upsertArmCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          _buildTextFormField(
+            label: 'دور ماهیچه ساق پا',
+            hint: 'حداکثر دور ماهیچه در حالت انقباض',
+            suffixText: 'سانتی متر',
+            onChanged: cubit.upsertCalfMuscleCircumference,
+          ),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          const ActivityLevelDropdown(),
+          SizedBox(
+            height: context.sizesExtenstion.medium,
+          ),
+          Row(
+            children: [
+              _SaveMeasurementButton(),
+              SizedBox(
+                width: context.sizesExtenstion.medium,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: const Text('انصراف'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -155,6 +164,63 @@ class MesurementForm extends StatelessWidget {
       ),
       onChanged: onChanged,
     );
+  }
+}
+
+class _SaveMeasurementButton extends StatelessWidget {
+  const _SaveMeasurementButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AddMeasurementCubit, AddMeasurementState>(
+      buildWhen: (previous, current) =>
+          previous.formSubmitStatus != current.formSubmitStatus ||
+          previous.isFormValid != current.isFormValid,
+      builder: (context, state) {
+        return AppElevatedButton(
+          isLoading: state.formSubmitStatus.isLoading,
+          enabled: state.isFormValid,
+          label: 'ذخیره',
+        );
+      },
+    );
+  }
+}
+
+class AppElevatedButton extends StatelessWidget {
+  const AppElevatedButton({
+    super.key,
+    this.enabled = true,
+    this.label = '',
+    this.isLoading = false,
+  });
+  final bool isLoading;
+  final bool enabled;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return !isLoading
+        ? ElevatedButton(
+            onPressed: enabled
+                ? context.read<AddMeasurementCubit>().saveNewMeasurement
+                : null,
+            child: Text(
+              label,
+            ),
+          )
+        : ElevatedButton.icon(
+            onPressed: context.read<AddMeasurementCubit>().saveNewMeasurement,
+            label: Text(
+              label,
+            ),
+            icon: Transform.scale(
+              scale: 0.7,
+              child: CircularProgressIndicator(),
+            ),
+          );
   }
 }
 
