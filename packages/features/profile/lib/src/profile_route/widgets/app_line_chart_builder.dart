@@ -18,6 +18,9 @@ class AppLineChartBuilder extends StatelessWidget {
           previous.chartType != current.chartType ||
           previous.profile.bodyComposition != current.profile.bodyComposition,
       builder: (context, state) {
+        if (state.chartData.isEmpty) {
+          return SizedBox.shrink();
+        }
         return AppLineChart(
           bioDataCMList: state.chartData.sublist(
               state.chartData.length > 10 ? state.chartData.length - 10 : 0),

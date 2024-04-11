@@ -5,4 +5,3 @@ export 'unit_of_measurement.dart';
 export 'navigation_routes.dart';
 export 'profile.dart';
 export 'body_composition_values.dart';
-export 'change_weight_speed.dart';

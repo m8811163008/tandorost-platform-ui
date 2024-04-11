@@ -72,8 +72,29 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(chartType: domainChartType));
   }
 
-  void updateChangeWeightSpeed(ChangeWeightSpeed changeWeightSpeed) {
-    emit(state.copyWith(changeWeightSpeed: changeWeightSpeed));
+  void updateChangeWeightSpeed(ChangeWeightSpeed changeWeightSpeed) async {
+    emit(state.copyWith(
+      changeWeightSpeedStatus: ProcessAsyncStatus.loading,
+    ));
+    final setting =
+        state.profile.settingCM.copyWith(changeWeightSpeed: changeWeightSpeed);
+    ProfileCM profileCM = state.profile.copyWith(
+      settingCM: setting,
+    );
+    try {
+      await userRepostiory.updateProfile(profileCM);
+      emit(
+        state.copyWith(
+          changeWeightSpeedStatus: ProcessAsyncStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          changeWeightSpeedStatus: ProcessAsyncStatus.error,
+        ),
+      );
+    }
   }
 
   late StreamSubscription<ProfileCM> _profileStreamSubscription;

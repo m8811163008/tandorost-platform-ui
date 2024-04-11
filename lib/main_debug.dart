@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tandorost/tandorost_bootstrap.dart';
@@ -10,6 +12,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   FlutterError.onError = (FlutterErrorDetails details) async {
+    log(details.exception.runtimeType.toString(),
+        error: details.exception, stackTrace: details.stack);
     // await Sentry.captureException(
     //   details.exception,
     //   stackTrace: details.stack,
@@ -52,7 +56,9 @@ void main() async {
 //handle create a new food and name conflict in creating new food in creating new food from selectedFoods
 // edit profile
 // description of user after register
+// check coffe bazar is install or not but uninstalling bazzar
 
+// alert of very high rate
 // create outlined icons
 //refactor text fields to stateless
 // add dashboard

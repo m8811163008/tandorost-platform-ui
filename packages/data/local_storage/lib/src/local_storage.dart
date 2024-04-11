@@ -38,6 +38,8 @@ class LocalStorage {
         _hive.registerAdapter(ProfileCMAdapter());
         _hive.registerAdapter(BodyCompositionCMAdapter());
         _hive.registerAdapter(BioDataCMAdapter());
+        _hive.registerAdapter(ChangeWeightSpeedAdapter());
+        _hive.registerAdapter(SettingCMAdapter());
       }
     } catch (_) {
       throw Exception(

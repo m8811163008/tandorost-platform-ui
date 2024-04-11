@@ -115,22 +115,22 @@ class ProfileView extends StatelessWidget {
                   'خوش آمدید ${profile.userName}',
                   style: context.themeData.textTheme.bodyLarge,
                 ),
-                Text(
-                  'تاریخ تولد: ${profile.birthdayShamsi!.split('/').reversed.join('/')}',
-                ),
-                Text(
-                  'سن شما: ${DateTime.now().difference(profile.birthday!).inDays ~/ 365}',
-                ),
-                Text(
-                  'قد شما: ${profile.bodyComposition.height.first.value}',
-                ),
+                if (profile.birthdayShamsi != null)
+                  Text(
+                    'تاریخ تولد: ${profile.birthdayShamsi!.split('/').reversed.join('/')}',
+                  ),
+                if (profile.birthday != null)
+                  Text(
+                    'سن شما: ${DateTime.now().difference(profile.birthday!).inDays ~/ 365}',
+                  ),
+                if (profile.bodyComposition.height.isNotEmpty)
+                  Text(
+                    'قد شما: ${profile.bodyComposition.height.first.value}',
+                  ),
                 Divider(
                   height: context.sizesExtenstion.medium,
                 ),
-                Text(
-                  'سرعت کاهش وزن',
-                  style: context.themeData.textTheme.bodyLarge,
-                ),
+                LoseWeightLabel(),
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
@@ -217,6 +217,36 @@ class ProfileView extends StatelessWidget {
         );
       },
       icon: const Icon(Ionicons.information_circle_outline),
+    );
+  }
+}
+
+class LoseWeightLabel extends StatelessWidget {
+  const LoseWeightLabel({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'سرعت کاهش وزن',
+          style: context.themeData.textTheme.bodyLarge,
+        ),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: ((context) {
+                return LoseWeightSpeedDialog();
+              }),
+            );
+          },
+          icon: const Icon(Ionicons.information_circle_outline),
+        ),
+      ],
     );
   }
 }
@@ -324,11 +354,13 @@ class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ProfileCubit, ProfileState, ChangeWeightSpeed>(
-      selector: (state) {
-        return state.changeWeightSpeed;
-      },
-      builder: (context, changeWeightSpeed) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      buildWhen: (previous, current) =>
+          previous.changeWeightSpeedStatus != current.changeWeightSpeedStatus ||
+          previous.profile.settingCM.changeWeightSpeed !=
+              current.profile.settingCM.changeWeightSpeed,
+      builder: (context, state) {
+        final isLoading = state.changeWeightSpeedStatus.isLoading;
         return SegmentedButton<ChangeWeightSpeed>(
           segments: ChangeWeightSpeed.values.reversed
               .map((e) => ButtonSegment(
@@ -336,13 +368,16 @@ class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
                   label: Text(context.l10n
                       .profileChangeWeightSpeedButtonLabel(e.name))))
               .toList(),
-          selected: {changeWeightSpeed},
+          selected: {state.profile.settingCM.changeWeightSpeed},
           emptySelectionAllowed: true,
           showSelectedIcon: false,
-          onSelectionChanged: (Set<ChangeWeightSpeed> newSelection) {
-            context.read<ProfileCubit>().updateChangeWeightSpeed(newSelection
-                .singleWhere((element) => element == changeWeightSpeed));
-          },
+          onSelectionChanged: !isLoading
+              ? (Set<ChangeWeightSpeed> newSelection) {
+                  context
+                      .read<ProfileCubit>()
+                      .updateChangeWeightSpeed(newSelection.first);
+                }
+              : null,
         );
       },
     );

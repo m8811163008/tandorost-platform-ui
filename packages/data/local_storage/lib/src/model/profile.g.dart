@@ -22,13 +22,14 @@ class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
       birthdayShamsi: fields[2] as String?,
       isMale: fields[3] as bool?,
       bodyComposition: fields[4] as BodyCompositionCM,
+      settingCM: fields[5] as SettingCM,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileCM obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.userName)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
       ..writeByte(3)
       ..write(obj.isMale)
       ..writeByte(4)
-      ..write(obj.bodyComposition);
+      ..write(obj.bodyComposition)
+      ..writeByte(5)
+      ..write(obj.settingCM);
   }
 
   @override
@@ -48,6 +51,40 @@ class ProfileCMAdapter extends TypeAdapter<ProfileCM> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ProfileCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class SettingCMAdapter extends TypeAdapter<SettingCM> {
+  @override
+  final int typeId = 9;
+
+  @override
+  SettingCM read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SettingCM(
+      changeWeightSpeed: fields[0] as ChangeWeightSpeed,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, SettingCM obj) {
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.changeWeightSpeed);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SettingCMAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

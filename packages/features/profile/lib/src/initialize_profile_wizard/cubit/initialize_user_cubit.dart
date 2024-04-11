@@ -22,7 +22,6 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void updateUsername(String userName) {
-    assert(userName.isNotEmpty);
     emit(
       state.copyWith(
         wizardUpdatedProfileCM:

@@ -23,21 +23,24 @@ class ProfileCM {
   final bool? isMale;
   @HiveField(4)
   final BodyCompositionCM bodyComposition;
+  @HiveField(5)
+  final SettingCM settingCM;
 
   const ProfileCM.empty()
       : userName = '',
         bodyComposition = const BodyCompositionCM.empty(),
         birthday = null,
         birthdayShamsi = null,
-        isMale = null;
+        isMale = null,
+        settingCM = const SettingCM.empty();
 
-  const ProfileCM({
-    required this.userName,
-    this.birthday,
-    this.birthdayShamsi,
-    this.isMale,
-    required this.bodyComposition,
-  });
+  const ProfileCM(
+      {required this.userName,
+      this.birthday,
+      this.birthdayShamsi,
+      this.isMale,
+      required this.bodyComposition,
+      required this.settingCM});
 
   ProfileCM copyWith({
     String? userName,
@@ -45,6 +48,7 @@ class ProfileCM {
     String? birthdayShamsi,
     bool? isMale,
     BodyCompositionCM? bodyComposition,
+    SettingCM? settingCM,
   }) {
     return ProfileCM(
       userName: userName ?? this.userName,
@@ -52,6 +56,7 @@ class ProfileCM {
       birthdayShamsi: birthdayShamsi ?? this.birthdayShamsi,
       isMale: isMale ?? this.isMale,
       bodyComposition: bodyComposition ?? this.bodyComposition,
+      settingCM: settingCM ?? this.settingCM,
     );
   }
 
@@ -63,7 +68,8 @@ class ProfileCM {
         other.birthday == birthday &&
         other.birthdayShamsi == birthdayShamsi &&
         other.isMale == isMale &&
-        other.bodyComposition == bodyComposition;
+        other.bodyComposition == bodyComposition &&
+        other.settingCM == settingCM;
   }
 
   @override
@@ -72,8 +78,38 @@ class ProfileCM {
         birthday.hashCode ^
         birthdayShamsi.hashCode ^
         isMale.hashCode ^
-        bodyComposition.hashCode;
+        bodyComposition.hashCode ^
+        settingCM.hashCode;
   }
+}
+
+@HiveType(typeId: TypeIDs.settingCM)
+class SettingCM {
+  @HiveField(0)
+  final ChangeWeightSpeed changeWeightSpeed;
+  const SettingCM({
+    required this.changeWeightSpeed,
+  });
+
+  const SettingCM.empty() : changeWeightSpeed = ChangeWeightSpeed.slowAndEasy;
+
+  SettingCM copyWith({
+    ChangeWeightSpeed? changeWeightSpeed,
+  }) {
+    return SettingCM(
+      changeWeightSpeed: changeWeightSpeed ?? this.changeWeightSpeed,
+    );
+  }
+
+  @override
+  bool operator ==(covariant SettingCM other) {
+    if (identical(this, other)) return true;
+
+    return other.changeWeightSpeed == changeWeightSpeed;
+  }
+
+  @override
+  int get hashCode => changeWeightSpeed.hashCode;
 }
 
 @HiveType(typeId: TypeIDs.bodyCompositionCM)

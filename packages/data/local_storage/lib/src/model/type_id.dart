@@ -8,4 +8,6 @@ class TypeIDs {
   static const int activityLevelCMData = 6;
   static const int selectedFoodCM = 7;
   static const int unitOfMeasurmentCM = 8;
+  static const int settingCM = 9;
+  static const int changeWeightSpeed = 10;
 }

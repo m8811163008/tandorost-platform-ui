@@ -4,10 +4,11 @@ part of 'profile_cubit.dart';
 @immutable
 class ProfileState {
   final ProcessAsyncStatus resettingStatus;
+  final ProcessAsyncStatus changeWeightSpeedStatus;
 
   final ProfileCM profile;
   final DomainChartType chartType;
-  final ChangeWeightSpeed changeWeightSpeed;
+
   final Set<DomainChartType> supportedChartType;
 
   List<BioDataCM> get chartData {
@@ -33,25 +34,26 @@ class ProfileState {
 
   const ProfileState({
     this.resettingStatus = ProcessAsyncStatus.initial,
+    this.changeWeightSpeedStatus = ProcessAsyncStatus.initial,
     this.profile = const ProfileCM.empty(),
     this.chartType = DomainChartType.weight,
     this.supportedChartType = const {},
-    this.changeWeightSpeed = ChangeWeightSpeed.slowAndEasy,
   });
 
   ProfileState copyWith({
     ProcessAsyncStatus? resettingStatus,
+    ProcessAsyncStatus? changeWeightSpeedStatus,
     ProfileCM? profile,
     DomainChartType? chartType,
     Set<DomainChartType>? supportedChartType,
-    ChangeWeightSpeed? changeWeightSpeed,
   }) {
     return ProfileState(
       resettingStatus: resettingStatus ?? this.resettingStatus,
+      changeWeightSpeedStatus:
+          changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
       profile: profile ?? this.profile,
       chartType: chartType ?? this.chartType,
       supportedChartType: supportedChartType ?? this.supportedChartType,
-      changeWeightSpeed: changeWeightSpeed ?? this.changeWeightSpeed,
     );
   }
 }
