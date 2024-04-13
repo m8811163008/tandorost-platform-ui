@@ -101,22 +101,10 @@ class FoodListView extends StatelessWidget {
           listener: (context, state) {
             if (state.deleteFoodStatus.isSuccess) {
               context.showBanner(
-                  materialBanner: AppMaterialBanner(
-                text: 'حذف شد',
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      if (context.read<FoodBloc>().isClosed) return;
-                      context.read<FoodBloc>().add(FoodUndoRemoved());
-                    },
-                    child: Text(
-                      'انصراف',
-                      style: context.themeData.textTheme.labelMedium!.copyWith(
-                          color: context.themeData.colorScheme.onSurface),
-                    ),
-                  ),
-                ],
-              ));
+                materialBanner: AppMaterialBanner(
+                  text: 'حذف شد',
+                ),
+              );
             }
           },
           buildWhen: (previous, current) =>
@@ -147,24 +135,19 @@ class FoodListView extends StatelessWidget {
   }
 }
 
-class SearchTextField extends StatefulWidget {
+class SearchTextField extends StatelessWidget {
   const SearchTextField({
     super.key,
   });
 
   @override
-  State<SearchTextField> createState() => _SearchTextFieldState();
-}
-
-class _SearchTextFieldState extends State<SearchTextField> {
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 120,
       child: TextField(
-        autofocus: false,
+        // autofocus: true,
+        autocorrect: true,
         style: context.themeData.textTheme.bodySmall,
-
         decoration: InputDecoration(
           isDense: true,
           hintText: 'جستجو غذا',
@@ -175,7 +158,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
         ),
-        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+        // onTapOutside: (_) => FocusScope.of(context).unfocus(),
         // controller: _controller,
         onChanged: (value) {
           context

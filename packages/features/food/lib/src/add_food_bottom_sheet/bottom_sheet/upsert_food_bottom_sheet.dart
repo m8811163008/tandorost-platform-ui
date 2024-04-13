@@ -35,9 +35,9 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   MacroNutritionCM _cacheMacronutrition = MacroNutritionCM.empty();
 
   final doubleInputFormater =
-      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,5}(\.[0-9]{0,6})?$'));
+      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,4}(\.[0-9]{0,5})?$'));
   final intInputFormater =
-      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,5}$'));
+      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,4}$'));
 
   @override
   void initState() {
@@ -216,7 +216,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 textInputFormatter: doubleInputFormater,
                 textInputType:
                     const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
+                maxLength: 5,
               ),
               SizedBox(
                 height: context.sizesExtenstion.medium,
@@ -236,7 +236,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 textInputFormatter: doubleInputFormater,
                 textInputType:
                     const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
+                maxLength: 5,
               ),
 
               // text field for fats similar to proteins
@@ -258,7 +258,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                 textInputFormatter: doubleInputFormater,
                 textInputType:
                     const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
+                maxLength: 5,
               ),
 
               SizedBox(

@@ -16,7 +16,8 @@
     "nutritionDataFatLabel" : "چربی",
     "nutritionDataCarbohydrateLabel" : "کربوهیدرات",
     "nutritionDataProteinLabel" : "پروتئین",
-    "foodDataCalarieLabel" : "کیلوکالری در گرم",
+    "foodDataCalarieLabel" : "کیلوکالری",
+    "foodDataCalariePerGramLabel" : "کیلوکالری در گرم",
     "foodDataPercentValue" : "{value}",
     "@foodDataPercentValue" : {
         "placeholders": {

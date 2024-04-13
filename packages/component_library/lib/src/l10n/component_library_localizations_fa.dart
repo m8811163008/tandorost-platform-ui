@@ -50,7 +50,10 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get nutritionDataProteinLabel => 'پروتئین';
 
   @override
-  String get foodDataCalarieLabel => 'کیلوکالری در گرم';
+  String get foodDataCalarieLabel => 'کیلوکالری';
+
+  @override
+  String get foodDataCalariePerGramLabel => 'کیلوکالری در گرم';
 
   @override
   String foodDataPercentValue(double value) {

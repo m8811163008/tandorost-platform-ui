@@ -63,8 +63,14 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
   Future<void> _handleFoodDeleted(
       FoodDeleted event, Emitter<FoodState> emit) async {
-    await foodRepostiory.removeFood(event.food);
-    add(ListenedFoodListStream());
+    emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.loading));
+
+    try {
+      await foodRepostiory.removeFood(event.food);
+      emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.success));
+    } catch (e) {
+      emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.error));
+    }
   }
 
   void _handleGetFoodNameFromFoodSelectionRoute(

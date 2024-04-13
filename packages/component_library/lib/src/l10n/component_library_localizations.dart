@@ -136,8 +136,14 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @foodDataCalarieLabel.
   ///
   /// In fa, this message translates to:
-  /// **'کیلوکالری در گرم'**
+  /// **'کیلوکالری'**
   String get foodDataCalarieLabel;
+
+  /// No description provided for @foodDataCalariePerGramLabel.
+  ///
+  /// In fa, this message translates to:
+  /// **'کیلوکالری در گرم'**
+  String get foodDataCalariePerGramLabel;
 
   /// No description provided for @foodDataPercentValue.
   ///
