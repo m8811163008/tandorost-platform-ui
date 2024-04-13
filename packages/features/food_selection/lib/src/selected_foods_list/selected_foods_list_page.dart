@@ -30,12 +30,11 @@ class SelectedFoodsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
-      // buildWhen: (previous, current) =>
-      //     previous.selectedFoodsForNewFood.isEmpty !=
-      //     current.selectedFoodsForNewFood.isEmpty,
+      buildWhen: (previous, current) =>
+          previous.selectedFoodsForNewFood.isEmpty !=
+          current.selectedFoodsForNewFood.isEmpty,
       builder: (context, state) {
-        // if (state.selectedFoodsForNewFood.isEmpty) {
-        if (true) {
+        if (state.selectedFoodsForNewFood.isEmpty) {
           return AppScaffold(
             isShowDrawerButton: true,
             actions: [
@@ -61,12 +60,15 @@ class SelectedFoodsListView extends StatelessWidget {
                     enableDrag: true,
                     showDragHandle: true,
                     isScrollControlled: true,
-                    builder: (context) {
+                    builder: (_) {
                       return Padding(
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        child: const CreateNewFoodBottomSheet(),
+                        child: BlocProvider.value(
+                          value: context.read<SelectedFoodsListCubit>(),
+                          child: CreateNewFoodBottomSheet(),
+                        ),
                       );
                     },
                   );
@@ -76,29 +78,29 @@ class SelectedFoodsListView extends StatelessWidget {
                   Ionicons.create_outline,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    enableDrag: true,
-                    showDragHandle: true,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
-                        child: const CreateNewFoodBottomSheet(),
-                      );
-                    },
-                  );
-                },
-                tooltip: 'تکرار خوردن غذای انتخاب شده',
-                icon: const Icon(
-                  Ionicons.repeat_outline,
-                ),
-              ),
-              // FilterDateTimeIconButton(),
+              // TODO food repeat
+              // IconButton(
+              //   onPressed: () {
+              //     showModalBottomSheet(
+              //       context: context,
+              //       enableDrag: true,
+              //       showDragHandle: true,
+              //       isScrollControlled: true,
+              //       builder: (context) {
+              //         return Padding(
+              //           padding: EdgeInsets.only(
+              //             bottom: MediaQuery.of(context).viewInsets.bottom,
+              //           ),
+              //           child: const CreateNewFoodBottomSheet(),
+              //         );
+              //       },
+              //     );
+              //   },
+              //   tooltip: 'تکرار خوردن غذای انتخاب شده',
+              //   icon: const Icon(
+              //     Ionicons.repeat_outline,
+              //   ),
+              // ),
             ],
             child: const SelectedFoodListBuilder(),
           );
@@ -114,28 +116,36 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
-      // listenWhen: (previous, current) =>
-      //     previous.creatingNewFood != current.creatingNewFood,
+      listenWhen: (previous, current) =>
+          previous.creatingNewFoodFromSelectionStatus !=
+          current.creatingNewFoodFromSelectionStatus,
       listener: (context, state) {
-        // if (state.creatingNewFood == ProcessAsyncStatus.success) {
-        //   context.showBanner(
-        //     materialBanner: AppMaterialBanner(
-        //       text: '${state.newFoodName} ساخته شد',
-        //       actions: const [],
-        //     ),
-        //   );
-        //   context.pop();
-        // } else {
-        //   context.showSnackbar(
-        //     snackBar: const SnackBar(
-        //       content: Text('با موفقیت ذخیره شد '),
-        //     ),
-        //   );
-        // }
+        if (state.creatingNewFoodFromSelectionStatus ==
+            ProcessAsyncStatus.success) {
+          context.showBanner(
+            materialBanner: AppMaterialBanner(
+              text: '${state.newFoodName} ساخته شد',
+              actions: const [],
+            ),
+          );
+          context.pop();
+        } else if (state.creatingNewFoodFromSelectionStatus ==
+            ProcessAsyncStatus.error) {
+          context.showSnackbar(
+            snackBar: const SnackBar(
+              content: Text('An error occurred'),
+            ),
+          );
+        }
       },
+      buildWhen: (previous, current) =>
+          previous.creatingNewFoodFromSelectionStatus !=
+              current.creatingNewFoodFromSelectionStatus ||
+          previous.newFoodName != current.newFoodName,
       builder: (context, state) {
-        // final isLoading = state.creatingNewFood == ProcessAsyncStatus.success;
-        final isLoading = true;
+        final isLoading = state.creatingNewFoodFromSelectionStatus ==
+            ProcessAsyncStatus.loading;
+
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -160,14 +170,13 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
               SizedBox(
                 height: context.sizesExtenstion.medium,
               ),
-              if (isLoading)
+              if (!isLoading)
                 ElevatedButton(
-                  onPressed: null,
-                  // onPressed: state.newFoodName.isNotEmpty
-                  //     ? context
-                  //         .read<SelectedFoodsListCubit>()
-                  //         .newFoodFromSelectedFoodsCreated
-                  //     : null,
+                  onPressed: state.newFoodName.isNotEmpty
+                      ? context
+                          .read<SelectedFoodsListCubit>()
+                          .newFoodFromSelectedFoodsCreated
+                      : null,
                   child: const Text('ذخیره'),
                 )
               else

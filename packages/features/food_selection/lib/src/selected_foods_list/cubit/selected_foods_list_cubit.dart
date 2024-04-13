@@ -59,7 +59,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
       emit(state.copyWith(
         deleteSelectedFoodStatus: ProcessAsyncStatus.success,
-        lastDeletedSelectedFood: food,
+        lastDeletedSelectedFoods: [...state.lastDeletedSelectedFoods, food],
       ));
     } catch (e) {
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
@@ -67,21 +67,28 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   void selectedFoodUndoRemoved() async {
-    assert(state.lastDeletedSelectedFood != null,
-        'propebly you call this method to early, or the state reseted');
+    assert(
+      state.lastDeletedSelectedFoods.isNotEmpty,
+    );
     // to prevent call this method unnecessasarily.
-    if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
+    if (state.selectedFoodsList.contains(state.lastDeletedSelectedFoods.last)) {
+      return;
+    }
     emit(
       state.copyWith(
         undoRemoveSelectedFoodStatus: ProcessAsyncStatus.loading,
       ),
     );
     try {
-      await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood!);
+      await _foodRepository
+          .upsertSelectedFood(state.lastDeletedSelectedFoods.last);
+      List<SelectedFoodCM> updatedLasLeletedFoods =
+          state.lastDeletedSelectedFoods;
+      updatedLasLeletedFoods.removeLast();
       emit(
         state.copyWith(
-          undoRemoveSelectedFoodStatus: ProcessAsyncStatus.success,
-        ),
+            undoRemoveSelectedFoodStatus: ProcessAsyncStatus.success,
+            lastDeletedSelectedFoods: updatedLasLeletedFoods),
       );
     } catch (e) {
       emit(
@@ -94,22 +101,23 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
   /// Used when the user hold for long tap or onTap of list tile.
   void foodSelectedForNewFood(SelectedFoodCM selectedFood) {
-    // final selectedFoodsForNewFood =
-    //     Set<SelectedFoodCM>.from(state.selectedFoodsForNewFood);
-    // if (state.selectedFoodsForNewFood.contains(selectedFood)) {
-    //   //remove
-    //   selectedFoodsForNewFood.remove(selectedFood);
-    // } else {
-    //   selectedFoodsForNewFood.add(selectedFood);
-    // }
-    // emit(
-    //   state.copyWith(
-    //     selectedFoodsForNewFood: selectedFoodsForNewFood,
-    //   ),
-    // );
+    final selectedFoodsForNewFood =
+        Set<SelectedFoodCM>.from(state.selectedFoodsForNewFood);
+    if (state.selectedFoodsForNewFood.contains(selectedFood)) {
+      //remove
+      selectedFoodsForNewFood.remove(selectedFood);
+    } else {
+      selectedFoodsForNewFood.add(selectedFood);
+    }
+    emit(
+      state.copyWith(
+        selectedFoodsForNewFood: selectedFoodsForNewFood,
+      ),
+    );
   }
 
   void newFoodNameUpdated(String value) {
+    // todo handle overwrite foods
     emit(
       state.copyWith(
         newFoodName: value,
@@ -117,62 +125,64 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     );
   }
 
+  /// saves the new food from selection by name
   void newFoodFromSelectedFoodsCreated() async {
-    // assert(state.selectedFoodsForNewFood.isNotEmpty);
+    assert(state.selectedFoodsForNewFood.isNotEmpty);
+    assert(state.newFoodName.isNotEmpty);
     emit(
       state.copyWith(
-        creatingNewFood: ProcessAsyncStatus.loading,
+        creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.loading,
       ),
     );
-    // create FoodCM
-    // FoodCM(name: 'Input', calorie: calorie, gramsPerUnit: gramsPerUnit, macroNutrition: macroNutrition);
-//     final macroNutrition = state.selectedFoodsForNewFood.fold(MacroNutritionCM(), (previousValue, element) => null)
+    final calorie = state.selectedFoodsForNewFood.fold(0.0,
+            (previousValue, element) => previousValue + element.food.calorie) /
+        state.selectedFoodsForNewFood.length;
+    final gramsPerUnit = state.selectedFoodsForNewFood.fold(
+        0, (previousValue, element) => previousValue + (element.totalWeight));
+    final macroNutrition = state.selectedFoodsForNewFood.fold<MacroNutritionCM>(
+        state.selectedFoodsForNewFood.first.food.macroNutrition,
+        (previousValue, element) =>
+            previousValue + element.food.macroNutrition);
+    final isVegetable = state.selectedFoodsForNewFood.fold(true,
+        (previousValue, element) => previousValue & element.food.isVegetable);
 
-//     // chandta selectedfood mikhay foodcm besazi
-//     final foodCM = FoodCM()
-//     ..name = state.newFoodName
-//     ..gramsPerUnit = state.selectedFoodsForNewFood.fold(0, (previousValue, element) =>previousValue! + element.totalWeight!)
-//     ..isVegetable = state.selectedFoodsForNewFood.fold(true, (previousValue, element) => previousValue! && state.selectedFoodFoodCM.isVegetable!)
-//     ..calorie = state.selectedFoodsForNewFood.fold(0, (previousValue, element) =>previousValue! + (element.totalWeight! * state.selectedFoodFoodCM.calorie!))
-//     ;
+    final food = FoodCM(
+      name: state.newFoodName,
+      calorie: calorie,
+      gramsPerUnit: gramsPerUnit,
+      macroNutrition: macroNutrition,
+      isVegetable: isVegetable,
+    );
 
-// final foods = await _foodRepository.foodsStream.last;
-//     // upsert new food
-//     var newFood = state.selectedFoodsForNewFood.fold<SelectedFoodCM>(SelectedFoodCM(),
-//         (previousValue, currentValue) {
-
-// final previousValueSelectedFood = state.selectedFoodsForNewFood.singleWhere((whereClauseElement) => whereClauseElement.name == previousValue.name);
-// final currentValueSelectedFood = state.selectedFoodsForNewFood.singleWhere((whereClauseElement) => whereClauseElement.name == currentValue.name);
-
-//       final previousValueGramsPerUnitTotal =
-//           previousValue.gramsPerUnit * previousValueSelectedFood.;
-//       // final elementValueGramsPerUnitTotal = element.gramsPerUnit * 'tedad' ;
-//       return previousValue.copyWith(
-//         calorie: currentValue.calorie + previousValue.calorie,
-//         gramsPerUnit: currentValue.gramsPerUnit + previousValue.gramsPerUnit,
-//         macroNutrition: currentValue.macroNutrition + previousValue.macroNutrition,
-//       );
-//     });
-//     // Todo handle is vegetable is approciate
-//     newFood = newFood.copyWith(
-//       name: state.newFoodName,
-//     );
-//     try {
-//       // dont let to overwrite but inform
-//       await _foodRepository.upsertFood(newFood);
-//       emit(
-//         state.copyWith(
-//           creatingNewFood: ProcessAsyncStatus.loaded,
-//         ),
-//       );
-//     } catch (e) {
-//       emit(
-//         state.copyWith(
-//           creatingNewFood: ProcessAsyncStatus.error,
-//         ),
-//       );
-//     }
+    try {
+      // TODO hanlde overwrite
+      await _foodRepository.upsertFood(food);
+      emit(
+        state.copyWith(
+          creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.success,
+          selectedFoodsForNewFood: const {},
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.error,
+        ),
+      );
+    }
 
 //     // clear selectedFoodsForNewFood and name
+  }
+}
+
+extension on MacroNutritionCM {
+  MacroNutritionCM operator +(MacroNutritionCM other) {
+    final macro = MacroNutritionCM(
+      carbohydrate: (carbohydrate + other.carbohydrate) / 2,
+      fat: (fat + other.fat) / 2,
+      protein: (protein + other.protein) / 2,
+    );
+
+    return macro;
   }
 }

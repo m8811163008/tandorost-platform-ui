@@ -50,6 +50,7 @@ void main() async {
 // add tips at main routes and add phycology of writing calorie and its telorance and perception of food calories[5h]
 // build and deploy[2h]
 // sell
+// change the pire chart and text in selected foods list
 
 
 

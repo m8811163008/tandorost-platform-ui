@@ -4,26 +4,27 @@ part of 'selected_foods_list_cubit.dart';
 class SelectedFoodsListState {
   final ProcessAsyncStatus deleteSelectedFoodStatus;
   final DateTimeRange filterSelctedFoodsListDateTimeRange;
-  final SelectedFoodCM? lastDeletedSelectedFood;
+  final List<SelectedFoodCM> lastDeletedSelectedFoods;
   final List<SelectedFoodCM> selectedFoodsList;
-  // final Set<SelectedFoodCM> selectedFoodsForNewFood;
-  // final ProcessAsyncStatus creatingNewFood;
-  final ProcessAsyncStatus upsertSelectedFoodStatus;
-  // final String newFoodName;
+
+  final ProcessAsyncStatus undoRemoveSelectedFoodStatus;
+  final String newFoodName;
+  final Set<SelectedFoodCM> selectedFoodsForNewFood;
+  final ProcessAsyncStatus creatingNewFoodFromSelectionStatus;
+  //  final ProcessAsyncStatus creatingNewFood;
 
   SelectedFoodsListState({
     this.selectedFoodsList = const [],
-    // this.selectedFoodsForNewFood = const {},
+    this.selectedFoodsForNewFood = const {},
     this.deleteSelectedFoodStatus = ProcessAsyncStatus.initial,
     // this.creatingNewFood = ProcessAsyncStatus.initial,
-    this.upsertSelectedFoodStatus = ProcessAsyncStatus.initial,
+    this.undoRemoveSelectedFoodStatus = ProcessAsyncStatus.initial,
+    this.creatingNewFoodFromSelectionStatus = ProcessAsyncStatus.initial,
     SelectedFoodCM? selectedFood,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
-    SelectedFoodCM? lastDeletedSelectedFood,
-    // this.newFoodName = '',
-  })  : lastDeletedSelectedFood =
-            lastDeletedSelectedFood ?? SelectedFoodCM.empty(),
-        filterSelctedFoodsListDateTimeRange =
+    this.lastDeletedSelectedFoods = const [],
+    this.newFoodName = '',
+  }) : filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
                   start: DateTime.now().copyWith(
@@ -39,12 +40,12 @@ class SelectedFoodsListState {
   SelectedFoodsListState copyWith({
     ProcessAsyncStatus? deleteSelectedFoodStatus,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
-    SelectedFoodCM? lastDeletedSelectedFood,
+    List<SelectedFoodCM>? lastDeletedSelectedFoods,
     List<SelectedFoodCM>? selectedFoodsList,
-    Set<SelectedFoodCM>? selectedFoodsForNewFood,
-    ProcessAsyncStatus? creatingNewFood,
     ProcessAsyncStatus? undoRemoveSelectedFoodStatus,
     String? newFoodName,
+    Set<SelectedFoodCM>? selectedFoodsForNewFood,
+    ProcessAsyncStatus? creatingNewFoodFromSelectionStatus,
   }) {
     return SelectedFoodsListState(
       deleteSelectedFoodStatus:
@@ -52,15 +53,16 @@ class SelectedFoodsListState {
       filterSelctedFoodsListDateTimeRange:
           filterSelctedFoodsListDateTimeRange ??
               this.filterSelctedFoodsListDateTimeRange,
-      lastDeletedSelectedFood:
-          lastDeletedSelectedFood ?? this.lastDeletedSelectedFood,
+      lastDeletedSelectedFoods:
+          lastDeletedSelectedFoods ?? this.lastDeletedSelectedFoods,
       selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
-      // selectedFoodsForNewFood:
-      // selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
-      // creatingNewFood: creatingNewFood ?? this.creatingNewFood,
-      upsertSelectedFoodStatus:
-          undoRemoveSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
-      // newFoodName: newFoodName ?? this.newFoodName,
+      undoRemoveSelectedFoodStatus:
+          undoRemoveSelectedFoodStatus ?? this.undoRemoveSelectedFoodStatus,
+      newFoodName: newFoodName ?? this.newFoodName,
+      selectedFoodsForNewFood:
+          selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
+      creatingNewFoodFromSelectionStatus: creatingNewFoodFromSelectionStatus ??
+          this.creatingNewFoodFromSelectionStatus,
     );
   }
 }

@@ -16,27 +16,18 @@ class SelectedFoodListBuilder extends StatelessWidget {
           previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
       listener: (_, state) {
         if (state.deleteSelectedFoodStatus.isSuccess) {
-          context.showBanner(
-            materialBanner: AppMaterialBanner(
-              text: 'حذف شد',
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    cubit.selectedFoodUndoRemoved();
-                  },
-                  child: Text(
-                    'انصراف',
-                    style: context.themeData.textTheme.labelMedium!.copyWith(
-                        color: context.themeData.colorScheme.onSurface),
-                  ),
-                )
-              ],
+          context.showSnackbar(
+            snackBar: SnackBar(
+              content: Text('حذف شد'),
+              action: SnackBarAction(
+                  label: 'انصراف', onPressed: cubit.selectedFoodUndoRemoved),
             ),
           );
         }
       },
       buildWhen: (previous, current) =>
-          previous.selectedFoodsList != current.selectedFoodsList,
+          previous.selectedFoodsList != current.selectedFoodsList ||
+          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood,
       builder: (context, state) {
         if (state.selectedFoodsList.isEmpty) {
           return Column(
@@ -65,7 +56,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
 
             return SelectedFoodListTileDissmissable(
               food: selectedFood,
-              // isDismissActive: state.selectedFoodsForNewFood.isEmpty,
+              isDismissActive: state.selectedFoodsForNewFood.isEmpty,
               onDissmiss: () {
                 context
                     .read<SelectedFoodsListCubit>()
@@ -76,14 +67,14 @@ class SelectedFoodListBuilder extends StatelessWidget {
                     .read<SelectedFoodsListCubit>()
                     .foodSelectedForNewFood(selectedFood);
               },
-              // onTap: () {
-              //   if (state.selectedFoodsForNewFood.isNotEmpty) {
-              //     context
-              //         .read<SelectedFoodsListCubit>()
-              //         .foodSelectedForNewFood(selectedFood);
-              //   }
-              // },
-              // isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
+              onTap: () {
+                if (state.selectedFoodsForNewFood.isNotEmpty) {
+                  context
+                      .read<SelectedFoodsListCubit>()
+                      .foodSelectedForNewFood(selectedFood);
+                }
+              },
+              isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
             );
           },
         );
