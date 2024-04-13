@@ -27,7 +27,8 @@ class _FoodListTileState extends State<FoodListTile>
   @override
   Widget build(BuildContext context) {
     final selectedFoodCalarieLabel = _createLabel(
-        '${widget.food.calorie}', context.l10n.foodDataCalarieLabel);
+        widget.food.calorie.toStringAsFixed(2),
+        context.l10n.foodDataCalarieLabel);
     final macroNutrition = widget.food.macroNutrition;
     final selectedFoodFatLabel = _createLabel(
         context.l10n

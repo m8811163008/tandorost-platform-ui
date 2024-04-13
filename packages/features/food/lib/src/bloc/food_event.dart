@@ -17,3 +17,8 @@ final class FoodDeleted extends FoodUpsertedScreen {
   final FoodCM food;
   FoodDeleted({required this.food});
 }
+
+final class _GetFoodNameFromFoodSelectionRoute extends FoodEvent {
+  final String foodName;
+  _GetFoodNameFromFoodSelectionRoute({required this.foodName});
+}

@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 
 class SearchFoodList extends StatelessWidget {
   const SearchFoodList(
-      {super.key, this.foods = const [], this.onTap, this.searchedTerm});
+      {super.key,
+      this.foods = const [],
+      this.onTap,
+      this.searchedTerm,
+      this.onTapAddNew});
   final List<FoodCM> foods;
   final ValueSetter<FoodCM>? onTap;
+  final VoidCallback? onTapAddNew;
   final String? searchedTerm;
 
   @override
@@ -21,10 +26,7 @@ class SearchFoodList extends StatelessWidget {
         late Widget foodButton;
         if (index == foods.length) {
           foodButton = AddFoodButton(
-            onTap: () {
-              // Navigation
-              context.pushNamed(Routes.foodList, extra: searchedTerm);
-            },
+            onTap: onTapAddNew,
           );
         } else {
           foodButton = FoodButton(

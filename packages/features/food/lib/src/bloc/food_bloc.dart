@@ -11,6 +11,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   FoodBloc(this.foodRepostiory) : super(FoodState()) {
     _registerHandlers();
     add(ListenedFoodListStream());
+    _handleNewFoodName();
   }
   final FoodRepostiory foodRepostiory;
 
@@ -22,8 +23,16 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         await _handleFoodUpserted(event, emit);
       } else if (event is FoodDeleted) {
         await _handleFoodDeleted(event, emit);
+      } else if (event is _GetFoodNameFromFoodSelectionRoute) {
+        _handleGetFoodNameFromFoodSelectionRoute(event, emit);
       }
     });
+  }
+
+  void _handleNewFoodName() async {
+    final foodName =
+        await foodRepostiory.foodRepostioryState.newFoodNameStream.single;
+    add(_GetFoodNameFromFoodSelectionRoute(foodName: foodName));
   }
 
   Future<void> _handleListenedFoodListStream(
@@ -47,5 +56,14 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       FoodDeleted event, Emitter<FoodState> emit) async {
     await foodRepostiory.removeFood(event.food);
     add(ListenedFoodListStream());
+  }
+
+  void _handleGetFoodNameFromFoodSelectionRoute(
+      _GetFoodNameFromFoodSelectionRoute event, Emitter<FoodState> emit) async {
+    emit(
+      state.copyWith(
+        newFoodNameFromFoodSelection: event.foodName,
+      ),
+    );
   }
 }

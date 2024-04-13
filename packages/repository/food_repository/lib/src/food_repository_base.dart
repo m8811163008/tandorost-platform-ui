@@ -7,9 +7,11 @@ import 'package:food_repository/src/mapper/cache_to_domain.dart';
 
 class FoodRepostiory {
   final FoodStorage _foodStorage;
+  final FoodRepostioryState foodRepostioryState;
 
   FoodRepostiory(LocalStorage localStorage)
-      : _foodStorage = FoodStorage(localStorage);
+      : _foodStorage = FoodStorage(localStorage),
+        foodRepostioryState = FoodRepostioryState();
 
   // Stream controller of list of food provider stream.
   // The new listener does not need to get last cache emmited data.
@@ -66,5 +68,16 @@ class FoodRepostiory {
 
   Future<void> removeFood(FoodCM food) async {
     await _foodStorage.removeFood(food);
+  }
+}
+
+class FoodRepostioryState {
+  // food name of search field of food selction when user tap on + icon button to upsert food.
+  String _newFoodName = '';
+
+  Stream<String> get newFoodNameStream => Stream.value(_newFoodName);
+
+  set newFoodName(String newFoodName) {
+    _newFoodName = newFoodName;
   }
 }
