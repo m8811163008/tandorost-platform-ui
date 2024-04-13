@@ -25,6 +25,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         await _handleFoodDeleted(event, emit);
       } else if (event is _GetFoodNameFromFoodSelectionRoute) {
         _handleGetFoodNameFromFoodSelectionRoute(event, emit);
+      } else if (event is SearchFoodSelectionTermChanged) {
+        _handleSearchFoodSelectionTermChanged(event, emit);
       }
     });
   }
@@ -33,6 +35,13 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     final foodName =
         await foodRepostiory.foodRepostioryState.newFoodNameStream.single;
     add(_GetFoodNameFromFoodSelectionRoute(foodName: foodName));
+  }
+
+  void _handleSearchFoodSelectionTermChanged(
+      SearchFoodSelectionTermChanged event, Emitter<FoodState> emit) async {
+    emit(state.copyWith(
+      selctedFoodsListSearchTerm: event.foodName,
+    ));
   }
 
   Future<void> _handleListenedFoodListStream(

@@ -6,6 +6,7 @@ class FoodState {
   final ProcessAsyncStatus upsertFoodStatus;
   final FoodCM? updatedFood;
   final String newFoodNameFromFoodSelection;
+  final String selctedFoodsListSearchTerm;
 
   FoodState({
     this.deleteFoodStatus = ProcessAsyncStatus.initial,
@@ -13,6 +14,7 @@ class FoodState {
     this.foodsList = const [],
     this.updatedFood,
     this.newFoodNameFromFoodSelection = '',
+    this.selctedFoodsListSearchTerm = '',
   });
 
   FoodState copyWith({
@@ -21,12 +23,15 @@ class FoodState {
     List<FoodCM>? foodsList,
     FoodCM? updatedFood,
     String? newFoodNameFromFoodSelection,
+    String? selctedFoodsListSearchTerm,
   }) {
     return FoodState(
       deleteFoodStatus: deleteFoodStatus ?? this.deleteFoodStatus,
       upsertFoodStatus: upsertFoodStatus ?? this.upsertFoodStatus,
       foodsList: foodsList ?? this.foodsList,
       updatedFood: updatedFood ?? this.updatedFood,
+      selctedFoodsListSearchTerm:
+          selctedFoodsListSearchTerm ?? this.selctedFoodsListSearchTerm,
       newFoodNameFromFoodSelection:
           newFoodNameFromFoodSelection ?? this.newFoodNameFromFoodSelection,
     );

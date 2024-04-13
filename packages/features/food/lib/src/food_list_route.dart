@@ -19,15 +19,10 @@ class FoodsListRoute extends StatelessWidget {
   }
 }
 
-class FoodListView extends StatefulWidget {
+class FoodListView extends StatelessWidget {
   const FoodListView({super.key});
 
-  @override
-  State<FoodListView> createState() => _FoodListViewState();
-}
-
-class _FoodListViewState extends State<FoodListView> {
-  void _showBottomSheet(String newFoodName) {
+  void _showBottomSheet(BuildContext context, String newFoodName) {
     // Show the form when user push to this page to add new food from the
     // food selection feature. we checked the extra of GoRouterState if
     // it set then we get the newFoodName and check if the food is already
@@ -72,32 +67,15 @@ class _FoodListViewState extends State<FoodListView> {
           previous.newFoodNameFromFoodSelection !=
           current.newFoodNameFromFoodSelection,
       listener: (context, state) {
-        _showBottomSheet(state.newFoodNameFromFoodSelection);
+        _showBottomSheet(
+          context,
+          state.newFoodNameFromFoodSelection,
+        );
       },
       child: AppScaffold(
         isShowDrawerButton: true,
         actions: [
-          SizedBox(
-            width: 120,
-            child: TextField(
-              autofocus: false,
-              style: context.themeData.textTheme.bodySmall,
-              decoration: InputDecoration(
-                isDense: true,
-                hintText: 'جستجو غذا',
-                hintStyle: context.themeData.textTheme.bodySmall,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
-              ),
-              onTapOutside: (_) => FocusScope.of(context).unfocus(),
-              // controller: _controller,
-              keyboardType: TextInputType.name,
-              textInputAction: TextInputAction.search,
-            ),
-          ),
+          SearchTextField(),
           TextButton.icon(
             icon: const Icon(Ionicons.add),
             label: const Text('خوراک جدید'),
@@ -142,16 +120,19 @@ class _FoodListViewState extends State<FoodListView> {
             }
           },
           buildWhen: (previous, current) =>
-              previous.foodsList != current.foodsList,
+              previous.foodsList != current.foodsList ||
+              previous.selctedFoodsListSearchTerm !=
+                  current.selctedFoodsListSearchTerm,
           builder: (context, state) {
             // return const Center(child: Text('غذایی یافت نشد'));
             if (state.foodsList.isEmpty) {
               return const Center(child: Text('غذایی یافت نشد'));
             }
             List<FoodCM> foods = state.foodsList;
-            // foods = foods.reversed
-            //     .where((element) => element.name.contains(_controller.text))
-            //     .toList();
+            foods = foods.reversed
+                .where((element) =>
+                    element.name.contains(state.selctedFoodsListSearchTerm))
+                .toList();
             return ListView.builder(
               itemCount: foods.length,
               itemBuilder: (context, index) {
@@ -161,6 +142,48 @@ class _FoodListViewState extends State<FoodListView> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class SearchTextField extends StatefulWidget {
+  const SearchTextField({
+    super.key,
+  });
+
+  @override
+  State<SearchTextField> createState() => _SearchTextFieldState();
+}
+
+class _SearchTextFieldState extends State<SearchTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 120,
+      child: TextField(
+        autofocus: false,
+        style: context.themeData.textTheme.bodySmall,
+
+        decoration: InputDecoration(
+          isDense: true,
+          hintText: 'جستجو غذا',
+          hintStyle: context.themeData.textTheme.bodySmall,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
+        ),
+        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+        // controller: _controller,
+        onChanged: (value) {
+          context
+              .read<FoodBloc>()
+              .add(SearchFoodSelectionTermChanged(foodName: value));
+        },
+        keyboardType: TextInputType.name,
+        textInputAction: TextInputAction.search,
       ),
     );
   }

@@ -22,3 +22,8 @@ final class _GetFoodNameFromFoodSelectionRoute extends FoodEvent {
   final String foodName;
   _GetFoodNameFromFoodSelectionRoute({required this.foodName});
 }
+
+final class SearchFoodSelectionTermChanged extends FoodEvent {
+  final String foodName;
+  SearchFoodSelectionTermChanged({required this.foodName});
+}
