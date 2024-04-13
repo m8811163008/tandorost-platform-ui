@@ -25,7 +25,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
-          weight: () => int.parse(value),
+          weight: () => double.parse(value),
         ),
       ),
     );

@@ -52,7 +52,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
-          weight: () => value,
+          weight: () => value.toDouble(),
         ),
       ),
     );

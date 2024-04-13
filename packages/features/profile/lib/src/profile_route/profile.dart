@@ -36,6 +36,7 @@ class ProfilePageRedirector extends StatelessWidget {
         if (state.profile == ProfileCM.empty()) {
           return const AppScaffold(
             isShowDrawerButton: true,
+            bodyPadding: EdgeInsets.zero,
             child: Center(
               child: CircularProgressIndicator(),
             ),
@@ -56,6 +57,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       isShowDrawerButton: true,
+      bodyPadding: EdgeInsets.zero,
       actions: [
         _AddNewMeasurement(),
       ],
@@ -91,6 +93,7 @@ class ProfileView extends StatelessWidget {
             ),
             const AppLineChartBuilder(),
             const AppLineChartInputChips(),
+            const BodyShapeProgressConsidration(),
           ],
         ),
       ),
@@ -134,7 +137,7 @@ class ProfileView extends StatelessWidget {
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                LoseWeightSpeedSegmentedButtons()
+                LoseWeightSpeedSegmentedButtons(),
               ],
             );
           },
@@ -380,6 +383,55 @@ class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
               : null,
         );
       },
+    );
+  }
+}
+
+class BodyShapeProgressConsidration extends StatelessWidget {
+  const BodyShapeProgressConsidration({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<ProfileCubit, ProfileState, Set<BodyCompositionError>>(
+      selector: (state) => state.bodyCompositionErrors,
+      builder: (context, bodyCompositionErrors) {
+        return Column(
+          children:
+              bodyCompositionErrors.map((e) => buildErrorText(e)).toList(),
+        );
+      },
+    );
+  }
+
+  Widget buildErrorText(bodyCompositionError) => switch (bodyCompositionError) {
+        BodyCompositionError.weightChange => _ErrorText(
+            text:
+                'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست',
+          ),
+        BodyCompositionError.waistCircumfrenceIsGratherThan94or80 => _ErrorText(
+            text:
+                'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است',
+          ),
+        BodyCompositionError
+              .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive =>
+          _ErrorText(
+            text:
+                'اندازه دور کمر شما بیشتر از نصف قد شماست ، دور کمر شما زیاد است',
+          ),
+        _ => Text('ترجمه نشده است'),
+      };
+}
+
+class _ErrorText extends StatelessWidget {
+  const _ErrorText({super.key, this.text = ''});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: context.themeData.textTheme.labelMedium!
+          .copyWith(color: context.themeData.colorScheme.error),
     );
   }
 }

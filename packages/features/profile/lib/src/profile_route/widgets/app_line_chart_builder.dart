@@ -1,9 +1,7 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
-import 'package:profile/src/profile_route/model/chart_type.dart';
 import 'package:profile/src/profile_route/widgets/widgets.dart';
 
 class AppLineChartBuilder extends StatelessWidget {

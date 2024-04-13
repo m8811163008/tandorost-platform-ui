@@ -101,7 +101,7 @@ class BodyCompositionValues {
   // }
 
   final int? height;
-  final int? weight;
+  final double? weight;
   final int? waistCircumference;
   final String? hipCircumference;
   final String? armCircumference;
@@ -113,7 +113,7 @@ class BodyCompositionValues {
 
   BodyCompositionValues copyWith({
     ValueGetter<int?>? height,
-    ValueGetter<int?>? weight,
+    ValueGetter<double?>? weight,
     ValueGetter<int?>? waistCircumference,
     ValueGetter<String?>? armCircumference,
     ValueGetter<String?>? hipCircumference,

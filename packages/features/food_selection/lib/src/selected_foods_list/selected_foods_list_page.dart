@@ -6,13 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:food_selection/food_selection.dart';
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+    return BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
       buildWhen: (previous, current) =>
           previous.selectedFoodsForNewFood.isEmpty !=
           current.selectedFoodsForNewFood.isEmpty,
@@ -95,7 +96,7 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
+    return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
       listenWhen: (previous, current) =>
           previous.creatingNewFood != current.creatingNewFood,
       listener: (context, state) {
@@ -135,11 +136,8 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'نام غذا',
                 ),
-                onChanged: (value) {
-                  context
-                      .read<FoodSelectionBloc>()
-                      .add(NewFoodNameUpdated(value: value));
-                },
+                onChanged:
+                    context.read<SelectedFoodsListCubit>().newFoodNameUpdated,
               ),
               SizedBox(
                 height: context.sizesExtenstion.medium,
@@ -147,11 +145,9 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
               !isLoading
                   ? ElevatedButton(
                       onPressed: state.newFoodName.isNotEmpty
-                          ? () {
-                              context
-                                  .read<FoodSelectionBloc>()
-                                  .add(const NewFoodFromSelectedFoodsCreated());
-                            }
+                          ? context
+                              .read<SelectedFoodsListCubit>()
+                              .newFoodFromSelectedFoodsCreated
                           : null,
                       child: const Text('ذخیره'),
                     )

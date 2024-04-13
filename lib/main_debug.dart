@@ -35,43 +35,60 @@ void main() async {
   );
 }
 
+// health repository [3h]
+// وضعیت فعلی شما در پروفایل[2h]
+// authentication repostiory [4h] 
+// user role for widget tree and then navigation then widgets, create authention widget with stream [3h]
+// create fading text of current stiation in profiel [1h]
+// add recharge subscription or add subscription button [1h]
+// then after opening profile if it is the logged in user then should authenticate with bazzar and can see setting for guest user [1h]
+// add exercise volume day in selected food list banner for subscribers[1h]
+// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels) for subscribers[1h]
+// expantion tile of considrations with sticky header in selected food list [3h]
+// in app purchase for 1 month subscription and 3 months [6h]
+// center search text field [1h]
+// add tips at main routes and add phycology of writing calorie and its telorance and perception of food calories[5h]
+// build and deploy[2h]
+// sell
 
+
+
+
+// news feed like myfitnesspal
+// add support with insta page and website and phone number [تماس با پشتیبانی].
+// add update
+// hold to create recipe from list and handle name conflict
+// banner for paied user
+// sppeed up create food when in search field in main page we search food then it goes add new food but did not hold the state for back to add food
 // [x] hold the state of selected food for unit of measurement 
 // [x] add new food when no food found
-
-// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels)
-// in app purchase for 1 month subscription and 3 months 
-// simple profile for bazzar login
-// in app purchase for a test widget
-// user agreement and add phycology of writing calorie and its telorance and perception of food calories
-// add support with insta page
-// add form of energy and macro nutrition requirements
+// [x] simple profile for bazzar login
+// [x] user agreement 
+// [x] add form of energy and macro nutrition requirements
+// show double weight in chart in profile
 // suggest learning and sport and some nutrition considiration
-// add exercise volume in selected food list banner
 // learning material for which food is for weight lose(آموزش خوراکی های کاهش وزن را بشناسید یا همچین چیزی)
-// add comment and star
-// [x]add FAB to list of selected food
-// [x]show how to use counters or expand counter for now to use thumb
-// hold to create recipe from list
-//handle create a new food and name conflict in creating new food in creating new food from selectedFoods
+// add comment 
+// [x] add FAB to list of selected food
+// [x] show how to use counters or expand counter for now to use thumb
+// handle create a new food and name conflict in creating new food in creating new food from selectedFoods
 // edit profile
-// description of user after register
-// check coffe bazar is install or not but uninstalling bazzar
-
-// alert of very high rate
+// [x] alert of very high rate
 // create outlined icons
-//refactor text fields to stateless
+// refactor text fields to stateless
 // add dashboard
-// reset database and ask do you want restore default foods
+// [x] reset database and ask do you want restore default foods
 // clean streams in blocs, make them same shape or something like that
 // sort food base on calorie and carbohydrate and fat in selected foods list
-// add unit of measurment when add food, currently it only allow for 100 grams
 // add unit of measurments modifiable list 
 // wellcome screen
 // add chat gpt for food and recepies
 // show pictures in profile section , optimize to share on social
-//recalculate
+// recalculate
 // error handling of forms for example UpsertFoodBottomSheet
 // animation to text field of first page
-// center search text field
-// initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
+
+// [x] initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
+// add magnifier and font size setting and density
+// add change color in setting
+// add general sport in lose weight with 62 and 63% of VO2max, how to calculate vo2 max? optimum speed for weight lose

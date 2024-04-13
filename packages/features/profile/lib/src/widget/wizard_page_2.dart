@@ -56,7 +56,7 @@ class WizardPage2 extends StatelessWidget {
   Widget _buildWeightLabel(BuildContext context) {
     return Builder(builder: (context) {
       final value = context.select<InitializeUserCubit, int>(
-          (cubit) => cubit.state.bodyCompositionValues.weight ?? 0);
+          (cubit) => cubit.state.bodyCompositionValues.weight?.toInt() ?? 0);
       return Text(
         '${context.l10n.profileWeight} $value ${context.l10n.profileKiloGrams}',
         style: context.themeData.textTheme.labelLarge,
@@ -72,7 +72,8 @@ class WizardPage2 extends StatelessWidget {
             .read<InitializeUserCubit>()
             .state
             .bodyCompositionValues
-            .weight,
+            .weight
+            ?.toInt(),
         axis: Axis.horizontal,
         onSelectedNumberChanged:
             context.read<InitializeUserCubit>().upsertWeight,

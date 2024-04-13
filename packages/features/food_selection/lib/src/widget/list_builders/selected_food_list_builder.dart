@@ -3,13 +3,14 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectedFoodListBuilder extends StatelessWidget {
   const SelectedFoodListBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
+    return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
       listenWhen: (previous, current) =>
           previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
       listener: (context, state) {
@@ -20,10 +21,10 @@ class SelectedFoodListBuilder extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    if (context.read<FoodSelectionBloc>().isClosed) return;
+                    if (context.read<SelectedFoodsListCubit>().isClosed) return;
                     context
-                        .read<FoodSelectionBloc>()
-                        .add(const SelectedFoodUndoRemoved());
+                        .read<SelectedFoodsListCubit>()
+                        .selectedFoodUndoRemoved();
                   },
                   child: Text(
                     'انصراف',
@@ -70,19 +71,19 @@ class SelectedFoodListBuilder extends StatelessWidget {
               isDismissActive: state.selectedFoodsForNewFood.isEmpty,
               onDissmiss: () {
                 context
-                    .read<FoodSelectionBloc>()
-                    .add(SelectedFoodRemoved(food: selectedFood));
+                    .read<SelectedFoodsListCubit>()
+                    .foodSelectedForNewFood(selectedFood);
               },
               onLongPressed: () {
                 context
-                    .read<FoodSelectionBloc>()
-                    .add(FoodSelectedForNewFood(selectedFood: selectedFood));
+                    .read<SelectedFoodsListCubit>()
+                    .foodSelectedForNewFood(selectedFood);
               },
               onTap: () {
                 if (state.selectedFoodsForNewFood.isNotEmpty) {
                   context
-                      .read<FoodSelectionBloc>()
-                      .add(FoodSelectedForNewFood(selectedFood: selectedFood));
+                      .read<SelectedFoodsListCubit>()
+                      .foodSelectedForNewFood(selectedFood);
                 }
               },
               isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),

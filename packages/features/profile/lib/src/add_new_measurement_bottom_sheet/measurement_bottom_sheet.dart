@@ -74,6 +74,7 @@ class MesurementForm extends StatelessWidget {
             label: 'وزن',
             suffixText: 'کیلوگرم',
             onChanged: cubit.upsertWeight,
+            isDouble: true,
           ),
           SizedBox(
             height: context.sizesExtenstion.medium,
@@ -142,20 +143,25 @@ class MesurementForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTextFormField(
-      {String label = '',
-      String suffixText = '',
-      TextInputAction textInputAction = TextInputAction.next,
-      bool autoFocus = false,
-      String? hint,
-      ValueSetter<String>? onChanged}) {
+  Widget _buildTextFormField({
+    String label = '',
+    String suffixText = '',
+    TextInputAction textInputAction = TextInputAction.next,
+    bool autoFocus = false,
+    String? hint,
+    ValueSetter<String>? onChanged,
+    bool isDouble = false,
+  }) {
     return TextFormField(
       autofocus: autoFocus,
-      keyboardType: const TextInputType.numberWithOptions(),
+      keyboardType: TextInputType.numberWithOptions(decimal: isDouble),
       textInputAction: textInputAction,
       inputFormatters: [
         LengthLimitingTextInputFormatter(5),
-        FilteringTextInputFormatter.digitsOnly,
+        if (!isDouble)
+          FilteringTextInputFormatter.digitsOnly
+        else
+          FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d?)$')),
       ],
       decoration: InputDecoration(
         labelText: label,
@@ -250,13 +256,11 @@ class ActivityLevelDropdown extends StatelessWidget {
           // to selected item string.
           return SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
-            child: Expanded(
-              child: Text(
-                context.l10n.profileActivityLevelButtonLabel(item.name),
-                softWrap: true,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+            child: Text(
+              context.l10n.profileActivityLevelButtonLabel(item.name),
+              softWrap: true,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           );
         }).toList();

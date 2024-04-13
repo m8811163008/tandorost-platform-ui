@@ -52,6 +52,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         profile: event,
         supportedChartType: supportedCharts,
       ));
+      calculateBodyCompositionValidation();
     });
   }
 
@@ -102,5 +103,55 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> close() {
     _profileStreamSubscription.cancel();
     return super.close();
+  }
+
+  bool get isWeightChangeSafe {
+    if (state.profile.bodyComposition.weight.length <= 1) return true;
+    final length = state.profile.bodyComposition.weight.length;
+    final secondLastWeight = state.profile.bodyComposition.weight[length - 2];
+    final lastWeight = state.profile.bodyComposition.weight[length - 1];
+    //if passsed 7 days
+    final weekhours = 7 * 24;
+    final diffhourBetweenWeights =
+        lastWeight.logDate.difference(secondLastWeight.logDate).inHours;
+    // if lastWeight is less than secondLastWeight and lastWeight is less than (secondLastWeight - 0.007 * secondLastWeight)
+    return lastWeight.value >=
+        (secondLastWeight.value *
+            (1 - (0.007 * (diffhourBetweenWeights / weekhours))));
+  }
+
+  bool get isWaistCircumferenceToHeightRatioSafe {
+    if (state.profile.bodyComposition.waistCircumference.isEmpty ||
+        state.profile.bodyComposition.height.isEmpty) return true;
+    // ratio of waistCircumference to height should be less than 0.5
+    final ratio = state.profile.bodyComposition.waistCircumference.last.value /
+        state.profile.bodyComposition.height.last.value;
+
+    return ratio < 0.5;
+  }
+
+  bool get isWaistCircumferenceSafeRange {
+    if (state.profile.bodyComposition.waistCircumference.isEmpty ||
+        state.profile.bodyComposition.height.isEmpty ||
+        state.profile.isMale == null) return true;
+    // ratio of waistCircumference to height should be less than 0.5
+    final waistCircumference =
+        state.profile.bodyComposition.waistCircumference.last.value;
+
+    return state.profile.isMale!
+        ? waistCircumference < 94
+        : waistCircumference < 80;
+  }
+
+  void calculateBodyCompositionValidation() {
+    Set<BodyCompositionError> errors = {
+      if (!isWeightChangeSafe) BodyCompositionError.weightChange,
+      if (!isWaistCircumferenceToHeightRatioSafe)
+        BodyCompositionError
+            .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive,
+      if (!isWaistCircumferenceSafeRange)
+        BodyCompositionError.waistCircumfrenceIsGratherThan94or80,
+    };
+    emit(state.copyWith(bodyCompositionErrors: errors));
   }
 }

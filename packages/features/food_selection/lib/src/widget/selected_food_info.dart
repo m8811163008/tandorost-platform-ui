@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_selection/src/bloc/food_selection_bloc.dart';
+import 'package:food_selection/src/food_selection_input/bloc/food_selection_bloc.dart';
 
 class SelectedFoodInfo extends StatelessWidget {
   const SelectedFoodInfo({super.key});

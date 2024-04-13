@@ -44,11 +44,6 @@ final class SelectedFoodSaved extends InputPageEvent {
   const SelectedFoodSaved();
 }
 
-final class SelectedFoodsListFetched extends InputPageEvent {
-  final List<SelectedFoodCM> selectedFoods;
-  const SelectedFoodsListFetched({this.selectedFoods = const []});
-}
-
 final class SearchFoodFormReset extends InputPageEvent {
   const SearchFoodFormReset();
 }
@@ -65,37 +60,6 @@ base class SlectedFoodListPageEvent extends FoodSelectionEvent {
   const SlectedFoodListPageEvent();
 }
 
-final class SlectedFoodListFiltered extends SlectedFoodListPageEvent {
-  final DateTimeRange dateTimeRange;
-  const SlectedFoodListFiltered({required this.dateTimeRange});
-}
-
-final class SelectedFoodRemoved extends SlectedFoodListPageEvent {
-  final SelectedFoodCM food;
-  const SelectedFoodRemoved({required this.food});
-}
-
-final class SelectedFoodUndoRemoved extends SlectedFoodListPageEvent {
-  const SelectedFoodUndoRemoved();
-}
-
 abstract base class CreatedNewFoodEvent extends SlectedFoodListPageEvent {
   const CreatedNewFoodEvent();
-}
-
-/// Used when the user hold for long tap or onTap of list tile.
-///
-///
-final class FoodSelectedForNewFood extends CreatedNewFoodEvent {
-  final SelectedFoodCM selectedFood;
-  const FoodSelectedForNewFood({required this.selectedFood});
-}
-
-final class NewFoodNameUpdated extends CreatedNewFoodEvent {
-  final String value;
-  const NewFoodNameUpdated({required this.value});
-}
-
-final class NewFoodFromSelectedFoodsCreated extends CreatedNewFoodEvent {
-  const NewFoodFromSelectedFoodsCreated();
 }

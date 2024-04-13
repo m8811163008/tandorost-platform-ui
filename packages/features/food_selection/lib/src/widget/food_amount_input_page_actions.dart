@@ -30,6 +30,7 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                 text: 'ذخیره شد',
               ),
             );
+            context.read<FoodSelectionBloc>().add(const SearchFoodFormReset());
           }
         },
         child: Row(
@@ -40,9 +41,9 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () {
                   // save the food
-                  context.read<FoodSelectionBloc>()
-                    ..add(const SelectedFoodSaved())
-                    ..add(const SearchFoodFormReset());
+                  context
+                      .read<FoodSelectionBloc>()
+                      .add(const SelectedFoodSaved());
                   // Navigation
                   context.pushReplacementNamed(
                     Routes.foodSelectionList,
@@ -58,9 +59,9 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // save the food
-                  context.read<FoodSelectionBloc>()
-                    ..add(const SelectedFoodSaved())
-                    ..add(const SearchFoodFormReset());
+                  context
+                      .read<FoodSelectionBloc>()
+                      .add(const SelectedFoodSaved());
                   // Navigation
                   context.pop();
                 },

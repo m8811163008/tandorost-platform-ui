@@ -2,14 +2,15 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_selection/food_selection.dart';
+
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectedFoodListBanner extends StatelessWidget {
   const SelectedFoodListBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FoodSelectionBloc, FoodSelectionState,
+    return BlocSelector<SelectedFoodsListCubit, SelectedFoodsListState,
             List<SelectedFoodCM>>(
         selector: (state) => state.selectedFoodsList,
         builder: ((context, listSelectedFood) {

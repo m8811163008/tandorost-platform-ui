@@ -162,7 +162,7 @@ class BioDataCMAdapter extends TypeAdapter<BioDataCM> {
     };
     return BioDataCM(
       logDate: fields[0] as DateTime,
-      value: fields[1] as int,
+      value: fields[1] as num,
     );
   }
 

@@ -10,10 +10,42 @@ class ProfileState {
   final DomainChartType chartType;
 
   final Set<DomainChartType> supportedChartType;
+  final Set<BodyCompositionError> bodyCompositionErrors;
+
+  const ProfileState({
+    this.resettingStatus = ProcessAsyncStatus.initial,
+    this.changeWeightSpeedStatus = ProcessAsyncStatus.initial,
+    this.profile = const ProfileCM.empty(),
+    this.chartType = DomainChartType.weight,
+    this.supportedChartType = const {},
+    this.bodyCompositionErrors = const {},
+  });
+
+  ProfileState copyWith({
+    ProcessAsyncStatus? resettingStatus,
+    ProcessAsyncStatus? changeWeightSpeedStatus,
+    ProfileCM? profile,
+    DomainChartType? chartType,
+    Set<DomainChartType>? supportedChartType,
+    Set<BodyCompositionError>? bodyCompositionErrors,
+  }) {
+    return ProfileState(
+      resettingStatus: resettingStatus ?? this.resettingStatus,
+      changeWeightSpeedStatus:
+          changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
+      profile: profile ?? this.profile,
+      chartType: chartType ?? this.chartType,
+      supportedChartType: supportedChartType ?? this.supportedChartType,
+      bodyCompositionErrors:
+          bodyCompositionErrors ?? this.bodyCompositionErrors,
+    );
+  }
 
   List<BioDataCM> get chartData {
     return switch (chartType) {
-      DomainChartType.weight => profile.bodyComposition.weight,
+      DomainChartType.weight => profile.bodyComposition.weight
+          .map((e) => BioDataCM(logDate: e.logDate, value: e.value.toInt()))
+          .toList(),
       DomainChartType.waistCircumference =>
         profile.bodyComposition.waistCircumference,
       DomainChartType.armCircumference =>
@@ -31,33 +63,17 @@ class ProfileState {
           .toList(),
     };
   }
-
-  const ProfileState({
-    this.resettingStatus = ProcessAsyncStatus.initial,
-    this.changeWeightSpeedStatus = ProcessAsyncStatus.initial,
-    this.profile = const ProfileCM.empty(),
-    this.chartType = DomainChartType.weight,
-    this.supportedChartType = const {},
-  });
-
-  ProfileState copyWith({
-    ProcessAsyncStatus? resettingStatus,
-    ProcessAsyncStatus? changeWeightSpeedStatus,
-    ProfileCM? profile,
-    DomainChartType? chartType,
-    Set<DomainChartType>? supportedChartType,
-  }) {
-    return ProfileState(
-      resettingStatus: resettingStatus ?? this.resettingStatus,
-      changeWeightSpeedStatus:
-          changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
-      profile: profile ?? this.profile,
-      chartType: chartType ?? this.chartType,
-      supportedChartType: supportedChartType ?? this.supportedChartType,
-    );
-  }
 }
 
 extension on ActivityLevelCMData {
   BioDataCM toBioData() => BioDataCM(logDate: logDate, value: value.index);
+}
+
+enum BodyCompositionError {
+  // is weight change is greather than 0.7% per week ratio
+  weightChange,
+  // is waist greather than 94 in men and 80 in women
+  waistCircumfrenceIsGratherThan94or80,
+  // is waist to height is greather than 0.5
+  waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive,
 }

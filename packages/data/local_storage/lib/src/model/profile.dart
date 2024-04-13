@@ -224,33 +224,29 @@ class BioDataCM {
   @HiveField(0)
   final DateTime logDate;
   @HiveField(1)
-  final int value;
-
-  factory BioDataCM.empty() {
-    return BioDataCM(logDate: DateTime.now(), value: -1);
-  }
+  final num value;
 
   BioDataCM({required this.logDate, required this.value});
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is BioDataCM && other.logDate == logDate;
-  }
-
-  @override
-  int get hashCode => logDate.hashCode;
-
   BioDataCM copyWith({
     DateTime? logDate,
-    int? value,
+    num? value,
   }) {
     return BioDataCM(
       logDate: logDate ?? this.logDate,
       value: value ?? this.value,
     );
   }
+
+  @override
+  bool operator ==(covariant BioDataCM other) {
+    if (identical(this, other)) return true;
+
+    return other.logDate == logDate && other.value == value;
+  }
+
+  @override
+  int get hashCode => logDate.hashCode ^ value.hashCode;
 }
 
 @HiveType(typeId: TypeIDs.activityLevelCMData)
