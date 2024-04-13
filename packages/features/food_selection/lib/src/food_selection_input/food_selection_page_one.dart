@@ -39,9 +39,7 @@ class FoodSelectionRoute extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: context.sizesExtenstion.medium,
                   vertical: context.sizesExtenstion.small),
-              child: const SearchFieldTextField(
-                key: ValueKey('value'),
-              ),
+              child: const SearchFieldTextField(),
             ),
           ),
           // if (value) Spacer(),

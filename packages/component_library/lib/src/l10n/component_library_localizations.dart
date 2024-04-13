@@ -202,7 +202,7 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @filterSelectedFoodsSelectDateTimeOptionRow1.
   ///
   /// In fa, this message translates to:
-  /// **'تا دیشب ساعت 00:00'**
+  /// **'از دیشب ساعت 00:00'**
   String get filterSelectedFoodsSelectDateTimeOptionRow1;
 
   /// No description provided for @filterSelectedFoodsSelectDateTimeOptionRow2.

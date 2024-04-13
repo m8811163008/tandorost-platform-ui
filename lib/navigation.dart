@@ -52,7 +52,6 @@ class Navigation {
           },
           routes: [
             GoRoute(
-              onExit: _exitCallback,
               name: Routes.foodSelection,
               path: Routes.foodSelection,
               builder: (context, state) {
@@ -62,7 +61,7 @@ class Navigation {
                 GoRoute(
                   name: Routes.foodSelectionFoodAmountInput,
                   path: Routes.foodSelectionFoodAmountInput,
-                  builder: (context, state) {
+                  builder: (_, state) {
                     return const FoodAmountPage();
                   },
                 ),
@@ -161,9 +160,10 @@ class Navigation {
     //     ..hideCurrentMaterialBanner()
     //     ..hideCurrentSnackBar();
     // }
-    ScaffoldMessenger.of(context)
-      ..hideCurrentMaterialBanner()
-      ..hideCurrentSnackBar();
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+
     return true;
   }
 }

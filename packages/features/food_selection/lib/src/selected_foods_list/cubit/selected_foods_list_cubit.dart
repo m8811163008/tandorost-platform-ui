@@ -10,14 +10,14 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   SelectedFoodsListCubit(FoodRepostiory foodRepository)
       : _foodRepository = foodRepository,
         super(SelectedFoodsListState()) {
-    _selectedFoodsListSubscription =
-        _filterSubscription(state.filterSelctedFoodsListDateTimeRange);
+    _filterSelectedFoodsList();
   }
 
-  StreamSubscription<List<SelectedFoodCM>> _filterSubscription(
-      DateTimeRange dateTimeRange) {
-    return _foodRepository
-        .selectedFoodsListStream(dateTimeRange: dateTimeRange)
+  void _filterSelectedFoodsList() {
+    _selectedFoodsListSubscription?.cancel();
+    _selectedFoodsListSubscription = _foodRepository
+        .selectedFoodsListStream(
+            dateTimeRange: state.filterSelctedFoodsListDateTimeRange)
         .listen((selectedFoodsList) {
       selectedFoodsList
           .sort((a, b) => a.selectedDate.compareTo(b.selectedDate));
@@ -31,36 +31,36 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   final FoodRepostiory _foodRepository;
-  late StreamSubscription<List<SelectedFoodCM>> _selectedFoodsListSubscription;
+  StreamSubscription<List<SelectedFoodCM>>? _selectedFoodsListSubscription;
   @override
   Future<void> close() {
-    _selectedFoodsListSubscription.cancel();
+    _selectedFoodsListSubscription?.cancel();
 
     return super.close();
   }
 
   void slectedFoodListFiltered(DateTimeRange dateTimeRange) async {
-    _selectedFoodsListSubscription =
-        _filterSubscription(state.filterSelctedFoodsListDateTimeRange);
     emit(
       state.copyWith(
         filterSelctedFoodsListDateTimeRange: dateTimeRange,
       ),
     );
+    _filterSelectedFoodsList();
   }
 
   void selectedFoodRemoved(SelectedFoodCM food) async {
     emit(
       state.copyWith(
         deleteSelectedFoodStatus: ProcessAsyncStatus.loading,
-        lastDeletedSelectedFood: food,
       ),
     );
     try {
       await _foodRepository.removeSelectedFood(food);
 
-      emit(
-          state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.success));
+      emit(state.copyWith(
+        deleteSelectedFoodStatus: ProcessAsyncStatus.success,
+        lastDeletedSelectedFood: food,
+      ));
     } catch (e) {
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
     }

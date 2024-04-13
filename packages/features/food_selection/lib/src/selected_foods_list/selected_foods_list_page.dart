@@ -18,7 +18,7 @@ class SelectedFoodsListPage extends StatelessWidget {
       create: (context) => SelectedFoodsListCubit(
         RepositoryProvider.of<FoodRepostiory>(context),
       ),
-      lazy: true,
+      // lazy: true,
       child: const SelectedFoodsListView(),
     );
   }

@@ -10,10 +10,11 @@ class SelectedFoodListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SelectedFoodsListCubit>();
     return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
       listenWhen: (previous, current) =>
           previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
-      listener: (context, state) {
+      listener: (_, state) {
         if (state.deleteSelectedFoodStatus.isSuccess) {
           context.showBanner(
             materialBanner: AppMaterialBanner(
@@ -21,10 +22,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    if (context.read<SelectedFoodsListCubit>().isClosed) return;
-                    context
-                        .read<SelectedFoodsListCubit>()
-                        .selectedFoodUndoRemoved();
+                    cubit.selectedFoodUndoRemoved();
                   },
                   child: Text(
                     'انصراف',
@@ -99,7 +97,6 @@ class SelectedFoodListBuilder extends StatelessWidget {
       child: FloatingActionButton(
         child: const Text('غذا اضافه کنید'),
         onPressed: () {
-          //TODO fix this navigation
           context.goNamed(Routes.foodSelection);
         },
       ),

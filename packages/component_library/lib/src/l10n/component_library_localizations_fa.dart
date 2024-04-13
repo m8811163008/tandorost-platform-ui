@@ -105,7 +105,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get buttonCancleText => 'لغو';
 
   @override
-  String get filterSelectedFoodsSelectDateTimeOptionRow1 => 'تا دیشب ساعت 00:00';
+  String get filterSelectedFoodsSelectDateTimeOptionRow1 => 'از دیشب ساعت 00:00';
 
   @override
   String get filterSelectedFoodsSelectDateTimeOptionRow2 => 'از الان تا 7 روز پیش';
