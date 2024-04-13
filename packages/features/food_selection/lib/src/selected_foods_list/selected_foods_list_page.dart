@@ -4,12 +4,28 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_repository/food_repository.dart';
 
 import 'package:food_selection/food_selection.dart';
 import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SelectedFoodsListCubit(
+        RepositoryProvider.of<FoodRepostiory>(context),
+      ),
+      lazy: true,
+      child: const SelectedFoodsListView(),
+    );
+  }
+}
+
+class SelectedFoodsListView extends StatelessWidget {
+  const SelectedFoodsListView({super.key});
 
   @override
   Widget build(BuildContext context) {

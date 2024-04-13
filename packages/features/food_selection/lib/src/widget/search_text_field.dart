@@ -18,7 +18,7 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
   @override
   Widget build(BuildContext context) {
     final isDrawerOpen =
-        FoodSelectionView.scaffoldKey.currentState?.isDrawerOpen ?? false;
+        FoodSelectionRoute.scaffoldKey.currentState?.isDrawerOpen ?? false;
     final isCurrentPageFoodSelection =
         GoRouterState.of(context).uri.toString() == Routes.foodSelection;
 

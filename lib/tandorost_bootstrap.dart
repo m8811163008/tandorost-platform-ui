@@ -46,14 +46,7 @@ class _TandorostBootstrapState extends State<TandorostBootstrap> {
               RepositoryProvider.value(value: foodRepository),
               RepositoryProvider.value(value: userRepository),
             ],
-            child: MultiBlocProvider(providers: [
-              BlocProvider(
-                create: (context) => FoodSelectionBloc(
-                  RepositoryProvider.of<FoodRepostiory>(context),
-                ),
-                lazy: true,
-              ),
-            ], child: const TandorostApplication()),
+            child: const TandorostApplication(),
           );
         });
   }

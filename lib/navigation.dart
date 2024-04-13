@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:food/food.dart';
+import 'package:food_repository/food_repository.dart';
 
 import 'package:food_selection/food_selection.dart';
 
@@ -39,7 +40,13 @@ class Navigation {
         ),
         ShellRoute(
           builder: (context, state, child) {
-            return child;
+            return BlocProvider(
+              create: (context) => FoodSelectionBloc(
+                RepositoryProvider.of<FoodRepostiory>(context),
+              ),
+              lazy: true,
+              child: child,
+            );
           },
           routes: [
             GoRoute(
@@ -57,49 +64,19 @@ class Navigation {
                   },
                 ),
               ],
-              // onExit: (context) async {
-              //   return await showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return AlertDialog(
-              //         title: const Text('آیا میخواهید خارج شوید؟'),
-              //         actions: <Widget>[
-              //           TextButton(
-              //             style: TextButton.styleFrom(
-              //               textStyle: Theme.of(context).textTheme.labelLarge,
-              //             ),
-              //             child: const Text('بازگشت'),
-              //             onPressed: () {
-              //               Navigator.of(context).pop(false);
-              //             },
-              //           ),
-              //           TextButton(
-              //             style: TextButton.styleFrom(
-              //               textStyle: Theme.of(context).textTheme.labelLarge,
-              //             ),
-              //             child: const Text('تایید'),
-              //             onPressed: () {
-              //               Navigator.of(context).pop(true);
-              //             },
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //   );
-              // },
-            ),
-            GoRoute(
-              name: Routes.foodSelectionList,
-              path: Routes.foodSelectionList,
-              builder: (context, state) {
-                return const SelectedFoodsListPage();
-              },
-              onExit: (context) {
-                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                return true;
-              },
-            ),
+            )
           ],
+        ),
+        GoRoute(
+          name: Routes.foodSelectionList,
+          path: Routes.foodSelectionList,
+          builder: (context, state) {
+            return const SelectedFoodsListPage();
+          },
+          onExit: (context) {
+            ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            return true;
+          },
         ),
         GoRoute(
           name: Routes.foodList,
@@ -164,3 +141,35 @@ class RedirectListenable extends ChangeNotifier {
     super.dispose();
   }
 }
+
+              // TODO handle onExit
+              // onExit: (context) async {
+              //   return await showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return AlertDialog(
+              //         title: const Text('آیا میخواهید خارج شوید؟'),
+              //         actions: <Widget>[
+              //           TextButton(
+              //             style: TextButton.styleFrom(
+              //               textStyle: Theme.of(context).textTheme.labelLarge,
+              //             ),
+              //             child: const Text('بازگشت'),
+              //             onPressed: () {
+              //               Navigator.of(context).pop(false);
+              //             },
+              //           ),
+              //           TextButton(
+              //             style: TextButton.styleFrom(
+              //               textStyle: Theme.of(context).textTheme.labelLarge,
+              //             ),
+              //             child: const Text('تایید'),
+              //             onPressed: () {
+              //               Navigator.of(context).pop(true);
+              //             },
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //   );
+              // },
