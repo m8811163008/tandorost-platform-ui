@@ -14,7 +14,6 @@ class FoodSelectionRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      scaffoldKey: scaffoldKey,
       isShowDrawerButton: true,
       bodyPadding: EdgeInsets.zero,
       actions: const [

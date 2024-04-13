@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
-class FoodAmountInputPageBottomActions extends StatelessWidget {
+class FoodAmountInputPageBottomActions extends StatefulWidget {
   const FoodAmountInputPageBottomActions({super.key});
 
+  @override
+  State<FoodAmountInputPageBottomActions> createState() =>
+      _FoodAmountInputPageBottomActionsState();
+}
+
+class _FoodAmountInputPageBottomActionsState
+    extends State<FoodAmountInputPageBottomActions> {
+  String? nextDestination;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -25,11 +33,15 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
               ),
             );
           } else if (state.upsertSelectedFoodStatus.isSuccess) {
-            context.showBanner(
-              materialBanner: AppMaterialBanner(
-                text: 'ذخیره شد',
-              ),
-            );
+            if (nextDestination == Routes.foodSelection) {
+              context.showBanner(
+                materialBanner: AppMaterialBanner(
+                  text: 'ذخیره شد',
+                ),
+              );
+            }
+
+            context.goNamed(nextDestination!);
             context.read<FoodSelectionBloc>().add(const SearchFoodFormReset());
           }
         },
@@ -44,10 +56,7 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                   context
                       .read<FoodSelectionBloc>()
                       .add(const SelectedFoodSaved());
-                  // Navigation
-                  context.pushReplacementNamed(
-                    Routes.foodSelectionList,
-                  );
+                  nextDestination = Routes.foodSelectionList;
                 },
                 child: const Text('ذخیره و تاریخچه'),
               ),
@@ -62,8 +71,7 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                   context
                       .read<FoodSelectionBloc>()
                       .add(const SelectedFoodSaved());
-                  // Navigation
-                  context.pop();
+                  nextDestination = Routes.foodSelection;
                 },
                 child: const Text('ذخیره و خوراک بعد'),
               ),

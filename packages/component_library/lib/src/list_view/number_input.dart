@@ -40,8 +40,12 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
   late final FixedExtentScrollController fixedExtentScrollController;
 
   int calculateValue(int index) => widget.min + (index * widget.step);
-  int? calculateIndex(int? value) =>
-      value != null ? (value - widget.min) ~/ widget.step : null;
+  int? calculateIndex(int? value) {
+    if (value == null) return null;
+    if (value == -1) return null;
+    return (value - widget.min) ~/ widget.step;
+  }
+
 // add to prevent unnessary callback
   int? _lastSelectedIndex;
 
@@ -60,6 +64,9 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
 
   @override
   Widget build(BuildContext context) {
+    if ((widget.max - widget.min + 1) ~/ widget.step == -1) {
+      return SizedBox.shrink();
+    }
     return ListWheelScrollViewX(
       controller: fixedExtentScrollController,
       itemExtent: widget.itemExtends,

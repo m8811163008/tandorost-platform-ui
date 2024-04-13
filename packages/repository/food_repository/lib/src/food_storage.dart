@@ -59,18 +59,6 @@ class FoodStorage {
 
   /// get list of foods from the food collection. Read
 
-  Stream<List<FoodCM>> getFoods() async* {
-    final foodBox = await _localStorage.foodBox;
-    yield foodBox.values.toList();
-    yield* foodBox.watch().map((event) => foodBox.values.toList());
-  }
-
-  /// add a food to food collection.
-  Future<void> upsertFood(FoodCM foodCM) async {
-    final foodBox = await _localStorage.foodBox;
-    await foodBox.put(foodCM.name, foodCM);
-  }
-
   Future<String> _loadAsset(String fileName) async {
     //packages/food_repository/assets/local_foods.json
     return await rootBundle
@@ -98,6 +86,24 @@ class FoodStorage {
     log('Initialized foodBox and unitOfmeasurementBox');
   }
 
+  Stream<List<SelectedFoodCM>> filterSelectedFoodsListStream(
+      {required DateTime start, required DateTime end}) async* {
+    final selectedFoodBox = await _localStorage.selectedFoodBox;
+    yield selectedFoodBox.values
+        .where((element) =>
+            element.selectedDate.isAfter(start) &&
+            element.selectedDate.isBefore(end))
+        .toList();
+    yield* selectedFoodBox.watch().asyncMap((event) async {
+      final selectedFoodBox = await _localStorage.selectedFoodBox;
+      return selectedFoodBox.values
+          .where((element) =>
+              element.selectedDate.isAfter(start) &&
+              element.selectedDate.isBefore(end))
+          .toList();
+    });
+  }
+
   Future<void> upsertSelectedFood(SelectedFoodCM selectedFoodCM) async {
     final selectedFoodBox = await _localStorage.selectedFoodBox;
     await selectedFoodBox.add(selectedFoodCM);
@@ -119,20 +125,15 @@ class FoodStorage {
     await foodBox.delete(food.name);
   }
 
-  Stream<List<SelectedFoodCM>> selectedFoodsList(
-      {required DateTime start, required DateTime end}) async* {
-    final selectedFoodBox = await _localStorage.selectedFoodBox;
-    yield selectedFoodBox.values
-        .where((element) =>
-            element.selectedDate.isAfter(start) &&
-            element.selectedDate.isBefore(end))
-        .toList();
-    yield* selectedFoodBox.watch().map(
-          (event) => selectedFoodBox.values
-              .where((element) =>
-                  element.selectedDate.isAfter(start) &&
-                  element.selectedDate.isBefore(end))
-              .toList(),
-        );
+  Stream<List<FoodCM>> getFoods() async* {
+    final foodBox = await _localStorage.foodBox;
+    yield foodBox.values.toList();
+    yield* foodBox.watch().map((event) => foodBox.values.toList());
+  }
+
+  /// add a food to food collection.
+  Future<void> upsertFood(FoodCM foodCM) async {
+    final foodBox = await _localStorage.foodBox;
+    await foodBox.put(foodCM.name, foodCM);
   }
 }

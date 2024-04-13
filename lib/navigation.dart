@@ -17,6 +17,8 @@ import 'package:user_repository/user_repository.dart';
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
     return GoRouter(
+      // TODO handle onExit
+
       observers: [
         SentryNavigatorObserver(),
       ],
@@ -44,16 +46,17 @@ class Navigation {
               create: (context) => FoodSelectionBloc(
                 RepositoryProvider.of<FoodRepostiory>(context),
               ),
-              lazy: true,
+              // lazy: true,
               child: child,
             );
           },
           routes: [
             GoRoute(
+              onExit: _exitCallback,
               name: Routes.foodSelection,
               path: Routes.foodSelection,
               builder: (context, state) {
-                return const FoodSelectionRoute();
+                return FoodSelectionRoute();
               },
               routes: [
                 GoRoute(
@@ -72,10 +75,6 @@ class Navigation {
           path: Routes.foodSelectionList,
           builder: (context, state) {
             return const SelectedFoodsListPage();
-          },
-          onExit: (context) {
-            ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            return true;
           },
         ),
         GoRoute(
@@ -124,6 +123,49 @@ class Navigation {
       },
     );
   }
+
+  static Future<bool> _exitCallback(BuildContext context) async {
+    // TODO handle on exit
+    // final gorouteState = GoRouterState.of(context);
+    // final isExit = await showDialog<bool>(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           title: const Text('آیا میخواهید خارج شوید؟'),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               style: TextButton.styleFrom(
+    //                 textStyle: Theme.of(context).textTheme.labelLarge,
+    //               ),
+    //               child: const Text('بازگشت'),
+    //               onPressed: () {
+    //                 Navigator.of(context).pop(false);
+    //               },
+    //             ),
+    //             TextButton(
+    //               style: TextButton.styleFrom(
+    //                 textStyle: Theme.of(context).textTheme.labelLarge,
+    //               ),
+    //               child: const Text('تایید'),
+    //               onPressed: () {
+    //                 Navigator.of(context).pop(true);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ) ??
+    //     false;
+    // if (isExit && context.mounted) {
+    //   ScaffoldMessenger.of(context)
+    //     ..hideCurrentMaterialBanner()
+    //     ..hideCurrentSnackBar();
+    // }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
+      ..hideCurrentSnackBar();
+    return true;
+  }
 }
 
 class RedirectListenable extends ChangeNotifier {
@@ -141,35 +183,3 @@ class RedirectListenable extends ChangeNotifier {
     super.dispose();
   }
 }
-
-              // TODO handle onExit
-              // onExit: (context) async {
-              //   return await showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return AlertDialog(
-              //         title: const Text('آیا میخواهید خارج شوید؟'),
-              //         actions: <Widget>[
-              //           TextButton(
-              //             style: TextButton.styleFrom(
-              //               textStyle: Theme.of(context).textTheme.labelLarge,
-              //             ),
-              //             child: const Text('بازگشت'),
-              //             onPressed: () {
-              //               Navigator.of(context).pop(false);
-              //             },
-              //           ),
-              //           TextButton(
-              //             style: TextButton.styleFrom(
-              //               textStyle: Theme.of(context).textTheme.labelLarge,
-              //             ),
-              //             child: const Text('تایید'),
-              //             onPressed: () {
-              //               Navigator.of(context).pop(true);
-              //             },
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //   );
-              // },

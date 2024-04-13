@@ -48,7 +48,7 @@ class FoodRepostiory {
 
   Stream<List<SelectedFoodCM>> selectedFoodsListStream(
       {required DateTimeRange dateTimeRange}) async* {
-    yield* _foodStorage.selectedFoodsList(
+    yield* _foodStorage.filterSelectedFoodsListStream(
         start: dateTimeRange.start, end: dateTimeRange.end);
   }
 

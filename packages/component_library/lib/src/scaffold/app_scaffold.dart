@@ -8,7 +8,6 @@ class AppScaffold extends StatelessWidget {
       this.child,
       this.actions = const [],
       this.isShowDrawerButton = false,
-      this.scaffoldKey,
       this.bodyPadding,
       this.title,
       this.fab});
@@ -17,12 +16,14 @@ class AppScaffold extends StatelessWidget {
   final FloatingActionButton? fab;
   final List<Widget> actions;
   final bool isShowDrawerButton;
-  final GlobalKey<ScaffoldState>? scaffoldKey;
+
   final EdgeInsets? bodyPadding;
   final Widget? title;
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
       key: scaffoldKey,
       floatingActionButton: fab,

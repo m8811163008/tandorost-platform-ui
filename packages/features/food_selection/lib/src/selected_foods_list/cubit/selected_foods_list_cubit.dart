@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/food_repository.dart';
@@ -8,21 +10,42 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   SelectedFoodsListCubit(FoodRepostiory foodRepository)
       : _foodRepository = foodRepository,
         super(SelectedFoodsListState()) {
-    slectedFoodListFiltered(state.filterSelctedFoodsListDateTimeRange);
+    _selectedFoodsListSubscription =
+        _filterSubscription(state.filterSelctedFoodsListDateTimeRange);
+  }
+
+  StreamSubscription<List<SelectedFoodCM>> _filterSubscription(
+      DateTimeRange dateTimeRange) {
+    return _foodRepository
+        .selectedFoodsListStream(dateTimeRange: dateTimeRange)
+        .listen((selectedFoodsList) {
+      selectedFoodsList
+          .sort((a, b) => a.selectedDate.compareTo(b.selectedDate));
+
+      emit(
+        state.copyWith(
+          selectedFoodsList: selectedFoodsList,
+        ),
+      );
+    });
   }
 
   final FoodRepostiory _foodRepository;
+  late StreamSubscription<List<SelectedFoodCM>> _selectedFoodsListSubscription;
+  @override
+  Future<void> close() {
+    _selectedFoodsListSubscription.cancel();
+
+    return super.close();
+  }
 
   void slectedFoodListFiltered(DateTimeRange dateTimeRange) async {
-    final selectedFoodsList = await _foodRepository
-        .selectedFoodsListStream(dateTimeRange: dateTimeRange)
-        .last;
-    selectedFoodsList.sort((a, b) => a.selectedDate.compareTo(b.selectedDate));
-
+    _selectedFoodsListSubscription =
+        _filterSubscription(state.filterSelctedFoodsListDateTimeRange);
     emit(
       state.copyWith(
-          selectedFoodsList: selectedFoodsList,
-          filterSelctedFoodsListDateTimeRange: dateTimeRange),
+        filterSelctedFoodsListDateTimeRange: dateTimeRange,
+      ),
     );
   }
 
@@ -40,9 +63,6 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
           state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.success));
     } catch (e) {
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
-    } finally {
-      // refresh the state list
-      slectedFoodListFiltered(state.filterSelctedFoodsListDateTimeRange);
     }
   }
 
@@ -53,20 +73,20 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     if (state.selectedFoodsList.contains(state.lastDeletedSelectedFood)) return;
     emit(
       state.copyWith(
-        upsertSelectedFoodStatus: ProcessAsyncStatus.loading,
+        undoRemoveSelectedFoodStatus: ProcessAsyncStatus.loading,
       ),
     );
     try {
       await _foodRepository.upsertSelectedFood(state.lastDeletedSelectedFood!);
       emit(
         state.copyWith(
-          upsertSelectedFoodStatus: ProcessAsyncStatus.success,
+          undoRemoveSelectedFoodStatus: ProcessAsyncStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          upsertSelectedFoodStatus: ProcessAsyncStatus.error,
+          undoRemoveSelectedFoodStatus: ProcessAsyncStatus.error,
         ),
       );
     }
@@ -74,19 +94,19 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
   /// Used when the user hold for long tap or onTap of list tile.
   void foodSelectedForNewFood(SelectedFoodCM selectedFood) {
-    final selectedFoodsForNewFood =
-        Set<SelectedFoodCM>.from(state.selectedFoodsForNewFood);
-    if (state.selectedFoodsForNewFood.contains(selectedFood)) {
-      //remove
-      selectedFoodsForNewFood.remove(selectedFood);
-    } else {
-      selectedFoodsForNewFood.add(selectedFood);
-    }
-    emit(
-      state.copyWith(
-        selectedFoodsForNewFood: selectedFoodsForNewFood,
-      ),
-    );
+    // final selectedFoodsForNewFood =
+    //     Set<SelectedFoodCM>.from(state.selectedFoodsForNewFood);
+    // if (state.selectedFoodsForNewFood.contains(selectedFood)) {
+    //   //remove
+    //   selectedFoodsForNewFood.remove(selectedFood);
+    // } else {
+    //   selectedFoodsForNewFood.add(selectedFood);
+    // }
+    // emit(
+    //   state.copyWith(
+    //     selectedFoodsForNewFood: selectedFoodsForNewFood,
+    //   ),
+    // );
   }
 
   void newFoodNameUpdated(String value) {
@@ -98,7 +118,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   void newFoodFromSelectedFoodsCreated() async {
-    assert(state.selectedFoodsForNewFood.isNotEmpty);
+    // assert(state.selectedFoodsForNewFood.isNotEmpty);
     emit(
       state.copyWith(
         creatingNewFood: ProcessAsyncStatus.loading,

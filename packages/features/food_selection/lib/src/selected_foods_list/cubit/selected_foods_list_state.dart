@@ -6,21 +6,21 @@ class SelectedFoodsListState {
   final DateTimeRange filterSelctedFoodsListDateTimeRange;
   final SelectedFoodCM? lastDeletedSelectedFood;
   final List<SelectedFoodCM> selectedFoodsList;
-  final Set<SelectedFoodCM> selectedFoodsForNewFood;
-  final ProcessAsyncStatus creatingNewFood;
+  // final Set<SelectedFoodCM> selectedFoodsForNewFood;
+  // final ProcessAsyncStatus creatingNewFood;
   final ProcessAsyncStatus upsertSelectedFoodStatus;
-  final String newFoodName;
+  // final String newFoodName;
 
   SelectedFoodsListState({
     this.selectedFoodsList = const [],
-    this.selectedFoodsForNewFood = const {},
+    // this.selectedFoodsForNewFood = const {},
     this.deleteSelectedFoodStatus = ProcessAsyncStatus.initial,
-    this.creatingNewFood = ProcessAsyncStatus.initial,
+    // this.creatingNewFood = ProcessAsyncStatus.initial,
     this.upsertSelectedFoodStatus = ProcessAsyncStatus.initial,
     SelectedFoodCM? selectedFood,
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
     SelectedFoodCM? lastDeletedSelectedFood,
-    this.newFoodName = '',
+    // this.newFoodName = '',
   })  : lastDeletedSelectedFood =
             lastDeletedSelectedFood ?? SelectedFoodCM.empty(),
         filterSelctedFoodsListDateTimeRange =
@@ -32,7 +32,7 @@ class SelectedFoodsListState {
                     second: 0,
                   ),
                   end: DateTime.now().add(
-                    const Duration(hours: 6),
+                    const Duration(hours: 10),
                   ),
                 );
 
@@ -43,7 +43,7 @@ class SelectedFoodsListState {
     List<SelectedFoodCM>? selectedFoodsList,
     Set<SelectedFoodCM>? selectedFoodsForNewFood,
     ProcessAsyncStatus? creatingNewFood,
-    ProcessAsyncStatus? upsertSelectedFoodStatus,
+    ProcessAsyncStatus? undoRemoveSelectedFoodStatus,
     String? newFoodName,
   }) {
     return SelectedFoodsListState(
@@ -55,12 +55,12 @@ class SelectedFoodsListState {
       lastDeletedSelectedFood:
           lastDeletedSelectedFood ?? this.lastDeletedSelectedFood,
       selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
-      selectedFoodsForNewFood:
-          selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
-      creatingNewFood: creatingNewFood ?? this.creatingNewFood,
+      // selectedFoodsForNewFood:
+      // selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
+      // creatingNewFood: creatingNewFood ?? this.creatingNewFood,
       upsertSelectedFoodStatus:
-          upsertSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
-      newFoodName: newFoodName ?? this.newFoodName,
+          undoRemoveSelectedFoodStatus ?? this.upsertSelectedFoodStatus,
+      // newFoodName: newFoodName ?? this.newFoodName,
     );
   }
 }

@@ -32,6 +32,8 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
           await _handleSelectedFoodSaved(emit);
         } else if (event is UnitOfMeasurementAmountChanged) {
           _handleUnitOfMeasurementAmountChanged(event, emit);
+        } else if (event is SearchFoodFormReset) {
+          _handleSearchFoodFormReset(emit);
         }
       },
     );
@@ -138,7 +140,9 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
       );
 
       emit(
-        state.copyWith(upsertSelectedFoodStatus: ProcessAsyncStatus.success),
+        state.copyWith(
+          upsertSelectedFoodStatus: ProcessAsyncStatus.success,
+        ),
       );
     } catch (e) {
       emit(
@@ -161,5 +165,12 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
         unitOfMeasurementHistory: history,
       ),
     );
+  }
+
+  void _handleSearchFoodFormReset(Emitter<FoodSelectionState> emit) {
+    emit(FoodSelectionState().copyWith(
+      unitOfMesurementList: state.unitOfMesurementList,
+      unitOfMeasurementHistory: state.unitOfMeasurementHistory,
+    ));
   }
 }

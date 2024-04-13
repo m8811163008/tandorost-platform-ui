@@ -38,8 +38,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
         }
       },
       buildWhen: (previous, current) =>
-          previous.selectedFoodsList != current.selectedFoodsList ||
-          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood,
+          previous.selectedFoodsList != current.selectedFoodsList,
       builder: (context, state) {
         if (state.selectedFoodsList.isEmpty) {
           return Column(
@@ -68,25 +67,25 @@ class SelectedFoodListBuilder extends StatelessWidget {
 
             return SelectedFoodListTileDissmissable(
               food: selectedFood,
-              isDismissActive: state.selectedFoodsForNewFood.isEmpty,
+              // isDismissActive: state.selectedFoodsForNewFood.isEmpty,
               onDissmiss: () {
                 context
                     .read<SelectedFoodsListCubit>()
-                    .foodSelectedForNewFood(selectedFood);
+                    .selectedFoodRemoved(selectedFood);
               },
               onLongPressed: () {
                 context
                     .read<SelectedFoodsListCubit>()
                     .foodSelectedForNewFood(selectedFood);
               },
-              onTap: () {
-                if (state.selectedFoodsForNewFood.isNotEmpty) {
-                  context
-                      .read<SelectedFoodsListCubit>()
-                      .foodSelectedForNewFood(selectedFood);
-                }
-              },
-              isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
+              // onTap: () {
+              //   if (state.selectedFoodsForNewFood.isNotEmpty) {
+              //     context
+              //         .read<SelectedFoodsListCubit>()
+              //         .foodSelectedForNewFood(selectedFood);
+              //   }
+              // },
+              // isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
             );
           },
         );
@@ -101,7 +100,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
         child: const Text('غذا اضافه کنید'),
         onPressed: () {
           //TODO fix this navigation
-          // context.pop();
+          context.goNamed(Routes.foodSelection);
         },
       ),
     );

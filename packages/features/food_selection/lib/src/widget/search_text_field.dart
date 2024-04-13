@@ -17,14 +17,6 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isDrawerOpen =
-        FoodSelectionRoute.scaffoldKey.currentState?.isDrawerOpen ?? false;
-    final isCurrentPageFoodSelection =
-        GoRouterState.of(context).uri.toString() == Routes.foodSelection;
-
-    if (isDrawerOpen || !isCurrentPageFoodSelection) {
-      _focus.unfocus();
-    }
     return BlocListener<FoodSelectionBloc, FoodSelectionState>(
       listenWhen: (previous, current) =>
           previous.upsertSelectedFoodStatus != current.upsertSelectedFoodStatus,
@@ -58,7 +50,6 @@ class _SeatchFoodTextFieldState extends State<SearchFieldTextField> {
             Routes.foodSelectionFoodAmountInput,
           );
         },
-        onTapOutside: (_) => FocusScope.of(context).unfocus(),
       ),
     );
   }

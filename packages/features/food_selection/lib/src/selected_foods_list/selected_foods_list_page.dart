@@ -30,11 +30,12 @@ class SelectedFoodsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
-      buildWhen: (previous, current) =>
-          previous.selectedFoodsForNewFood.isEmpty !=
-          current.selectedFoodsForNewFood.isEmpty,
+      // buildWhen: (previous, current) =>
+      //     previous.selectedFoodsForNewFood.isEmpty !=
+      //     current.selectedFoodsForNewFood.isEmpty,
       builder: (context, state) {
-        if (state.selectedFoodsForNewFood.isEmpty) {
+        // if (state.selectedFoodsForNewFood.isEmpty) {
+        if (true) {
           return AppScaffold(
             isShowDrawerButton: true,
             actions: [
@@ -113,27 +114,28 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
-      listenWhen: (previous, current) =>
-          previous.creatingNewFood != current.creatingNewFood,
+      // listenWhen: (previous, current) =>
+      //     previous.creatingNewFood != current.creatingNewFood,
       listener: (context, state) {
-        if (state.creatingNewFood == ProcessAsyncStatus.success) {
-          context.showBanner(
-            materialBanner: AppMaterialBanner(
-              text: '${state.newFoodName} ساخته شد',
-              actions: const [],
-            ),
-          );
-          context.pop();
-        } else {
-          context.showSnackbar(
-            snackBar: const SnackBar(
-              content: Text('با موفقیت ذخیره شد '),
-            ),
-          );
-        }
+        // if (state.creatingNewFood == ProcessAsyncStatus.success) {
+        //   context.showBanner(
+        //     materialBanner: AppMaterialBanner(
+        //       text: '${state.newFoodName} ساخته شد',
+        //       actions: const [],
+        //     ),
+        //   );
+        //   context.pop();
+        // } else {
+        //   context.showSnackbar(
+        //     snackBar: const SnackBar(
+        //       content: Text('با موفقیت ذخیره شد '),
+        //     ),
+        //   );
+        // }
       },
       builder: (context, state) {
-        final isLoading = state.creatingNewFood == ProcessAsyncStatus.success;
+        // final isLoading = state.creatingNewFood == ProcessAsyncStatus.success;
+        final isLoading = true;
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -158,23 +160,25 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
               SizedBox(
                 height: context.sizesExtenstion.medium,
               ),
-              !isLoading
-                  ? ElevatedButton(
-                      onPressed: state.newFoodName.isNotEmpty
-                          ? context
-                              .read<SelectedFoodsListCubit>()
-                              .newFoodFromSelectedFoodsCreated
-                          : null,
-                      child: const Text('ذخیره'),
-                    )
-                  : ElevatedButton.icon(
-                      onPressed: null,
-                      icon: Transform.scale(
-                        scale: 0.7,
-                        child: const CircularProgressIndicator(),
-                      ),
-                      label: const Text('ذخیره'),
-                    )
+              if (isLoading)
+                ElevatedButton(
+                  onPressed: null,
+                  // onPressed: state.newFoodName.isNotEmpty
+                  //     ? context
+                  //         .read<SelectedFoodsListCubit>()
+                  //         .newFoodFromSelectedFoodsCreated
+                  //     : null,
+                  child: const Text('ذخیره'),
+                )
+              else
+                ElevatedButton.icon(
+                  onPressed: null,
+                  icon: Transform.scale(
+                    scale: 0.7,
+                    child: const CircularProgressIndicator(),
+                  ),
+                  label: const Text('ذخیره'),
+                )
             ],
           ),
         );

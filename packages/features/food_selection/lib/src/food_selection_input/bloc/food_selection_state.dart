@@ -20,8 +20,6 @@ class FoodSelectionState {
     this.saveTimeOffset = Duration.zero,
     this.unitOfMeasurementHistory = const {},
     SelectedFoodCM? selectedFood,
-    DateTimeRange? filterSelctedFoodsListDateTimeRange,
-    SelectedFoodCM? lastDeletedSelectedFood,
   }) : selectedFood = selectedFood ?? SelectedFoodCM.empty();
 
   FoodSelectionState copyWith({
