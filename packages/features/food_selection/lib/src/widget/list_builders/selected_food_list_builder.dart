@@ -20,7 +20,9 @@ class SelectedFoodListBuilder extends StatelessWidget {
             snackBar: SnackBar(
               content: Text('حذف شد'),
               action: SnackBarAction(
-                  label: 'انصراف', onPressed: cubit.selectedFoodUndoRemoved),
+                label: 'انصراف',
+                onPressed: cubit.selectedFoodUndoRemoved,
+              ),
             ),
           );
         }
@@ -50,7 +52,14 @@ class SelectedFoodListBuilder extends StatelessWidget {
           itemCount: selectedFoods.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
-              return const SelectedFoodListBanner();
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DayActivityLevelSegementedButton(),
+                  const SelectedFoodListBanner(),
+                  NutritionDescriptionRestDay(),
+                ],
+              );
             }
             final selectedFood = selectedFoods[index - 1];
 

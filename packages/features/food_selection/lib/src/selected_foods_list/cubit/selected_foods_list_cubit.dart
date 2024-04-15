@@ -3,14 +3,39 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/food_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'selected_foods_list_state.dart';
 
 class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
-  SelectedFoodsListCubit(FoodRepostiory foodRepository)
+  SelectedFoodsListCubit(
+      {required FoodRepostiory foodRepository,
+      required UserRepostiory userRepostiory})
       : _foodRepository = foodRepository,
+        _userRepostiory = userRepostiory,
         super(SelectedFoodsListState()) {
     _filterSelectedFoodsList();
+    _initializeDietInfoCm();
+  }
+  void _initializeDietInfoCm() {
+    _dietInfoSubscription = _userRepostiory.dietInfo.listen((event) {
+      emit(state.copyWith(
+        dietInfo: event,
+      ));
+    });
+  }
+
+  void updateDayActivityLevel(DayActivityLevel dayActivityLevel) {
+    emit(state.copyWith(dayActivityLevel: dayActivityLevel));
+  }
+
+  late StreamSubscription<DietInfo> _dietInfoSubscription;
+
+  @override
+  Future<void> close() {
+    _selectedFoodsListSubscription?.cancel();
+    _dietInfoSubscription.cancel();
+    return super.close();
   }
 
   void _filterSelectedFoodsList() {
@@ -31,13 +56,8 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   final FoodRepostiory _foodRepository;
+  final UserRepostiory _userRepostiory;
   StreamSubscription<List<SelectedFoodCM>>? _selectedFoodsListSubscription;
-  @override
-  Future<void> close() {
-    _selectedFoodsListSubscription?.cancel();
-
-    return super.close();
-  }
 
   void slectedFoodListFiltered(DateTimeRange dateTimeRange) async {
     emit(

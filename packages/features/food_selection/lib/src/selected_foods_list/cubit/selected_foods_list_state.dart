@@ -12,6 +12,8 @@ class SelectedFoodsListState {
   final Set<SelectedFoodCM> selectedFoodsForNewFood;
   final ProcessAsyncStatus creatingNewFoodFromSelectionStatus;
   //  final ProcessAsyncStatus creatingNewFood;
+  final DietInfo dietInfo;
+  final DayActivityLevel dayActivityLevel;
 
   SelectedFoodsListState({
     this.selectedFoodsList = const [],
@@ -24,6 +26,8 @@ class SelectedFoodsListState {
     DateTimeRange? filterSelctedFoodsListDateTimeRange,
     this.lastDeletedSelectedFoods = const [],
     this.newFoodName = '',
+    this.dayActivityLevel = DayActivityLevel.rest,
+    this.dietInfo = const DietInfo.empty(),
   }) : filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
@@ -46,6 +50,8 @@ class SelectedFoodsListState {
     String? newFoodName,
     Set<SelectedFoodCM>? selectedFoodsForNewFood,
     ProcessAsyncStatus? creatingNewFoodFromSelectionStatus,
+    DietInfo? dietInfo,
+    DayActivityLevel? dayActivityLevel,
   }) {
     return SelectedFoodsListState(
       deleteSelectedFoodStatus:
@@ -63,6 +69,8 @@ class SelectedFoodsListState {
           selectedFoodsForNewFood ?? this.selectedFoodsForNewFood,
       creatingNewFoodFromSelectionStatus: creatingNewFoodFromSelectionStatus ??
           this.creatingNewFoodFromSelectionStatus,
+      dietInfo: dietInfo ?? this.dietInfo,
+      dayActivityLevel: dayActivityLevel ?? this.dayActivityLevel,
     );
   }
 }

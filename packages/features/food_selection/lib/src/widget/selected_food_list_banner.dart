@@ -40,6 +40,7 @@ class SelectedFoodListBanner extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      
                       Text(
                           '${context.l10n.selectedFoodListBannerLabelEnergy} $energySum '),
                       Row(

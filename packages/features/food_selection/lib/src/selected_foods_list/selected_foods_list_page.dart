@@ -8,6 +8,7 @@ import 'package:food_repository/food_repository.dart';
 
 import 'package:food_selection/food_selection.dart';
 import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
+import 'package:user_repository/user_repository.dart';
 
 class SelectedFoodsListPage extends StatelessWidget {
   const SelectedFoodsListPage({super.key});
@@ -16,7 +17,8 @@ class SelectedFoodsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SelectedFoodsListCubit(
-        RepositoryProvider.of<FoodRepostiory>(context),
+        foodRepository: RepositoryProvider.of<FoodRepostiory>(context),
+        userRepostiory: RepositoryProvider.of<UserRepostiory>(context),
       ),
       // lazy: true,
       child: const SelectedFoodsListView(),

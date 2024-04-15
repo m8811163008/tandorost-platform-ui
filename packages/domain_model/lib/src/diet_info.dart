@@ -64,10 +64,12 @@ class DietInfo {
   MacroNutritionRequirements macroNutritionRequirements(
       DayActivityLevel dayActivityLevel) {
     return MacroNutritionRequirements(
-        weight: weight,
-        totalDailyEnergyExpenditure: totalDailyEnergyExpenditure,
-        dayActivityLevel: dayActivityLevel,
-        changeWeightSpeed: changeWeightSpeed);
+      weight: weight,
+      totalDailyEnergyExpenditure: totalDailyEnergyExpenditure,
+      dayActivityLevel: dayActivityLevel,
+      activityLevelCM: activityLevelCM,
+      changeWeightSpeed: changeWeightSpeed,
+    );
   }
 
   DietInfo copyWith({
@@ -92,10 +94,13 @@ class DietInfo {
 }
 
 enum BmiLevels {
-  underweight(max: 18.4),
-  healthyWeight(min: 18.5, max: 24.9),
-  overweight(min: 25.0, max: 29.9),
-  obesity(min: 30);
+  underweight(max: 18.5),
+  healthyWeight(min: 18.5, max: 25.0),
+  overweight(min: 25.0, max: 30),
+  obesClass1(min: 30, max: 35.0),
+  obesClass2(min: 35.0, max: 40.0),
+  obesClass3(min: 40.0);
+  // todo change to BMI prime
 
   const BmiLevels({this.min = 0, this.max = double.infinity});
   final double min;
@@ -114,57 +119,77 @@ class MacroNutritionRequirements {
   final double weight;
   final double totalDailyEnergyExpenditure;
   final DayActivityLevel dayActivityLevel;
+  final ActivityLevelCM activityLevelCM;
   final ChangeWeightSpeed changeWeightSpeed;
 
-  MacroNutritionRequirements(
-      {required this.weight,
-      required this.totalDailyEnergyExpenditure,
-      required this.dayActivityLevel,
-      required this.changeWeightSpeed});
+  MacroNutritionRequirements({
+    required this.weight,
+    required this.totalDailyEnergyExpenditure,
+    required this.dayActivityLevel,
+    required this.activityLevelCM,
+    required this.changeWeightSpeed,
+  });
 
-  double get _proteinPerKilogram => switch (changeWeightSpeed) {
-        ChangeWeightSpeed.none => switch (dayActivityLevel) {
-            DayActivityLevel.moderate => 0.0,
-            DayActivityLevel.rest => 0.0,
+  double get _proteinPerKilogram => switch (activityLevelCM) {
+        ActivityLevelCM.sedentary => switch (dayActivityLevel) {
+            DayActivityLevel.moderate => 0.8,
+            DayActivityLevel.rest => 1.8,
           },
-        ChangeWeightSpeed.slowAndEasy => switch (dayActivityLevel) {
-            DayActivityLevel.moderate => 0.0,
-            DayActivityLevel.rest => 0.0,
+        ActivityLevelCM.fairyActive => switch (dayActivityLevel) {
+            DayActivityLevel.moderate => 1.2,
+            DayActivityLevel.rest => 2.0,
           },
-        ChangeWeightSpeed.slowAndEasy => switch (dayActivityLevel) {
-            DayActivityLevel.moderate => 0.0,
-            DayActivityLevel.rest => 0.0,
+        ActivityLevelCM.moderatelyActive => switch (dayActivityLevel) {
+            DayActivityLevel.moderate => 1.5,
+            DayActivityLevel.rest => 2.3,
           },
-        ChangeWeightSpeed.medium => switch (dayActivityLevel) {
-            DayActivityLevel.moderate => 0.0,
-            DayActivityLevel.rest => 0.0,
+        ActivityLevelCM.active => switch (dayActivityLevel) {
+            DayActivityLevel.moderate => 2.0,
+            DayActivityLevel.rest => 2.7,
           },
-        ChangeWeightSpeed.fastAndHard => switch (dayActivityLevel) {
-            DayActivityLevel.moderate => 0.0,
-            DayActivityLevel.rest => 0.0,
+        ActivityLevelCM.veryActive => switch (dayActivityLevel) {
+            DayActivityLevel.moderate => 2.2,
+            DayActivityLevel.rest => 2.7,
           }
       };
 
+  /// Daily requirement protein of this person.
   double get protein => _proteinPerKilogram * weight;
+
+  // How much energy should we substract based on [dayActivityLevel] and [changeWeightSpeed].
+  double _dayActivityMultiplier(DayActivityLevel dayActivityLevel) {
+    return switch (dayActivityLevel) {
+      DayActivityLevel.moderate => changeWeightSpeed.trainingDayChangeValue,
+      DayActivityLevel.rest => changeWeightSpeed.restDayChangeValue,
+    };
+  }
+
+  /// Daily requirement of total energy expenditure based on [dayActivityLevel] and [changeWeightSpeed].
+  int get effectiveTotalDailyEnergyExpenditure => (totalDailyEnergyExpenditure *
+          (1 - _dayActivityMultiplier(dayActivityLevel)))
+      .toInt();
 
   /// 35% of totalDailyEnergyExpenditure should be helthy fats.
   ///
   /// 10% saturated and 12% mono unsaturated and 13% polysaturated.
-  double get fat => 0.35 * totalDailyEnergyExpenditure / 9;
+  double get fat => 0.35 * effectiveTotalDailyEnergyExpenditure / 9;
 
   double get _carbohydrateCalorie {
     // totalDailyEnergyExpenditure - fatCalorie - proteinCalorie
-    return totalDailyEnergyExpenditure -
-        (0.35 * totalDailyEnergyExpenditure) -
+    return effectiveTotalDailyEnergyExpenditure -
+        (0.35 * effectiveTotalDailyEnergyExpenditure) -
         (protein * 4);
   }
 
+  // carbohydrate in grams
   double get carbohydrate => _carbohydrateCalorie / 4;
 
   double get carbohydrateFruitVegetable {
     return switch (dayActivityLevel) {
-      DayActivityLevel.moderate => 0.25 * carbohydrate,
-      DayActivityLevel.rest => 0.4 * carbohydrate
+      // 33% of carb is vegetable
+      DayActivityLevel.moderate => 0.33 * carbohydrate,
+      // 66% of carb is vegetable
+      DayActivityLevel.rest => 0.66 * carbohydrate
     };
   }
 
