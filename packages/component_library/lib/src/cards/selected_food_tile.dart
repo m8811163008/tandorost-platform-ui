@@ -36,7 +36,7 @@ class SelectedFoodListTile extends StatelessWidget {
           title: Text(
             '$count $unitOfMeasurement $title',
           ),
-          leading: _SelectedFoodListTilePieChart(
+          trailing: _SelectedFoodListTilePieChart(
             macroNutrition: macroNutrition,
           ),
           subtitle: _buildSubtitle(context),

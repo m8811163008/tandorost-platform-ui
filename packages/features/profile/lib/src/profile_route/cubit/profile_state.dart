@@ -11,6 +11,7 @@ class ProfileState {
 
   final Set<DomainChartType> supportedChartType;
   final Set<BodyCompositionError> bodyCompositionErrors;
+  final DietInfo dietInfo;
 
   const ProfileState({
     this.resettingStatus = ProcessAsyncStatus.initial,
@@ -19,27 +20,8 @@ class ProfileState {
     this.chartType = DomainChartType.weight,
     this.supportedChartType = const {},
     this.bodyCompositionErrors = const {},
+    this.dietInfo = const DietInfo.empty(),
   });
-
-  ProfileState copyWith({
-    ProcessAsyncStatus? resettingStatus,
-    ProcessAsyncStatus? changeWeightSpeedStatus,
-    ProfileCM? profile,
-    DomainChartType? chartType,
-    Set<DomainChartType>? supportedChartType,
-    Set<BodyCompositionError>? bodyCompositionErrors,
-  }) {
-    return ProfileState(
-      resettingStatus: resettingStatus ?? this.resettingStatus,
-      changeWeightSpeedStatus:
-          changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
-      profile: profile ?? this.profile,
-      chartType: chartType ?? this.chartType,
-      supportedChartType: supportedChartType ?? this.supportedChartType,
-      bodyCompositionErrors:
-          bodyCompositionErrors ?? this.bodyCompositionErrors,
-    );
-  }
 
   List<BioDataCM> get chartData {
     return switch (chartType) {
@@ -63,6 +45,28 @@ class ProfileState {
           .toList(),
     };
   }
+
+  ProfileState copyWith({
+    ProcessAsyncStatus? resettingStatus,
+    ProcessAsyncStatus? changeWeightSpeedStatus,
+    ProfileCM? profile,
+    DomainChartType? chartType,
+    Set<DomainChartType>? supportedChartType,
+    Set<BodyCompositionError>? bodyCompositionErrors,
+    DietInfo? dietInfo,
+  }) {
+    return ProfileState(
+      resettingStatus: resettingStatus ?? this.resettingStatus,
+      changeWeightSpeedStatus:
+          changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
+      profile: profile ?? this.profile,
+      chartType: chartType ?? this.chartType,
+      supportedChartType: supportedChartType ?? this.supportedChartType,
+      bodyCompositionErrors:
+          bodyCompositionErrors ?? this.bodyCompositionErrors,
+      dietInfo: dietInfo ?? this.dietInfo,
+    );
+  }
 }
 
 extension on ActivityLevelCMData {
@@ -76,4 +80,7 @@ enum BodyCompositionError {
   waistCircumfrenceIsGratherThan94or80,
   // is waist to height is greather than 0.5
   waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive,
+  // TODO
+  // دریافت حداقل 3 گرم کربوهیدرات به ازای هر کیلو وزن بدن بعنی {x} برای نگه داشتن قدرت عظلات شما ضروری است.
+  //  lowCarbohydrate
 }

@@ -5,3 +5,4 @@ export 'unit_of_measurement.dart';
 export 'navigation_routes.dart';
 export 'profile.dart';
 export 'body_composition_values.dart';
+export 'diet_info.dart';

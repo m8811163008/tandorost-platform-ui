@@ -93,7 +93,6 @@ class ProfileView extends StatelessWidget {
             ),
             const AppLineChartBuilder(),
             const AppLineChartInputChips(),
-            const BodyShapeProgressConsidration(),
           ],
         ),
       ),
@@ -162,14 +161,8 @@ class ProfileView extends StatelessWidget {
                 style: context.themeData.textTheme.bodyLarge,
               ),
               children: [
-                Text(
-                  'وضعیت فعلی 2 ',
-                  style: context.themeData.textTheme.bodyLarge,
-                ),
-                Text(
-                  'وضعیت فعلی 3 ',
-                  style: context.themeData.textTheme.bodyLarge,
-                ),
+                const BodyShapeProgressConsidration(),
+                UserDescriptiveProfile(),
               ],
             );
           },
@@ -422,16 +415,38 @@ class BodyShapeProgressConsidration extends StatelessWidget {
       };
 }
 
+class UserDescriptiveProfile extends StatelessWidget {
+  const UserDescriptiveProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<ProfileCubit, ProfileState, DietInfo>(
+      selector: (state) => state.dietInfo,
+      builder: (context, dietInfo) {
+        return Column(children: []);
+      },
+    );
+  }
+}
+
 class _ErrorText extends StatelessWidget {
   const _ErrorText({super.key, this.text = ''});
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: context.themeData.textTheme.labelMedium!
-          .copyWith(color: context.themeData.colorScheme.error),
+    return Material(
+      borderRadius: BorderRadius.circular(context.sizesExtenstion.small),
+      color: context.themeData.colorScheme.secondaryContainer,
+      child: Padding(
+        padding: EdgeInsets.all(context.sizesExtenstion.medium),
+        child: Text(
+          text,
+          style: context.themeData.textTheme.labelMedium!
+              .copyWith(color: context.themeData.colorScheme.error),
+          maxLines: 4,
+        ),
+      ),
     );
   }
 }

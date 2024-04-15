@@ -88,6 +88,7 @@ void main() async {
 // recalculate
 // error handling of forms for example UpsertFoodBottomSheet
 // animation to text field of first page
+// add next month and last month to date picker in initilize profile wizard date picker
 
 // [x] initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
 // add magnifier and font size setting and density

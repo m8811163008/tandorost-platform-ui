@@ -14,10 +14,19 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.userRepostiory, this.foodRepostiory)
       : super(const ProfileState()) {
     _initializeProfileCm();
+    _initializeDietInfoCm();
   }
 
   final UserRepostiory userRepostiory;
   final FoodRepostiory foodRepostiory;
+
+  void _initializeDietInfoCm() {
+    _dietInfoSubscription = userRepostiory.dietInfo.listen((event) {
+      emit(state.copyWith(
+        dietInfo: event,
+      ));
+    });
+  }
 
   void _initializeProfileCm() {
     _profileStreamSubscription = userRepostiory.userProfile.listen((event) {
@@ -99,9 +108,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   late StreamSubscription<ProfileCM> _profileStreamSubscription;
+  late StreamSubscription<DietInfo> _dietInfoSubscription;
   @override
   Future<void> close() {
     _profileStreamSubscription.cancel();
+    _dietInfoSubscription.cancel();
     return super.close();
   }
 
@@ -120,36 +131,14 @@ class ProfileCubit extends Cubit<ProfileState> {
             (1 - (0.007 * (diffhourBetweenWeights / weekhours))));
   }
 
-  bool get isWaistCircumferenceToHeightRatioSafe {
-    if (state.profile.bodyComposition.waistCircumference.isEmpty ||
-        state.profile.bodyComposition.height.isEmpty) return true;
-    // ratio of waistCircumference to height should be less than 0.5
-    final ratio = state.profile.bodyComposition.waistCircumference.last.value /
-        state.profile.bodyComposition.height.last.value;
-
-    return ratio < 0.5;
-  }
-
-  bool get isWaistCircumferenceSafeRange {
-    if (state.profile.bodyComposition.waistCircumference.isEmpty ||
-        state.profile.bodyComposition.height.isEmpty ||
-        state.profile.isMale == null) return true;
-    // ratio of waistCircumference to height should be less than 0.5
-    final waistCircumference =
-        state.profile.bodyComposition.waistCircumference.last.value;
-
-    return state.profile.isMale!
-        ? waistCircumference < 94
-        : waistCircumference < 80;
-  }
-
   void calculateBodyCompositionValidation() {
     Set<BodyCompositionError> errors = {
       if (!isWeightChangeSafe) BodyCompositionError.weightChange,
-      if (!isWaistCircumferenceToHeightRatioSafe)
+      // if (!isWaistCircumferenceToHeightRatioSafe)
+      if (!state.dietInfo.isWaistCircumferenceToHeightRatioSafe)
         BodyCompositionError
             .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive,
-      if (!isWaistCircumferenceSafeRange)
+      if (!state.dietInfo.isWaistCircumferenceSafeRange)
         BodyCompositionError.waistCircumfrenceIsGratherThan94or80,
     };
     emit(state.copyWith(bodyCompositionErrors: errors));
