@@ -330,6 +330,7 @@
     "selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine5": "85 گرم گوشت قرمز یا گوشت پرنده",
     "selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine6": "100 گرم ماهی",
     "selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine7": "17 گرم پودر پروتئین وی",
+    "selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine8": "400 گرم لوبیا یا عدس پخته شده",
     "selectedFoodsListUserNutritionExerciseDayProtein4": "شیر شامل آب و پروتئین و کربوهیدرات و مواد مغذی است که آن را برای بهبود ماهیچه بعد از تمرین گزینه عالی میکند زیرا باعث تامین ذخیره گلیکوژن و ترکیب پروتئین برای ساخت ماهیچه و آب رسانی به بدن میشود. تفاوتی ندارد به شکل شیر کم چرب یا پرچرب باشد یا به شکل شیر قهوه یا شیر کاکائو یا با مزه های متفاوت میل کنید.",
     "selectedFoodsListUserNutritionExerciseDayProtein5": "برای ریکاوری و مایچه سازی آخر شب مواد حاوی Casein یا کازین مثل شیر یا ماست یا مکمل میل کنید. پرتئین به شما احساس پر بودن و سیری طولانی مدت و خواب عمیق تر میدهد.",
     "selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate1": "زمان و مقدار مصرف کربوهیدرات قبل از تمرین باهم در ارتباط است به صورت کلی 1 تا 4 گرم کربوهیدرات به ازای هر کیلو وزن بدن از 1 تا 4 ساعت مانده به تمرین میتونید مصرف کنید. برای مثال با وزن {weight} کیلویی شما اگر 2 ساعت به شروع تمرین باقی مانده میتوانید {carbohydrate} گرم کربوهیدرات به همراه {protein} گرم پروتئین با کیفیت بخورید.",

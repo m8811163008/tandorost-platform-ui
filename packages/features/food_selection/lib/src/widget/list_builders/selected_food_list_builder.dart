@@ -29,7 +29,8 @@ class SelectedFoodListBuilder extends StatelessWidget {
       },
       buildWhen: (previous, current) =>
           previous.selectedFoodsList != current.selectedFoodsList ||
-          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood,
+          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood ||
+          previous.dayActivityLevel != current.dayActivityLevel,
       builder: (context, state) {
         if (state.selectedFoodsList.isEmpty) {
           return Column(
@@ -57,7 +58,13 @@ class SelectedFoodListBuilder extends StatelessWidget {
                 children: [
                   DayActivityLevelSegementedButton(),
                   const SelectedFoodListBanner(),
-                  NutritionDescriptionRestDay(),
+                  if (state.dayActivityLevel.isRest)
+                    NutritionDescriptionRestDay(),
+                  if (state.dayActivityLevel.isModerate) ...[
+                    NutritionDescriptionExcerciseDayProtein(),
+                    NutritionDescriptionExcerciseDayCarbohydrate(),
+                    NutritionDescriptionExcerciseDayHydration()
+                  ]
                 ],
               );
             }

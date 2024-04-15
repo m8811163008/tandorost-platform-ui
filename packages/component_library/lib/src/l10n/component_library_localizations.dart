@@ -629,7 +629,7 @@ abstract class ComponentLibraryLocalizations {
   ///
   /// In fa, this message translates to:
   /// **'اگر در منطقه معتدل آب و هوایی زندگی میکنید خوردن حداقل {waterVolume} لیتر آب برای شما نیاز است مهم نیست آب از دمنوش و چای و قهوه یا آب میوه یا نوشیدنی انرژی باشد. هرچه محیط گرم تر باشد آب بیشتری نیاز دارید و برعکس.'**
-  String selectedFoodsListUserNutritionRestDayHydration4(Object waterVolume);
+  String selectedFoodsListUserNutritionRestDayHydration4(double waterVolume);
 
   /// No description provided for @selectedFoodsListUserNutritionExerciseDayProtein1.
   ///
@@ -690,6 +690,12 @@ abstract class ComponentLibraryLocalizations {
   /// In fa, this message translates to:
   /// **'17 گرم پودر پروتئین وی'**
   String get selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine7;
+
+  /// No description provided for @selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine8.
+  ///
+  /// In fa, this message translates to:
+  /// **'400 گرم لوبیا یا عدس پخته شده'**
+  String get selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine8;
 
   /// No description provided for @selectedFoodsListUserNutritionExerciseDayProtein4.
   ///

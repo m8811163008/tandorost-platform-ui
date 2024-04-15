@@ -22,10 +22,12 @@ class DayActivityLevelSegementedButton extends StatelessWidget {
               segments: [
                 ButtonSegment(
                   value: DayActivityLevel.moderate,
-                  label: Text('روز استراحت'),
+                  label: Text('روز تمرین'),
                 ),
                 ButtonSegment(
-                    value: DayActivityLevel.rest, label: Text('روز تمرین'))
+                  value: DayActivityLevel.rest,
+                  label: Text('روز استراحت'),
+                )
               ],
               showSelectedIcon: false,
               selected: {dayActivityLevel},

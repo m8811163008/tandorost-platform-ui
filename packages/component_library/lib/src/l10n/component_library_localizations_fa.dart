@@ -475,8 +475,14 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get selectedFoodsListUserNutritionRestDayHydration3 => 'آهن و زینک و کلسیم دارای سیستم جذب و انتقال یکسان هستند پس مصرف زیاد آهن باعث کاهش جذب زینک و کلسیم میشه پس اگر صبح مواد غذایی شامل آهن میخورید سعی کنید مواد غذایی شامل کلسیم مثل شیر یا شامل زینک مثل گوشت قرمز یا غلات کامل را با آن نخورید.';
 
   @override
-  String selectedFoodsListUserNutritionRestDayHydration4(Object waterVolume) {
-    return 'اگر در منطقه معتدل آب و هوایی زندگی میکنید خوردن حداقل $waterVolume لیتر آب برای شما نیاز است مهم نیست آب از دمنوش و چای و قهوه یا آب میوه یا نوشیدنی انرژی باشد. هرچه محیط گرم تر باشد آب بیشتری نیاز دارید و برعکس.';
+  String selectedFoodsListUserNutritionRestDayHydration4(double waterVolume) {
+    final intl.NumberFormat waterVolumeNumberFormat = intl.NumberFormat.decimalPatternDigits(
+      locale: localeName,
+      decimalDigits: 1
+    );
+    final String waterVolumeString = waterVolumeNumberFormat.format(waterVolume);
+
+    return 'اگر در منطقه معتدل آب و هوایی زندگی میکنید خوردن حداقل $waterVolumeString لیتر آب برای شما نیاز است مهم نیست آب از دمنوش و چای و قهوه یا آب میوه یا نوشیدنی انرژی باشد. هرچه محیط گرم تر باشد آب بیشتری نیاز دارید و برعکس.';
   }
 
   @override
@@ -508,6 +514,9 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String get selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine7 => '17 گرم پودر پروتئین وی';
+
+  @override
+  String get selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine8 => '400 گرم لوبیا یا عدس پخته شده';
 
   @override
   String get selectedFoodsListUserNutritionExerciseDayProtein4 => 'شیر شامل آب و پروتئین و کربوهیدرات و مواد مغذی است که آن را برای بهبود ماهیچه بعد از تمرین گزینه عالی میکند زیرا باعث تامین ذخیره گلیکوژن و ترکیب پروتئین برای ساخت ماهیچه و آب رسانی به بدن میشود. تفاوتی ندارد به شکل شیر کم چرب یا پرچرب باشد یا به شکل شیر قهوه یا شیر کاکائو یا با مزه های متفاوت میل کنید.';

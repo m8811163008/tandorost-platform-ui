@@ -126,3 +126,306 @@ class NutritionDescriptionRestDay extends StatelessWidget {
     );
   }
 }
+
+class NutritionDescriptionExcerciseDayProtein extends StatelessWidget {
+  const NutritionDescriptionExcerciseDayProtein({super.key});
+
+  Text _buildText(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
+          buildWhen: (previous, current) =>
+              previous.dayActivityLevel != current.dayActivityLevel ||
+              previous.dietInfo != current.dietInfo,
+          builder: (context, state) {
+            final activityLeveLable = context.l10n
+                .selectedFoodsDailyActivityLevel(state.dayActivityLevel.name);
+            final nutrition = state.dietInfo
+                .macroNutritionRequirements(state.dayActivityLevel);
+
+            return ExpansionTile(
+              title: Text(
+                'انرژی و پروتئین',
+                // style: context.themeData.textTheme.bodyLarge,
+              ),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('انرژی'),
+                    _buildText(
+                      context.l10n.selectedFoodsListUserNutritionRequirement(
+                          activityLeveLable,
+                          nutrition.effectiveTotalDailyEnergyExpenditure,
+                          nutrition.protein,
+                          nutrition.carbohydrateFruitVegetable,
+                          nutrition.carbohydrateNonFruitVegetable,
+                          nutrition.fat),
+                    ),
+                    Divider(),
+                    Text('پروتئین'),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayProtein1),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayProtein2),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayProtein3),
+                    _buildLucineProteinSampleFood(context),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayProtein4),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayProtein5),
+                  ],
+                )
+                // const UserDescriptiveProfile(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLucineProteinSampleFood(BuildContext context) {
+    return Table(
+      border: TableBorder.all(),
+      columnWidths: const <int, TableColumnWidth>{
+        0: FlexColumnWidth(),
+        1: FlexColumnWidth(),
+      },
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: <TableRow>[
+        TableRow(
+          children: <Widget>[
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine1),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine2),
+            ),
+          ],
+        ),
+        TableRow(
+          children: <Widget>[
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine3),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine4),
+            ),
+          ],
+        ),
+        TableRow(
+          children: <Widget>[
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine5),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine6),
+            ),
+          ],
+        ),
+        TableRow(
+          children: <Widget>[
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine7),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.top,
+              child: Text(context.l10n
+                  .selectedFoodsListUserNutritionExerciseDayProtein3SampleLucine8),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class NutritionDescriptionExcerciseDayCarbohydrate extends StatelessWidget {
+  const NutritionDescriptionExcerciseDayCarbohydrate({super.key});
+
+  Text _buildText(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
+          buildWhen: (previous, current) =>
+              previous.dayActivityLevel != current.dayActivityLevel ||
+              previous.dietInfo != current.dietInfo,
+          builder: (context, state) {
+            final nutrition = state.dietInfo
+                .macroNutritionRequirements(state.dayActivityLevel);
+            final proteinPerMeal = nutrition.protein ~/ (16 / 3);
+            return ExpansionTile(
+              title: Text(
+                'کربوهیدرات',
+                // style: context.themeData.textTheme.bodyLarge,
+              ),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('قبل از تمرین'),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate1(
+                        state.dietInfo.weight.toInt(),
+                        state.dietInfo.weight.toInt() * 2,
+                        proteinPerMeal,
+                      ),
+                    ),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate2),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate3),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate4),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate5),
+                    Divider(),
+                    Text('زمان تمرین'),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate1),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate2),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate3),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate4),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate5),
+                    Divider(),
+                    Text('بعد از تمرین'),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate1),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate2),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate4),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate5(
+                        state.dietInfo.weight.toInt(),
+                        (state.dietInfo.weight * 1.2).toInt(),
+                      ),
+                    ),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate6),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate7),
+                    _buildText(context.l10n
+                        .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate8),
+                  ],
+                )
+                // const UserDescriptiveProfile(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class NutritionDescriptionExcerciseDayHydration extends StatelessWidget {
+  const NutritionDescriptionExcerciseDayHydration({super.key});
+
+  Text _buildText(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
+          buildWhen: (previous, current) =>
+              previous.dayActivityLevel != current.dayActivityLevel ||
+              previous.dietInfo != current.dietInfo,
+          builder: (context, state) {
+            return ExpansionTile(
+              title: Text(
+                'آب رسانی',
+                // style: context.themeData.textTheme.bodyLarge,
+              ),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration1,
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration2,
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration3,
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration4,
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration5(
+                              (state.dietInfo.weight * 5).toInt(),
+                              (state.dietInfo.weight * 10).toInt()),
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration6,
+                    ),
+                    _buildText(
+                      context.l10n
+                          .selectedFoodsListUserNutritionExerciseDayHydration7,
+                    ),
+                  ],
+                )
+                // const UserDescriptiveProfile(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
