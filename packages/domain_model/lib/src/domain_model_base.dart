@@ -6,3 +6,4 @@ export 'navigation_routes.dart';
 export 'profile.dart';
 export 'body_composition_values.dart';
 export 'diet_info.dart';
+export 'selected_food_nutrition_info.dart';

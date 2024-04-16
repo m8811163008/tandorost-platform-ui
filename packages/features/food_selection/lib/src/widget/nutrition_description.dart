@@ -66,6 +66,10 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                         .selectedFoodsListUserNutritionRestDayCarbohydrate4),
                     Divider(),
                     Text('پروتئین'),
+                    _buildText(context
+                        .l10n.selectedFoodsListUserNutritionRestDayProtein6),
+                    _buildText(context
+                        .l10n.selectedFoodsListUserNutritionRestDayProtein7),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionRestDayProtein1(
                             proteinPerMeal)),

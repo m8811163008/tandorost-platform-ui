@@ -433,6 +433,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get selectedFoodsListUserNutritionRestDayProtein5 => '*مبتدیان مقدار پروتئین بیشتری نسبت به ورزشکار حرفه ای نیاز دارند ( تا 3 هفته اول 40 درصد بیشتر از افراد حرفه ای هست)';
 
   @override
+  String get selectedFoodsListUserNutritionRestDayProtein6 => 'اگر به اندازه کافی پروتئین بخورید میتوانید بدون ورزش و با حداقل کاهش ماهیچه ، چربی کم کنید.';
+
+  @override
+  String get selectedFoodsListUserNutritionRestDayProtein7 => 'برای سرعت بیشتر و خوش اندام شدن و افزایش ماهیچه و پرورش اندام میتوانید ورزش کنید';
+
+  @override
   String get selectedFoodsListUserNutritionRestDayFat1 => 'چربی بیشترین مقدار انرژی را بین مواد غذایی دارد و به راحتی در خوردن آن زیاده روی میشود. برای مثال انرژی یک قاشق غذاخوری روغن، 9 کیلوکالری ضربدر 15 گرم یا 135 کیلو کالری در هر قاشق غذاخوری است پس به مقدار روغن دقت کنید.';
 
   @override

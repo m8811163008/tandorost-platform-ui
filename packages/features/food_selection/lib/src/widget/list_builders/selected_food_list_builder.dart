@@ -57,6 +57,9 @@ class SelectedFoodListBuilder extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DayActivityLevelSegementedButton(),
+                  //if paid customer
+                  const SelectedFoodListBannerPaid(),
+                  // if unpaid
                   const SelectedFoodListBanner(),
                   if (state.dayActivityLevel.isRest)
                     NutritionDescriptionRestDay(),

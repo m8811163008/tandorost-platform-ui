@@ -541,6 +541,18 @@ abstract class ComponentLibraryLocalizations {
   /// **'*مبتدیان مقدار پروتئین بیشتری نسبت به ورزشکار حرفه ای نیاز دارند ( تا 3 هفته اول 40 درصد بیشتر از افراد حرفه ای هست)'**
   String get selectedFoodsListUserNutritionRestDayProtein5;
 
+  /// No description provided for @selectedFoodsListUserNutritionRestDayProtein6.
+  ///
+  /// In fa, this message translates to:
+  /// **'اگر به اندازه کافی پروتئین بخورید میتوانید بدون ورزش و با حداقل کاهش ماهیچه ، چربی کم کنید.'**
+  String get selectedFoodsListUserNutritionRestDayProtein6;
+
+  /// No description provided for @selectedFoodsListUserNutritionRestDayProtein7.
+  ///
+  /// In fa, this message translates to:
+  /// **'برای سرعت بیشتر و خوش اندام شدن و افزایش ماهیچه و پرورش اندام میتوانید ورزش کنید'**
+  String get selectedFoodsListUserNutritionRestDayProtein7;
+
   /// No description provided for @selectedFoodsListUserNutritionRestDayFat1.
   ///
   /// In fa, this message translates to:

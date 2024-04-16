@@ -14,6 +14,8 @@ class SelectedFoodsListState {
   //  final ProcessAsyncStatus creatingNewFood;
   final DietInfo dietInfo;
   final DayActivityLevel dayActivityLevel;
+  final SelectedFoodsInfo selectedFoodsInfo;
+  final int filterDays;
 
   SelectedFoodsListState({
     this.selectedFoodsList = const [],
@@ -28,6 +30,8 @@ class SelectedFoodsListState {
     this.newFoodName = '',
     this.dayActivityLevel = DayActivityLevel.rest,
     this.dietInfo = const DietInfo.empty(),
+    this.selectedFoodsInfo = const SelectedFoodsInfo.empty(),
+    this.filterDays = 1,
   }) : filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
@@ -52,6 +56,8 @@ class SelectedFoodsListState {
     ProcessAsyncStatus? creatingNewFoodFromSelectionStatus,
     DietInfo? dietInfo,
     DayActivityLevel? dayActivityLevel,
+    SelectedFoodsInfo? selectedFoodsInfo,
+    int? filterDays,
   }) {
     return SelectedFoodsListState(
       deleteSelectedFoodStatus:
@@ -71,6 +77,10 @@ class SelectedFoodsListState {
           this.creatingNewFoodFromSelectionStatus,
       dietInfo: dietInfo ?? this.dietInfo,
       dayActivityLevel: dayActivityLevel ?? this.dayActivityLevel,
+      selectedFoodsInfo: selectedFoodsInfo ?? this.selectedFoodsInfo,
+      filterDays: filterDays ?? this.filterDays,
     );
   }
+
+// ceil the days to include last 24 hours in calculation because our calculation is base on 24 hours of RMR.
 }

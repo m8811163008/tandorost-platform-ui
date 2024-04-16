@@ -192,4 +192,6 @@ class CustomColor {
   static const Color fat = Colors.yellow;
   static const Color protein = Colors.red;
   static const Color carbohydrate = Colors.brown;
+  static const Color carbohydrateFruitVegetable = Colors.green;
+  static const Color carbohydrateNonFruitVegetable = Colors.brown;
 }

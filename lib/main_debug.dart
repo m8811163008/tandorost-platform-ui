@@ -95,3 +95,5 @@ void main() async {
 // add change color in setting
 // add general sport in lose weight with 62 and 63% of VO2max, how to calculate vo2 max? optimum speed for weight lose
 // fix paragraph in descriptions
+// consideration with input chips
+// banner in food selection for labels , use leanear instead of percent.

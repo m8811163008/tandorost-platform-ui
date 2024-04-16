@@ -81,6 +81,8 @@ class SelectedFoodListTile extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // textBaseline: TextBaseline.ideographic,
               children: [
                 Text(
                   selectedFoodProteinLabel,
@@ -89,6 +91,16 @@ class SelectedFoodListTile extends StatelessWidget {
                 Text(
                   selectedFoodCarbohydrateLabel,
                 ),
+                // dont show for free
+                if (selectedFood.food.isVegetable)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Icon(
+                      Ionicons.aperture,
+                      color: CustomColor.carbohydrateFruitVegetable,
+                      size: 16.0,
+                    ),
+                  ),
               ],
             ),
           ],

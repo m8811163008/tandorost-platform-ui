@@ -52,7 +52,80 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
           selectedFoodsList: selectedFoodsList,
         ),
       );
+      _updateSelectedFoodsInfo();
+      _updatefilterDaysDuration();
     });
+  }
+
+  void _updatefilterDaysDuration() {
+    if (state.selectedFoodsList.isEmpty) return;
+    final lastSelectedFoodDateTime = state.selectedFoodsList
+        .reduce((value, element) =>
+            value.selectedDate.isBefore(element.selectedDate) ? element : value)
+        .selectedDate;
+    final lastEffectiveSelectedDateTime =
+        lastSelectedFoodDateTime.isBefore(DateTime.now())
+            ? DateTime.now()
+            : lastSelectedFoodDateTime;
+    final days = (lastEffectiveSelectedDateTime
+                .difference(state.filterSelctedFoodsListDateTimeRange.start)
+                .inHours /
+            24)
+        .ceil();
+    emit(
+      state.copyWith(filterDays: days),
+    );
+  }
+
+  void _updateSelectedFoodsInfo() {
+    final double carbohydrateSum = state.selectedFoodsList.fold(
+        0.0,
+        (prev, current) =>
+            prev +
+            current.food.macroNutrition.carbohydrate * current.totalWeight);
+    final double carbohydrateNonFruitVegerableSum = state.selectedFoodsList
+        .where((element) => !element.food.isVegetable)
+        .fold(
+            0.0,
+            (prev, current) =>
+                prev +
+                current.food.macroNutrition.carbohydrate * current.totalWeight);
+    final double carbohydrateFruitVegerableSum = state.selectedFoodsList
+        .where((element) => element.food.isVegetable)
+        .fold(
+            0.0,
+            (prev, current) =>
+                prev +
+                current.food.macroNutrition.carbohydrate * current.totalWeight);
+    assert(carbohydrateFruitVegerableSum + carbohydrateNonFruitVegerableSum <=
+        carbohydrateSum);
+    final double fatSum = state.selectedFoodsList.fold(
+        0.0,
+        (prev, current) =>
+            prev + current.food.macroNutrition.fat * current.totalWeight);
+    final double proteinSum = state.selectedFoodsList.fold(
+        0.0,
+        (prev, current) =>
+            prev + current.food.macroNutrition.protein * current.totalWeight);
+
+    final int totalEnergy = state.selectedFoodsList.fold(
+        0,
+        (prev, current) =>
+            prev + (current.totalWeight * current.food.calorie).toInt());
+
+    final SelectedFoodsInfo selectedFoodsInfo = SelectedFoodsInfo(
+      totalEnergy: totalEnergy,
+      carbohydrate: carbohydrateSum,
+      carbohydrateFruitVegerable: carbohydrateFruitVegerableSum,
+      carbohydrateNonFruitVegerable: carbohydrateNonFruitVegerableSum,
+      fat: fatSum,
+      protein: proteinSum,
+    );
+    emit(
+      state.copyWith(
+        selectedFoodsInfo: selectedFoodsInfo,
+      ),
+    );
   }
 
   final FoodRepostiory _foodRepository;
