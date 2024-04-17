@@ -35,31 +35,32 @@ void main() async {
   );
 }
 
-// health repository [3h]
-// وضعیت فعلی شما در پروفایل[2h]
+// [x]health repository [3h]
+// [x]وضعیت فعلی شما در پروفایل[2h]
 // authentication repostiory [4h] 
+// add update
 // user role for widget tree and then navigation then widgets, create authention widget with stream [3h]
 // create fading text of current stiation in profiel [1h]
 // add recharge subscription or add subscription button [1h]
 // then after opening profile if it is the logged in user then should authenticate with bazzar and can see setting for guest user [1h]
-// add exercise volume day in selected food list banner for subscribers[1h]
-// chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels) for subscribers[1h]
-// expantion tile of considrations with sticky header in selected food list [3h]
+// [x]add exercise volume day in selected food list banner for subscribers[1h]
+// add magnifier and font size setting and density
+// [x]chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels) for subscribers[1h]
+// [x]expantion tile of considrations with sticky header in selected food list [3h]
 // in app purchase for 1 month subscription and 3 months [6h]
+// add support with insta page and website and phone number [تماس با پشتیبانی].
 // center search text field [1h]
 // add tips at main routes and add phycology of writing calorie and its telorance and perception of food calories[5h]
 // build and deploy[2h]
 // sell
+
+
+
 // change the pire chart and text in selected foods list
-
-
-
-
 // news feed like myfitnesspal
-// add support with insta page and website and phone number [تماس با پشتیبانی].
 // add update
 // hold to create recipe from list and handle name conflict
-// banner for paied user
+// [x]banner for paied user
 // sppeed up create food when in search field in main page we search food then it goes add new food but did not hold the state for back to add food
 // [x] hold the state of selected food for unit of measurement 
 // [x] add new food when no food found
@@ -91,7 +92,7 @@ void main() async {
 // add next month and last month to date picker in initilize profile wizard date picker
 
 // [x] initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
-// add magnifier and font size setting and density
+
 // add change color in setting
 // add general sport in lose weight with 62 and 63% of VO2max, how to calculate vo2 max? optimum speed for weight lose
 // fix paragraph in descriptions
