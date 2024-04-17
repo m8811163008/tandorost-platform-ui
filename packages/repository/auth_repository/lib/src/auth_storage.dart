@@ -28,8 +28,12 @@ class AuthStorage {
 
   void purchase() async {
     try {
-      PurchaseInfo purchaseInfo = await FlutterPoolakey.purchase('123456',
-          payload: 'DEVELOPER_PAYLOAD');
+      //dynamicPriceToken در کلاس PurchaseRequest استفاده کنید
+      PurchaseInfo purchaseInfo = await FlutterPoolakey.purchase(
+        '123456',
+        payload: 'DEVELOPER_PAYLOAD',
+        dynamicPriceToken: "",
+      );
     } catch (e) {
       // handle unauthorized
     }
@@ -49,3 +53,47 @@ class AuthStorage {
         await FlutterPoolakey.getInAppSkuDetails(['123456', 'product123']);
   }
 }
+// Security notes
+// In order to prevent phishing and information theft, use the following method to
+// ensure that the correct version of Bazaar is available on the user device:
+// BazaarClientProxy.isBazaarInstalledOnDevice(context)
+// bool? isBazaarInstalled = CafeBazaarAuth.isBazaarInstalledOnDevice;
+
+// BazaarClientProxy.showInstallBazaarView(context)
+// if the Bazaar app is not installed, you can use following method:
+// CafeBazaarAuth.showInstallBazaarView();
+
+// If the Bazaar app is installed, you can use following method to check isNeedUpdate:
+// BazaarClientProxy.isNeededToUpdateBazaar(context)
+// CafeBazaarUpdateInfo? updateInfo = CafeBazaarAuth.isNeededToUpdateBazaar;
+// print(updateInfo.needToUpdateForAuth);
+// print(updateInfo.needToUpdateForStorage);
+
+// In case an update for the Bazaar app is required, use the following method:
+// CafeBazaarAuth.showUpdateBazaarView();
+
+// In case an update for the Bazaar app is required, use the following method:
+// BazaarClientProxy.showUpdateBazaarView(context)
+
+//بررسی وضعیت ورود کاربر
+//این امکان از نسخه ۶.۵ به بعد بازار در دسترس است
+//Login Checker
+
+// ارجاع به صفحه Login بازار
+// Open login page
+
+
+
+// ارجاع به برنامه‌ توسعه‌دهنده
+// Open application detail page
+
+
+//بررسی به‌روزبودن برنامه
+//بروز بودن برنامه روی گوشی کاربران به حفظ ثبات و امنیت  برنامه شما کمک می‌‌کند و این امکان را فراهم می‌‌آورد تا کاربران به جدیدترین قابلیت‌های برنامه شما دسترسی پیدا کنند
+//Update Checker
+
+//API نظرات بازار
+//ارجاع به صفحه نظرات
+//Open comment form
+
+
