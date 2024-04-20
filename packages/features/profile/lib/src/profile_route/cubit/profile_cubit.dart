@@ -122,7 +122,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final secondLastWeight = state.profile.bodyComposition.weight[length - 2];
     final lastWeight = state.profile.bodyComposition.weight[length - 1];
     //if passsed 7 days
-    final weekhours = 7 * 24;
+    const weekhours = 7 * 24;
     final diffhourBetweenWeights =
         lastWeight.logDate.difference(secondLastWeight.logDate).inHours;
     // if lastWeight is less than secondLastWeight and lastWeight is less than (secondLastWeight - 0.007 * secondLastWeight)

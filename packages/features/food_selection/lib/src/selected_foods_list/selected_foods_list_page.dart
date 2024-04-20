@@ -69,7 +69,7 @@ class SelectedFoodsListView extends StatelessWidget {
                         ),
                         child: BlocProvider.value(
                           value: context.read<SelectedFoodsListCubit>(),
-                          child: CreateNewFoodBottomSheet(),
+                          child: const CreateNewFoodBottomSheet(),
                         ),
                       );
                     },

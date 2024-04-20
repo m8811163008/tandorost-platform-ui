@@ -1,5 +1,4 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
@@ -35,7 +34,7 @@ class NutritionDescriptionRestDay extends StatelessWidget {
             // 16 hour awake and should eat every 3 hours
             final proteinPerMeal = nutrition.protein ~/ (16 / 3);
             return ExpansionTile(
-              title: Text(
+              title: const Text(
                 'خلاصه خوراک مورد نیاز',
                 // style: context.themeData.textTheme.bodyLarge,
               ),
@@ -43,7 +42,7 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'انرژی',
                     ),
                     _buildText(
@@ -64,8 +63,8 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                             fivePercentCalorie, sugarCubeCount)),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionRestDayCarbohydrate4),
-                    Divider(),
-                    Text('پروتئین'),
+                    const Divider(),
+                    const Text('پروتئین'),
                     _buildText(context
                         .l10n.selectedFoodsListUserNutritionRestDayProtein6),
                     _buildText(context
@@ -82,8 +81,8 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                             nutrition.protein / nutrition.weight)),
                     _buildText(context
                         .l10n.selectedFoodsListUserNutritionRestDayProtein5),
-                    Divider(),
-                    Text('چربی'),
+                    const Divider(),
+                    const Text('چربی'),
                     _buildText(
                         context.l10n.selectedFoodsListUserNutritionRestDayFat1),
                     _buildText(
@@ -96,8 +95,8 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                         context.l10n.selectedFoodsListUserNutritionRestDayFat5),
                     _buildText(
                         context.l10n.selectedFoodsListUserNutritionRestDayFat6),
-                    Divider(),
-                    Text('ویتامین و مواد معدنی'),
+                    const Divider(),
+                    const Text('ویتامین و مواد معدنی'),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionRestDayVitaminsAndMineral1),
                     _buildText(context.l10n
@@ -108,8 +107,8 @@ class NutritionDescriptionRestDay extends StatelessWidget {
                         .selectedFoodsListUserNutritionRestDayVitaminsAndMineral4),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionRestDayVitaminsAndMineral5),
-                    Divider(),
-                    Text('آب رسانی'),
+                    const Divider(),
+                    const Text('آب رسانی'),
                     _buildText(context
                         .l10n.selectedFoodsListUserNutritionRestDayHydration1),
                     _buildText(context
@@ -157,7 +156,7 @@ class NutritionDescriptionExcerciseDayProtein extends StatelessWidget {
                 .macroNutritionRequirements(state.dayActivityLevel);
 
             return ExpansionTile(
-              title: Text(
+              title: const Text(
                 'انرژی و پروتئین',
                 // style: context.themeData.textTheme.bodyLarge,
               ),
@@ -165,7 +164,7 @@ class NutritionDescriptionExcerciseDayProtein extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('انرژی'),
+                    const Text('انرژی'),
                     _buildText(
                       context.l10n.selectedFoodsListUserNutritionRequirement(
                           activityLeveLable,
@@ -175,8 +174,8 @@ class NutritionDescriptionExcerciseDayProtein extends StatelessWidget {
                           nutrition.carbohydrateNonFruitVegetable,
                           nutrition.fat),
                     ),
-                    Divider(),
-                    Text('پروتئین'),
+                    const Divider(),
+                    const Text('پروتئین'),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionExerciseDayProtein1),
                     _buildText(context.l10n
@@ -293,7 +292,7 @@ class NutritionDescriptionExcerciseDayCarbohydrate extends StatelessWidget {
                 .macroNutritionRequirements(state.dayActivityLevel);
             final proteinPerMeal = nutrition.protein ~/ (16 / 3);
             return ExpansionTile(
-              title: Text(
+              title: const Text(
                 'کربوهیدرات',
                 // style: context.themeData.textTheme.bodyLarge,
               ),
@@ -301,7 +300,7 @@ class NutritionDescriptionExcerciseDayCarbohydrate extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('قبل از تمرین'),
+                    const Text('قبل از تمرین'),
                     _buildText(
                       context.l10n
                           .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate1(
@@ -318,8 +317,8 @@ class NutritionDescriptionExcerciseDayCarbohydrate extends StatelessWidget {
                         .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate4),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionExerciseDayBeforeExerciseCarbohydrate5),
-                    Divider(),
-                    Text('زمان تمرین'),
+                    const Divider(),
+                    const Text('زمان تمرین'),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate1),
                     _buildText(context.l10n
@@ -330,8 +329,8 @@ class NutritionDescriptionExcerciseDayCarbohydrate extends StatelessWidget {
                         .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate4),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionExerciseDayDuringExerciseCarbohydrate5),
-                    Divider(),
-                    Text('بعد از تمرین'),
+                    const Divider(),
+                    const Text('بعد از تمرین'),
                     _buildText(context.l10n
                         .selectedFoodsListUserNutritionExerciseDayAfterExerciseCarbohydrate1),
                     _buildText(context.l10n
@@ -384,7 +383,7 @@ class NutritionDescriptionExcerciseDayHydration extends StatelessWidget {
               previous.dietInfo != current.dietInfo,
           builder: (context, state) {
             return ExpansionTile(
-              title: Text(
+              title: const Text(
                 'آب رسانی',
                 // style: context.themeData.textTheme.bodyLarge,
               ),

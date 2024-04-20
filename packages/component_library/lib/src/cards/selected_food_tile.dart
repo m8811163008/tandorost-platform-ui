@@ -93,8 +93,8 @@ class SelectedFoodListTile extends StatelessWidget {
                 ),
                 // dont show for free
                 if (selectedFood.food.isVegetable)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
                     child: Icon(
                       Ionicons.aperture,
                       color: CustomColor.carbohydrateFruitVegetable,

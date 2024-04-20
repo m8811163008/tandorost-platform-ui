@@ -40,7 +40,7 @@ class WizardPageLast extends StatelessWidget {
                   ),
                 );
                 // to show shimmer
-                Timer(Duration(seconds: 2), () {
+                Timer(const Duration(seconds: 2), () {
                   // Navigate to bazzar if is not active subscription
                   // Navigate to profile
                   context.goNamed(Routes.profile);

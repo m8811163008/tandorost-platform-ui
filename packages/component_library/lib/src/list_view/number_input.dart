@@ -65,7 +65,7 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
   @override
   Widget build(BuildContext context) {
     if ((widget.max - widget.min + 1) ~/ widget.step == -1) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
     return ListWheelScrollViewX(
       controller: fixedExtentScrollController,

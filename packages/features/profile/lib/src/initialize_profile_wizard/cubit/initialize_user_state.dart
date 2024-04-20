@@ -24,7 +24,7 @@ class InitializeUserState {
   }) =>
       InitializeUserState(
         currentPage: currentPage ?? this.currentPage,
-        profileCM: wizardUpdatedProfileCM ?? this.createdProfileCM,
+        profileCM: wizardUpdatedProfileCM ?? createdProfileCM,
         formSubmitStatus: formSubmitStatus ?? this.formSubmitStatus,
         bodyCompositionValues:
             bodyCompositionValues ?? this.bodyCompositionValues,
@@ -46,5 +46,5 @@ class InitializeUserState {
     this.bodyCompositionValues =
         const BodyCompositionValues(activityLevel: ActivityLevelCM.fairyActive),
     this.isAgreementAccepted = false,
-  }) : createdProfileCM = profileCM ?? ProfileCM.empty();
+  }) : createdProfileCM = profileCM ?? const ProfileCM.empty();
 }

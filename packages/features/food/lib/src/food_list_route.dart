@@ -41,7 +41,7 @@ class FoodListView extends StatelessWidget {
         initalName: newFoodName,
         initalFood: context.read<FoodBloc>().state.foodsList.singleWhere(
               (element) => element.name == newFoodName,
-              orElse: () => FoodCM.empty(),
+              orElse: () => const FoodCM.empty(),
             ),
       ),
     );
@@ -75,7 +75,7 @@ class FoodListView extends StatelessWidget {
       child: AppScaffold(
         isShowDrawerButton: true,
         actions: [
-          SearchTextField(),
+          const SearchTextField(),
           TextButton.icon(
             icon: const Icon(Ionicons.add),
             label: const Text('خوراک جدید'),

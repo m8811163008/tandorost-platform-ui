@@ -1,5 +1,4 @@
 import 'package:domain_model/domain_model.dart';
-import 'package:local_storage/local_storage.dart';
 import 'package:user_repository/src/user_storage.dart';
 
 class UserRepostiory {

@@ -18,7 +18,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
         if (state.deleteSelectedFoodStatus.isSuccess) {
           context.showSnackbar(
             snackBar: SnackBar(
-              content: Text('حذف شد'),
+              content: const Text('حذف شد'),
               action: SnackBarAction(
                 label: 'انصراف',
                 onPressed: cubit.selectedFoodUndoRemoved,
@@ -56,17 +56,17 @@ class SelectedFoodListBuilder extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  DayActivityLevelSegementedButton(),
+                  const DayActivityLevelSegementedButton(),
                   //if paid customer
                   const SelectedFoodListBannerPaid(),
                   // if unpaid
                   const SelectedFoodListBanner(),
                   if (state.dayActivityLevel.isRest)
-                    NutritionDescriptionRestDay(),
+                    const NutritionDescriptionRestDay(),
                   if (state.dayActivityLevel.isModerate) ...[
-                    NutritionDescriptionExcerciseDayProtein(),
-                    NutritionDescriptionExcerciseDayCarbohydrate(),
-                    NutritionDescriptionExcerciseDayHydration()
+                    const NutritionDescriptionExcerciseDayProtein(),
+                    const NutritionDescriptionExcerciseDayCarbohydrate(),
+                    const NutritionDescriptionExcerciseDayHydration()
                   ]
                 ],
               );

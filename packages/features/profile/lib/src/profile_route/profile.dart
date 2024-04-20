@@ -1,7 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:profile/profile.dart';
@@ -33,7 +32,7 @@ class ProfilePageRedirector extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileState>(
       buildWhen: (previous, current) => previous.profile != current.profile,
       builder: (context, state) {
-        if (state.profile == ProfileCM.empty()) {
+        if (state.profile == const ProfileCM.empty()) {
           return const AppScaffold(
             isShowDrawerButton: true,
             bodyPadding: EdgeInsets.zero,
@@ -58,7 +57,7 @@ class ProfileView extends StatelessWidget {
     return AppScaffold(
       isShowDrawerButton: true,
       bodyPadding: EdgeInsets.zero,
-      actions: [
+      actions: const [
         _AddNewMeasurement(),
       ],
       child: ListView(
@@ -102,7 +101,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildProfileCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
@@ -133,11 +132,11 @@ class ProfileView extends StatelessWidget {
                 Divider(
                   height: context.sizesExtenstion.medium,
                 ),
-                LoseWeightLabel(),
+                const LoseWeightLabel(),
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                LoseWeightSpeedSegmentedButtons(),
+                const LoseWeightSpeedSegmentedButtons(),
               ],
             );
           },
@@ -148,7 +147,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildEnergyCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<ProfileCubit, ProfileState>(
@@ -168,7 +167,7 @@ class ProfileView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const BodyShapeProgressConsidration(),
-                    if (!state.bodyCompositionErrors.isEmpty) Divider(),
+                    if (state.bodyCompositionErrors.isNotEmpty) const Divider(),
                     Text(
                       context.l10n.profileBmiDescription(
                         state.dietInfo.bmi,
@@ -191,7 +190,7 @@ class ProfileView extends StatelessWidget {
                         textDirection: TextDirection.ltr,
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     _buildSleepAndStressSection(context)
                   ],
                 ),
@@ -217,7 +216,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildSummaryCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
@@ -230,8 +229,8 @@ class ProfileView extends StatelessWidget {
                 'خلاصه خوراک مورد نیاز',
                 style: context.themeData.textTheme.bodyLarge,
               ),
-              children: [
-                const UserDescriptiveProfile(),
+              children: const [
+                UserDescriptiveProfile(),
               ],
             );
           },
@@ -242,7 +241,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildHealthRiskDescriptionCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
@@ -255,7 +254,7 @@ class ProfileView extends StatelessWidget {
                 'خلاصه خوراک مورد نیاز',
                 style: context.themeData.textTheme.bodyLarge,
               ),
-              children: [
+              children: const [
                 Text('data'),
               ],
             );
@@ -267,7 +266,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildSettingCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
@@ -284,7 +283,7 @@ class ProfileView extends StatelessWidget {
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                Align(
+                const Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: _ResetDialog(),
                 ),
@@ -302,7 +301,7 @@ class ProfileView extends StatelessWidget {
         showDialog(
           context: context,
           builder: ((context) {
-            return BodyCompositionDialog();
+            return const BodyCompositionDialog();
           }),
         );
       },
@@ -330,7 +329,7 @@ class LoseWeightLabel extends StatelessWidget {
             showDialog(
               context: context,
               builder: ((context) {
-                return LoseWeightSpeedDialog();
+                return const LoseWeightSpeedDialog();
               }),
             );
           },
@@ -370,7 +369,7 @@ class ResetButton extends StatelessWidget {
 }
 
 class _AddNewMeasurement extends StatelessWidget {
-  const _AddNewMeasurement({super.key});
+  const _AddNewMeasurement();
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +406,7 @@ class _AddNewMeasurement extends StatelessWidget {
 }
 
 class _ResetDialog extends StatelessWidget {
-  const _ResetDialog({super.key});
+  const _ResetDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -491,21 +490,21 @@ class BodyShapeProgressConsidration extends StatelessWidget {
   }
 
   Widget buildErrorText(bodyCompositionError) => switch (bodyCompositionError) {
-        BodyCompositionError.weightChange => _ErrorText(
+        BodyCompositionError.weightChange => const _ErrorText(
             text:
                 'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست',
           ),
-        BodyCompositionError.waistCircumfrenceIsGratherThan94or80 => _ErrorText(
+        BodyCompositionError.waistCircumfrenceIsGratherThan94or80 => const _ErrorText(
             text:
                 'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است',
           ),
         BodyCompositionError
               .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive =>
-          _ErrorText(
+          const _ErrorText(
             text:
                 'اندازه دور کمر شما بیشتر از نصف قد شماست ، دور کمر شما زیاد است',
           ),
-        _ => Text('ترجمه نشده است'),
+        _ => const Text('ترجمه نشده است'),
       };
 }
 
@@ -535,7 +534,7 @@ class UserDescriptiveProfile extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('پروتئین'),
+            const Text('پروتئین'),
             Text(
               context.l10n.profileUserDescriptionProtein1(
                 weeklyActivitylevel,
@@ -555,10 +554,10 @@ class UserDescriptiveProfile extends StatelessWidget {
             Text(
               context.l10n.profileUserDescriptionProtein4,
             ),
-            Divider(),
+            const Divider(),
             _buildCarbohydrate(context, dietInfo),
-            Divider(),
-            Text('چربی'),
+            const Divider(),
+            const Text('چربی'),
             Text(context.l10n.profileUserDescriptionFat1),
             Text(context.l10n.profileUserDescriptionFat2),
             Text(context.l10n.profileUserDescriptionFat3),
@@ -578,7 +577,7 @@ class UserDescriptiveProfile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('کربوهیدرات'),
+        const Text('کربوهیدرات'),
         Text(
           context.l10n.profileUserDescriptionCarbohydrate1,
         ),
@@ -599,7 +598,7 @@ class UserDescriptiveProfile extends StatelessWidget {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({super.key, this.text = ''});
+  const _ErrorText({this.text = ''});
   final String text;
 
   @override

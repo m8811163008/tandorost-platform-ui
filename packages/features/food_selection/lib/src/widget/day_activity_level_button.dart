@@ -19,7 +19,7 @@ class DayActivityLevelSegementedButton extends StatelessWidget {
           builder: (context, dayActivityLevel) {
             // TODO change to tabbar is it is ok in desing
             return SegmentedButton(
-              segments: [
+              segments: const [
                 ButtonSegment(
                   value: DayActivityLevel.moderate,
                   label: Text('روز تمرین'),

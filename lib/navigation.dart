@@ -55,7 +55,7 @@ class Navigation {
               name: Routes.foodSelection,
               path: Routes.foodSelection,
               builder: (context, state) {
-                return FoodSelectionRoute();
+                return const FoodSelectionRoute();
               },
               routes: [
                 GoRoute(
@@ -114,7 +114,7 @@ class Navigation {
               await RepositoryProvider.of<UserRepostiory>(context)
                   .userProfile
                   .first;
-          if (userProfile == ProfileCM.empty()) {
+          if (userProfile == const ProfileCM.empty()) {
             return '${Routes.profile}/${Routes.profileActivePremiumWizard}';
           }
         }

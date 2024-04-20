@@ -156,7 +156,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
 
   void activePremiumWizardCreateProfile() async {
     final lastProfile = await userRepostiory.userProfile.first;
-    assert(lastProfile == ProfileCM.empty());
+    assert(lastProfile == const ProfileCM.empty());
     if (state.isValidActivatePremiumForm) {
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,

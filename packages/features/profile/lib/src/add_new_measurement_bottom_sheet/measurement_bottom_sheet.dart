@@ -39,7 +39,7 @@ class MesurementForm extends StatelessWidget {
       listener: (context, state) {
         if (state.formSubmitStatus.isError) {
           context.showSnackbar(
-              snackBar: SnackBar(content: Text('Erro has accured.')));
+              snackBar: const SnackBar(content: Text('Erro has accured.')));
         } else if (state.formSubmitStatus.isSuccess) {
           context.pop();
         }
@@ -126,7 +126,7 @@ class MesurementForm extends StatelessWidget {
           ),
           Row(
             children: [
-              _SaveMeasurementButton(),
+              const _SaveMeasurementButton(),
               SizedBox(
                 width: context.sizesExtenstion.medium,
               ),
@@ -174,9 +174,7 @@ class MesurementForm extends StatelessWidget {
 }
 
 class _SaveMeasurementButton extends StatelessWidget {
-  const _SaveMeasurementButton({
-    super.key,
-  });
+  const _SaveMeasurementButton();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +222,7 @@ class AppElevatedButton extends StatelessWidget {
             ),
             icon: Transform.scale(
               scale: 0.7,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             ),
           );
   }

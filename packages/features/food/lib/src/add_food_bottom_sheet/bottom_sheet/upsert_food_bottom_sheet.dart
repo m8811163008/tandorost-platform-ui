@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class UpsertFoodBottomSheet extends StatefulWidget {
-  UpsertFoodBottomSheet(
+  const UpsertFoodBottomSheet(
       {super.key, this.onfoodUpdated, FoodCM? initalFood, this.initalName})
-      : initalFood = initalFood ?? FoodCM.empty();
+      : initalFood = initalFood ?? const FoodCM.empty();
   final ValueSetter<FoodCM>? onfoodUpdated;
 
   final FoodCM initalFood;
@@ -32,7 +32,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
       TextEditingController();
   String _errorMessage = '';
   FoodCM? _initialFood;
-  MacroNutritionCM _cacheMacronutrition = MacroNutritionCM.empty();
+  MacroNutritionCM _cacheMacronutrition = const MacroNutritionCM.empty();
 
   final doubleInputFormater =
       FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,4}(\.[0-9]{0,5})?$'));
@@ -42,7 +42,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
   @override
   void initState() {
     _initialFood = widget.initalFood;
-    if (_initialFood != FoodCM.empty()) {
+    if (_initialFood != const FoodCM.empty()) {
       _nameTextEditingController.text = _initialFood!.name;
 
       _weightTextEditingController.text = _initialFood!.gramsPerUnit.toString();
@@ -118,7 +118,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.initalFood == FoodCM.empty()
+    final title = widget.initalFood == const FoodCM.empty()
         ? 'اضافه کردن خوراک'
         : 'ویرایش خوراک';
     return BottomSheet(
@@ -316,7 +316,7 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
                       // calorie per 1 grams
                       calorie:
                           _initialFood!.calorie / _initialFood!.gramsPerUnit,
-                      macroNutrition: MacroNutritionCM.empty().copyWith(
+                      macroNutrition: const MacroNutritionCM.empty().copyWith(
                         carbohydrate: _cacheMacronutrition.carbohydrate /
                             _initialFood!.gramsPerUnit,
                         fat: _cacheMacronutrition.fat /
