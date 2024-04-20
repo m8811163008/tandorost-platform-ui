@@ -121,7 +121,7 @@ class UnitOfMesurmenntContent extends StatelessWidget {
                   Center(
                     child: Text(
                         context.l10n.unitOfMeasurementTitle(
-                            unitOfMeasurement.type.name),
+                            unitOfMeasurement.title.name),
                         textAlign: TextAlign.center,
                         style: context.themeData.textTheme.bodyMedium),
                   )

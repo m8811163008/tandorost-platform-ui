@@ -1,11 +1,11 @@
-enum FetchDataStatus {
+enum ProcessAsyncStatus {
   initial,
   loading,
-  loaded,
+  success,
   error;
 
-  bool get isInitial => this == FetchDataStatus.initial;
-  bool get isLoading => this == FetchDataStatus.loading;
-  bool get isLoaded => this == FetchDataStatus.loaded;
-  bool get isError => this == FetchDataStatus.error;
+  bool get isInitial => this == ProcessAsyncStatus.initial;
+  bool get isLoading => this == ProcessAsyncStatus.loading;
+  bool get isSuccess => this == ProcessAsyncStatus.success;
+  bool get isError => this == ProcessAsyncStatus.error;
 }

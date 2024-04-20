@@ -2,6 +2,7 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectDateTimeOptionDialog extends StatelessWidget {
   const SelectDateTimeOptionDialog({super.key});
@@ -50,8 +51,9 @@ class SelectDateTimeOptionDialog extends StatelessWidget {
               builder: (_) {
                 // TODO improve context why the next context doens have the bloc?
                 return BlocProvider.value(
-                    value: context.read<FoodSelectionBloc>(),
-                    child: const SelectCustomDateTimeRangeDialog());
+                  value: context.read<SelectedFoodsListCubit>(),
+                  child: const SelectCustomDateTimeRangeDialog(),
+                );
               },
             );
             if (pickedDate == null || !context.mounted) return;

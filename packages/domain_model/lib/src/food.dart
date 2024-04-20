@@ -1,95 +1,84 @@
-import 'package:equatable/equatable.dart';
+// import 'package:flutter/material.dart';
 
-class Food extends Equatable {
-  final String name;
-  // calorie per 100 grams
-  final int calorie;
-  // 1 gram weight of each unit for example each apple is 100 grams
-  final int gramsPerUnit;
-  // Actual value of macro nutritions
-  final MacroNutrition macroNutrition;
+// import 'package:equatable/equatable.dart';
 
-  const Food({
-    required this.name,
-    required this.calorie,
-    required this.gramsPerUnit,
-    required this.macroNutrition,
-  });
+// class Food extends Equatable {
+//   final String name;
+//   // calorie per 100 grams
+//   final int calorie;
+//   // gram per one unit of food for example each apple is 100 grams
+//   final int gramsPerUnit;
+//   // Actual value of macro nutritions per 100gr
+//   final MacroNutrition macroNutrition;
+//   final bool isVegetable;
 
-  @override
-  List<Object?> get props => [
-        name,
-        calorie,
-        gramsPerUnit,
-        macroNutrition,
-      ];
-  // create empty food
-  factory Food.empty() => Food(
-        name: '',
-        macroNutrition: MacroNutrition.empty,
-        calorie: 0,
-        gramsPerUnit: 0,
-      );
+//   factory Food.empty() {
+//     return Food(
+//       name: '',
+//       calorie: -1,
+//       gramsPerUnit: -1,
+//       macroNutrition: MacroNutrition.empty(),
+//       isVegetable: false,
+//     );
+//   }
 
-  //copywith
-  Food copyWith({
-    String? name,
-    int? calorie,
-    int? gramsPerUnit,
-    MacroNutrition? macroNutrition,
-  }) {
-    return Food(
-      name: name ?? this.name,
-      calorie: calorie ?? this.calorie,
-      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
-      macroNutrition: macroNutrition ?? this.macroNutrition,
-    );
-  }
-}
+//   Food(
+//       {required this.name,
+//       required this.calorie,
+//       required this.gramsPerUnit,
+//       required this.macroNutrition,
+//       required this.isVegetable});
 
-class MacroNutrition extends Equatable {
-  final double carbohydrate;
-  final double fat;
-  final double protein;
-  final bool isVegetable;
+//   @override
+//   List<Object?> get props => [
+//         name,
+//         calorie,
+//         gramsPerUnit,
+//         macroNutrition,
+//       ];
 
-  const MacroNutrition({
-    required this.carbohydrate,
-    required this.fat,
-    required this.protein,
-    required this.isVegetable,
-  });
-  @override
-  List<Object?> get props => [carbohydrate, fat, protein, isVegetable];
+//   //copywith
 
-  // create empty food
-  static const MacroNutrition empty = MacroNutrition(
-    carbohydrate: 0,
-    fat: 0,
-    protein: 0,
-    isVegetable: false,
-  );
+//   Food copyWith(
+//       {String? name,
+//       int? calorie,
+//       int? gramsPerUnit,
+//       MacroNutrition? macroNutrition,
+//       bool? isVegetable}) {
+//     return Food(
+//         name: name ?? this.name,
+//         calorie: calorie ?? this.calorie,
+//         gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
+//         macroNutrition: macroNutrition ?? this.macroNutrition,
+//         isVegetable: isVegetable ?? this.isVegetable);
+//   }
+// }
 
-  double get sum => (carbohydrate) + (fat) + (protein);
-  // fat percent
-  double get fatPercent => fat / sum;
-  // protein percent
-  double get proteinPercent => protein / sum;
-  // carbohydrate percent
-  double get carbohydratePercent => carbohydrate / sum;
+// // Actual values per 100 grams
+// class MacroNutrition extends Equatable {
+//   final double carbohydrate;
+//   final double fat;
+//   final double protein;
 
-  //copy with
-  MacroNutrition copyWith({
-    double? carbohydrate,
-    double? fat,
-    double? protein,
-    bool? isVegetable,
-  }) {
-    return MacroNutrition(
-      carbohydrate: carbohydrate ?? this.carbohydrate,
-      fat: fat ?? this.fat,
-      protein: protein ?? this.protein,
-      isVegetable: isVegetable ?? this.isVegetable,
-    );
-  }
-}
+//   factory MacroNutrition.empty() {
+//     return MacroNutrition(
+//       carbohydrate: -1.0,
+//       fat: -1.0,
+//       protein: -1.0,
+//     );
+//   }
+
+//   MacroNutrition(
+//       {required this.carbohydrate, required this.fat, required this.protein});
+
+//   @override
+//   List<Object?> get props => [carbohydrate, fat, protein];
+
+//   MacroNutrition copyWith(
+//       {double? carbohydrate, double? fat, double? protein}) {
+//     return MacroNutrition(
+//         carbohydrate: carbohydrate ?? this.carbohydrate,
+//         fat: fat ?? this.fat,
+//         protein: protein ?? this.protein);
+//   }
+// }

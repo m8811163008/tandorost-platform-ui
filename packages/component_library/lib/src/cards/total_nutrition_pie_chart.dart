@@ -1,4 +1,4 @@
-import 'package:component_library/component_library.dart';
+import 'package:component_library/component_library.dart' hide PieChart;
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 

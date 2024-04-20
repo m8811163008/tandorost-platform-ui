@@ -3,3 +3,7 @@ export 'user.dart';
 export 'fetch_data_status.dart';
 export 'unit_of_measurement.dart';
 export 'navigation_routes.dart';
+export 'profile.dart';
+export 'body_composition_values.dart';
+export 'diet_info.dart';
+export 'selected_food_nutrition_info.dart';

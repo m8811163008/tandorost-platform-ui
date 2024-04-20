@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_selection/src/bloc/food_selection_bloc.dart';
+import 'package:food_selection/src/food_selection_input/bloc/food_selection_bloc.dart';
 
 class SelectedFoodInfo extends StatelessWidget {
   const SelectedFoodInfo({super.key});
@@ -14,9 +14,13 @@ class SelectedFoodInfo extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.selectedFood != current.selectedFood,
         builder: (context, state) {
-          final measurementUnitCount = state.selectedFood.measurementUnitCount;
-          final unitOfMeasuremnetTitle = context.l10n.unitOfMeasurementTitle(
-              state.selectedFood.unitOfMeasurement.type.name);
+          final selectedUnitOfMeasurement =
+              state.selectedFood.unitOfMeasurmentCM;
+
+          final measurementUnitCount =
+              state.selectedFood.numberOfUnitOfMeasurement;
+          final unitOfMeasuremnetTitle = context.l10n
+              .unitOfMeasurementTitle(selectedUnitOfMeasurement.title);
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +60,7 @@ class SelectedFoodInfo extends StatelessWidget {
                         child: FittedBox(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
-                            state.selectedFood.name,
+                            state.selectedFood.food.name,
                             maxLines: 2,
                             style: context.themeData.textTheme.displaySmall,
                           ),

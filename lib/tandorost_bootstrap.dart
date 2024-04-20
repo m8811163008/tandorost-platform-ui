@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tandorost/tandorost_application.dart';
+import 'package:user_repository/user_repository.dart';
 
 class TandorostBootstrap extends StatefulWidget {
   const TandorostBootstrap({super.key});
@@ -35,9 +36,14 @@ class _TandorostBootstrapState extends State<TandorostBootstrap> {
           late final FoodRepostiory foodRepository = FoodRepostiory(
             cacheStorage,
           );
+
+          late final UserRepostiory userRepository = UserRepostiory(
+            cacheStorage,
+          );
           return MultiRepositoryProvider(
             providers: [
               RepositoryProvider.value(value: foodRepository),
+              RepositoryProvider.value(value: userRepository),
             ],
             child: const TandorostApplication(),
           );

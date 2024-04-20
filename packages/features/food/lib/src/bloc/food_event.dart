@@ -8,12 +8,22 @@ final class ListenedFoodListStream extends FoodEvent {}
 
 sealed class FoodUpsertedScreen extends FoodEvent {}
 
-final class FoodUpdate extends FoodUpsertedScreen {
-  final Food food;
-  FoodUpdate({required this.food});
+final class FoodUpserted extends FoodUpsertedScreen {
+  final FoodCM food;
+  FoodUpserted({required this.food});
 }
 
 final class FoodDeleted extends FoodUpsertedScreen {
-  final Food food;
+  final FoodCM food;
   FoodDeleted({required this.food});
+}
+
+final class _GetFoodNameFromFoodSelectionRoute extends FoodEvent {
+  final String foodName;
+  _GetFoodNameFromFoodSelectionRoute({required this.foodName});
+}
+
+final class SearchFoodSelectionTermChanged extends FoodEvent {
+  final String foodName;
+  SearchFoodSelectionTermChanged({required this.foodName});
 }

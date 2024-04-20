@@ -1,7 +1,8 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_selection/food_selection.dart';
+
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectCustomDateTimeRangeDialog extends StatefulWidget {
   const SelectCustomDateTimeRangeDialog({super.key});
@@ -19,12 +20,12 @@ class _SelectCustomDateTimeRangeDialogState
   @override
   void initState() {
     _startDate = context
-        .read<FoodSelectionBloc>()
+        .read<SelectedFoodsListCubit>()
         .state
         .filterSelctedFoodsListDateTimeRange
         .start;
     _endDate = context
-        .read<FoodSelectionBloc>()
+        .read<SelectedFoodsListCubit>()
         .state
         .filterSelctedFoodsListDateTimeRange
         .end;
@@ -65,7 +66,8 @@ class _SelectCustomDateTimeRangeDialogState
           child: Text(
               '${context.l10n.selectCustomDateTimeRangeDialogFromDate}  ${_jalaliDayText(_startDate)}'),
           onPressed: () async {
-            final selectedDateTime = await _showPersianDatePicker(_startDate.toJalali());
+            final selectedDateTime =
+                await _showPersianDatePicker(_startDate.toJalali());
             if (selectedDateTime != null) {
               setState(
                 () {
@@ -102,7 +104,8 @@ class _SelectCustomDateTimeRangeDialogState
           child: Text(
               '${context.l10n.selectCustomDateTimeRangeDialogToDate}  ${_jalaliDayText(_endDate)}'),
           onPressed: () async {
-            final selectedDateTime = await _showPersianDatePicker(_endDate.toJalali());
+            final selectedDateTime =
+                await _showPersianDatePicker(_endDate.toJalali());
             if (selectedDateTime != null) {
               setState(() {
                 _endDate = _startDate.copyWith(

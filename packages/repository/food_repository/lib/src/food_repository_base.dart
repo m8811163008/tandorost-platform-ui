@@ -1,93 +1,83 @@
 import 'dart:async';
 
 import 'package:domain_model/domain_model.dart';
-import 'package:food_repository/mapper/cache_to_domain.dart';
-import 'package:food_repository/mapper/domain_to_cache.dart';
+
 import 'package:food_repository/src/food_storage.dart';
-import 'package:local_storage/local_storage.dart';
+import 'package:food_repository/src/mapper/cache_to_domain.dart';
 
 class FoodRepostiory {
   final FoodStorage _foodStorage;
+  final FoodRepostioryState foodRepostioryState;
 
   FoodRepostiory(LocalStorage localStorage)
-      : _foodStorage = FoodStorage(localStorage);
+      : _foodStorage = FoodStorage(localStorage),
+        foodRepostioryState = FoodRepostioryState();
 
   // Stream controller of list of food provider stream.
   // The new listener does not need to get last cache emmited data.
-  final StreamController<List<Food>> _foodsController =
-      StreamController<List<Food>>.broadcast();
 
   //Remember, it's important to always close your
   // StreamControllers when you're done with them to prevent memory leaks.
-  Future<void> dispose() async {
-    await _foodsController.close();
+
+  Stream<List<FoodCM>> get foodsStream async* {
+    yield* _foodStorage.getFoods();
   }
 
-  // Emits the List<Food> searched by `searchFoods` method.
-  Stream<List<Food>> get searchedFoodsStream async* {
-    yield* _foodsController.stream;
-  }
-
-  Stream<List<Food>> get foodsStream async* {
-    yield* _foodStorage.getFoods().map(
-        (listFoodCM) => listFoodCM.map((foodCm) => foodCm.toDomain()).toList());
-  }
-
-  Future<void> searchFoods(String query) async {
+  Future<List<FoodCM>> searchFoods(String query) async {
     if (query.isEmpty) {
       //TODO:  use for return latest selection
-      _foodsController.add([]);
-      return;
+
+      return const [];
     }
     final storageFoods = await _foodStorage.getFoods().first;
 
     final domainFoods = storageFoods
         .where(
             (foodCm) => foodCm.name.toLowerCase().contains(query.toLowerCase()))
-        .map((foodCm) => foodCm.toDomain())
         .toList();
-    _foodsController.add(domainFoods);
 
-    // var storageFoods = await _foodStorage.getFoods().first;
+    return domainFoods;
   }
 
   Future<List<UnitOfMeasurement>> get unitOfMeasurement async {
     final unitsCM = await _foodStorage.units;
     return unitsCM.map((e) => e.toDomain()).toList();
-    
   }
 
   Future<void> clearCollections() async {
     await _foodStorage.clearCollections();
   }
 
-  Stream<List<SelectedFood>> selectedFoodsListStream(
+  Stream<List<SelectedFoodCM>> selectedFoodsListStream(
       {required DateTimeRange dateTimeRange}) async* {
-    final foodStream = _foodStorage.selectedFoodsList(
+    yield* _foodStorage.filterSelectedFoodsListStream(
         start: dateTimeRange.start, end: dateTimeRange.end);
-    yield* foodStream.map(
-      (event) => event.map((e) => e.toDomain()).toList(),
-    );
   }
 
-  Future<void> upsertSelectedFood(SelectedFood selectedFood) async {
-    final selectedFoodCM = selectedFood.toCacheModel();
-    await _foodStorage.upsertSelectedFood(selectedFoodCM);
+  Future<void> upsertSelectedFood(SelectedFoodCM selectedFood) async {
+    await _foodStorage.upsertSelectedFood(selectedFood);
   }
 
-  Future<void> removeSelectedFood(SelectedFood selectedFood) async {
-    final selectedFoodCM = selectedFood.toCacheModel();
-    await _foodStorage.removeSelectedFood(selectedFoodCM);
+  Future<void> removeSelectedFood(SelectedFoodCM selectedFood) async {
+    await _foodStorage.removeSelectedFood(selectedFood);
   }
 
-  Future<void> upsertFood(Food food) async {
-    
-    final foodCM = food.toCacheModel();
-    await _foodStorage.upsertFood(foodCM);
+  Future<void> upsertFood(FoodCM food) async {
+    await _foodStorage.upsertFood(food);
   }
 
-  Future<void> removeFood(Food food) async {
-    final foodCM = food.toCacheModel();
-    await _foodStorage.removeFood(foodCM);
+  Future<void> removeFood(FoodCM food) async {
+    await _foodStorage.removeFood(food);
+  }
+}
+
+class FoodRepostioryState {
+  // food name of search field of food selction when user tap on + icon button to upsert food.
+  String _newFoodName = '';
+
+  Stream<String> get newFoodNameStream => Stream.value(_newFoodName);
+
+  set newFoodName(String newFoodName) {
+    _newFoodName = newFoodName;
   }
 }

@@ -3,41 +3,34 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
+import 'package:food_selection/src/selected_foods_list/cubit/selected_foods_list_cubit.dart';
 
 class SelectedFoodListBuilder extends StatelessWidget {
   const SelectedFoodListBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FoodSelectionBloc, FoodSelectionState>(
+    final cubit = context.read<SelectedFoodsListCubit>();
+    return BlocConsumer<SelectedFoodsListCubit, SelectedFoodsListState>(
       listenWhen: (previous, current) =>
           previous.deleteSelectedFoodStatus != current.deleteSelectedFoodStatus,
-      listener: (context, state) {
-        if (state.deleteSelectedFoodStatus.isLoaded) {
-          context.showBanner(
-            materialBanner: AppMaterialBanner(
-              text: 'حذف شد',
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    if (context.read<FoodSelectionBloc>().isClosed) return;
-                    context
-                        .read<FoodSelectionBloc>()
-                        .add(const SelectedFoodUndoRemoved());
-                  },
-                  child: Text(
-                    'انصراف',
-                    style: context.themeData.textTheme.labelMedium!.copyWith(
-                        color: context.themeData.colorScheme.onSurface),
-                  ),
-                )
-              ],
+      listener: (_, state) {
+        if (state.deleteSelectedFoodStatus.isSuccess) {
+          context.showSnackbar(
+            snackBar: SnackBar(
+              content: const Text('حذف شد'),
+              action: SnackBarAction(
+                label: 'انصراف',
+                onPressed: cubit.selectedFoodUndoRemoved,
+              ),
             ),
           );
         }
       },
       buildWhen: (previous, current) =>
-          previous.selectedFoodsList != current.selectedFoodsList,
+          previous.selectedFoodsList != current.selectedFoodsList ||
+          previous.selectedFoodsForNewFood != current.selectedFoodsForNewFood ||
+          previous.dayActivityLevel != current.dayActivityLevel,
       builder: (context, state) {
         if (state.selectedFoodsList.isEmpty) {
           return Column(
@@ -53,24 +46,54 @@ class SelectedFoodListBuilder extends StatelessWidget {
             ],
           );
         }
-        List<SelectedFood> selectedFoods = state.selectedFoodsList;
+        List<SelectedFoodCM> selectedFoods = state.selectedFoodsList;
         // To show last element to the top of the list.
         selectedFoods = selectedFoods.reversed.toList();
         return ListView.builder(
           itemCount: selectedFoods.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
-              return const SelectedFoodListBanner();
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const DayActivityLevelSegementedButton(),
+                  //if paid customer
+                  const SelectedFoodListBannerPaid(),
+                  // if unpaid
+                  const SelectedFoodListBanner(),
+                  if (state.dayActivityLevel.isRest)
+                    const NutritionDescriptionRestDay(),
+                  if (state.dayActivityLevel.isModerate) ...[
+                    const NutritionDescriptionExcerciseDayProtein(),
+                    const NutritionDescriptionExcerciseDayCarbohydrate(),
+                    const NutritionDescriptionExcerciseDayHydration()
+                  ]
+                ],
+              );
             }
             final selectedFood = selectedFoods[index - 1];
 
             return SelectedFoodListTileDissmissable(
-              selectedFood: selectedFood,
-              onDissmiss: (selectedFood) {
+              food: selectedFood,
+              isDismissActive: state.selectedFoodsForNewFood.isEmpty,
+              onDissmiss: () {
                 context
-                    .read<FoodSelectionBloc>()
-                    .add(SelectedFoodRemoved(food: selectedFood));
+                    .read<SelectedFoodsListCubit>()
+                    .selectedFoodRemoved(selectedFood);
               },
+              onLongPressed: () {
+                context
+                    .read<SelectedFoodsListCubit>()
+                    .foodSelectedForNewFood(selectedFood);
+              },
+              onTap: () {
+                if (state.selectedFoodsForNewFood.isNotEmpty) {
+                  context
+                      .read<SelectedFoodsListCubit>()
+                      .foodSelectedForNewFood(selectedFood);
+                }
+              },
+              isSelcted: state.selectedFoodsForNewFood.contains(selectedFood),
             );
           },
         );
@@ -84,7 +107,7 @@ class SelectedFoodListBuilder extends StatelessWidget {
       child: FloatingActionButton(
         child: const Text('غذا اضافه کنید'),
         onPressed: () {
-          context.pop();
+          context.goNamed(Routes.foodSelection);
         },
       ),
     );

@@ -1,13 +1,45 @@
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
+import 'package:local_storage/local_storage.dart';
+
 part 'unit_of_measurement.g.dart';
 
 /// Holds the data for unit of measurement.
-@embedded
+@HiveType(typeId: TypeIDs.unitOfMeasurmentCM)
 class UnitOfMeasurmentCM {
-  late String title;
-  late String icon;
-  late int? howManyGrams;
+  @HiveField(0)
+  final String title;
+  @HiveField(1)
+  final String icon;
 
-  /// specify maximum amount of the selection.
-  late int? max;
+  /// howManyGrams are in one unit of measurement
+  /// in case of energy the value is null
+  @HiveField(2)
+  final int? howManyGrams;
+
+  /// specify maximum amount of the selection for UI assistance.
+  @HiveField(3)
+  final int? max;
+
+  factory UnitOfMeasurmentCM.empty() {
+    return UnitOfMeasurmentCM(
+      title: '',
+      icon: '',
+    );
+  }
+
+  UnitOfMeasurmentCM({
+    required this.title,
+    required this.icon,
+    this.max,
+    this.howManyGrams,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is UnitOfMeasurmentCM && other.title == title;
+  }
+
+  @override
+  int get hashCode => title.hashCode;
 }

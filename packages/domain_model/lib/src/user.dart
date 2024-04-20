@@ -1,87 +1,185 @@
-import 'package:domain_model/domain_model.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/foundation.dart';
 
-class User {
-  const User({this.selectedFoods = const []});
+// import 'package:domain_model/domain_model.dart';
 
-  final List<SelectedFood> selectedFoods;
-}
+// class User {
+//   User({this.selectedFoods = const [], this.profile});
 
-class SelectedFood extends Food {
-  /// Utc time
-  final DateTime selectedDate;
+//   final int _id = 0;
 
-  /// shows number of units of measurement selected
-  final int measurementUnitCount;
+//   final List<SelectedFood> selectedFoods;
 
-  /// Selected unit of measurement
-  final UnitOfMeasurement unitOfMeasurement;
+//   final Profile? profile;
 
-  const SelectedFood({
-    required super.name,
-    required super.calorie,
-    required super.gramsPerUnit,
-    required super.macroNutrition,
-    required this.selectedDate,
-    required this.measurementUnitCount,
-    required this.unitOfMeasurement,
-  });
+//   factory User.empty() {
+//     return User(
+//       profile: Profile.empty(),
+//     );
+//   }
 
-  factory SelectedFood.empty() => SelectedFood(
-        name: '',
-        calorie: 0,
-        gramsPerUnit: 0,
-        macroNutrition: MacroNutrition.empty,
-        selectedDate: DateTime.now(),
-        measurementUnitCount: 0,
-        unitOfMeasurement: UnitOfMeasurement.empty(),
-      );
+//   User copyWith(
+//       {List<SelectedFood>? selectedFoods, ValueGetter<Profile?>? profile}) {
+//     return User(
+//         selectedFoods: selectedFoods ?? this.selectedFoods,
+//         profile: profile != null ? profile() : this.profile);
+//   }
+// }
 
-  double get _caloriePerGram => super.calorie / 100;
+// class SelectedFood {
+//   SelectedFood({
+//    required this.food,
+//     required this.unitOfMeasurement,
+//     required this.numberOfUnitOfMeasurement,
+//     required this.selectedDate,
+//     required this.totalWeight,
+//   });
 
-  int calculateActualCalorie() {
-    switch (unitOfMeasurement.type) {
-      case UnitOfMeasurementType.grams:
-        return (_caloriePerGram * measurementUnitCount).toInt();
-      case UnitOfMeasurementType.tableSpoon:
-        if (unitOfMeasurement.howManyGrams == null) {
-          throw Exception('unitOfMeasurement.howManyGrams == null');
-        }
-        return (_caloriePerGram *
-                measurementUnitCount *
-                unitOfMeasurement.howManyGrams!)
-            .toInt();
-      case UnitOfMeasurementType.calorie:
-        return measurementUnitCount;
-      case UnitOfMeasurementType.gramsPerUnit:
-        return (_caloriePerGram * measurementUnitCount * gramsPerUnit).toInt();
-      default:
-        throw Exception('Not handle UnitOfMeasurementType');
-    }
-  }
+//   factory SelectedFood.empty() {
+//     return SelectedFood(
+//       food: Food.empty(),
+//       unitOfMeasurement: UnitOfMeasurement.empty(),
+//       numberOfUnitOfMeasurement: -1,
+//       selectedDate: DateTime.now(),
+//       totalWeight: -1,
+//     );
+//   }
 
-  @override
-  List<Object?> get props =>
-      [...super.props, selectedDate, measurementUnitCount, unitOfMeasurement];
+//   final Food food;
 
-// merge
-  @override
-  SelectedFood copyWith({
-    String? name,
-    int? calorie,
-    int? gramsPerUnit,
-    MacroNutrition? macroNutrition,
-    DateTime? eatDate,
-    int? measurementUnitCount,
-    UnitOfMeasurement? unitOfMeasurement,
-  }) {
-    return SelectedFood(
-      name: name ?? this.name,
-      calorie: calorie ?? this.calorie,
-      gramsPerUnit: gramsPerUnit ?? this.gramsPerUnit,
-      macroNutrition: macroNutrition ?? this.macroNutrition,
-      selectedDate: eatDate ?? selectedDate,
-      measurementUnitCount: measurementUnitCount ?? this.measurementUnitCount,
-      unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
-    );
-  }
-}
+//   // for reference
+//   final UnitOfMeasurement unitOfMeasurement;
+
+//   /// Count of numberOfUnitOfMeasurement
+//   final int numberOfUnitOfMeasurement;
+
+//   final DateTime selectedDate;
+
+//   /// Total weight of selected Food
+//   final int totalWeight;
+
+//   @override
+//   bool operator ==(Object other) {
+//     if (identical(this, other)) return true;
+
+//     return other is SelectedFoodCM && other.selectedDate == selectedDate;
+//   }
+
+//   @override
+//   int get hashCode => selectedDate.hashCode;
+
+
+// }
+
+// class BodyComposition {
+//   BodyComposition(
+//       {this.height = const [],
+//       this.weight = const [],
+//       this.waistCircumference = const [],
+//       this.armCircumference = const [],
+//       this.chestCircumference = const [],
+//       this.thightCircumference = const [],
+//       this.calfMuscleCircumference = const [],
+//       this.hipCircumference = const [],
+//       this.activityLevel = const [],
+//       this.startBodycompositionChanging});
+
+//   final List<BioDataCM> height;
+//   final List<BioDataCM> weight;
+//   final List<BioDataCM> waistCircumference;
+//   final List<BioDataCM> armCircumference;
+//   final List<BioDataCM> chestCircumference;
+//   final List<BioDataCM> thightCircumference;
+//   final List<BioDataCM> calfMuscleCircumference;
+//   final List<BioDataCM> hipCircumference;
+//   final List<ActivityLevelCMData> activityLevel;
+//   final DateTime? startBodycompositionChanging;
+
+//   factory BodyComposition.empty() {
+//     return BodyComposition(
+//       startBodycompositionChanging: DateTime.now(),
+//     );
+//   }
+//   BodyComposition copyWith(
+//       {List<BioDataCM>? height,
+//       List<BioDataCM>? weight,
+//       List<BioDataCM>? waistCircumference,
+//       List<BioDataCM>? armCircumference,
+//       List<BioDataCM>? chestCircumference,
+//       List<BioDataCM>? thightCircumference,
+//       List<BioDataCM>? calfMuscleCircumference,
+//       List<BioDataCM>? hipCircumference,
+//       List<ActivityLevelCMData>? activityLevel,
+//       ValueGetter<DateTime?>? startBodycompositionChanging}) {
+//     return BodyComposition(
+//         height: height ?? this.height,
+//         weight: weight ?? this.weight,
+//         waistCircumference: waistCircumference ?? this.waistCircumference,
+//         armCircumference: armCircumference ?? this.armCircumference,
+//         chestCircumference: chestCircumference ?? this.chestCircumference,
+//         thightCircumference: thightCircumference ?? this.thightCircumference,
+//         calfMuscleCircumference:
+//             calfMuscleCircumference ?? this.calfMuscleCircumference,
+//         hipCircumference: hipCircumference ?? this.hipCircumference,
+//         activityLevel: activityLevel ?? this.activityLevel,
+//         startBodycompositionChanging: startBodycompositionChanging != null
+//             ? startBodycompositionChanging()
+//             : this.startBodycompositionChanging);
+//   }
+// }
+
+// class BioData {
+//   BioData({required this.logDate, required this.value});
+
+//   final DateTime logDate;
+//   final int value;
+//   factory BioData.empty() {
+//     return BioData(
+//       logDate: DateTime.now(),
+//       value: -1,
+//     );
+//   }
+
+//   @override
+//   bool operator ==(Object other) {
+//     if (identical(this, other)) return true;
+
+//     return other is SelectedFoodCM && other.selectedDate == logDate;
+//   }
+
+//   @override
+//   int get hashCode => logDate.hashCode;
+//   BioData copyWith({DateTime? logDate, int? value}) {
+//     return BioData(
+//         logDate: logDate ?? this.logDate, value: value ?? this.value);
+//   }
+// }
+
+// class ActivityLevelData {
+//   ActivityLevelData({required this.logDate, required this.value});
+
+//   final DateTime logDate;
+
+//   final ActivityLevelCM value;
+
+//   factory ActivityLevelData.empty() {
+//     return ActivityLevelData(
+//       logDate: DateTime.now(),
+//       value: ActivityLevelCM.fairyActive,
+//     );
+//   }
+
+//   @override
+//   bool operator ==(Object other) {
+//     if (identical(this, other)) return true;
+
+//     return other is SelectedFoodCM && other.selectedDate == logDate;
+//   }
+
+//   @override
+//   int get hashCode => logDate.hashCode;
+//   ActivityLevelData copyWith({DateTime? logDate, ActivityLevelCM? value}) {
+//     return ActivityLevelData(
+//         logDate: logDate ?? this.logDate, value: value ?? this.value);
+//   }
+// }

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class Splash extends StatefulWidget {
-  const Splash({super.key, this.onDone});
+  const Splash({super.key, this.onDone, this.onInit});
 
   final VoidCallback? onDone;
+  final AsyncCallback? onInit;
 
   @override
   State<Splash> createState() => _SplashState();
@@ -16,7 +18,8 @@ class _SplashState extends State<Splash> {
 
   @override
   void initState() {
-    _timer = Timer(const Duration(seconds: 2), () {
+    widget.onInit?.call();
+    _timer = Timer(const Duration(seconds: 1), () {
       widget.onDone?.call();
     });
     super.initState();

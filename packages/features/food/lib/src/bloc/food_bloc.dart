@@ -11,6 +11,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   FoodBloc(this.foodRepostiory) : super(FoodState()) {
     _registerHandlers();
     add(ListenedFoodListStream());
+    _handleNewFoodName();
   }
   final FoodRepostiory foodRepostiory;
 
@@ -18,33 +19,66 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<FoodEvent>((event, emit) async {
       if (event is ListenedFoodListStream) {
         await _handleListenedFoodListStream(event, emit);
-      } else if (event is FoodUpdate) {
-        await _handleFoodUpdate(event, emit);
+      } else if (event is FoodUpserted) {
+        await _handleFoodUpserted(event, emit);
       } else if (event is FoodDeleted) {
         await _handleFoodDeleted(event, emit);
+      } else if (event is _GetFoodNameFromFoodSelectionRoute) {
+        _handleGetFoodNameFromFoodSelectionRoute(event, emit);
+      } else if (event is SearchFoodSelectionTermChanged) {
+        _handleSearchFoodSelectionTermChanged(event, emit);
       }
     });
+  }
+
+  void _handleNewFoodName() async {
+    final foodName =
+        await foodRepostiory.foodRepostioryState.newFoodNameStream.single;
+    add(_GetFoodNameFromFoodSelectionRoute(foodName: foodName));
+  }
+
+  void _handleSearchFoodSelectionTermChanged(
+      SearchFoodSelectionTermChanged event, Emitter<FoodState> emit) async {
+    emit(state.copyWith(
+      selctedFoodsListSearchTerm: event.foodName,
+    ));
   }
 
   Future<void> _handleListenedFoodListStream(
       ListenedFoodListStream event, Emitter<FoodState> emit) async {
     await emit.forEach(
       foodRepostiory.foodsStream,
-      onData: (foodList) => state.copyWith(foodsList: foodList),
+      onData: (foodList) {
+        foodList.sort((a, b) => b.name.compareTo(a.name));
+        return state.copyWith(foodsList: foodList);
+      },
     );
   }
 
-  Future<void> _handleFoodUpdate(
-      FoodUpdate event, Emitter<FoodState> emit) async {
+  Future<void> _handleFoodUpserted(
+      FoodUpserted event, Emitter<FoodState> emit) async {
     await foodRepostiory.upsertFood(event.food);
     add(ListenedFoodListStream());
   }
 
   Future<void> _handleFoodDeleted(
       FoodDeleted event, Emitter<FoodState> emit) async {
-    await foodRepostiory.removeFood(event.food);
-    add(ListenedFoodListStream());
+    emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.loading));
+
+    try {
+      await foodRepostiory.removeFood(event.food);
+      emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.success));
+    } catch (e) {
+      emit(state.copyWith(deleteFoodStatus: ProcessAsyncStatus.error));
+    }
   }
 
-
+  void _handleGetFoodNameFromFoodSelectionRoute(
+      _GetFoodNameFromFoodSelectionRoute event, Emitter<FoodState> emit) async {
+    emit(
+      state.copyWith(
+        newFoodNameFromFoodSelection: event.foodName,
+      ),
+    );
+  }
 }

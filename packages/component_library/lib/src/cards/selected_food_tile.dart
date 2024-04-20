@@ -1,33 +1,47 @@
-import 'package:component_library/component_library.dart';
+import 'package:component_library/component_library.dart' hide PieChart;
 
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class SelectedFoodListTile extends StatelessWidget {
-  const SelectedFoodListTile({super.key, required this.selectedFood});
-  final SelectedFood selectedFood;
+  const SelectedFoodListTile(
+      {super.key,
+      required this.selectedFood,
+      this.onTap,
+      this.onLongTap,
+      this.isSelected = false});
+  final SelectedFoodCM selectedFood;
+
+  final VoidCallback? onTap;
+  final VoidCallback? onLongTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    final macroNutrition = selectedFood.macroNutrition;
-    final title = selectedFood.name;
+    final macroNutrition = selectedFood.food.macroNutrition;
+    final title = selectedFood.food.name;
     final unitOfMeasurement = context.l10n
-        .unitOfMeasurementTitle(selectedFood.unitOfMeasurement.type.name);
-    final count = selectedFood.measurementUnitCount;
+        .unitOfMeasurementTitle(selectedFood.unitOfMeasurmentCM.title);
+    final count = selectedFood.numberOfUnitOfMeasurement;
 
     return SizedBox(
       child: Card(
+        color:
+            isSelected ? context.themeData.colorScheme.tertiaryContainer : null,
         child: ListTile(
           // minLeadingWidth: 104,
+          selected: isSelected,
           isThreeLine: true,
           title: Text(
             '$count $unitOfMeasurement $title',
           ),
-          leading: _SelectedFoodListTilePieChart(
+          trailing: _SelectedFoodListTilePieChart(
             macroNutrition: macroNutrition,
           ),
           subtitle: _buildSubtitle(context),
+          onLongPress: onLongTap,
+          onTap: onTap,
         ),
       ),
     );
@@ -35,13 +49,14 @@ class SelectedFoodListTile extends StatelessWidget {
 
   Widget _buildSubtitle(BuildContext context) {
     final selectedFoodCalarieLabel =
-        '${selectedFood.calculateActualCalorie()} ${context.l10n.foodDataCalarieLabel}';
+        '${(selectedFood.totalWeight * selectedFood.food.calorie).toInt()} ${context.l10n.foodDataCalarieLabel}';
+    final macroNutrition = selectedFood.food.macroNutrition;
     final selectedFoodFatLabel =
-        '${context.l10n.foodDataPercentValue(selectedFood.macroNutrition.fatPercent)} ${context.l10n.nutritionDataFatLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.fat / macroNutrition.sum)} ${context.l10n.nutritionDataFatLabel}';
     final selectedFoodProteinLabel =
-        '${context.l10n.foodDataPercentValue(selectedFood.macroNutrition.proteinPercent)} ${context.l10n.nutritionDataProteinLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.protein / macroNutrition.sum)} ${context.l10n.nutritionDataProteinLabel}';
     final selectedFoodCarbohydrateLabel =
-        '${context.l10n.foodDataPercentValue(selectedFood.macroNutrition.carbohydratePercent)} ${context.l10n.nutritionDataCarbohydrateLabel}';
+        '${context.l10n.foodDataPercentValue(macroNutrition.carbohydrate / macroNutrition.sum)} ${context.l10n.nutritionDataCarbohydrateLabel}';
 
     final localTime = selectedFood.selectedDate.toLocal();
     final dateFormatter = localTime.toJalali().formatter;
@@ -66,6 +81,8 @@ class SelectedFoodListTile extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // textBaseline: TextBaseline.ideographic,
               children: [
                 Text(
                   selectedFoodProteinLabel,
@@ -74,6 +91,16 @@ class SelectedFoodListTile extends StatelessWidget {
                 Text(
                   selectedFoodCarbohydrateLabel,
                 ),
+                // dont show for free
+                if (selectedFood.food.isVegetable)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Icon(
+                      Ionicons.aperture,
+                      color: CustomColor.carbohydrateFruitVegetable,
+                      size: 16.0,
+                    ),
+                  ),
               ],
             ),
           ],
@@ -92,7 +119,7 @@ class SelectedFoodListTile extends StatelessWidget {
 
 class _SelectedFoodListTilePieChart extends StatelessWidget {
   const _SelectedFoodListTilePieChart({required this.macroNutrition});
-  final MacroNutrition macroNutrition;
+  final MacroNutritionCM macroNutrition;
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +130,9 @@ class _SelectedFoodListTilePieChart extends StatelessWidget {
         child: PieChart(
           chartType: ChartType.ring,
           dataMap: {
-            'پروتئین': macroNutrition.proteinPercent,
-            'چربی': macroNutrition.fatPercent,
-            'کربوهیدات': macroNutrition.carbohydratePercent,
+            'پروتئین': macroNutrition.protein / macroNutrition.sum,
+            'چربی': macroNutrition.fat / macroNutrition.sum,
+            'کربوهیدات': macroNutrition.carbohydrate / macroNutrition.sum,
           },
           ringStrokeWidth: 16,
           chartValuesOptions: const ChartValuesOptions(showChartValues: false),

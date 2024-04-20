@@ -5,5 +5,4 @@ library local_storage;
 
 export 'src/local_storage.dart';
 export 'src/model/model.dart';
-export 'package:isar/isar.dart' show Isar, IsarCollection, QueryExecute;
-// export 'package:isar/isar.dart';
+export 'package:hive/hive.dart' show Box;

@@ -2,6 +2,7 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_repository/food_repository.dart';
 import 'package:food_selection/food_selection.dart';
 
 class SearchedFoodsListBuilder extends StatelessWidget {
@@ -11,29 +12,42 @@ class SearchedFoodsListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
-      builder: (context, state) {
-        if (state.searchFoodStatus.isLoading) {
-          return const CircularProgressIndicator();
-        } else if (state.searchFoodStatus.isError) {
-          return const Text('Error');
-        } else if (state.searchFoodStatus.isLoaded) {
-          return SizedBox(
-            height: context.sizesExtenstion.xExtraLarge,
-            child: SearchFoodList(
-              foods: state.searchedFoods,
-              onTap: (food) {
-                context.read<FoodSelectionBloc>().add(FoodSelected(food));
-                // navigation
-                context.pushNamed(
-                  Routes.foodAmountInput,
-                );
-              },
-            ),
-          );
-        }
-        return const SizedBox();
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: BlocBuilder<FoodSelectionBloc, FoodSelectionState>(
+        builder: (context, state) {
+          if (state.searchFoodStatus.isLoading) {
+            return const CircularProgressIndicator();
+          } else if (state.searchFoodStatus.isError) {
+            return const Text('Error');
+          } else if (state.searchFoodStatus.isSuccess) {
+            return SizedBox(
+              height: context.sizesExtenstion.xExtraLarge,
+              child: SearchFoodList(
+                foods: state.searchedFoods,
+                searchedTerm: state.query,
+                onTap: (food) {
+                  context.read<FoodSelectionBloc>().add(FoodSelected(food));
+
+                  context.pushNamed(
+                    Routes.foodSelectionFoodAmountInput,
+                  );
+                },
+                onTapAddNew: () {
+                  RepositoryProvider.of<FoodRepostiory>(context)
+                      .foodRepostioryState
+                      .newFoodName = state.query;
+                  // Navigation
+                  context.pushNamed(
+                    Routes.foodList,
+                  );
+                },
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }

@@ -3,10 +3,22 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 
 class SelectedFoodListTileDissmissable extends StatelessWidget {
-  const SelectedFoodListTileDissmissable(
-      {super.key, required this.selectedFood, this.onDissmiss});
-  final SelectedFood selectedFood;
-  final ValueSetter<SelectedFood>? onDissmiss;
+  const SelectedFoodListTileDissmissable({
+    super.key,
+    required this.food,
+    this.onDissmiss,
+    this.onLongPressed,
+    this.onTap,
+    this.isSelcted = false,
+    this.isDismissActive = true,
+  });
+  final SelectedFoodCM food;
+
+  final VoidCallback? onDissmiss;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPressed;
+  final bool isSelcted;
+  final bool isDismissActive;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +26,11 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Dismissible(
         key: UniqueKey(),
-        direction: DismissDirection.startToEnd,
+        direction: isDismissActive
+            ? DismissDirection.startToEnd
+            : DismissDirection.none,
         onDismissed: (direction) {
-          onDissmiss?.call(selectedFood);
+          onDissmiss?.call();
         },
         background: Container(
           alignment: AlignmentDirectional.centerStart,
@@ -27,7 +41,10 @@ class SelectedFoodListTileDissmissable extends StatelessWidget {
           ),
         ),
         child: SelectedFoodListTile(
-          selectedFood: selectedFood,
+          selectedFood: food,
+          onTap: onTap,
+          onLongTap: onLongPressed,
+          isSelected: isSelcted,
         ),
       ),
     );

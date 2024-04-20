@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_selection/food_selection.dart';
 
-class FoodAmountInputPageBottomActions extends StatelessWidget {
+class FoodAmountInputPageBottomActions extends StatefulWidget {
   const FoodAmountInputPageBottomActions({super.key});
 
+  @override
+  State<FoodAmountInputPageBottomActions> createState() =>
+      _FoodAmountInputPageBottomActionsState();
+}
+
+class _FoodAmountInputPageBottomActionsState
+    extends State<FoodAmountInputPageBottomActions> {
+  String? nextDestination;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -24,12 +32,17 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
                 content: Text('An error occurred!'),
               ),
             );
-          } else if (state.upsertSelectedFoodStatus.isLoaded) {
-            context.showBanner(
-              materialBanner: AppMaterialBanner(
-                text: 'ذخیره شد',
-              ),
-            );
+          } else if (state.upsertSelectedFoodStatus.isSuccess) {
+            if (nextDestination == Routes.foodSelection) {
+              context.showBanner(
+                materialBanner: AppMaterialBanner(
+                  text: 'ذخیره شد',
+                ),
+              );
+            }
+
+            context.goNamed(nextDestination!);
+            context.read<FoodSelectionBloc>().add(const SearchFoodFormReset());
           }
         },
         child: Row(
@@ -40,13 +53,10 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () {
                   // save the food
-                  context.read<FoodSelectionBloc>()
-                    ..add(const SelectedFoodSaved())
-                    ..add(const SearchFoodFormReset());
-                  // Navigation
-                  context.pushReplacementNamed(
-                    Routes.foodSelectionList,
-                  );
+                  context
+                      .read<FoodSelectionBloc>()
+                      .add(const SelectedFoodSaved());
+                  nextDestination = Routes.foodSelectionList;
                 },
                 child: const Text('ذخیره و تاریخچه'),
               ),
@@ -58,11 +68,10 @@ class FoodAmountInputPageBottomActions extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // save the food
-                  context.read<FoodSelectionBloc>()
-                    ..add(const SelectedFoodSaved())
-                    ..add(const SearchFoodFormReset());
-                  // Navigation
-                  context.pop();
+                  context
+                      .read<FoodSelectionBloc>()
+                      .add(const SelectedFoodSaved());
+                  nextDestination = Routes.foodSelection;
                 },
                 child: const Text('ذخیره و خوراک بعد'),
               ),

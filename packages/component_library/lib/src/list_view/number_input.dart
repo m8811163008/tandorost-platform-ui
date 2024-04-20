@@ -13,6 +13,7 @@ class ScrollableNumberInput extends StatefulWidget {
     this.axis = Axis.vertical,
     this.offAxisFraction = 0.0,
     this.step = 1,
+    this.intialValue,
   });
   final double itemExtends;
 
@@ -26,6 +27,7 @@ class ScrollableNumberInput extends StatefulWidget {
   final int step;
 
   final Axis axis;
+  final int? intialValue;
   final double offAxisFraction;
 
   final ValueChanged<int>? onSelectedNumberChanged;
@@ -38,21 +40,33 @@ class _ScrollableNumberInputState extends State<ScrollableNumberInput> {
   late final FixedExtentScrollController fixedExtentScrollController;
 
   int calculateValue(int index) => widget.min + (index * widget.step);
-  // add to prevent unnessary callback
+  int? calculateIndex(int? value) {
+    if (value == null) return null;
+    if (value == -1) return null;
+    return (value - widget.min) ~/ widget.step;
+  }
+
+// add to prevent unnessary callback
   int? _lastSelectedIndex;
 
   @override
   void initState() {
-    final intialIndex = (widget.max - widget.min + 1) ~/ (2 * widget.step);
-
-    widget.onSelectedNumberChanged?.call(calculateValue(intialIndex));
+    final intialIndex = calculateIndex(widget.intialValue) ??
+        (widget.max - widget.min + 1) ~/ (2 * widget.step);
     fixedExtentScrollController =
         FixedExtentScrollController(initialItem: intialIndex);
+    if (widget.intialValue == null) {
+      widget.onSelectedNumberChanged?.call(calculateValue(intialIndex));
+    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if ((widget.max - widget.min + 1) ~/ widget.step == -1) {
+      return const SizedBox.shrink();
+    }
     return ListWheelScrollViewX(
       controller: fixedExtentScrollController,
       itemExtent: widget.itemExtends,
