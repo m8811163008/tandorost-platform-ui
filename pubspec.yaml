@@ -47,9 +47,10 @@ dependencies:
     path: 'packages/component_library'
   food_repository:
     path: 'packages/repository/food_repository'
-
+  auth_repository:
+    path: 'packages/repository/auth_repository'
   user_repository:
-    path: packages/repository/user_repository
+    path: 'packages/repository/user_repository'
   domain_model: 
     path : 'packages/domain_model'
   path_provider: ^2.1.2

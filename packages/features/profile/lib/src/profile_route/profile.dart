@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class ProfileRoute extends StatelessWidget {
       create: (context) => ProfileCubit(
         RepositoryProvider.of<UserRepostiory>(context),
         RepositoryProvider.of<FoodRepostiory>(context),
+        RepositoryProvider.of<AuthRepostiory>(context),
       ),
       child: const ProfilePageRedirector(),
     );
@@ -287,6 +289,15 @@ class ProfileView extends StatelessWidget {
                   alignment: AlignmentDirectional.centerEnd,
                   child: _ResetDialog(),
                 ),
+                ElevatedButton(
+                  onPressed: () async {
+                    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
+                    // bool? isBazaarInstalled = CafeBazaarAuth.isBazaarInstalledOnDevice;
+                    // context.read<ProfileCubit>().getVersion();
+                    context.read<ProfileCubit>().connectBazzar();
+                  },
+                  child: Text('login to bazar'),
+                )
               ],
             );
           },
@@ -494,7 +505,8 @@ class BodyShapeProgressConsidration extends StatelessWidget {
             text:
                 'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست',
           ),
-        BodyCompositionError.waistCircumfrenceIsGratherThan94or80 => const _ErrorText(
+        BodyCompositionError.waistCircumfrenceIsGratherThan94or80 =>
+          const _ErrorText(
             text:
                 'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است',
           ),

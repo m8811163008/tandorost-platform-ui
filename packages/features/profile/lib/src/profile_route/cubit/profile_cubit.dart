@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +12,7 @@ import 'package:user_repository/user_repository.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this.userRepostiory, this.foodRepostiory)
+  ProfileCubit(this.userRepostiory, this.foodRepostiory, this.authRepostiory)
       : super(const ProfileState()) {
     _initializeProfileCm();
     _initializeDietInfoCm();
@@ -19,6 +20,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   final UserRepostiory userRepostiory;
   final FoodRepostiory foodRepostiory;
+  final AuthRepostiory authRepostiory;
 
   void _initializeDietInfoCm() {
     _dietInfoSubscription = userRepostiory.dietInfo.listen((event) {
@@ -142,5 +144,28 @@ class ProfileCubit extends Cubit<ProfileState> {
         BodyCompositionError.waistCircumfrenceIsGratherThan94or80,
     };
     emit(state.copyWith(bodyCompositionErrors: errors));
+  }
+
+  void connectBazzar() async {
+    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
+    try {
+      final res = await authRepostiory.connectBazzar();
+      if (res) {
+        await purchase();
+      }
+      print(res);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> purchase() async {
+    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
+    try {
+      final res = await authRepostiory.subscribe();
+      // print(res);
+    } catch (e) {
+      print(e);
+    }
   }
 }

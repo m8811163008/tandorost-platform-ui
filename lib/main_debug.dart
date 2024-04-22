@@ -37,9 +37,9 @@ void main() async {
 
 // [x]health repository [3h]
 // [x]وضعیت فعلی شما در پروفایل[2h]
-// authentication repostiory [4h] 
-// add update
+// authentication repostiory [4h]
 // user role for widget tree and then navigation then widgets, create authention widget with stream [3h]
+// add update
 // create fading text of current stiation in profiel [1h]
 // add recharge subscription or add subscription button [1h]
 // then after opening profile if it is the logged in user then should authenticate with bazzar and can see setting for guest user [1h]
@@ -48,16 +48,16 @@ void main() async {
 // [x]chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels) for subscribers[1h]
 // [x]expantion tile of considrations with sticky header in selected food list [3h]
 // in app purchase for 1 month subscription and 3 months [6h]
-// add support with insta page and website and phone number [تماس با پشتیبانی].
-// center search text field [1h]
-// add tips at main routes and add phycology of writing calorie and its telorance and perception of food calories[5h]
+// add support with insta page and website and phone number [تماس با پشتیبانی]
 // build and deploy[2h]
 // sell
+// fasting
 
 
 
 // change the pire chart and text in selected foods list
 // news feed like myfitnesspal
+// add tips at main routes and add phycology of writing calorie and its telorance and perception of food calories(in free)
 // add update
 // hold to create recipe from list and handle name conflict
 // [x]banner for paied user
