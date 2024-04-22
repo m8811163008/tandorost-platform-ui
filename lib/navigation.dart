@@ -13,6 +13,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:profile/profile.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:splash/splash.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -29,15 +30,7 @@ class Navigation {
           name: Routes.splash,
           path: Routes.splash,
           builder: (context, state) {
-            return Splash(
-              onDone: () async {
-                context.goNamed(Routes.foodSelection);
-              },
-              onInit: () async {
-                // TODO: then initialize each repostiory seperately, for now user repostiory is initialized in
-                // food repostiory
-              },
-            );
+            return SplashRoute();
           },
         ),
         ShellRoute(

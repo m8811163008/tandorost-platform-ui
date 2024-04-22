@@ -1,0 +1,4 @@
+enum UserRule {
+  foodTracker,
+  dieter,
+}

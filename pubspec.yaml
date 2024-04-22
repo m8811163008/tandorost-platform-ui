@@ -43,6 +43,8 @@ dependencies:
     path: 'packages/features/food'
   profile:
     path: packages/features/profile
+  splash:
+    path: packages/features/splash
   component_library:
     path: 'packages/component_library'
   food_repository:
