@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:food/food.dart';
@@ -30,7 +31,12 @@ class Navigation {
           name: Routes.splash,
           path: Routes.splash,
           builder: (context, state) {
-            return SplashRoute();
+            return SplashRoute(onDone: () async {
+              await Future.delayed(Duration(seconds: 1));
+              if (context.mounted) {
+                context.goNamed(Routes.foodSelection);
+              }
+            });
           },
         ),
         ShellRoute(

@@ -13,4 +13,6 @@ class PurchasePayload {
   factory PurchasePayload.fromJson(Map<String, dynamic> json) {
     return PurchasePayload(subscriptionPlan: json['subscription_plan']);
   }
+
+  const PurchasePayload.empty() : subscriptionPlan = SubscriptionPlan.free;
 }

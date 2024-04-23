@@ -294,7 +294,7 @@ class ProfileView extends StatelessWidget {
                     // BazaarClientProxy.isBazaarInstalledOnDevice(context)
                     // bool? isBazaarInstalled = CafeBazaarAuth.isBazaarInstalledOnDevice;
                     // context.read<ProfileCubit>().getVersion();
-                    context.read<ProfileCubit>().connectBazzar();
+                    // context.read<ProfileCubit>().connectBazzar();
                   },
                   child: Text('login to bazar'),
                 )

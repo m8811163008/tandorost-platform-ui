@@ -26,3 +26,4 @@ export 'src/images/waist_circumference.dart';
 export 'src/images/body_composition.dart';
 export 'package:fl_chart/fl_chart.dart';
 export 'src/dialog/waist_circumference_dialog.dart';
+export 'src/dialog/purchase_bottom_sheet.dart';

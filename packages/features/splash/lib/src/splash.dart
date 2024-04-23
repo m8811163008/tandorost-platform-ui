@@ -5,23 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splash/splash.dart';
 
 class SplashRoute extends StatelessWidget {
-  const SplashRoute({super.key});
+  const SplashRoute({super.key, this.onDone});
+  final VoidCallback? onDone;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SplashCubit(
-          authRepostiory: RepositoryProvider.of<AuthRepostiory>(context)),
-      child: const SplashView(),
+    return StreamBuilder(
+      stream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          onDone?.call();
+        }
+
+        return SplashScreen();
+      },
     );
-  }
-}
-
-class SplashView extends StatelessWidget {
-  const SplashView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SplashScreen();
   }
 }

@@ -8,14 +8,14 @@ import 'package:flutter_poolakey/flutter_poolakey.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AuthRepostiory {
-  AuthRepostiory(LocalStorage localStorage);
+  AuthRepostiory(LocalStorage localStorage) {
+    getAllSubscribedProducts();
+  }
 
   final BehaviorSubject<Set<UserRule>> _currentUserRulesController =
       BehaviorSubject();
 
   Stream<Set<UserRule>> currentUserRulesStream() async* {
-    await getAllSubscribedProducts();
-
     yield* _currentUserRulesController.stream.asBroadcastStream();
   }
 
@@ -46,6 +46,7 @@ class AuthRepostiory {
       final activeSubscriptions = purchasedSubscription.where((element) {
         final subscriptionPlanDuration =
             element.purchasePayload.subscriptionPlan.durationInDays;
+
         final purchaseDate =
             DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
         final expireDate =
@@ -62,6 +63,14 @@ class AuthRepostiory {
           _currentUserRulesController.add(
             {UserRule.foodTracker, UserRule.dieter},
           );
+        }
+      } else {
+        if (_currentUserRulesController.hasValue) {
+          Set<UserRule> rules = _currentUserRulesController.value;
+          rules.removeWhere((element) => element == UserRule.foodTracker);
+          _currentUserRulesController.add(rules);
+        } else {
+          _currentUserRulesController.add({UserRule.foodTracker});
         }
       }
     }
@@ -96,8 +105,10 @@ class AuthRepostiory {
 
   Future<void> subscribe() async {
     try {
-      PurchaseInfo purchaseInfo =
-          await FlutterPoolakey.subscribe('654321', payload: 'this is payload');
+      PurchaseInfo purchaseInfo = await FlutterPoolakey.subscribe(
+        '654321',
+        payload: 'this is payload',
+      );
       // PlatformException (PlatformException(PURCHASE_CANCELLED, Purchase flow has been canceled, null, null))
       print(purchaseInfo);
     } catch (e) {
@@ -127,6 +138,10 @@ class AuthRepostiory {
 
 extension on PurchaseInfo {
   PurchasePayload get purchasePayload {
-    return PurchasePayload.fromJson(jsonDecode(payload));
+    try {
+      return PurchasePayload.fromJson(jsonDecode(payload));
+    } catch (e) {
+      return PurchasePayload.empty();
+    }
   }
 }

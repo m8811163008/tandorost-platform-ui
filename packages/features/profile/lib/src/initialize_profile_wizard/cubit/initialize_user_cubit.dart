@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/foundation.dart';
@@ -8,8 +11,23 @@ import 'package:user_repository/user_repository.dart';
 part 'initialize_user_state.dart';
 
 class InitializeUserCubit extends Cubit<InitializeUserState> {
-  InitializeUserCubit(this.userRepostiory) : super(InitializeUserState());
+  InitializeUserCubit(this.userRepostiory, this.authRepostiory)
+      : super(InitializeUserState()) {
+    _subscription = authRepostiory.currentUserRulesStream().listen((event) {
+      emit(state.copyWith(userRules: event));
+    });
+  }
+
+  late final StreamSubscription<Set<UserRule>> _subscription;
   final UserRepostiory userRepostiory;
+  final AuthRepostiory authRepostiory;
+
+  @override
+  Future<void> close() {
+    _subscription.cancel();
+    return super.close();
+  }
+
   void updateBirthDay(DateTime birthday, String birthdayShamsi) {
     emit(
       state.copyWith(
@@ -173,6 +191,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
 
       try {
         await userRepostiory.updateProfile(updatedProfile);
+
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.success,
         ));

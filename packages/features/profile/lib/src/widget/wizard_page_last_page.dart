@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
@@ -18,8 +20,9 @@ class WizardPageLast extends StatelessWidget {
         listeners: [
           BlocListener<InitializeUserCubit, InitializeUserState>(
             listenWhen: (previous, current) =>
-                previous.formSubmitStatus != current.formSubmitStatus,
-            listener: (context, state) {
+                previous.formSubmitStatus != current.formSubmitStatus ||
+                previous.userRules != current.userRules,
+            listener: (context, state) async {
               if (state.formSubmitStatus == ProcessAsyncStatus.error) {
                 context.showSnackbar(
                   snackBar: SnackBar(
@@ -39,12 +42,22 @@ class WizardPageLast extends StatelessWidget {
                     content: Text('با موفقیت ذخیره شد '),
                   ),
                 );
-                // to show shimmer
-                Timer(const Duration(seconds: 2), () {
-                  // Navigate to bazzar if is not active subscription
-                  // Navigate to profile
+                await Future.delayed(Duration(seconds: 2));
+                if (!context.mounted) return;
+                if (state.userRules.contains(UserRule.dieter)) {
                   context.goNamed(Routes.profile);
-                });
+                } else {
+                  await showModalBottomSheet(
+                    context: context,
+                    isDismissible: false,
+                    builder: (_) {
+                      return SubscribeBottomSheet();
+                    },
+                  );
+
+                  if (!context.mounted) return;
+                  context.goNamed(Routes.profile);
+                }
               }
             },
           ),
@@ -65,11 +78,18 @@ class WizardPageLast extends StatelessWidget {
           children: [
             _buildUserAgreementInput(context),
             Center(
-              child: ShimmerTextNavigation(
-                isEnd: true,
-                title: 'کافه بازار',
-                isError: !context.select<InitializeUserCubit, bool>(
-                    (cubit) => cubit.state.isValidActivatePremiumForm),
+              child: BlocBuilder<InitializeUserCubit, InitializeUserState>(
+                builder: (context, state) {
+                  return ShimmerTextNavigation(
+                    isEnd: true,
+                    //
+                    title: state.userRules.contains(UserRule.dieter)
+                        ? 'تکمیل'
+                        : 'کافه بازار',
+                    isError: !context.select<InitializeUserCubit, bool>(
+                        (cubit) => cubit.state.isValidActivatePremiumForm),
+                  );
+                },
               ),
             ),
           ],

@@ -8,6 +8,7 @@ class InitializeUserState {
 
   final BodyCompositionValues bodyCompositionValues;
   final bool isAgreementAccepted;
+  final Set<UserRule> userRules;
 
   InitializeUserState copyWith({
     ProcessAsyncStatus? loginStatus,
@@ -21,6 +22,7 @@ class InitializeUserState {
     BodyCompositionCM? bodyCompositionCM,
     bool? isAgreementAccepted,
     bool? isShowWizard,
+    Set<UserRule>? userRules,
   }) =>
       InitializeUserState(
         currentPage: currentPage ?? this.currentPage,
@@ -29,6 +31,7 @@ class InitializeUserState {
         bodyCompositionValues:
             bodyCompositionValues ?? this.bodyCompositionValues,
         isAgreementAccepted: isAgreementAccepted ?? this.isAgreementAccepted,
+        userRules: userRules ?? this.userRules,
       );
   bool get isValidActivatePremiumForm =>
       createdProfileCM.birthday != null &&
@@ -41,6 +44,7 @@ class InitializeUserState {
 
   InitializeUserState({
     this.currentPage = 0,
+    this.userRules = const {},
     ProfileCM? profileCM,
     this.formSubmitStatus = ProcessAsyncStatus.initial,
     this.bodyCompositionValues =

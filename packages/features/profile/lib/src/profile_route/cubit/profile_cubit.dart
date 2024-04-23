@@ -145,48 +145,4 @@ class ProfileCubit extends Cubit<ProfileState> {
     };
     emit(state.copyWith(bodyCompositionErrors: errors));
   }
-
-  void connectBazzar() async {
-    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
-    try {
-      final res = await authRepostiory.connectBazzar();
-      if (res) {
-        await purchase();
-      }
-      print(res);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> purchase() async {
-    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
-    try {
-      await getAllSubscribedProducts();
-      final res = await authRepostiory.subscribe();
-      await getAllSubscribedProducts();
-      await getSubscriptionSkuDetails();
-      // print(res);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> getSubscriptionSkuDetails() async {
-    try {
-      final res = await authRepostiory.getSubscriptionSkuDetails();
-      print(res);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> getAllSubscribedProducts() async {
-    try {
-      final res = await authRepostiory.getAllSubscribedProducts();
-      print(res);
-    } catch (e) {
-      print(e);
-    }
-  }
 }
