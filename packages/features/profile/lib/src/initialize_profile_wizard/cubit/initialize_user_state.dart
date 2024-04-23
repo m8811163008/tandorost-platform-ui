@@ -5,6 +5,7 @@ class InitializeUserState {
   final int currentPage;
   final ProfileCM createdProfileCM;
   final ProcessAsyncStatus formSubmitStatus;
+  final ProcessAsyncStatus puchaseSubscriptionStatus;
 
   final BodyCompositionValues bodyCompositionValues;
   final bool isAgreementAccepted;
@@ -13,6 +14,7 @@ class InitializeUserState {
   InitializeUserState copyWith({
     ProcessAsyncStatus? loginStatus,
     ProcessAsyncStatus? resettingStatus,
+    ProcessAsyncStatus? puchaseSubscriptionStatus,
     int? currentPage,
     ProfileCM? wizardUpdatedProfileCM,
     ProfileCM? lastUpdatedProfileCM,
@@ -28,6 +30,8 @@ class InitializeUserState {
         currentPage: currentPage ?? this.currentPage,
         profileCM: wizardUpdatedProfileCM ?? createdProfileCM,
         formSubmitStatus: formSubmitStatus ?? this.formSubmitStatus,
+        puchaseSubscriptionStatus:
+            puchaseSubscriptionStatus ?? this.puchaseSubscriptionStatus,
         bodyCompositionValues:
             bodyCompositionValues ?? this.bodyCompositionValues,
         isAgreementAccepted: isAgreementAccepted ?? this.isAgreementAccepted,
@@ -42,11 +46,12 @@ class InitializeUserState {
       bodyCompositionValues.weight != null &&
       isAgreementAccepted;
 
-  InitializeUserState({
+  const InitializeUserState({
     this.currentPage = 0,
     this.userRules = const {},
     ProfileCM? profileCM,
     this.formSubmitStatus = ProcessAsyncStatus.initial,
+    this.puchaseSubscriptionStatus = ProcessAsyncStatus.initial,
     this.bodyCompositionValues =
         const BodyCompositionValues(activityLevel: ActivityLevelCM.fairyActive),
     this.isAgreementAccepted = false,

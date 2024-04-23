@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:auth_repository/auth_repository.dart';
-import 'package:auth_repository/src/auth_storage.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter_poolakey/flutter_poolakey.dart';
 import 'package:rxdart/rxdart.dart';
@@ -16,7 +14,7 @@ class AuthRepostiory {
       BehaviorSubject();
 
   Stream<Set<UserRule>> currentUserRulesStream() async* {
-    yield* _currentUserRulesController.stream.asBroadcastStream();
+    yield* _currentUserRulesController.asBroadcastStream();
   }
 
   Future<void> dispose() async => _currentUserRulesController.close;
@@ -103,14 +101,14 @@ class AuthRepostiory {
     }
   }
 
-  Future<void> subscribe() async {
+  Future<void> subscribe(SubscriptionPlan subscriptionPlan) async {
+    await connectBazzar();
     try {
-      PurchaseInfo purchaseInfo = await FlutterPoolakey.subscribe(
-        '654321',
-        payload: 'this is payload',
+      await FlutterPoolakey.subscribe(
+        subscriptionPlan.sku,
+        payload: jsonEncode(
+            PurchasePayload(subscriptionPlan: subscriptionPlan).toJson()),
       );
-      // PlatformException (PlatformException(PURCHASE_CANCELLED, Purchase flow has been canceled, null, null))
-      print(purchaseInfo);
     } catch (e) {
       if (e is PlatformException) {
         if (e.code == 'PURCHASE_CANCELLED') {

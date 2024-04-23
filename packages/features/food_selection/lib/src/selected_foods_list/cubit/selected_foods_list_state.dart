@@ -16,6 +16,8 @@ class SelectedFoodsListState {
   final DayActivityLevel dayActivityLevel;
   final SelectedFoodsInfo selectedFoodsInfo;
   final int filterDays;
+  final ProfileCM profileCM;
+  final ProcessAsyncStatus puchaseSubscriptionStatus;
 
   SelectedFoodsListState({
     this.selectedFoodsList = const [],
@@ -32,6 +34,8 @@ class SelectedFoodsListState {
     this.dietInfo = const DietInfo.empty(),
     this.selectedFoodsInfo = const SelectedFoodsInfo.empty(),
     this.filterDays = 1,
+    this.profileCM = const ProfileCM.empty(),
+    this.puchaseSubscriptionStatus = ProcessAsyncStatus.initial,
   }) : filterSelctedFoodsListDateTimeRange =
             filterSelctedFoodsListDateTimeRange ??
                 DateTimeRange(
@@ -58,6 +62,8 @@ class SelectedFoodsListState {
     DayActivityLevel? dayActivityLevel,
     SelectedFoodsInfo? selectedFoodsInfo,
     int? filterDays,
+    ProfileCM? profileCM,
+    ProcessAsyncStatus? puchaseSubscriptionStatus,
   }) {
     return SelectedFoodsListState(
       deleteSelectedFoodStatus:
@@ -68,6 +74,8 @@ class SelectedFoodsListState {
       lastDeletedSelectedFoods:
           lastDeletedSelectedFoods ?? this.lastDeletedSelectedFoods,
       selectedFoodsList: selectedFoodsList ?? this.selectedFoodsList,
+      puchaseSubscriptionStatus:
+          puchaseSubscriptionStatus ?? this.puchaseSubscriptionStatus,
       undoRemoveSelectedFoodStatus:
           undoRemoveSelectedFoodStatus ?? this.undoRemoveSelectedFoodStatus,
       newFoodName: newFoodName ?? this.newFoodName,
@@ -79,6 +87,7 @@ class SelectedFoodsListState {
       dayActivityLevel: dayActivityLevel ?? this.dayActivityLevel,
       selectedFoodsInfo: selectedFoodsInfo ?? this.selectedFoodsInfo,
       filterDays: filterDays ?? this.filterDays,
+      profileCM: profileCM ?? this.profileCM,
     );
   }
 

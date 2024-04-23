@@ -20,11 +20,11 @@ class UserRoleVisibility extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return SizedBox.shrink();
         final userRoles = snapshot.data!;
-        if (userRoles.contains(UserRule.dieter) || dieterWidget != null) {
+        if (userRoles.contains(UserRule.dieter) && dieterWidget != null) {
           return dieterWidget!;
         }
 
-        if (userRoles.contains(UserRule.foodTracker) ||
+        if (userRoles.contains(UserRule.foodTracker) &&
             foodTrackerWidget != null) {
           return foodTrackerWidget!;
         }

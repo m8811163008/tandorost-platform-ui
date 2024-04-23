@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 
@@ -19,6 +20,7 @@ class SelectedFoodsListPage extends StatelessWidget {
       create: (context) => SelectedFoodsListCubit(
         foodRepository: RepositoryProvider.of<FoodRepostiory>(context),
         userRepostiory: RepositoryProvider.of<UserRepostiory>(context),
+        authRepostiory: RepositoryProvider.of<AuthRepostiory>(context),
       ),
       // lazy: true,
       child: const SelectedFoodsListView(),
@@ -49,6 +51,7 @@ class SelectedFoodsListView extends StatelessWidget {
               ),
               const FilterDateTimeIconButton(),
             ],
+            fab: _UpgradeProfile(),
             child: const SelectedFoodListBuilder(),
           );
         } else {
@@ -193,6 +196,62 @@ class CreateNewFoodBottomSheet extends StatelessWidget {
             ],
           ),
         );
+      },
+    );
+  }
+}
+
+class _UpgradeProfile extends StatelessWidget {
+  const _UpgradeProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SelectedFoodsListCubit>();
+    return BlocBuilder<SelectedFoodsListCubit, SelectedFoodsListState>(
+      builder: (context, state) {
+        return state.selectedFoodsList.isNotEmpty
+            ? UserRoleVisibility(
+                userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+                    .currentUserRulesStream(),
+                foodTrackerWidget: FloatingActionButton.extended(
+                  heroTag: "btn1",
+                  onPressed: () async {
+                    await showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: cubit,
+                          child: Builder(builder: (context) {
+                            return BlocConsumer<SelectedFoodsListCubit,
+                                SelectedFoodsListState>(
+                              listenWhen: (previous, current) =>
+                                  previous.puchaseSubscriptionStatus !=
+                                  current.puchaseSubscriptionStatus,
+                              listener: (context, state) {
+                                if (state.puchaseSubscriptionStatus.isSuccess ||
+                                    state.puchaseSubscriptionStatus.isError) {
+                                  context.pop();
+                                  context.goNamed(Routes.splash);
+                                }
+                              },
+                              builder: (context, state) {
+                                return SubscribeBottomSheet(
+                                  onSelected: context
+                                      .read<SelectedFoodsListCubit>()
+                                      .subscribe,
+                                );
+                              },
+                            );
+                          }),
+                        );
+                      },
+                    );
+                  },
+                  label: Text('ارتقا کاربری'),
+                ),
+                dieterWidget: SizedBox.shrink(),
+              )
+            : SizedBox.shrink();
       },
     );
   }

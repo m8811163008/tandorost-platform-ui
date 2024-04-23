@@ -2,12 +2,8 @@ import 'dart:async';
 
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/src/initialize_profile_wizard/cubit/initialize_user_cubit.dart';
 
@@ -16,6 +12,7 @@ class WizardPageLast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<InitializeUserCubit>();
     return MultiBlocListener(
         listeners: [
           BlocListener<InitializeUserCubit, InitializeUserState>(
@@ -50,13 +47,35 @@ class WizardPageLast extends StatelessWidget {
                   await showModalBottomSheet(
                     context: context,
                     isDismissible: false,
-                    builder: (_) {
-                      return SubscribeBottomSheet();
+                    // useRootNavigator: true,
+                    builder: (context) {
+                      return BlocProvider.value(
+                        value: cubit,
+                        child: Builder(builder: (context) {
+                          return BlocConsumer<InitializeUserCubit,
+                              InitializeUserState>(
+                            listenWhen: (previous, current) =>
+                                previous.puchaseSubscriptionStatus !=
+                                current.puchaseSubscriptionStatus,
+                            listener: (context, state) {
+                              if (state.puchaseSubscriptionStatus.isSuccess ||
+                                  state.puchaseSubscriptionStatus.isError) {
+                                context.pop();
+                                context.goNamed(Routes.splash);
+                              }
+                            },
+                            builder: (context, state) {
+                              return SubscribeBottomSheet(
+                                onSelected: context
+                                    .read<InitializeUserCubit>()
+                                    .subscribe,
+                              );
+                            },
+                          );
+                        }),
+                      );
                     },
                   );
-
-                  if (!context.mounted) return;
-                  context.goNamed(Routes.profile);
                 }
               }
             },
@@ -72,7 +91,7 @@ class WizardPageLast extends StatelessWidget {
                     .activePremiumWizardCreateProfile();
               }
             },
-          )
+          ),
         ],
         child: Column(
           children: [

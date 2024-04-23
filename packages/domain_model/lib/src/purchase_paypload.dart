@@ -11,7 +11,9 @@ class PurchasePayload {
       };
 
   factory PurchasePayload.fromJson(Map<String, dynamic> json) {
-    return PurchasePayload(subscriptionPlan: json['subscription_plan']);
+    return PurchasePayload(
+        subscriptionPlan: SubscriptionPlan.values.singleWhere(
+            (element) => element.name == json['subscription_plan']));
   }
 
   const PurchasePayload.empty() : subscriptionPlan = SubscriptionPlan.free;

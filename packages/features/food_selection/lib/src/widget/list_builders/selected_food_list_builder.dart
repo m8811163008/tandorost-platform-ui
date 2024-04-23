@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
@@ -56,18 +57,8 @@ class SelectedFoodListBuilder extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const DayActivityLevelSegementedButton(),
-                  //if paid customer
-                  const SelectedFoodListBannerPaid(),
-                  // if unpaid
-                  const SelectedFoodListBanner(),
-                  if (state.dayActivityLevel.isRest)
-                    const NutritionDescriptionRestDay(),
-                  if (state.dayActivityLevel.isModerate) ...[
-                    const NutritionDescriptionExcerciseDayProtein(),
-                    const NutritionDescriptionExcerciseDayCarbohydrate(),
-                    const NutritionDescriptionExcerciseDayHydration()
-                  ]
+                  _ListBanner(),
+                  _NutritionFact(),
                 ],
               );
             }
@@ -110,6 +101,68 @@ class SelectedFoodListBuilder extends StatelessWidget {
           context.goNamed(Routes.foodSelection);
         },
       ),
+    );
+  }
+}
+
+class _ListBanner extends StatelessWidget {
+  const _ListBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isUserHasProfile =
+        context.read<SelectedFoodsListCubit>().state.profileCM !=
+            const ProfileCM.empty();
+    return UserRoleVisibility(
+      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      dieterWidget: isUserHasProfile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const DayActivityLevelSegementedButton(),
+                //if paid customer
+                const SelectedFoodListBannerPaid(),
+              ],
+            )
+          : SelectedFoodListBanner(),
+      foodTrackerWidget: const SelectedFoodListBanner(),
+    );
+  }
+}
+
+class _NutritionFact extends StatelessWidget {
+  const _NutritionFact({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isUserHasProfile =
+        context.read<SelectedFoodsListCubit>().state.profileCM !=
+            const ProfileCM.empty();
+    return UserRoleVisibility(
+      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      dieterWidget: isUserHasProfile
+          ? BlocSelector<SelectedFoodsListCubit, SelectedFoodsListState,
+              DayActivityLevel>(
+              selector: (state) {
+                return state.dayActivityLevel;
+              },
+              builder: (context, dayActivityLevel) {
+                return Column(
+                  children: [
+                    if (dayActivityLevel.isRest)
+                      const NutritionDescriptionRestDay(),
+                    if (dayActivityLevel.isModerate) ...[
+                      const NutritionDescriptionExcerciseDayProtein(),
+                      const NutritionDescriptionExcerciseDayCarbohydrate(),
+                      const NutritionDescriptionExcerciseDayHydration()
+                    ]
+                  ],
+                );
+              },
+            )
+          : null,
     );
   }
 }

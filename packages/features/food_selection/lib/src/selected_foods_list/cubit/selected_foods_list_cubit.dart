@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:food_repository/food_repository.dart';
@@ -8,14 +9,17 @@ import 'package:user_repository/user_repository.dart';
 part 'selected_foods_list_state.dart';
 
 class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
-  SelectedFoodsListCubit(
-      {required FoodRepostiory foodRepository,
-      required UserRepostiory userRepostiory})
-      : _foodRepository = foodRepository,
+  SelectedFoodsListCubit({
+    required FoodRepostiory foodRepository,
+    required UserRepostiory userRepostiory,
+    required AuthRepostiory authRepostiory,
+  })  : _foodRepository = foodRepository,
         _userRepostiory = userRepostiory,
+        _authRepostiory = authRepostiory,
         super(SelectedFoodsListState()) {
     _filterSelectedFoodsList();
     _initializeDietInfoCm();
+    _initializeProfileCm();
   }
   void _initializeDietInfoCm() {
     _dietInfoSubscription = _userRepostiory.dietInfo.listen((event) {
@@ -25,16 +29,26 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     });
   }
 
+  void _initializeProfileCm() {
+    _profileSubscription = _userRepostiory.userProfile.listen((event) {
+      emit(state.copyWith(
+        profileCM: event,
+      ));
+    });
+  }
+
   void updateDayActivityLevel(DayActivityLevel dayActivityLevel) {
     emit(state.copyWith(dayActivityLevel: dayActivityLevel));
   }
 
   late StreamSubscription<DietInfo> _dietInfoSubscription;
+  late StreamSubscription<ProfileCM> _profileSubscription;
 
   @override
   Future<void> close() {
     _selectedFoodsListSubscription?.cancel();
     _dietInfoSubscription.cancel();
+    _profileSubscription.cancel();
     return super.close();
   }
 
@@ -130,6 +144,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
   final FoodRepostiory _foodRepository;
   final UserRepostiory _userRepostiory;
+  final AuthRepostiory _authRepostiory;
   StreamSubscription<List<SelectedFoodCM>>? _selectedFoodsListSubscription;
 
   void slectedFoodListFiltered(DateTimeRange dateTimeRange) async {
@@ -265,6 +280,20 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     }
 
 //     // clear selectedFoodsForNewFood and name
+  }
+
+  void subscribe(SubscriptionPlan subscriptionPlan) async {
+    emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
+    try {
+      await _authRepostiory.subscribe(subscriptionPlan);
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
+      );
+    }
   }
 }
 

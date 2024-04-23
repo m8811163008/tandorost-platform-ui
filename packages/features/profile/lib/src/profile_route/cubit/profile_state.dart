@@ -5,6 +5,7 @@ part of 'profile_cubit.dart';
 class ProfileState {
   final ProcessAsyncStatus resettingStatus;
   final ProcessAsyncStatus changeWeightSpeedStatus;
+  final ProcessAsyncStatus puchaseSubscriptionStatus;
 
   final ProfileCM profile;
   final DomainChartType chartType;
@@ -16,6 +17,7 @@ class ProfileState {
   const ProfileState({
     this.resettingStatus = ProcessAsyncStatus.initial,
     this.changeWeightSpeedStatus = ProcessAsyncStatus.initial,
+    this.puchaseSubscriptionStatus = ProcessAsyncStatus.initial,
     this.profile = const ProfileCM.empty(),
     this.chartType = DomainChartType.weight,
     this.supportedChartType = const {},
@@ -49,6 +51,7 @@ class ProfileState {
   ProfileState copyWith({
     ProcessAsyncStatus? resettingStatus,
     ProcessAsyncStatus? changeWeightSpeedStatus,
+    ProcessAsyncStatus? puchaseSubscriptionStatus,
     ProfileCM? profile,
     DomainChartType? chartType,
     Set<DomainChartType>? supportedChartType,
@@ -57,6 +60,8 @@ class ProfileState {
   }) {
     return ProfileState(
       resettingStatus: resettingStatus ?? this.resettingStatus,
+      puchaseSubscriptionStatus:
+          puchaseSubscriptionStatus ?? this.puchaseSubscriptionStatus,
       changeWeightSpeedStatus:
           changeWeightSpeedStatus ?? this.changeWeightSpeedStatus,
       profile: profile ?? this.profile,

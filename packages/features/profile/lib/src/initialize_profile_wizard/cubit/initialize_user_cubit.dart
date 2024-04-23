@@ -12,7 +12,7 @@ part 'initialize_user_state.dart';
 
 class InitializeUserCubit extends Cubit<InitializeUserState> {
   InitializeUserCubit(this.userRepostiory, this.authRepostiory)
-      : super(InitializeUserState()) {
+      : super(const InitializeUserState()) {
     _subscription = authRepostiory.currentUserRulesStream().listen((event) {
       emit(state.copyWith(userRules: event));
     });
@@ -200,6 +200,20 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
           formSubmitStatus: ProcessAsyncStatus.error,
         ));
       }
+    }
+  }
+
+  void subscribe(SubscriptionPlan subscriptionPlan) async {
+    emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
+    try {
+      await authRepostiory.subscribe(subscriptionPlan);
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
+      );
     }
   }
 }

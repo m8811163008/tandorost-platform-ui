@@ -37,18 +37,18 @@ void main() async {
 
 // [x]health repository [3h]
 // [x]وضعیت فعلی شما در پروفایل[2h]
-// authentication repostiory [4h]
-// user role for widget tree and then navigation then widgets, create authention widget with stream [3h]
-// add update
-// create fading text of current stiation in profiel [1h]
-// add recharge subscription or add subscription button [1h]
-// then after opening profile if it is the logged in user then should authenticate with bazzar and can see setting for guest user [1h]
+// [x] authentication repostiory [4h]
+// [x] user role for widget tree and then navigation then widgets, create authention widget with stream [3h]
+// [x]create fading text of current stiation in profiel [1h]
+// [x]add recharge subscription or add subscription button [1h]
+// [x]then after opening profile if it is the logged in user then should authenticate with bazzar and can see setting for guest user [1h]
 // [x]add exercise volume day in selected food list banner for subscribers[1h]
-// add magnifier and font size setting and density
 // [x]chnage the widget of banner for calorie (leanear indicator, and update pie chart and labels) for subscribers[1h]
 // [x]expantion tile of considrations with sticky header in selected food list [3h]
-// in app purchase for 1 month subscription and 3 months [6h]
+// [x]in app purchase for 1 month subscription and 3 months [6h]
+// add update
 // add support with insta page and website and phone number [تماس با پشتیبانی]
+// check debug on deploy
 // build and deploy[2h]
 // sell
 // fasting
@@ -90,6 +90,7 @@ void main() async {
 // error handling of forms for example UpsertFoodBottomSheet
 // animation to text field of first page
 // add next month and last month to date picker in initilize profile wizard date picker
+// add magnifier and font size setting and density instaed of current scale factor 1.5
 
 // [x] initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
 

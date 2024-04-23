@@ -145,4 +145,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     };
     emit(state.copyWith(bodyCompositionErrors: errors));
   }
+
+  void subscribe(SubscriptionPlan subscriptionPlan) async {
+    emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
+    try {
+      await authRepostiory.subscribe(subscriptionPlan);
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
+      );
+    }
+  }
 }

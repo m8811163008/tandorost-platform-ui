@@ -2,6 +2,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:profile/profile.dart';
@@ -66,8 +67,8 @@ class ProfileView extends StatelessWidget {
         children: [
           _buildProfileCard(context),
           _buildProgreesCard(context),
-          _buildEnergyCard(context),
-          _buildSummaryCard(context),
+          EnergyCard(),
+          SummaryCard(),
           _buildSettingCard(context),
         ],
       ),
@@ -138,126 +139,12 @@ class ProfileView extends StatelessWidget {
                 SizedBox(
                   height: context.sizesExtenstion.medium,
                 ),
-                const LoseWeightSpeedSegmentedButtons(),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEnergyCard(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocBuilder<ProfileCubit, ProfileState>(
-          buildWhen: (prev, current) => prev.dietInfo != current.dietInfo,
-          builder: (context, state) {
-            final bmiDescription =
-                context.l10n.appBmiStatus(state.dietInfo.bmiLevel.name);
-            //BMI Prime, a modification of the BMI system, is the ratio of actual BMI to upper limit optimal BMI (currently defined at 25 kg/m2)
-            final bmiPrime = state.dietInfo.bmi / 25;
-            return ExpansionTile(
-              title: Text(
-                'وضعیت انرژی شما',
-                style: context.themeData.textTheme.bodyLarge,
-              ),
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const BodyShapeProgressConsidration(),
-                    if (state.bodyCompositionErrors.isNotEmpty) const Divider(),
-                    Text(
-                      context.l10n.profileBmiDescription(
-                        state.dietInfo.bmi,
-                        bmiDescription,
-                      ),
-                    ),
-                    Text(
-                      context.l10n.profileWaistCircumferenceDescription(
-                        state.dietInfo.waistCircumferenceToHeightRatio,
-                      ),
-                    ),
-                    Text(
-                      context
-                          .l10n.profileBmiWaistCircumferenceHealthDescription,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Bmi Prime: ${bmiPrime.toStringAsFixed(2)}',
-                        textDirection: TextDirection.ltr,
-                      ),
-                    ),
-                    const Divider(),
-                    _buildSleepAndStressSection(context)
-                  ],
+                UserRoleVisibility(
+                  userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+                      .currentUserRulesStream(),
+                  dieterWidget: LoseWeightSpeedSegmentedButtons(),
+                  foodTrackerWidget: LoseWeightSpeedSegmentedButtonsPromotion(),
                 ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSleepAndStressSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressTitle),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3),
-      ],
-    );
-  }
-
-  Widget _buildSummaryCard(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
-          selector: (state) {
-            return state.profile;
-          },
-          builder: (context, state) {
-            return ExpansionTile(
-              title: Text(
-                'خلاصه خوراک مورد نیاز',
-                style: context.themeData.textTheme.bodyLarge,
-              ),
-              children: const [
-                UserDescriptiveProfile(),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHealthRiskDescriptionCard(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
-          selector: (state) {
-            return state.profile;
-          },
-          builder: (context, state) {
-            return ExpansionTile(
-              title: Text(
-                'خلاصه خوراک مورد نیاز',
-                style: context.themeData.textTheme.bodyLarge,
-              ),
-              children: const [
-                Text('data'),
               ],
             );
           },
@@ -289,15 +176,6 @@ class ProfileView extends StatelessWidget {
                   alignment: AlignmentDirectional.centerEnd,
                   child: _ResetDialog(),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    // BazaarClientProxy.isBazaarInstalledOnDevice(context)
-                    // bool? isBazaarInstalled = CafeBazaarAuth.isBazaarInstalledOnDevice;
-                    // context.read<ProfileCubit>().getVersion();
-                    // context.read<ProfileCubit>().connectBazzar();
-                  },
-                  child: Text('login to bazar'),
-                )
               ],
             );
           },
@@ -450,7 +328,9 @@ class _ResetDialog extends StatelessWidget {
 }
 
 class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
-  const LoseWeightSpeedSegmentedButtons({super.key});
+  const LoseWeightSpeedSegmentedButtons({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -478,6 +358,59 @@ class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
                       .updateChangeWeightSpeed(newSelection.first);
                 }
               : null,
+        );
+      },
+    );
+  }
+}
+
+class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
+  const LoseWeightSpeedSegmentedButtonsPromotion({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<ProfileCubit>();
+    return SegmentedButton<ChangeWeightSpeed>(
+      segments: ChangeWeightSpeed.values.reversed
+          .map((e) => ButtonSegment(
+              value: e,
+              label: Text(
+                  context.l10n.profileChangeWeightSpeedButtonLabel(e.name))))
+          .toList(),
+      selected: const {},
+      emptySelectionAllowed: true,
+      showSelectedIcon: false,
+      onSelectionChanged: (_) async {
+        await showModalBottomSheet(
+          context: context,
+          isDismissible: false,
+          // useRootNavigator: true,
+          builder: (context) {
+            return BlocProvider.value(
+              value: cubit,
+              child: Builder(builder: (context) {
+                return BlocConsumer<ProfileCubit, ProfileState>(
+                  listenWhen: (previous, current) =>
+                      previous.puchaseSubscriptionStatus !=
+                      current.puchaseSubscriptionStatus,
+                  listener: (context, state) {
+                    if (state.puchaseSubscriptionStatus.isSuccess ||
+                        state.puchaseSubscriptionStatus.isError) {
+                      context.pop();
+                      context.goNamed(Routes.splash);
+                    }
+                  },
+                  builder: (context, state) {
+                    return SubscribeBottomSheet(
+                      onSelected: context.read<ProfileCubit>().subscribe,
+                    );
+                  },
+                );
+              }),
+            );
+          },
         );
       },
     );
@@ -525,57 +458,60 @@ class UserDescriptiveProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ProfileCubit, ProfileState, DietInfo>(
-      selector: (state) => state.dietInfo,
-      builder: (context, dietInfo) {
-        // final changeWeightText = context.l10n
-        //     .profileChangeWeightSpeedButtonLabel(
-        //         dietInfo.changeWeightSpeed.name);
-        final weeklyActivitylevel = context.l10n
-            .profileActivityLevelButtonLabel(dietInfo.activityLevelCM.name);
-        final macroNutritionRequirementsExerciseDay =
-            dietInfo.macroNutritionRequirements(DayActivityLevel.moderate);
-        final gramPerBodyWeightExerciseDay =
-            macroNutritionRequirementsExerciseDay.protein / dietInfo.weight;
-        final macroNutritionRequirementsRestDay =
-            dietInfo.macroNutritionRequirements(DayActivityLevel.rest);
-        // final gramPerBodyWeightRestDay =
-        //     dietInfo.macroNutritionRequirements(DayActivityLevel.rest).protein /
-        //         dietInfo.weight;
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.5)),
+      child: BlocSelector<ProfileCubit, ProfileState, DietInfo>(
+        selector: (state) => state.dietInfo,
+        builder: (context, dietInfo) {
+          // final changeWeightText = context.l10n
+          //     .profileChangeWeightSpeedButtonLabel(
+          //         dietInfo.changeWeightSpeed.name);
+          final weeklyActivitylevel = context.l10n
+              .profileActivityLevelButtonLabel(dietInfo.activityLevelCM.name);
+          final macroNutritionRequirementsExerciseDay =
+              dietInfo.macroNutritionRequirements(DayActivityLevel.moderate);
+          final gramPerBodyWeightExerciseDay =
+              macroNutritionRequirementsExerciseDay.protein / dietInfo.weight;
+          final macroNutritionRequirementsRestDay =
+              dietInfo.macroNutritionRequirements(DayActivityLevel.rest);
+          // final gramPerBodyWeightRestDay =
+          //     dietInfo.macroNutritionRequirements(DayActivityLevel.rest).protein /
+          //         dietInfo.weight;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('پروتئین'),
-            Text(
-              context.l10n.profileUserDescriptionProtein1(
-                weeklyActivitylevel,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('پروتئین'),
+              Text(
+                context.l10n.profileUserDescriptionProtein1(
+                  weeklyActivitylevel,
+                ),
               ),
-            ),
-            Text(
-              context.l10n.profileUserDescriptionProtein2(
-                macroNutritionRequirementsExerciseDay.protein,
-                gramPerBodyWeightExerciseDay,
+              Text(
+                context.l10n.profileUserDescriptionProtein2(
+                  macroNutritionRequirementsExerciseDay.protein,
+                  gramPerBodyWeightExerciseDay,
+                ),
               ),
-            ),
-            Text(
-              context.l10n.profileUserDescriptionProtein3(
-                macroNutritionRequirementsRestDay.protein,
+              Text(
+                context.l10n.profileUserDescriptionProtein3(
+                  macroNutritionRequirementsRestDay.protein,
+                ),
               ),
-            ),
-            Text(
-              context.l10n.profileUserDescriptionProtein4,
-            ),
-            const Divider(),
-            _buildCarbohydrate(context, dietInfo),
-            const Divider(),
-            const Text('چربی'),
-            Text(context.l10n.profileUserDescriptionFat1),
-            Text(context.l10n.profileUserDescriptionFat2),
-            Text(context.l10n.profileUserDescriptionFat3),
-          ],
-        );
-      },
+              Text(
+                context.l10n.profileUserDescriptionProtein4,
+              ),
+              const Divider(),
+              _buildCarbohydrate(context, dietInfo),
+              const Divider(),
+              const Text('چربی'),
+              Text(context.l10n.profileUserDescriptionFat1),
+              Text(context.l10n.profileUserDescriptionFat2),
+              Text(context.l10n.profileUserDescriptionFat3),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -627,6 +563,131 @@ class _ErrorText extends StatelessWidget {
           maxLines: 4,
         ),
       ),
+    );
+  }
+}
+
+class SummaryCard extends StatelessWidget {
+  const SummaryCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return UserRoleVisibility(
+      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      dieterWidget: _buildSummaryCard(context),
+    );
+  }
+
+  Widget _buildSummaryCard(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
+          selector: (state) {
+            return state.profile;
+          },
+          builder: (context, state) {
+            return ExpansionTile(
+              title: Text(
+                'خلاصه خوراک مورد نیاز',
+                style: context.themeData.textTheme.bodyLarge,
+              ),
+              children: const [
+                UserDescriptiveProfile(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class EnergyCard extends StatelessWidget {
+  const EnergyCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return UserRoleVisibility(
+      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      dieterWidget: _buildEnergyCard(context),
+    );
+  }
+
+  Widget _buildEnergyCard(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          buildWhen: (prev, current) => prev.dietInfo != current.dietInfo,
+          builder: (context, state) {
+            final bmiDescription =
+                context.l10n.appBmiStatus(state.dietInfo.bmiLevel.name);
+            //BMI Prime, a modification of the BMI system, is the ratio of actual BMI to upper limit optimal BMI (currently defined at 25 kg/m2)
+            final bmiPrime = state.dietInfo.bmi / 25;
+            return ExpansionTile(
+              title: Text(
+                'وضعیت انرژی شما',
+                style: context.themeData.textTheme.bodyLarge,
+              ),
+              children: [
+                MediaQuery(
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: TextScaler.linear(1.5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const BodyShapeProgressConsidration(),
+                      if (state.bodyCompositionErrors.isNotEmpty)
+                        const Divider(),
+                      Text(
+                        context.l10n.profileBmiDescription(
+                          state.dietInfo.bmi,
+                          bmiDescription,
+                        ),
+                      ),
+                      Text(
+                        context.l10n.profileWaistCircumferenceDescription(
+                          state.dietInfo.waistCircumferenceToHeightRatio,
+                        ),
+                      ),
+                      Text(
+                        context
+                            .l10n.profileBmiWaistCircumferenceHealthDescription,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Bmi Prime: ${bmiPrime.toStringAsFixed(2)}',
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+                      const Divider(),
+                      _buildSleepAndStressSection(context)
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSleepAndStressSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressTitle),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3),
+      ],
     );
   }
 }

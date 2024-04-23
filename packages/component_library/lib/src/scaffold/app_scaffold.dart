@@ -13,7 +13,7 @@ class AppScaffold extends StatelessWidget {
       this.fab});
 
   final Widget? child;
-  final FloatingActionButton? fab;
+  final Widget? fab;
   final List<Widget> actions;
   final bool isShowDrawerButton;
 
