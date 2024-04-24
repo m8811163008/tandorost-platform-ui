@@ -47,32 +47,36 @@ class WizardPageLast extends StatelessWidget {
                   await showModalBottomSheet(
                     context: context,
                     isDismissible: false,
+                    isScrollControlled: true,
                     // useRootNavigator: true,
                     builder: (context) {
-                      return BlocProvider.value(
-                        value: cubit,
-                        child: Builder(builder: (context) {
-                          return BlocConsumer<InitializeUserCubit,
-                              InitializeUserState>(
-                            listenWhen: (previous, current) =>
-                                previous.puchaseSubscriptionStatus !=
-                                current.puchaseSubscriptionStatus,
-                            listener: (context, state) {
-                              if (state.puchaseSubscriptionStatus.isSuccess ||
-                                  state.puchaseSubscriptionStatus.isError) {
-                                context.pop();
-                                context.goNamed(Routes.splash);
-                              }
-                            },
-                            builder: (context, state) {
-                              return SubscribeBottomSheet(
-                                onSelected: context
-                                    .read<InitializeUserCubit>()
-                                    .subscribe,
-                              );
-                            },
-                          );
-                        }),
+                      return FractionallySizedBox(
+                        heightFactor: 0.8,
+                        child: BlocProvider.value(
+                          value: cubit,
+                          child: Builder(builder: (context) {
+                            return BlocConsumer<InitializeUserCubit,
+                                InitializeUserState>(
+                              listenWhen: (previous, current) =>
+                                  previous.puchaseSubscriptionStatus !=
+                                  current.puchaseSubscriptionStatus,
+                              listener: (context, state) {
+                                if (state.puchaseSubscriptionStatus.isSuccess ||
+                                    state.puchaseSubscriptionStatus.isError) {
+                                  context.pop();
+                                  context.goNamed(Routes.splash);
+                                }
+                              },
+                              builder: (context, state) {
+                                return SubscribeBottomSheet(
+                                  onSelected: context
+                                      .read<InitializeUserCubit>()
+                                      .subscribe,
+                                );
+                              },
+                            );
+                          }),
+                        ),
                       );
                     },
                   );

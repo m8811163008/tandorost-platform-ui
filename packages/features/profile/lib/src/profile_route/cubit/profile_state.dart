@@ -13,6 +13,7 @@ class ProfileState {
   final Set<DomainChartType> supportedChartType;
   final Set<BodyCompositionError> bodyCompositionErrors;
   final DietInfo dietInfo;
+  final int remainingDays;
 
   const ProfileState({
     this.resettingStatus = ProcessAsyncStatus.initial,
@@ -23,6 +24,7 @@ class ProfileState {
     this.supportedChartType = const {},
     this.bodyCompositionErrors = const {},
     this.dietInfo = const DietInfo.empty(),
+    this.remainingDays = 0,
   });
 
   List<BioDataCM> get chartData {
@@ -57,6 +59,7 @@ class ProfileState {
     Set<DomainChartType>? supportedChartType,
     Set<BodyCompositionError>? bodyCompositionErrors,
     DietInfo? dietInfo,
+    int? remainingDays,
   }) {
     return ProfileState(
       resettingStatus: resettingStatus ?? this.resettingStatus,
@@ -70,6 +73,7 @@ class ProfileState {
       bodyCompositionErrors:
           bodyCompositionErrors ?? this.bodyCompositionErrors,
       dietInfo: dietInfo ?? this.dietInfo,
+      remainingDays: remainingDays ?? this.remainingDays,
     );
   }
 }

@@ -26,12 +26,6 @@
         
 
         </activity>
-        <receiver android:name="com.farsitel.bazaar.auth.receiver.AuthReceiver"
-        android:exported="true">   
-        </receiver>
-        <receiver android:name="com.farsitel.bazaar.storage.receiver.StorageReceiver"
-        android:exported="true">   
-        </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

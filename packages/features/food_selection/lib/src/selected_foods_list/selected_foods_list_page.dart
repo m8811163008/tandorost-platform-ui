@@ -218,31 +218,36 @@ class _UpgradeProfile extends StatelessWidget {
                   onPressed: () async {
                     await showModalBottomSheet(
                       context: context,
+                      isScrollControlled: true,
                       builder: (context) {
-                        return BlocProvider.value(
-                          value: cubit,
-                          child: Builder(builder: (context) {
-                            return BlocConsumer<SelectedFoodsListCubit,
-                                SelectedFoodsListState>(
-                              listenWhen: (previous, current) =>
-                                  previous.puchaseSubscriptionStatus !=
-                                  current.puchaseSubscriptionStatus,
-                              listener: (context, state) {
-                                if (state.puchaseSubscriptionStatus.isSuccess ||
-                                    state.puchaseSubscriptionStatus.isError) {
-                                  context.pop();
-                                  context.goNamed(Routes.splash);
-                                }
-                              },
-                              builder: (context, state) {
-                                return SubscribeBottomSheet(
-                                  onSelected: context
-                                      .read<SelectedFoodsListCubit>()
-                                      .subscribe,
-                                );
-                              },
-                            );
-                          }),
+                        return FractionallySizedBox(
+                          heightFactor: 0.8,
+                          child: BlocProvider.value(
+                            value: cubit,
+                            child: Builder(builder: (context) {
+                              return BlocConsumer<SelectedFoodsListCubit,
+                                  SelectedFoodsListState>(
+                                listenWhen: (previous, current) =>
+                                    previous.puchaseSubscriptionStatus !=
+                                    current.puchaseSubscriptionStatus,
+                                listener: (context, state) {
+                                  if (state.puchaseSubscriptionStatus
+                                          .isSuccess ||
+                                      state.puchaseSubscriptionStatus.isError) {
+                                    context.pop();
+                                    context.goNamed(Routes.splash);
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return SubscribeBottomSheet(
+                                    onSelected: context
+                                        .read<SelectedFoodsListCubit>()
+                                        .subscribe,
+                                  );
+                                },
+                              );
+                            }),
+                          ),
                         );
                       },
                     );

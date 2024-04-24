@@ -142,7 +142,16 @@ class ProfileView extends StatelessWidget {
                 UserRoleVisibility(
                   userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
                       .currentUserRulesStream(),
-                  dieterWidget: LoseWeightSpeedSegmentedButtons(),
+                  dieterWidget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LoseWeightSpeedSegmentedButtons(),
+                      SizedBox(
+                        height: context.sizesExtenstion.medium,
+                      ),
+                      ExpireDateRemainingWidget(),
+                    ],
+                  ),
                   foodTrackerWidget: LoseWeightSpeedSegmentedButtonsPromotion(),
                 ),
               ],
@@ -195,6 +204,23 @@ class ProfileView extends StatelessWidget {
         );
       },
       icon: const Icon(Ionicons.information_circle_outline),
+    );
+  }
+}
+
+class ExpireDateRemainingWidget extends StatelessWidget {
+  const ExpireDateRemainingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<ProfileCubit, ProfileState, int>(
+      selector: (state) => state.remainingDays,
+      builder: (context, remainingDays) {
+        return Text(
+          'تعداد روز باقی مانده از اشتراک : $remainingDays',
+          style: context.themeData.textTheme.labelSmall,
+        );
+      },
     );
   }
 }
@@ -386,29 +412,33 @@ class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
         await showModalBottomSheet(
           context: context,
           isDismissible: false,
+          isScrollControlled: true,
           // useRootNavigator: true,
           builder: (context) {
-            return BlocProvider.value(
-              value: cubit,
-              child: Builder(builder: (context) {
-                return BlocConsumer<ProfileCubit, ProfileState>(
-                  listenWhen: (previous, current) =>
-                      previous.puchaseSubscriptionStatus !=
-                      current.puchaseSubscriptionStatus,
-                  listener: (context, state) {
-                    if (state.puchaseSubscriptionStatus.isSuccess ||
-                        state.puchaseSubscriptionStatus.isError) {
-                      context.pop();
-                      context.goNamed(Routes.splash);
-                    }
-                  },
-                  builder: (context, state) {
-                    return SubscribeBottomSheet(
-                      onSelected: context.read<ProfileCubit>().subscribe,
-                    );
-                  },
-                );
-              }),
+            return FractionallySizedBox(
+              heightFactor: 0.8,
+              child: BlocProvider.value(
+                value: cubit,
+                child: Builder(builder: (context) {
+                  return BlocConsumer<ProfileCubit, ProfileState>(
+                    listenWhen: (previous, current) =>
+                        previous.puchaseSubscriptionStatus !=
+                        current.puchaseSubscriptionStatus,
+                    listener: (context, state) {
+                      if (state.puchaseSubscriptionStatus.isSuccess ||
+                          state.puchaseSubscriptionStatus.isError) {
+                        context.pop();
+                        context.goNamed(Routes.splash);
+                      }
+                    },
+                    builder: (context, state) {
+                      return SubscribeBottomSheet(
+                        onSelected: context.read<ProfileCubit>().subscribe,
+                      );
+                    },
+                  );
+                }),
+              ),
             );
           },
         );

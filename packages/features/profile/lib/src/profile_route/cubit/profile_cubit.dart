@@ -16,6 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       : super(const ProfileState()) {
     _initializeProfileCm();
     _initializeDietInfoCm();
+    _initializeExpireDate();
   }
 
   final UserRepostiory userRepostiory;
@@ -28,6 +29,16 @@ class ProfileCubit extends Cubit<ProfileState> {
         dietInfo: event,
       ));
     });
+  }
+
+  void _initializeExpireDate() async {
+    final expireDate = await authRepostiory.getExpireDate();
+    final remainingDays = expireDate?.difference(DateTime.now()).inDays ?? 0;
+    emit(
+      state.copyWith(
+        remainingDays: remainingDays,
+      ),
+    );
   }
 
   void _initializeProfileCm() {

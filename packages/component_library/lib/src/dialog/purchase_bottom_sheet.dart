@@ -11,20 +11,88 @@ class SubscribeBottomSheet extends StatelessWidget {
     return BottomSheet(
       constraints: BoxConstraints.tight(
         Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height * 0.4),
+            MediaQuery.of(context).size.height * 0.8),
       ),
       builder: (context) {
         return Padding(
           padding: EdgeInsets.all(context.sizesExtenstion.medium),
           child: Column(
             children: [
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Text('یکی را انتخاب نمایید',
-                    style: context.themeData.textTheme.titleLarge),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.sizesExtenstion.small),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'تندرست با خدمات زیر باعث افزایش سلامت و اعتمادبنفس شما میشود',
+                    style: context.themeData.textTheme.labelLarge,
+                  ),
+                ),
+              ),
+              _buildText(context, 'امکانات تناسب اندام بدون بازگشت'),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.sizesExtenstion.small),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text:
+                            'انجام محاسبات پیچیده ی درشت مغذی های مورد نیاز شما و انرژی مورد نیاز شما در ',
+                        style: context.themeData.textTheme.bodyMedium,
+                      ),
+                      TextSpan(
+                        text: ' روزهای فعالیت بدنی زیاد',
+                        style: context.themeData.textTheme.bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' و ',
+                        style: context.themeData.textTheme.bodyMedium,
+                      ),
+                      TextSpan(
+                        text: 'روزهای استراحت',
+                        style: context.themeData.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.sizesExtenstion.small),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text:
+                              'انتخاب هدف تناسب اندام با ۴ حالت متفاوت و ایمن با اپتیمم مقدار کاهش چربی',
+                          style: context.themeData.textTheme.bodyMedium),
+                      TextSpan(
+                        text: ' اپتیمم مقدار کاهش چربی',
+                        style: context.themeData.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 height: context.sizesExtenstion.large,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.sizesExtenstion.small),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'یکی را انتخاب نمایید',
+                    style: context.themeData.textTheme.labelLarge,
+                  ),
+                ),
               ),
               Expanded(
                 child: IntrinsicHeight(
@@ -82,6 +150,19 @@ class SubscribeBottomSheet extends StatelessWidget {
         );
       },
       onClosing: () {},
+    );
+  }
+
+  Padding _buildText(BuildContext context, String text) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: context.sizesExtenstion.small),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          text,
+          style: context.themeData.textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 
