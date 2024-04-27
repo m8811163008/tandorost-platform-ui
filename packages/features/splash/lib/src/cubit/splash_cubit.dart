@@ -15,6 +15,7 @@ class SplashCubit extends Cubit<SplashState> {
   void _initialize() async {
     _userRuleSubscription = authRepostiory.currentUserRulesStream().listen(
       (event) {
+        if (isClosed) return;
         emit(state.copyWith(userRules: event));
       },
     );

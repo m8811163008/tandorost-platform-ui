@@ -11,6 +11,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   final UserRepostiory userRepostiory;
 
   void upsertArmCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -22,6 +23,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
 
   void upsertWeight(String value) {
     if (value.isEmpty) return;
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -32,6 +34,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertActivityLevelChanging(ActivityLevelCM? value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -42,6 +45,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertChestCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -52,6 +56,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertThightCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -62,6 +67,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertHipCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -72,6 +78,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertCalfMuscleCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -82,6 +89,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
   }
 
   void upsertWaiseCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -93,6 +101,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
 
   void saveNewMeasurement() async {
     if (state.bodyCompositionValues != const BodyCompositionValues()) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.loading,
@@ -108,6 +117,7 @@ class AddMeasurementCubit extends Cubit<AddMeasurementState> {
 
       try {
         await userRepostiory.updateProfile(profile);
+        if (isClosed) return;
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.success,
         ));

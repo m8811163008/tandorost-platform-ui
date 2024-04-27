@@ -101,7 +101,7 @@ class _AppDrawerState extends State<AppDrawer> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'محتوای برنامه متعلق به تیم توسعه دهنده تندرست می باشد',
+            'محتوای برنامه متعلق به تیم توسعه دهنده تندرست می باشد. شماره پشتیبانی 02166508216',
             style: context.themeData.textTheme.labelMedium,
           ),
         ),

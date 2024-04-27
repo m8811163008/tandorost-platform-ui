@@ -17,6 +17,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
 
   void _registerHandlers() async {
     on<FoodEvent>((event, emit) async {
+      if (isClosed) return;
       if (event is ListenedFoodListStream) {
         await _handleListenedFoodListStream(event, emit);
       } else if (event is FoodUpserted) {

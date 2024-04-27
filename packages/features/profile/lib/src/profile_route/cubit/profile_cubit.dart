@@ -25,6 +25,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void _initializeDietInfoCm() {
     _dietInfoSubscription = userRepostiory.dietInfo.listen((event) {
+      if (isClosed) return;
       emit(state.copyWith(
         dietInfo: event,
       ));
@@ -34,6 +35,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void _initializeExpireDate() async {
     final expireDate = await authRepostiory.getExpireDate();
     final remainingDays = expireDate?.difference(DateTime.now()).inDays ?? 0;
+    if (isClosed) return;
     emit(
       state.copyWith(
         remainingDays: remainingDays,
@@ -70,6 +72,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         supportedCharts.add(DomainChartType.waistCircumference);
       }
 
+      if (isClosed) return;
       emit(state.copyWith(
         profile: event,
         supportedChartType: supportedCharts,
@@ -79,23 +82,28 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void resetCollections() async {
+    if (isClosed) return;
     emit(state.copyWith(resettingStatus: ProcessAsyncStatus.loading));
     try {
       await Future.wait([
         userRepostiory.clearCollections(),
         foodRepostiory.clearCollections(),
       ]);
+      if (isClosed) return;
       emit(state.copyWith(resettingStatus: ProcessAsyncStatus.success));
     } catch (e) {
+      if (isClosed) return;
       emit(state.copyWith(resettingStatus: ProcessAsyncStatus.error));
     }
   }
 
   void updateChartType(DomainChartType domainChartType) {
+    if (isClosed) return;
     emit(state.copyWith(chartType: domainChartType));
   }
 
   void updateChangeWeightSpeed(ChangeWeightSpeed changeWeightSpeed) async {
+    if (isClosed) return;
     emit(state.copyWith(
       changeWeightSpeedStatus: ProcessAsyncStatus.loading,
     ));
@@ -106,12 +114,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     try {
       await userRepostiory.updateProfile(profileCM);
+      if (isClosed) return;
       emit(
         state.copyWith(
           changeWeightSpeedStatus: ProcessAsyncStatus.success,
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           changeWeightSpeedStatus: ProcessAsyncStatus.error,
@@ -154,17 +164,22 @@ class ProfileCubit extends Cubit<ProfileState> {
       if (!state.dietInfo.isWaistCircumferenceSafeRange)
         BodyCompositionError.waistCircumfrenceIsGratherThan94or80,
     };
+    if (isClosed) return;
     emit(state.copyWith(bodyCompositionErrors: errors));
   }
 
   void subscribe(SubscriptionPlan subscriptionPlan) async {
+    if (isClosed) return;
     emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
     try {
       await authRepostiory.subscribe(subscriptionPlan);
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
       );
     } catch (e) {
+      if (isClosed) return;
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
       );

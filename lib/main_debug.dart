@@ -42,7 +42,7 @@ void main() async {
 // sell in bazzar
 // check debug on deploy
 // build and deploy[2h]
-// can not emit state after calling close!
+// [x]can not emit state after calling close!
 //
 // hold to create recipe from list and handle name conflict
 // add comment 

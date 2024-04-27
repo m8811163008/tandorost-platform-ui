@@ -23,7 +23,8 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
   void _initializeDietInfoCm() {
     _dietInfoSubscription = _userRepostiory.dietInfo.listen((event) {
-      emit(state.copyWith(
+      if (isClosed) return;
+      (state.copyWith(
         dietInfo: event,
       ));
     });
@@ -31,6 +32,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
   void _initializeProfileCm() {
     _profileSubscription = _userRepostiory.userProfile.listen((event) {
+      if (isClosed) return;
       emit(state.copyWith(
         profileCM: event,
       ));
@@ -38,6 +40,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   void updateDayActivityLevel(DayActivityLevel dayActivityLevel) {
+    if (isClosed) return;
     emit(state.copyWith(dayActivityLevel: dayActivityLevel));
   }
 
@@ -61,6 +64,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
       selectedFoodsList
           .sort((a, b) => a.selectedDate.compareTo(b.selectedDate));
 
+      if (isClosed) return;
       emit(
         state.copyWith(
           selectedFoodsList: selectedFoodsList,
@@ -86,6 +90,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
                 .inHours /
             24)
         .ceil();
+    if (isClosed) return;
     emit(
       state.copyWith(filterDays: days),
     );
@@ -135,6 +140,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
       fat: fatSum,
       protein: proteinSum,
     );
+    if (isClosed) return;
     emit(
       state.copyWith(
         selectedFoodsInfo: selectedFoodsInfo,
@@ -148,6 +154,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   StreamSubscription<List<SelectedFoodCM>>? _selectedFoodsListSubscription;
 
   void slectedFoodListFiltered(DateTimeRange dateTimeRange) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         filterSelctedFoodsListDateTimeRange: dateTimeRange,
@@ -157,6 +164,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   void selectedFoodRemoved(SelectedFoodCM food) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         deleteSelectedFoodStatus: ProcessAsyncStatus.loading,
@@ -165,11 +173,13 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     try {
       await _foodRepository.removeSelectedFood(food);
 
+      if (isClosed) return;
       emit(state.copyWith(
         deleteSelectedFoodStatus: ProcessAsyncStatus.success,
         lastDeletedSelectedFoods: [...state.lastDeletedSelectedFoods, food],
       ));
     } catch (e) {
+      if (isClosed) return;
       emit(state.copyWith(deleteSelectedFoodStatus: ProcessAsyncStatus.error));
     }
   }
@@ -182,6 +192,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     if (state.selectedFoodsList.contains(state.lastDeletedSelectedFoods.last)) {
       return;
     }
+    if (isClosed) return;
     emit(
       state.copyWith(
         undoRemoveSelectedFoodStatus: ProcessAsyncStatus.loading,
@@ -193,12 +204,14 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
       List<SelectedFoodCM> updatedLasLeletedFoods =
           state.lastDeletedSelectedFoods;
       updatedLasLeletedFoods.removeLast();
+      if (isClosed) return;
       emit(
         state.copyWith(
             undoRemoveSelectedFoodStatus: ProcessAsyncStatus.success,
             lastDeletedSelectedFoods: updatedLasLeletedFoods),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           undoRemoveSelectedFoodStatus: ProcessAsyncStatus.error,
@@ -217,6 +230,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     } else {
       selectedFoodsForNewFood.add(selectedFood);
     }
+    if (isClosed) return;
     emit(
       state.copyWith(
         selectedFoodsForNewFood: selectedFoodsForNewFood,
@@ -226,6 +240,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
 
   void newFoodNameUpdated(String value) {
     // todo handle overwrite foods
+    if (isClosed) return;
     emit(
       state.copyWith(
         newFoodName: value,
@@ -237,6 +252,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   void newFoodFromSelectedFoodsCreated() async {
     assert(state.selectedFoodsForNewFood.isNotEmpty);
     assert(state.newFoodName.isNotEmpty);
+    if (isClosed) return;
     emit(
       state.copyWith(
         creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.loading,
@@ -265,6 +281,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
     try {
       // TODO hanlde overwrite
       await _foodRepository.upsertFood(food);
+      if (isClosed) return;
       emit(
         state.copyWith(
           creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.success,
@@ -272,6 +289,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           creatingNewFoodFromSelectionStatus: ProcessAsyncStatus.error,
@@ -283,13 +301,16 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   }
 
   void subscribe(SubscriptionPlan subscriptionPlan) async {
+    if (isClosed) return;
     emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
     try {
       await _authRepostiory.subscribe(subscriptionPlan);
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
       );

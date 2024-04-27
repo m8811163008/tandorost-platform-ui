@@ -20,6 +20,7 @@ class FoodSelectionBloc extends Bloc<FoodSelectionEvent, FoodSelectionState> {
   void _registerHandlers() {
     on<FoodSelectionEvent>(
       (event, emit) async {
+        if (isClosed) return;
         if (event is SearchFood) {
           await _handleSearchFood(event, emit);
         } else if (event is SearchedFoodsUpdated) {

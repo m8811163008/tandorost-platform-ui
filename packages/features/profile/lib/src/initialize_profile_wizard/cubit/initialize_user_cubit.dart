@@ -29,6 +29,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void updateBirthDay(DateTime birthday, String birthdayShamsi) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         wizardUpdatedProfileCM: state.createdProfileCM.copyWith(
@@ -40,6 +41,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void updateUsername(String userName) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         wizardUpdatedProfileCM:
@@ -49,6 +51,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void updateIsMale(bool isMale) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         wizardUpdatedProfileCM: state.createdProfileCM.copyWith(isMale: isMale),
@@ -57,6 +60,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertHeight(int value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -67,6 +71,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertWeight(int value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -77,6 +82,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertWaistCircumference(int value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -87,6 +93,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void toggleIsAgreementAccepted() {
+    if (isClosed) return;
     emit(
       state.copyWith(
         isAgreementAccepted: !state.isAgreementAccepted,
@@ -95,6 +102,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertArmCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -105,6 +113,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertStartBodycompositionChanging(DateTime value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -115,6 +124,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertActivityLevelChanging(ActivityLevelCM value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -125,6 +135,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertChestCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -135,6 +146,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertThightCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -145,6 +157,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertHipCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -155,6 +168,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void upsertCalfMuscleCircumference(String value) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         bodyCompositionValues: state.bodyCompositionValues.copyWith(
@@ -165,6 +179,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void updateCurrentPage(int currentPage) {
+    if (isClosed) return;
     emit(
       state.copyWith(
         currentPage: currentPage,
@@ -176,6 +191,7 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
     final lastProfile = await userRepostiory.userProfile.first;
     assert(lastProfile == const ProfileCM.empty());
     if (state.isValidActivatePremiumForm) {
+      if (isClosed) return;
       emit(state.copyWith(
         formSubmitStatus: ProcessAsyncStatus.loading,
       ));
@@ -192,10 +208,12 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
       try {
         await userRepostiory.updateProfile(updatedProfile);
 
+        if (isClosed) return;
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.success,
         ));
       } catch (e) {
+        if (isClosed) return;
         emit(state.copyWith(
           formSubmitStatus: ProcessAsyncStatus.error,
         ));
@@ -204,13 +222,16 @@ class InitializeUserCubit extends Cubit<InitializeUserState> {
   }
 
   void subscribe(SubscriptionPlan subscriptionPlan) async {
+    if (isClosed) return;
     emit(state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.loading));
     try {
       await authRepostiory.subscribe(subscriptionPlan);
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.success),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(puchaseSubscriptionStatus: ProcessAsyncStatus.error),
       );
