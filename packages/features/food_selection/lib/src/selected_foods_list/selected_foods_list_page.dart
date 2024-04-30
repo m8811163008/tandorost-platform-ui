@@ -219,6 +219,7 @@ class _UpgradeProfile extends StatelessWidget {
                     await showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
+                      isDismissible: true,
                       builder: (context) {
                         return FractionallySizedBox(
                           heightFactor: 0.8,

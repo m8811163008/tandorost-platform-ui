@@ -13,12 +13,15 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   void _initialize() async {
-    _userRuleSubscription = authRepostiory.currentUserRulesStream().listen(
-      (event) {
-        if (isClosed) return;
-        emit(state.copyWith(userRules: event));
-      },
-    );
+    _userRuleSubscription =
+        authRepostiory.currentUserRulesStream().listen((event) {
+      if (isClosed) return;
+      emit(state.copyWith(userRules: event));
+    }, onError: (error) {
+      if (error is UserNotLogedInException) {
+        emit(state.copyWith(exception: 'شما وارد کافه بازار نشده اید'));
+      }
+    });
 
     // get user subscr
     // check if bazar install

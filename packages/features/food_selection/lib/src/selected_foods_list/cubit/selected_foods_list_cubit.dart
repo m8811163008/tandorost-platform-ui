@@ -24,7 +24,7 @@ class SelectedFoodsListCubit extends Cubit<SelectedFoodsListState> {
   void _initializeDietInfoCm() {
     _dietInfoSubscription = _userRepostiory.dietInfo.listen((event) {
       if (isClosed) return;
-      (state.copyWith(
+      emit(state.copyWith(
         dietInfo: event,
       ));
     });

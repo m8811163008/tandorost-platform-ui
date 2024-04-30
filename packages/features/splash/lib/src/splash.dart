@@ -10,16 +10,18 @@ class SplashRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: RepositoryProvider.of<AuthRepostiory>(context)
-          .currentUserRulesStream(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          onDone?.call();
-        }
+    return Scaffold(
+      body: StreamBuilder(
+        stream: RepositoryProvider.of<AuthRepostiory>(context)
+            .currentUserRulesStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData || snapshot.hasError) {
+            onDone?.call();
+          }
 
-        return SplashScreen();
-      },
+          return SplashScreen();
+        },
+      ),
     );
   }
 }

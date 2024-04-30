@@ -1,6 +1,7 @@
 import 'package:component_library/src/helper.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SubscribeBottomSheet extends StatelessWidget {
   const SubscribeBottomSheet({super.key, this.onSelected});
@@ -24,12 +25,22 @@ class SubscribeBottomSheet extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'تندرست با خدمات زیر باعث افزایش سلامت و اعتمادبنفس شما میشود',
+                    'ارتقای اشتراک',
+                    style: context.themeData.textTheme.displaySmall,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.sizesExtenstion.small),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'تندرست با خدمات زیر باعث کاهش چربی و کاهش وزن شما میشود',
                     style: context.themeData.textTheme.labelLarge,
                   ),
                 ),
               ),
-              _buildText(context, 'امکانات تناسب اندام بدون بازگشت'),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: context.sizesExtenstion.small),
@@ -38,11 +49,11 @@ class SubscribeBottomSheet extends StatelessWidget {
                     children: [
                       TextSpan(
                         text:
-                            'انجام محاسبات پیچیده ی درشت مغذی های مورد نیاز شما و انرژی مورد نیاز شما در ',
+                            '1. انجام محاسبه درشت مغذی مورد نیاز شما (کربوهیدرات ،چربی،پروتین) در',
                         style: context.themeData.textTheme.bodyMedium,
                       ),
                       TextSpan(
-                        text: ' روزهای فعالیت بدنی زیاد',
+                        text: ' روزهای ماهیچه سازی',
                         style: context.themeData.textTheme.bodyMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -60,26 +71,30 @@ class SubscribeBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: context.sizesExtenstion.small),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                          text:
-                              'انتخاب هدف تناسب اندام با ۴ حالت متفاوت و ایمن با اپتیمم مقدار کاهش چربی',
-                          style: context.themeData.textTheme.bodyMedium),
-                      TextSpan(
-                        text: ' اپتیمم مقدار کاهش چربی',
-                        style: context.themeData.textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: context.sizesExtenstion.small),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: '2. محاسبه انرژی مورد نیاز شما برای',
+                            style: context.themeData.textTheme.bodyMedium),
+                        TextSpan(
+                          text: ' اپتیمم مقدار کاهش چربی',
+                          style:
+                              context.themeData.textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
+              _buildText(context, '3. دسترسی به خدمات کاهش وزن بدون بازگشت'),
               SizedBox(
                 height: context.sizesExtenstion.large,
               ),

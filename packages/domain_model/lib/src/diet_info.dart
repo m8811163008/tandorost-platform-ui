@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:domain_model/domain_model.dart';
+import 'package:equatable/equatable.dart';
 
-class DietInfo {
+class DietInfo extends Equatable {
   final double waistCircumference;
   final double height;
   final double weight;
@@ -91,6 +92,17 @@ class DietInfo {
       activityLevelCM: activityLevelCM ?? this.activityLevelCM,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        waistCircumference,
+        height,
+        weight,
+        age,
+        isMale,
+        changeWeightSpeed,
+        activityLevelCM
+      ];
 }
 
 enum BmiLevels {
@@ -115,7 +127,7 @@ enum DayActivityLevel {
   bool get isModerate => this == moderate;
 }
 
-class MacroNutritionRequirements {
+class MacroNutritionRequirements extends Equatable {
   final double weight;
   final double totalDailyEnergyExpenditure;
   final DayActivityLevel dayActivityLevel;
@@ -195,4 +207,13 @@ class MacroNutritionRequirements {
 
   double get carbohydrateNonFruitVegetable =>
       carbohydrate - carbohydrateFruitVegetable;
+
+  @override
+  List<Object?> get props => [
+        weight,
+        totalDailyEnergyExpenditure,
+        dayActivityLevel,
+        activityLevelCM,
+        changeWeightSpeed
+      ];
 }

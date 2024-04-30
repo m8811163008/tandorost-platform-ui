@@ -14,61 +14,69 @@ class AuthRepostiory {
       BehaviorSubject();
 
   Stream<Set<UserRule>> currentUserRulesStream() async* {
-    yield* _currentUserRulesController.asBroadcastStream();
+    yield {UserRule.foodTracker, UserRule.dieter};
+    // yield* _currentUserRulesController.asBroadcastStream();
   }
 
-  Future<void> dispose() async => _currentUserRulesController.close;
+  Future<void> dispose() async => _currentUserRulesController.close();
 
   /// Active subscriptions of the client.
   ///
   /// It return BazzarQueryException and
   Future<void> getAllSubscribedProducts() async {
     await connectBazzar();
+    try {
+      final subscriptionsHistory =
+          await FlutterPoolakey.getAllSubscribedProducts();
 
-    final subscriptionsHistory =
-        await FlutterPoolakey.getAllSubscribedProducts();
-
-    if (subscriptionsHistory.isEmpty) {
-      if (_currentUserRulesController.hasValue) {
-        Set<UserRule> rules = _currentUserRulesController.value;
-        rules.removeWhere((element) => element == UserRule.foodTracker);
-        _currentUserRulesController.add(rules);
-      } else {
-        _currentUserRulesController.add({UserRule.foodTracker});
-      }
-    } else {
-      // check user has active subscription?
-      final purchasedSubscription = subscriptionsHistory
-          .where((element) => element.purchaseState == PurchaseState.PURCHASED);
-
-      final activeSubscriptions = purchasedSubscription.where((element) {
-        final subscriptionPlanDuration =
-            element.purchasePayload.subscriptionPlan.durationInDays;
-
-        final purchaseDate =
-            DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
-        final expireDate =
-            purchaseDate.add(Duration(days: subscriptionPlanDuration));
-        return DateTime.now().isBefore(expireDate);
-      });
-
-      if (activeSubscriptions.isNotEmpty) {
-        if (_currentUserRulesController.hasValue) {
-          Set<UserRule> rules = _currentUserRulesController.value;
-          rules.add(UserRule.dieter);
-          _currentUserRulesController.add(rules);
-        } else {
-          _currentUserRulesController.add(
-            {UserRule.foodTracker, UserRule.dieter},
-          );
-        }
-      } else {
+      if (subscriptionsHistory.isEmpty) {
         if (_currentUserRulesController.hasValue) {
           Set<UserRule> rules = _currentUserRulesController.value;
           rules.removeWhere((element) => element == UserRule.foodTracker);
           _currentUserRulesController.add(rules);
         } else {
           _currentUserRulesController.add({UserRule.foodTracker});
+        }
+      } else {
+        // check user has active subscription?
+        final purchasedSubscription = subscriptionsHistory.where(
+            (element) => element.purchaseState == PurchaseState.PURCHASED);
+
+        final activeSubscriptions = purchasedSubscription.where((element) {
+          final subscriptionPlanDuration =
+              element.purchasePayload.subscriptionPlan.durationInDays;
+
+          final purchaseDate =
+              DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
+          final expireDate =
+              purchaseDate.add(Duration(days: subscriptionPlanDuration));
+          return DateTime.now().isBefore(expireDate);
+        });
+
+        if (activeSubscriptions.isNotEmpty) {
+          if (_currentUserRulesController.hasValue) {
+            Set<UserRule> rules = _currentUserRulesController.value;
+            rules.add(UserRule.dieter);
+            _currentUserRulesController.add(rules);
+          } else {
+            _currentUserRulesController.add(
+              {UserRule.foodTracker, UserRule.dieter},
+            );
+          }
+        } else {
+          if (_currentUserRulesController.hasValue) {
+            Set<UserRule> rules = _currentUserRulesController.value;
+            rules.removeWhere((element) => element == UserRule.foodTracker);
+            _currentUserRulesController.add(rules);
+          } else {
+            _currentUserRulesController.add({UserRule.foodTracker});
+          }
+        }
+      }
+    } catch (e) {
+      if (e is PlatformException) {
+        if (e.code == 'QUERY_SUBSCRIBED_PRODUCT_FAILED') {
+          _currentUserRulesController.addError(UserNotLogedInException());
         }
       }
     }

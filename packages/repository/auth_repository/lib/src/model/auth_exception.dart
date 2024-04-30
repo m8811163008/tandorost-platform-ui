@@ -15,6 +15,11 @@ class NotInstalledException implements Exception {
   const NotInstalledException();
 }
 
+/// User did not login to bazzar.
+class UserNotLogedInException implements Exception {
+  const UserNotLogedInException();
+}
+
 extension SubscriptionPlanX on SubscriptionPlan {
   String get sku => switch (this) {
         SubscriptionPlan.oneMonth => 'BkG5O0V8ST0RIrEMJSzT',
