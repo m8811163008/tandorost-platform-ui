@@ -16,6 +16,10 @@ flutter pub run flutter_launcher_icons
 // change flutter.versionCode in local.properties
 flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-info=./split-debug-info
 
+~/projects/tandorost/build/app/outputs/bundle/release
+
+
+
 // To build apks from appbundle
 java -jar bundletool-all-1.16.0jar build-apks --bundle=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass=pass:tandorost_dev --connected-device
 

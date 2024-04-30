@@ -14,8 +14,8 @@ class AuthRepostiory {
       BehaviorSubject();
 
   Stream<Set<UserRule>> currentUserRulesStream() async* {
-    yield {UserRule.foodTracker, UserRule.dieter};
-    // yield* _currentUserRulesController.asBroadcastStream();
+    // yield {UserRule.foodTracker, UserRule.dieter};
+    yield* _currentUserRulesController.asBroadcastStream();
   }
 
   Future<void> dispose() async => _currentUserRulesController.close();

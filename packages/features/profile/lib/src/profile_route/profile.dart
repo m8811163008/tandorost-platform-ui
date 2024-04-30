@@ -411,7 +411,7 @@ class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
       onSelectionChanged: (_) async {
         await showModalBottomSheet(
           context: context,
-          isDismissible: false,
+          isDismissible: true,
           isScrollControlled: true,
           // useRootNavigator: true,
           builder: (context) {

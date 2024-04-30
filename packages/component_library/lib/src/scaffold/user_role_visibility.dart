@@ -1,3 +1,4 @@
+import 'package:component_library/src/helper.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,19 @@ class UserRoleVisibility extends StatelessWidget {
     return StreamBuilder(
       stream: userRoleStream,
       builder: (context, snapshot) {
+        // todo handle auth status with snackbar
+        if (snapshot.hasError)
+          return Card(
+            color: context.themeData.colorScheme.errorContainer,
+            child: Padding(
+              padding: EdgeInsets.all(context.sizesExtenstion.medium),
+              child: Text(
+                'اتصال به نرم افزار کافه بازار را بررسی کنید. ایا لاگین هستید؟آیا آخرین بروزرسانی را دارید؟',
+                style: context.themeData.textTheme.bodyMedium!.copyWith(
+                    color: context.themeData.colorScheme.onErrorContainer),
+              ),
+            ),
+          );
         if (!snapshot.hasData) return SizedBox.shrink();
         final userRoles = snapshot.data!;
         if (userRoles.contains(UserRule.dieter) && dieterWidget != null) {
