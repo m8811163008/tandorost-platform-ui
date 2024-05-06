@@ -30,10 +30,10 @@ class FoodStorage {
     final jsonFile = await _loadAsset('local_foods.json');
 
     final jsonFoodList = json.decode(jsonFile) as List;
-    List<FoodCM> foodList = jsonFoodList
-        .map((dynamic jsonFood) =>
-            (jsonFood as Map<String, dynamic>).foodCMfromJson())
-        .toList();
+    List<FoodCM> foodList = jsonFoodList.map((dynamic jsonFood) {
+      return (jsonFood as Map<String, dynamic>).foodCMfromJson();
+    }).toList();
+
     final foodListMapEntry = foodList.map((e) => MapEntry(e.name, e)).toList();
     final foodMap = Map.fromEntries(foodListMapEntry);
 
