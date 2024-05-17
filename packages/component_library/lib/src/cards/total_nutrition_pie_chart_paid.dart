@@ -1,4 +1,5 @@
 import 'package:component_library/component_library.dart' hide PieChart;
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -31,7 +32,7 @@ class TotalNutitionsPieChartNonFatPaid extends StatelessWidget {
         ? 0.0
         : carbohydrateVegetableRemaining;
     return SizedBox.square(
-      dimension: 104,
+      dimension: 96,
       child: PieChart(
         chartType: ChartType.ring,
         dataMap: {
@@ -43,9 +44,9 @@ class TotalNutitionsPieChartNonFatPaid extends StatelessWidget {
           'باقی مانده کربوهیدرات میوه و سبزی':
               carbohydrateVegetableRemainingVal,
         },
-        ringStrokeWidth: 16,
+        ringStrokeWidth: 32,
         chartValuesOptions: const ChartValuesOptions(showChartValues: false),
-        animationDuration: Duration.zero,
+        animationDuration: Duration(milliseconds: 500),
         legendOptions: const LegendOptions(showLegends: false),
         totalValue: protein +
             proteinRemainingVal +
@@ -79,16 +80,16 @@ class TotalNutitionsPieChartFatPaid extends StatelessWidget {
   Widget build(BuildContext context) {
     final fatRemainingVal = fatRemaining < 0 ? 0.0 : fatRemaining;
     return SizedBox.square(
-      dimension: 104 * 0.35,
+      dimension: 144,
       child: PieChart(
         chartType: ChartType.ring,
         dataMap: {
           'چربی': fat,
           'باقی مانده چربی': fatRemainingVal,
         },
-        ringStrokeWidth: 16 * 0.35,
+        ringStrokeWidth: 8,
         chartValuesOptions: const ChartValuesOptions(showChartValues: false),
-        animationDuration: Duration.zero,
+        animationDuration: Duration(milliseconds: 500),
         legendOptions: const LegendOptions(showLegends: false),
         totalValue: fat + fatRemaining,
         colorList: [

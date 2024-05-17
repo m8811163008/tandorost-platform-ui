@@ -37,7 +37,7 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
         final filterDays = p0.filterDays;
         return Card(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -168,6 +168,9 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: context.sizesExtenstion.small,
+                ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Stack(
@@ -220,7 +223,7 @@ class _ChartLegend extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: CircleAvatar(
-        radius: 8,
+        radius: 12,
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -243,7 +246,7 @@ class ProgressIndicator extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width - 56,
+        width: MediaQuery.of(context).size.width - 56 - 16,
         child: LinearProgressIndicator(
           value: value,
           color: color,

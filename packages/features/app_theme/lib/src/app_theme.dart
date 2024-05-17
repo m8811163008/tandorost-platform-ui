@@ -189,7 +189,7 @@ extension ColorSchemeExtension on ColorScheme {
 }
 
 class CustomColor {
-  static const Color fat = Colors.yellow;
+  static const Color fat = Color(0xFFC812CE);
   static const Color protein = Colors.red;
   static const Color carbohydrate = Colors.brown;
   static const Color carbohydrateFruitVegetable = Colors.green;
