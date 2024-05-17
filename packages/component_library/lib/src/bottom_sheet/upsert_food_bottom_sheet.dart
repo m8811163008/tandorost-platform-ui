@@ -121,225 +121,228 @@ class _UpsertFoodBottomSheetState extends State<UpsertFoodBottomSheet>
     final title = widget.initalFood == const FoodCM.empty()
         ? 'اضافه کردن خوراک'
         : 'ویرایش خوراک';
-    return BottomSheet(
-      animationController: BottomSheet.createAnimationController(this),
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: context.sizesExtenstion.medium,
-          right: context.sizesExtenstion.medium,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              Divider(
-                height: context.sizesExtenstion.large,
-              ),
-              _buildTextField(
-                controller: _nameTextEditingController,
-                labelText: 'نام خوراکی',
-                onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                    name: _nameTextEditingController.text,
-                  );
-                },
-                textInputFormatter:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                textInputType: TextInputType.name,
-                maxLength: 50,
-              ),
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              _buildTextField(
-                controller: _weightTextEditingController,
-                labelText: 'وزن هر واحد متوسط',
-                suffix: 'گرم',
-                onChanged: (_) {
-                  _initialFood = _initialFood!.copyWith(
-                    gramsPerUnit: _weightTextEditingController.text.isEmpty
-                        ? 0
-                        : int.parse(_weightTextEditingController.text),
-                  );
-                },
-                textInputFormatter: intInputFormater,
-                textInputType: const TextInputType.numberWithOptions(),
-                maxLength: 4,
-              ),
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              const Text('مشخصات خوراک در هر واحد متوسط'),
-              Divider(
-                height: context.sizesExtenstion.large,
-              ),
-
-              SizedBox(
-                height: context.sizesExtenstion.small,
-              ),
-              _buildTextField(
-                controller: _calorieTextEditingController,
-                labelText: 'انرژی',
-                suffix: 'کیلوکالری',
-                onChanged: (_) {
-                  final calorie = _calorieTextEditingController.text.isEmpty
-                      ? 0.0
-                      : double.parse(_calorieTextEditingController.text);
-
-                  _initialFood = _initialFood!.copyWith(
-                    calorie: calorie,
-                  );
-                },
-                textInputFormatter: intInputFormater,
-                textInputType: const TextInputType.numberWithOptions(),
-                maxLength: 4,
-              ),
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              _buildTextField(
-                controller: _carbohydrateTextEditingController,
-                labelText: 'کربوهیدرات',
-                suffix: 'گرم',
-                onChanged: (_) {
-                  final carbohydrate = _carbohydrateTextEditingController
-                          .text.isEmpty
-                      ? 0.0
-                      : double.parse(_carbohydrateTextEditingController.text);
-                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
-                    carbohydrate: carbohydrate,
-                  );
-                },
-                textInputFormatter: doubleInputFormater,
-                textInputType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
-              ),
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              _buildTextField(
-                controller: _fatTextEditingController,
-                labelText: 'چربی',
-                suffix: 'گرم',
-                onChanged: (_) {
-                  final fat = _fatTextEditingController.text.isEmpty
-                      ? 0.0
-                      : double.parse(_fatTextEditingController.text);
-                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
-                    fat: fat,
-                  );
-                },
-                textInputFormatter: doubleInputFormater,
-                textInputType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
-              ),
-
-              // text field for fats similar to proteins
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              _buildTextField(
-                controller: _proteinTextEditingController,
-                labelText: 'پروتئین',
-                suffix: 'گرم',
-                onChanged: (_) {
-                  final protein = _proteinTextEditingController.text.isEmpty
-                      ? 0.0
-                      : double.parse(_proteinTextEditingController.text);
-                  _cacheMacronutrition = _cacheMacronutrition.copyWith(
-                    protein: protein,
-                  );
-                },
-                textInputFormatter: doubleInputFormater,
-                textInputType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                maxLength: 10,
-              ),
-
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              IsVegetableSegmentedButton(
-                isSelected: _initialFood!.isVegetable,
-                onChange: (value) {
-                  setState(() {
-                    _initialFood = _initialFood!.copyWith(isVegetable: value);
-                  });
-                },
-              ),
-
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-              Text(
-                _errorMessage,
-                style: context.themeData.textTheme.bodySmall
-                    ?.copyWith(color: context.themeData.colorScheme.error),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _errorMessage = '';
-                  });
-                  if (_initialFood == null ||
-                      _initialFood!.calorie.isNegative ||
-                      _initialFood!.gramsPerUnit.isNegative ||
-                      _initialFood!.name.isEmpty ||
-                      _cacheMacronutrition.carbohydrate.isNegative ||
-                      _cacheMacronutrition.fat.isNegative ||
-                      _cacheMacronutrition.protein.isNegative) {
-                    setState(() {
-                      _errorMessage = 'همه فیلدها باید تکمیل شوند';
-                    });
-                  } else if (_initialFood!.gramsPerUnit == 0) {
-                    setState(() {
-                      _errorMessage = 'وزن هر واحد متوسط نمیتواند 0 باشد';
-                    });
-                  } else if (_cacheMacronutrition.sum /
-                          _initialFood!.gramsPerUnit >
-                      1) {
-                    setState(() {
-                      _errorMessage =
-                          'مقدار درشت مغذی ها بیشتر از وزن یک واحد متوسط است، وزن ها را بررسی کنید';
-                    });
-                  } else {
-                    // change nutrition value for 100 grams
-                    if (_initialFood == null) {
-                      return;
-                    }
+    return FractionallySizedBox(
+      heightFactor: 0.9,
+      child: BottomSheet(
+        animationController: BottomSheet.createAnimationController(this),
+        builder: (context) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: context.sizesExtenstion.medium,
+            right: context.sizesExtenstion.medium,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title),
+                Divider(
+                  height: context.sizesExtenstion.large,
+                ),
+                _buildTextField(
+                  controller: _nameTextEditingController,
+                  labelText: 'نام خوراکی',
+                  onChanged: (_) {
                     _initialFood = _initialFood!.copyWith(
-                      // calorie per 1 grams
-                      calorie:
-                          _initialFood!.calorie / _initialFood!.gramsPerUnit,
-                      macroNutrition: const MacroNutritionCM.empty().copyWith(
-                        carbohydrate: _cacheMacronutrition.carbohydrate /
-                            _initialFood!.gramsPerUnit,
-                        fat: _cacheMacronutrition.fat /
-                            _initialFood!.gramsPerUnit,
-                        protein: _cacheMacronutrition.protein /
-                            _initialFood!.gramsPerUnit,
-                      ),
+                      name: _nameTextEditingController.text,
                     );
+                  },
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  textInputType: TextInputType.name,
+                  maxLength: 50,
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                _buildTextField(
+                  controller: _weightTextEditingController,
+                  labelText: 'وزن هر واحد متوسط',
+                  suffix: 'گرم',
+                  onChanged: (_) {
+                    _initialFood = _initialFood!.copyWith(
+                      gramsPerUnit: _weightTextEditingController.text.isEmpty
+                          ? 0
+                          : int.parse(_weightTextEditingController.text),
+                    );
+                  },
+                  textInputFormatter: intInputFormater,
+                  textInputType: const TextInputType.numberWithOptions(),
+                  maxLength: 4,
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                const Text('مشخصات خوراک در هر واحد متوسط'),
+                Divider(
+                  height: context.sizesExtenstion.large,
+                ),
 
-                    widget.onfoodUpdated?.call(_initialFood!);
-                    context.pop();
-                  }
-                },
-                child: const Text('ذخیره'),
-              ),
-              SizedBox(
-                height: context.sizesExtenstion.medium,
-              ),
-            ],
+                SizedBox(
+                  height: context.sizesExtenstion.small,
+                ),
+                _buildTextField(
+                  controller: _calorieTextEditingController,
+                  labelText: 'انرژی',
+                  suffix: 'کیلوکالری',
+                  onChanged: (_) {
+                    final calorie = _calorieTextEditingController.text.isEmpty
+                        ? 0.0
+                        : double.parse(_calorieTextEditingController.text);
+
+                    _initialFood = _initialFood!.copyWith(
+                      calorie: calorie,
+                    );
+                  },
+                  textInputFormatter: intInputFormater,
+                  textInputType: const TextInputType.numberWithOptions(),
+                  maxLength: 4,
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                _buildTextField(
+                  controller: _carbohydrateTextEditingController,
+                  labelText: 'کربوهیدرات',
+                  suffix: 'گرم',
+                  onChanged: (_) {
+                    final carbohydrate = _carbohydrateTextEditingController
+                            .text.isEmpty
+                        ? 0.0
+                        : double.parse(_carbohydrateTextEditingController.text);
+                    _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                      carbohydrate: carbohydrate,
+                    );
+                  },
+                  textInputFormatter: doubleInputFormater,
+                  textInputType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  maxLength: 10,
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                _buildTextField(
+                  controller: _fatTextEditingController,
+                  labelText: 'چربی',
+                  suffix: 'گرم',
+                  onChanged: (_) {
+                    final fat = _fatTextEditingController.text.isEmpty
+                        ? 0.0
+                        : double.parse(_fatTextEditingController.text);
+                    _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                      fat: fat,
+                    );
+                  },
+                  textInputFormatter: doubleInputFormater,
+                  textInputType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  maxLength: 10,
+                ),
+
+                // text field for fats similar to proteins
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                _buildTextField(
+                  controller: _proteinTextEditingController,
+                  labelText: 'پروتئین',
+                  suffix: 'گرم',
+                  onChanged: (_) {
+                    final protein = _proteinTextEditingController.text.isEmpty
+                        ? 0.0
+                        : double.parse(_proteinTextEditingController.text);
+                    _cacheMacronutrition = _cacheMacronutrition.copyWith(
+                      protein: protein,
+                    );
+                  },
+                  textInputFormatter: doubleInputFormater,
+                  textInputType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  maxLength: 10,
+                ),
+
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                IsVegetableSegmentedButton(
+                  isSelected: _initialFood!.isVegetable,
+                  onChange: (value) {
+                    setState(() {
+                      _initialFood = _initialFood!.copyWith(isVegetable: value);
+                    });
+                  },
+                ),
+
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Text(
+                  _errorMessage,
+                  style: context.themeData.textTheme.bodySmall
+                      ?.copyWith(color: context.themeData.colorScheme.error),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _errorMessage = '';
+                    });
+                    if (_initialFood == null ||
+                        _initialFood!.calorie.isNegative ||
+                        _initialFood!.gramsPerUnit.isNegative ||
+                        _initialFood!.name.isEmpty ||
+                        _cacheMacronutrition.carbohydrate.isNegative ||
+                        _cacheMacronutrition.fat.isNegative ||
+                        _cacheMacronutrition.protein.isNegative) {
+                      setState(() {
+                        _errorMessage = 'همه فیلدها باید تکمیل شوند';
+                      });
+                    } else if (_initialFood!.gramsPerUnit == 0) {
+                      setState(() {
+                        _errorMessage = 'وزن هر واحد متوسط نمیتواند 0 باشد';
+                      });
+                    } else if (_cacheMacronutrition.sum /
+                            _initialFood!.gramsPerUnit >
+                        1) {
+                      setState(() {
+                        _errorMessage =
+                            'مقدار درشت مغذی ها بیشتر از وزن یک واحد متوسط است، وزن ها را بررسی کنید';
+                      });
+                    } else {
+                      // change nutrition value for 100 grams
+                      if (_initialFood == null) {
+                        return;
+                      }
+                      _initialFood = _initialFood!.copyWith(
+                        // calorie per 1 grams
+                        calorie:
+                            _initialFood!.calorie / _initialFood!.gramsPerUnit,
+                        macroNutrition: const MacroNutritionCM.empty().copyWith(
+                          carbohydrate: _cacheMacronutrition.carbohydrate /
+                              _initialFood!.gramsPerUnit,
+                          fat: _cacheMacronutrition.fat /
+                              _initialFood!.gramsPerUnit,
+                          protein: _cacheMacronutrition.protein /
+                              _initialFood!.gramsPerUnit,
+                        ),
+                      );
+
+                      widget.onfoodUpdated?.call(_initialFood!);
+                      context.pop();
+                    }
+                  },
+                  child: const Text('ذخیره'),
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+              ],
+            ),
           ),
         ),
+        onClosing: () {},
       ),
-      onClosing: () {},
     );
   }
 }

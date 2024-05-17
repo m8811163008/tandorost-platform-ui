@@ -80,6 +80,26 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<InitializeUserCubit, InitializeUserState>(
+      listenWhen: (previous, current) =>
+          previous.currentPage != current.currentPage,
+      listener: (context, state) {
+        if (FocusScope.of(context).hasFocus) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+      child: BodyShapeInputs(),
+    );
+  }
+}
+
+class BodyShapeInputs extends StatelessWidget {
+  const BodyShapeInputs({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         TextFormField(
@@ -97,7 +117,6 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               .bodyCompositionValues
               .hipCircumference,
           onChanged: context.read<InitializeUserCubit>().upsertHipCircumference,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
           height: context.sizesExtenstion.medium,
@@ -118,7 +137,6 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               .thightCircumference,
           onChanged:
               context.read<InitializeUserCubit>().upsertThightCircumference,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
           height: context.sizesExtenstion.medium,
@@ -139,7 +157,6 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               .chestCircumference,
           onChanged:
               context.read<InitializeUserCubit>().upsertChestCircumference,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
           height: context.sizesExtenstion.medium,
@@ -159,7 +176,6 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               .bodyCompositionValues
               .armCircumference,
           onChanged: context.read<InitializeUserCubit>().upsertArmCircumference,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
         SizedBox(
           height: context.sizesExtenstion.medium,
@@ -181,7 +197,6 @@ class BodyCompositionMeasurementsInputs extends StatelessWidget {
               .calfMuscleCircumference,
           onChanged:
               context.read<InitializeUserCubit>().upsertCalfMuscleCircumference,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
         ),
       ],
     );

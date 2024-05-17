@@ -67,6 +67,9 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
                                     macroNutritionRequirements
                                         .effectiveTotalDailyEnergyExpenditure),
                             color: context.themeData.colorScheme.primary),
+                        SizedBox(
+                          height: context.sizesExtenstion.small,
+                        ),
                         Row(
                           children: [
                             const _ChartLegend(
@@ -92,6 +95,9 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
                                       .carbohydrateNonFruitVegetable),
                           color: CustomColor.carbohydrateNonFruitVegetable,
                         ),
+                        SizedBox(
+                          height: context.sizesExtenstion.small,
+                        ),
                         Row(
                           children: [
                             const _ChartLegend(
@@ -116,6 +122,9 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
                                           .carbohydrateFruitVegetable),
                           color: CustomColor.carbohydrateFruitVegetable,
                         ),
+                        SizedBox(
+                          height: context.sizesExtenstion.small,
+                        ),
                         Row(
                           children: [
                             const _ChartLegend(color: CustomColor.fat),
@@ -133,6 +142,9 @@ class SelectedFoodListBannerPaid extends StatelessWidget {
                           value: p0.selectedFoodsInfo.fat /
                               (filterDays * macroNutritionRequirements.fat),
                           color: CustomColor.fat,
+                        ),
+                        SizedBox(
+                          height: context.sizesExtenstion.small,
                         ),
                         Row(
                           children: [
@@ -235,6 +247,7 @@ class ProgressIndicator extends StatelessWidget {
         child: LinearProgressIndicator(
           value: value,
           color: color,
+          borderRadius: BorderRadius.circular(4),
         ),
       ),
     );

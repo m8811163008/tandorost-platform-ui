@@ -640,11 +640,7 @@ class EnergyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UserRoleVisibility(
-      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
-          .currentUserRulesStream(),
-      dieterWidget: _buildEnergyCard(context),
-    );
+    return _buildEnergyCard(context);
   }
 
   Widget _buildEnergyCard(BuildContext context) {

@@ -11,7 +11,8 @@ class SplashScreen extends StatelessWidget {
     return Image.asset(
       'assets/splash.jpg',
       package: 'component_library',
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
+      width: MediaQuery.of(context).size.width,
     );
   }
 }

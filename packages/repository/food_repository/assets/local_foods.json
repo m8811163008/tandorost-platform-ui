@@ -2088,5 +2088,27 @@
            "carbohydrate":7.6,
            "isVegetable":false
         }
-     }
+     },
+     {
+      "name":"بوقلمون سینه پخته بریان",
+      "calorie":147,
+      "gramsPerUnit":100,
+      "macroNutrition":{
+         "protein":30.1,
+         "fat":2.08,
+         "carbohydrate":0.0,
+         "isVegetable":false
+      }
+   },
+   {
+      "name":"بوقلمون ران پخته بریان",
+      "calorie":116,
+      "gramsPerUnit":100,
+      "macroNutrition":{
+         "protein":21.0,
+         "fat":3.70,
+         "carbohydrate":0.0,
+         "isVegetable":false
+      }
+   }
 ]

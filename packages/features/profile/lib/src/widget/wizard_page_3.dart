@@ -62,33 +62,7 @@ class WizardPage3 extends StatelessWidget {
   }
 
   Widget _buildUsernameInput(BuildContext context) {
-    return SizedBox(
-      height: 96,
-      child: Builder(builder: (context) {
-        return TextFormField(
-          autofocus: true,
-          keyboardType: TextInputType.name,
-          textInputAction: TextInputAction.done,
-          maxLength: 50,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            errorText: context.select<InitializeUserCubit, String?>(
-              (cubit) => cubit.state.createdProfileCM.userName.isEmpty
-                  ? 'نام کاربری خالی است'
-                  : null,
-            ),
-            counterText: '',
-          ),
-          initialValue: context
-              .read<InitializeUserCubit>()
-              .state
-              .createdProfileCM
-              .userName,
-          onChanged: context.read<InitializeUserCubit>().updateUsername,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
-        );
-      }),
-    );
+    return _UserNameField();
   }
 
   Widget _buildBirthdayCard(BuildContext context) {
@@ -155,6 +129,59 @@ class WizardPage3 extends StatelessWidget {
         );
       },
       icon: const Icon(Ionicons.information_circle_outline),
+    );
+  }
+}
+
+class _UserNameField extends StatefulWidget {
+  const _UserNameField({
+    super.key,
+  });
+
+  @override
+  State<_UserNameField> createState() => _UserNameFieldState();
+}
+
+class _UserNameFieldState extends State<_UserNameField> {
+  final _controller = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<InitializeUserCubit, InitializeUserState>(
+      listenWhen: (previous, current) =>
+          previous.currentPage != current.currentPage,
+      listener: (context, state) {
+        if (_controller.hasFocus) {
+          _controller.unfocus();
+        }
+      },
+      child: SizedBox(
+        height: 96,
+        child: Builder(builder: (context) {
+          return TextFormField(
+            focusNode: _controller,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.done,
+            maxLength: 50,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              errorText: context.select<InitializeUserCubit, String?>(
+                (cubit) => cubit.state.createdProfileCM.userName.isEmpty
+                    ? 'نام کاربری خالی است'
+                    : null,
+              ),
+              counterText: '',
+            ),
+            initialValue: context
+                .read<InitializeUserCubit>()
+                .state
+                .createdProfileCM
+                .userName,
+            onChanged: context.read<InitializeUserCubit>().updateUsername,
+            onTapOutside: (event) => FocusScope.of(context).unfocus(),
+          );
+        }),
+      ),
     );
   }
 }

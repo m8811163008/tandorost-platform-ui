@@ -21,7 +21,7 @@ flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-
 
 
 // To build apks from appbundle
-java -jar bundletool-all-1.16.0jar build-apks --bundle=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass=pass:tandorost_dev --connected-device
+java -jar bundletool-all-1.16.0.jar build-apks --bundle=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass=pass:tandorost_dev --connected-device
 
 java -jar ~/projects/tandorost/build/app/outputs/bundle/release/bundletool-all-1.16.0.jar     build-apks --bundle=app-release.aab --output=my_app.apks --ks=tandorost.jks --ks-pass=pass:tandorost_dev --ks-key-alias=upload --key-pass=pass:tandorost_dev --connected-device
 

@@ -38,9 +38,6 @@ class ActivePremiumWizardRouteView extends StatelessWidget {
       child: PageView(
         onPageChanged: (value) {
           context.read<InitializeUserCubit>().updateCurrentPage(value);
-          if (value == 6) {
-            FocusScope.of(context).unfocus();
-          }
         },
         scrollDirection: Axis.vertical,
         children: [
