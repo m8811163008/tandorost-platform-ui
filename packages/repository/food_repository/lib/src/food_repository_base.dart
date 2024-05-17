@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:domain_model/domain_model.dart';
 
 import 'package:food_repository/src/food_storage.dart';
+import 'package:food_repository/src/food_tips.dart';
 import 'package:food_repository/src/mapper/cache_to_domain.dart';
 
 class FoodRepostiory {
@@ -69,6 +71,8 @@ class FoodRepostiory {
   Future<void> removeFood(FoodCM food) async {
     await _foodStorage.removeFood(food);
   }
+
+  String get foodTip => foodTips[Random().nextInt(foodTips.length)];
 }
 
 class FoodRepostioryState {

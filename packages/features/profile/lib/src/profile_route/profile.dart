@@ -405,7 +405,7 @@ class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
               label: Text(
                   context.l10n.profileChangeWeightSpeedButtonLabel(e.name))))
           .toList(),
-      selected: const {},
+      selected: const {ChangeWeightSpeed.none},
       emptySelectionAllowed: true,
       showSelectedIcon: false,
       onSelectionChanged: (_) async {

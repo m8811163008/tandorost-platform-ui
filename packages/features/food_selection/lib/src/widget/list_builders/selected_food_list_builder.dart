@@ -122,11 +122,22 @@ class _ListBanner extends StatelessWidget {
               children: [
                 const DayActivityLevelSegementedButton(),
                 //if paid customer
+
                 const SelectedFoodListBannerPaid(),
               ],
             )
           : SelectedFoodListBanner(),
-      foodTrackerWidget: const SelectedFoodListBanner(),
+      foodTrackerWidget: isUserHasProfile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const DayActivityLevelSegementedButtonPromotion(),
+                //if paid customer
+
+                const SelectedFoodListBannerPaid(),
+              ],
+            )
+          : SelectedFoodListBanner(),
     );
   }
 }

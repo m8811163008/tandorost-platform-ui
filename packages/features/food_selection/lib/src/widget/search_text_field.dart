@@ -15,7 +15,11 @@ class SearchFieldTextField extends StatelessWidget {
       textInputAction: TextInputAction.search,
       decoration: InputDecoration(
         hintText: context.l10n.foodSelectionScreenTextFieldHint,
-        prefixIcon: const Icon(Icons.search),
+        fillColor: context.themeData.colorScheme.secondaryContainer,
+        prefixIconColor: context.themeData.colorScheme.secondary,
+        prefixIcon: Icon(
+          Icons.search,
+        ),
       ),
       onChanged: (value) {
         context.read<FoodSelectionBloc>().add(SearchFood(value));

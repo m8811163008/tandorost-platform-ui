@@ -144,28 +144,32 @@ class AuthRepostiory {
   Future<DateTime?> getExpireDate() async {
     await connectBazzar();
 
-    final subscriptionsHistory =
-        await FlutterPoolakey.getAllSubscribedProducts();
+    try {
+      final subscriptionsHistory =
+          await FlutterPoolakey.getAllSubscribedProducts();
 
-    if (subscriptionsHistory.isEmpty) {
+      if (subscriptionsHistory.isEmpty) {
+        return null;
+      } else {
+        // check user has active subscription?
+        final purchasedSubscription = subscriptionsHistory.where(
+            (element) => element.purchaseState == PurchaseState.PURCHASED);
+
+        final activeSubscriptions = purchasedSubscription.map((element) {
+          final subscriptionPlanDuration =
+              element.purchasePayload.subscriptionPlan.durationInDays;
+
+          final purchaseDate =
+              DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
+          final expireDate =
+              purchaseDate.add(Duration(days: subscriptionPlanDuration));
+          return expireDate;
+        });
+        return activeSubscriptions.reduce(
+            (value, element) => value.isBefore(element) ? element : value);
+      }
+    } catch (e) {
       return null;
-    } else {
-      // check user has active subscription?
-      final purchasedSubscription = subscriptionsHistory
-          .where((element) => element.purchaseState == PurchaseState.PURCHASED);
-
-      final activeSubscriptions = purchasedSubscription.map((element) {
-        final subscriptionPlanDuration =
-            element.purchasePayload.subscriptionPlan.durationInDays;
-
-        final purchaseDate =
-            DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
-        final expireDate =
-            purchaseDate.add(Duration(days: subscriptionPlanDuration));
-        return expireDate;
-      });
-      return activeSubscriptions.reduce(
-          (value, element) => value.isBefore(element) ? element : value);
     }
   }
 }
