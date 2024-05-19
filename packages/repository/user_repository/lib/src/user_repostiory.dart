@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:domain_model/domain_model.dart';
 import 'package:user_repository/src/user_storage.dart';
 
@@ -24,6 +26,9 @@ class UserRepostiory {
   Stream<DietInfo> get dietInfo async* {
     yield DietInfo.empty();
     yield* _userStorage.userProfile.map((profile) {
+      if (profile == ProfileCM.empty()) {
+        return DietInfo.empty();
+      }
       assert(profile.isMale != null);
       assert(profile.birthday != null);
       return DietInfo(

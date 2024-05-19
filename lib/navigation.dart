@@ -31,12 +31,22 @@ class Navigation {
           name: Routes.splash,
           path: Routes.splash,
           builder: (context, state) {
-            return SplashRoute(onDone: () async {
-              await Future.delayed(Duration(seconds: 1));
-              if (context.mounted) {
-                context.goNamed(Routes.foodSelection);
-              }
-            });
+            return SplashRoute(
+              onDone: () async {
+                final userProfile =
+                    await RepositoryProvider.of<UserRepostiory>(context)
+                        .userProfile
+                        .first;
+                await Future.delayed(Duration(seconds: 1));
+                if (context.mounted) {
+                  if (userProfile == const ProfileCM.empty()) {
+                    context.goNamed(Routes.profile);
+                  } else {
+                    context.goNamed(Routes.foodSelection);
+                  }
+                }
+              },
+            );
           },
         ),
         ShellRoute(
