@@ -693,6 +693,7 @@ class _ErrorText extends StatelessWidget {
           style: context.themeData.textTheme.labelMedium!
               .copyWith(color: context.themeData.colorScheme.error),
           maxLines: 4,
+          textAlign: TextAlign.justify
         ),
       ),
     );
@@ -746,7 +747,6 @@ class FastingCard extends StatelessWidget {
       userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
           .currentUserRulesStream(),
       dieterWidget: _buildFastingCard(context),
-      
     );
   }
 
@@ -756,7 +756,7 @@ class FastingCard extends StatelessWidget {
         return state.profile;
       },
       builder: (context, profile) {
-        if(!profile.settingCM.isFasting) return SizedBox.shrink();
+        if (!profile.settingCM.isFasting) return SizedBox.shrink();
         return Card(
           margin: const EdgeInsets.all(16.0),
           child: Padding(
@@ -766,20 +766,47 @@ class FastingCard extends StatelessWidget {
                 'فستینگ و رژیم روزه داری',
                 style: context.themeData.textTheme.bodyLarge,
               ),
-              children:  [
-                Text('فستینگ یا غذا خوردن با محدودیت زمانی شکلی از روزه داری متناوب است که شامل یک دوره روزه داری 12 تا 16 ساعت و یک دوره غذا خوردن 8 تا 12 ساعت در روز است', style: context.themeData.textTheme.bodyLarge,),
-                Text('تنظیم غذا خوردن با ریتم شبانه روزی (ساعت درونی بدن) به بدن شما کمک می کند که کارآمدتر کار کند و در نتیجه باعث بهبود سلامت و کاهش وزن می شود', style: context.themeData.textTheme.bodyLarge),
-                Text('مطالعات نشان می دهد که اختلال در ریتم شبانه روزی تأثیر منفی بر هورمون هایی دارد که اشتها، مصرف انرژی و گلوکز خون را کنترل می کنند', style: context.themeData.textTheme.bodyLarge),
-                SizedBox(height: context.sizesExtenstion.medium,),
-                Text('خوردن از ساعت 8 صبح تا 2 ظهر میتواند مفید باشد زیرا اشتها و متعاقب آن مصرف غذا را کاهش می دهد', style: context.themeData.textTheme.bodyLarge),
-                Text(' یک مطالعه نشان داد غذا خوردن در یک پنجره 6 ساعته قبل از ساعت 3 بعد از ظهر باعث کاهش گرسنگی و کاهش عوامل خطر دیابت نوع 2 در مردان مبتلا به پیش دیابت بوده است', style: context.themeData.textTheme.bodyLarge),
-                Text(' در فستینگ چون زمان کمتری برای خوردن است در نتیجه امکان دارد انرژی و کالری کمتری دریافت کنید که باعث کاهش وزن میشود. همچنین انطباق با ساعت زیستی بدن باعث میشود از دیرخوردن شام جلوگیری کنید', style: context.themeData.textTheme.bodyLarge),
-                SizedBox(height: context.sizesExtenstion.medium,),
-                Text('بیشتر مطالعات فستینگ تا به امروز روی مگس میوه و موش انجام شده است . شواهد رژیم فستینگ روی انسان محدود است و تا به امروز، تنها تعداد کمی از مطالعات نتایج مثبتی را برای کاهش وزن نشان داده‌اند.', style: context.themeData.textTheme.bodyLarge),
-                SizedBox(height: context.sizesExtenstion.medium,),
-                Text('در دوره غذا خوردن مطابق انرژی مورد نیاز و درشت مغذی های مورد نیاز خود در تب تحلیل خوراکی های ثبت شده رژیم بگیرید', style: context.themeData.textTheme.bodyLarge),
-                Text('فستینگ های معمول شامل 12 ساعت روزه داری و 12 ساعت غذاخوردن میباشد و شما میتوانید تا 16 ساعت روزه خود را بیشتر نگه دارید', style: context.themeData.textTheme.bodyLarge),
-                Text('نوشیدن مایعات مانند آب و دمنوش در تمام طول شبانه روز مجاز است', style: context.themeData.textTheme.bodyLarge),
+              children: [
+                Text(
+                  'فستینگ یا غذا خوردن با محدودیت زمانی شکلی از روزه داری متناوب است که شامل یک دوره روزه داری 12 تا 16 ساعت و یک دوره غذا خوردن 8 تا 12 ساعت در روز است',
+                  style: context.themeData.textTheme.bodyLarge,
+                ),
+                Text(
+                    'تنظیم غذا خوردن با ریتم شبانه روزی (ساعت درونی بدن) به بدن شما کمک می کند که کارآمدتر کار کند و در نتیجه باعث بهبود سلامت و کاهش وزن می شود',
+                    style: context.themeData.textTheme.bodyLarge),
+                Text(
+                    'مطالعات نشان می دهد که اختلال در ریتم شبانه روزی تأثیر منفی بر هورمون هایی دارد که اشتها، مصرف انرژی و گلوکز خون را کنترل می کنند',
+                    style: context.themeData.textTheme.bodyLarge),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Text(
+                    'خوردن از ساعت 8 صبح تا 2 ظهر میتواند مفید باشد زیرا اشتها و متعاقب آن مصرف غذا را کاهش می دهد',
+                    style: context.themeData.textTheme.bodyLarge),
+                Text(
+                    ' یک مطالعه نشان داد غذا خوردن در یک پنجره 6 ساعته قبل از ساعت 3 بعد از ظهر باعث کاهش گرسنگی و کاهش عوامل خطر دیابت نوع 2 در مردان مبتلا به پیش دیابت بوده است',
+                    style: context.themeData.textTheme.bodyLarge),
+                Text(
+                    ' در فستینگ چون زمان کمتری برای خوردن است در نتیجه امکان دارد انرژی و کالری کمتری دریافت کنید که باعث کاهش وزن میشود. همچنین انطباق با ساعت زیستی بدن باعث میشود از دیرخوردن شام جلوگیری کنید',
+                    style: context.themeData.textTheme.bodyLarge),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Text(
+                    'بیشتر مطالعات فستینگ تا به امروز روی مگس میوه و موش انجام شده است . شواهد رژیم فستینگ روی انسان محدود است و تا به امروز، تنها تعداد کمی از مطالعات نتایج مثبتی را برای کاهش وزن نشان داده‌اند.',
+                    style: context.themeData.textTheme.bodyLarge),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Text(
+                    'در دوره غذا خوردن مطابق انرژی مورد نیاز و درشت مغذی های مورد نیاز خود در تب تحلیل خوراکی های ثبت شده رژیم بگیرید',
+                    style: context.themeData.textTheme.bodyLarge),
+                Text(
+                    'فستینگ های معمول شامل 12 ساعت روزه داری و 12 ساعت غذاخوردن میباشد و شما میتوانید تا 16 ساعت روزه خود را بیشتر نگه دارید',
+                    style: context.themeData.textTheme.bodyLarge),
+                Text(
+                    'نوشیدن مایعات مانند آب و دمنوش در تمام طول شبانه روز مجاز است',
+                    style: context.themeData.textTheme.bodyLarge),
                 // UserDescriptiveProfile(),
               ],
             ),
@@ -810,6 +837,7 @@ class EnergyCard extends StatelessWidget {
                 context.l10n.appBmiStatus(state.dietInfo.bmiLevel.name);
             //BMI Prime, a modification of the BMI system, is the ratio of actual BMI to upper limit optimal BMI (currently defined at 25 kg/m2)
             final bmiPrime = state.dietInfo.bmi / 25;
+
             return ExpansionTile(
               title: Text(
                 'وضعیت انرژی شما',
@@ -833,6 +861,7 @@ class EnergyCard extends StatelessWidget {
                           state.dietInfo.bmi,
                           bmiDescription,
                         ),
+                        textAlign: TextAlign.justify
                       ),
                       SizedBox(
                         height: context.sizesExtenstion.small,
@@ -841,6 +870,7 @@ class EnergyCard extends StatelessWidget {
                         context.l10n.profileWaistCircumferenceDescription(
                           state.dietInfo.waistCircumferenceToHeightRatio,
                         ),
+                        textAlign: TextAlign.justify
                       ),
                       SizedBox(
                         height: context.sizesExtenstion.small,
@@ -848,6 +878,7 @@ class EnergyCard extends StatelessWidget {
                       Text(
                         context
                             .l10n.profileBmiWaistCircumferenceHealthDescription,
+                            textAlign: TextAlign.justify
                       ),
                       SizedBox(
                         height: context.sizesExtenstion.medium,
@@ -868,17 +899,13 @@ class EnergyCard extends StatelessWidget {
                           style: context.themeData.textTheme.bodySmall,
                         ),
                       ),
-                      UserRoleVisibility(
-                        userRoleStream:
-                            RepositoryProvider.of<AuthRepostiory>(context)
-                                .currentUserRulesStream(),
-                        dieterWidget: Column(
-                          children: [
-                            const Divider(),
-                            _buildSleepAndStressSection(context)
-                          ],
-                        ),
-                      ),
+
+                      Column(
+                        children: [
+                          const Divider(),
+                          _buildSleepAndStressSection(context)
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -894,10 +921,22 @@ class EnergyCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressTitle),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3),
+        SizedBox(
+          height: context.sizesExtenstion.medium,
+        ),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressTitle, textAlign: TextAlign.justify,),
+        SizedBox(
+          height: context.sizesExtenstion.small,
+        ),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1, textAlign: TextAlign.justify),
+        SizedBox(
+          height: context.sizesExtenstion.medium,
+        ),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2,textAlign: TextAlign.justify),
+        SizedBox(
+          height: context.sizesExtenstion.medium,
+        ),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3,textAlign: TextAlign.justify),
       ],
     );
   }

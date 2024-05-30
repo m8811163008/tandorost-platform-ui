@@ -312,10 +312,10 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
   String get profileEnergyDescriptionSleepAndStressSubtitle1 => 'استرس روزمره و کاری باعث افزایش هورمون کورتیزل و اضطراب میشود و پاسخ طبیعی و ساده معمولا خوردن قند و چربی و نمک زیاد برای افزایش هورمون دوپامین جهت خنثی کردن اضطراب و استرس است. ';
 
   @override
-  String get profileEnergyDescriptionSleepAndStressSubtitle2 => 'در حالت استرس ، نفس عمیق بکشید و آب بخورید و ریشه مسئله را پیدا و حل کنید.';
+  String get profileEnergyDescriptionSleepAndStressSubtitle2 => 'در حالت استرس ،میتوانید نفس عمیق بکشید و آب بخورید و ریشه مسئله را پیدا و حل کنید.';
 
   @override
-  String get profileEnergyDescriptionSleepAndStressSubtitle3 => 'خواب کم و شب بیداری باعث افزایش کورتیزل و پرخوری میشود و خوردن زیاد قند و چربی ، بیشتر از انرژی مورد نیاز روزانتون، به شکل چربی در بدن جمع میشود . برای اینکه صبح زودتر بیدار شوید، شب 7 تا 8 ساعت زودتر بخوابید.';
+  String get profileEnergyDescriptionSleepAndStressSubtitle3 => 'خواب کم و شب بیداری باعث افزایش کورتیزل و پرخوری میشود. در نتیجه خوردن قند و چربی زیادتر از نیاز روزانه تان، به شکل چربی و وزن اضافه در بدن جمع میشود . اگر میخواهید صبح زودتر بیدار شوید، شب 7 تا 8 ساعت زودتر بخواب بروید.';
 
   @override
   String get profileUserDescriptionCarbohydrate1 => 'استفاده از کربوهیدرات تصویه شده که سبوس و جوانه و پوسته غلات و فیبر و مواد مغذی و ویتامین آن برای نگهداری طولانی مدت جدا  میشود و فقط نشاسته داخل و نهان دانه باقی میماند را به حداقل برسانید  مثل برنج سفید ، بلغور ذرت، نان سفید، آرد سفید ، شیرینی و بیسکویت ، نوشیدینی شیرین، نوشیدنی ورزشی، شکلات، پاستا و ماکارانی.';

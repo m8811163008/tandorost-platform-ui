@@ -424,13 +424,13 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @profileEnergyDescriptionSleepAndStressSubtitle2.
   ///
   /// In fa, this message translates to:
-  /// **'در حالت استرس ، نفس عمیق بکشید و آب بخورید و ریشه مسئله را پیدا و حل کنید.'**
+  /// **'در حالت استرس ،میتوانید نفس عمیق بکشید و آب بخورید و ریشه مسئله را پیدا و حل کنید.'**
   String get profileEnergyDescriptionSleepAndStressSubtitle2;
 
   /// No description provided for @profileEnergyDescriptionSleepAndStressSubtitle3.
   ///
   /// In fa, this message translates to:
-  /// **'خواب کم و شب بیداری باعث افزایش کورتیزل و پرخوری میشود و خوردن زیاد قند و چربی ، بیشتر از انرژی مورد نیاز روزانتون، به شکل چربی در بدن جمع میشود . برای اینکه صبح زودتر بیدار شوید، شب 7 تا 8 ساعت زودتر بخوابید.'**
+  /// **'خواب کم و شب بیداری باعث افزایش کورتیزل و پرخوری میشود. در نتیجه خوردن قند و چربی زیادتر از نیاز روزانه تان، به شکل چربی و وزن اضافه در بدن جمع میشود . اگر میخواهید صبح زودتر بیدار شوید، شب 7 تا 8 ساعت زودتر بخواب بروید.'**
   String get profileEnergyDescriptionSleepAndStressSubtitle3;
 
   /// No description provided for @profileUserDescriptionCarbohydrate1.
