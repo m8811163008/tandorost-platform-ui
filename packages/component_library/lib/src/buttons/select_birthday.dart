@@ -37,12 +37,14 @@ class _SelectBirthdayButtonState extends State<SelectBirthdayButton> {
   Widget build(BuildContext context) {
     return TextButton.icon(
       onPressed: () async {
-        Jalali? picked = await showPersianDatePicker(
-          context: context,
-          initialDate: _selectedDate,
-          firstDate: Jalali(1340, 1),
-          lastDate: Jalali(1386, 1),
-        );
+        Jalali? picked = Jalali(1340, 1);
+        // Jalali? picked = await showPersianDatePicker(
+        //   context: context,
+        //   initialDate: _selectedDate,
+        //   firstDate: Jalali(1340, 1),
+        //   lastDate: Jalali(1386, 1),
+        // );
+        
         if (picked == null) return;
 
         widget.onSelectDate

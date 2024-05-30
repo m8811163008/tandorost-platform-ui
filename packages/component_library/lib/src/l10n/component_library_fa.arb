@@ -126,7 +126,7 @@
             }
         }
     },
-    "profileWaistCircumferenceDescription": "شاخص دور کمر به قد دقیق تر از شاخص توده بدنی برای سلامت است و این نسبت برای شما {ratio} است، هرچه به صفر نزدیک تر باشد و از یک دورتر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر است.",
+    "profileWaistCircumferenceDescription": "شاخص دور کمر به قد از شاخص توده بدنی برای ارزیابی خطرات مرتبط با سلامت دقیق‌تر است و این نسبت برای شما {ratio} است، این نسبت هرچه به صفر نزدیک تر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر میشود.",
     "@profileWaistCircumferenceDescription": {
         "placeholders": {
             "ratio": {
@@ -138,7 +138,7 @@
             }
         }
     },
-    "profileBmiWaistCircumferenceHealthDescription": "خطرات مرتبط با سلامتی مثل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد. برای پیشگیری از خطر، وزن خود را در بازه سالم تثبیت کنید.",
+    "profileBmiWaistCircumferenceHealthDescription": "خطرات مرتبط با سلامتی شامل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد.",
     "profileUserDescriptionProtein1": "مقدار پروتئین مورد نیاز با سطح فعالیت {weeklyActivitylevel}",
     "@profileUserDescriptionProtein1": {
         "placeholders": {

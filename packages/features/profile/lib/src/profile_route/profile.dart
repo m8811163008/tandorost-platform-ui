@@ -66,9 +66,10 @@ class ProfileView extends StatelessWidget {
       child: ListView(
         children: [
           _buildProfileCard(context),
-          _buildProgreesCard(context),
           EnergyCard(),
+          _buildProgreesCard(context),
           SummaryCard(),
+          FastingCard(),
           _buildSettingCard(context),
         ],
       ),
@@ -153,6 +154,23 @@ class ProfileView extends StatelessWidget {
                     ],
                   ),
                   foodTrackerWidget: LoseWeightSpeedSegmentedButtonsPromotion(),
+                ),
+                Divider(
+                  height: context.sizesExtenstion.large,
+                ),
+                Text(
+                  'فستینگ و رژیم روزه داری',
+                  style: context.themeData.textTheme.bodyLarge,
+                ),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                UserRoleVisibility(
+                  userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+                      .currentUserRulesStream(),
+                  dieterWidget: FastingSegmentedButtons(),
+                  foodTrackerWidget: FastingSegmentedButtonsPromotion(),
+                  // foodTrackerWidget: FastingSegmentedButtons(),
                 ),
               ],
             );
@@ -390,6 +408,35 @@ class LoseWeightSpeedSegmentedButtons extends StatelessWidget {
   }
 }
 
+class FastingSegmentedButtons extends StatelessWidget {
+  const FastingSegmentedButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      buildWhen: (previous, current) =>
+          previous.profile.settingCM.isFasting !=
+          current.profile.settingCM.isFasting,
+      builder: (context, state) {
+        return SegmentedButton<bool>(
+          segments: [true, false]
+              .map((e) =>
+                  ButtonSegment(value: e, label: Text(e ? 'روشن' : 'خاموش')))
+              .toList(),
+          selected: {state.profile.settingCM.isFasting},
+          emptySelectionAllowed: true,
+          showSelectedIcon: false,
+          onSelectionChanged: (Set<bool> newSelection) {
+            context.read<ProfileCubit>().updateIsFasting(newSelection.first);
+          },
+        );
+      },
+    );
+  }
+}
+
 class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
   const LoseWeightSpeedSegmentedButtonsPromotion({
     super.key,
@@ -406,6 +453,61 @@ class LoseWeightSpeedSegmentedButtonsPromotion extends StatelessWidget {
                   context.l10n.profileChangeWeightSpeedButtonLabel(e.name))))
           .toList(),
       selected: const {ChangeWeightSpeed.none},
+      emptySelectionAllowed: true,
+      showSelectedIcon: false,
+      onSelectionChanged: (_) async {
+        await showModalBottomSheet(
+          context: context,
+          isDismissible: true,
+          isScrollControlled: true,
+          // useRootNavigator: true,
+          builder: (context) {
+            return FractionallySizedBox(
+              heightFactor: 0.8,
+              child: BlocProvider.value(
+                value: cubit,
+                child: Builder(builder: (context) {
+                  return BlocConsumer<ProfileCubit, ProfileState>(
+                    listenWhen: (previous, current) =>
+                        previous.puchaseSubscriptionStatus !=
+                        current.puchaseSubscriptionStatus,
+                    listener: (context, state) {
+                      if (state.puchaseSubscriptionStatus.isSuccess ||
+                          state.puchaseSubscriptionStatus.isError) {
+                        context.pop();
+                        context.goNamed(Routes.splash);
+                      }
+                    },
+                    builder: (context, state) {
+                      return SubscribeBottomSheet(
+                        onSelected: context.read<ProfileCubit>().subscribe,
+                      );
+                    },
+                  );
+                }),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class FastingSegmentedButtonsPromotion extends StatelessWidget {
+  const FastingSegmentedButtonsPromotion({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<ProfileCubit>();
+    return SegmentedButton<bool>(
+      segments: [true, false]
+          .map(
+              (e) => ButtonSegment(value: e, label: Text(e ? 'روشن' : 'خاموش')))
+          .toList(),
+      selected: {false},
       emptySelectionAllowed: true,
       showSelectedIcon: false,
       onSelectionChanged: (_) async {
@@ -466,18 +568,18 @@ class BodyShapeProgressConsidration extends StatelessWidget {
   Widget buildErrorText(bodyCompositionError) => switch (bodyCompositionError) {
         BodyCompositionError.weightChange => const _ErrorText(
             text:
-                'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست',
+                'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست. بیشتر پروتیین بخورید و ورزش مقاوتی انجام دهید',
           ),
         BodyCompositionError.waistCircumfrenceIsGratherThan94or80 =>
           const _ErrorText(
             text:
-                'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است',
+                'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است و چربی اضافی دارید و ریسک ابتلا به دیابت نوع ۲ برای شما بالاست. دور کمر خود را سریع لاغر کنید',
           ),
         BodyCompositionError
               .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive =>
           const _ErrorText(
             text:
-                'اندازه دور کمر شما بیشتر از نصف قد شماست ، دور کمر شما زیاد است',
+                'اندازه دور کمر شما بیشتر از نصف قد شماست ، دور کمر شما زیاد است و خطرات مرتبط با سلامتی برای شما بالاست. دور کمر خود را سریع لاغر کنید',
           ),
         _ => const Text('ترجمه نشده است'),
       };
@@ -635,6 +737,59 @@ class SummaryCard extends StatelessWidget {
   }
 }
 
+class FastingCard extends StatelessWidget {
+  const FastingCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return UserRoleVisibility(
+      userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)
+          .currentUserRulesStream(),
+      dieterWidget: _buildFastingCard(context),
+      
+    );
+  }
+
+  Widget _buildFastingCard(BuildContext context) {
+    return BlocSelector<ProfileCubit, ProfileState, ProfileCM>(
+      selector: (state) {
+        return state.profile;
+      },
+      builder: (context, profile) {
+        if(!profile.settingCM.isFasting) return SizedBox.shrink();
+        return Card(
+          margin: const EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ExpansionTile(
+              title: Text(
+                'فستینگ و رژیم روزه داری',
+                style: context.themeData.textTheme.bodyLarge,
+              ),
+              children:  [
+                Text('فستینگ یا غذا خوردن با محدودیت زمانی شکلی از روزه داری متناوب است که شامل یک دوره روزه داری 12 تا 16 ساعت و یک دوره غذا خوردن 8 تا 12 ساعت در روز است', style: context.themeData.textTheme.bodyLarge,),
+                Text('تنظیم غذا خوردن با ریتم شبانه روزی (ساعت درونی بدن) به بدن شما کمک می کند که کارآمدتر کار کند و در نتیجه باعث بهبود سلامت و کاهش وزن می شود', style: context.themeData.textTheme.bodyLarge),
+                Text('مطالعات نشان می دهد که اختلال در ریتم شبانه روزی تأثیر منفی بر هورمون هایی دارد که اشتها، مصرف انرژی و گلوکز خون را کنترل می کنند', style: context.themeData.textTheme.bodyLarge),
+                SizedBox(height: context.sizesExtenstion.medium,),
+                Text('خوردن از ساعت 8 صبح تا 2 ظهر میتواند مفید باشد زیرا اشتها و متعاقب آن مصرف غذا را کاهش می دهد', style: context.themeData.textTheme.bodyLarge),
+                Text(' یک مطالعه نشان داد غذا خوردن در یک پنجره 6 ساعته قبل از ساعت 3 بعد از ظهر باعث کاهش گرسنگی و کاهش عوامل خطر دیابت نوع 2 در مردان مبتلا به پیش دیابت بوده است', style: context.themeData.textTheme.bodyLarge),
+                Text(' در فستینگ چون زمان کمتری برای خوردن است در نتیجه امکان دارد انرژی و کالری کمتری دریافت کنید که باعث کاهش وزن میشود. همچنین انطباق با ساعت زیستی بدن باعث میشود از دیرخوردن شام جلوگیری کنید', style: context.themeData.textTheme.bodyLarge),
+                SizedBox(height: context.sizesExtenstion.medium,),
+                Text('بیشتر مطالعات فستینگ تا به امروز روی مگس میوه و موش انجام شده است . شواهد رژیم فستینگ روی انسان محدود است و تا به امروز، تنها تعداد کمی از مطالعات نتایج مثبتی را برای کاهش وزن نشان داده‌اند.', style: context.themeData.textTheme.bodyLarge),
+                SizedBox(height: context.sizesExtenstion.medium,),
+                Text('در دوره غذا خوردن مطابق انرژی مورد نیاز و درشت مغذی های مورد نیاز خود در تب تحلیل خوراکی های ثبت شده رژیم بگیرید', style: context.themeData.textTheme.bodyLarge),
+                Text('فستینگ های معمول شامل 12 ساعت روزه داری و 12 ساعت غذاخوردن میباشد و شما میتوانید تا 16 ساعت روزه خود را بیشتر نگه دارید', style: context.themeData.textTheme.bodyLarge),
+                Text('نوشیدن مایعات مانند آب و دمنوش در تمام طول شبانه روز مجاز است', style: context.themeData.textTheme.bodyLarge),
+                // UserDescriptiveProfile(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class EnergyCard extends StatelessWidget {
   const EnergyCard({super.key});
 
@@ -668,32 +823,62 @@ class EnergyCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const BodyShapeProgressConsidration(),
-                      if (state.bodyCompositionErrors.isNotEmpty)
-                        const Divider(),
+                      // if (state.bodyCompositionErrors.isNotEmpty)
+                      //   const Divider(),
+                      SizedBox(
+                        height: context.sizesExtenstion.medium,
+                      ),
                       Text(
                         context.l10n.profileBmiDescription(
                           state.dietInfo.bmi,
                           bmiDescription,
                         ),
                       ),
+                      SizedBox(
+                        height: context.sizesExtenstion.small,
+                      ),
                       Text(
                         context.l10n.profileWaistCircumferenceDescription(
                           state.dietInfo.waistCircumferenceToHeightRatio,
                         ),
                       ),
+                      SizedBox(
+                        height: context.sizesExtenstion.small,
+                      ),
                       Text(
                         context
                             .l10n.profileBmiWaistCircumferenceHealthDescription,
+                      ),
+                      SizedBox(
+                        height: context.sizesExtenstion.medium,
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Bmi Prime: ${bmiPrime.toStringAsFixed(2)}',
                           textDirection: TextDirection.ltr,
+                          style: context.themeData.textTheme.bodySmall,
                         ),
                       ),
-                      const Divider(),
-                      _buildSleepAndStressSection(context)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Normal Bmi Prime range : 0.74 – 0.99',
+                          textDirection: TextDirection.ltr,
+                          style: context.themeData.textTheme.bodySmall,
+                        ),
+                      ),
+                      UserRoleVisibility(
+                        userRoleStream:
+                            RepositoryProvider.of<AuthRepostiory>(context)
+                                .currentUserRulesStream(),
+                        dieterWidget: Column(
+                          children: [
+                            const Divider(),
+                            _buildSleepAndStressSection(context)
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

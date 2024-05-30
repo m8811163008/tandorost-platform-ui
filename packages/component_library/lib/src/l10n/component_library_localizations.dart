@@ -376,13 +376,13 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @profileWaistCircumferenceDescription.
   ///
   /// In fa, this message translates to:
-  /// **'شاخص دور کمر به قد دقیق تر از شاخص توده بدنی برای سلامت است و این نسبت برای شما {ratio} است، هرچه به صفر نزدیک تر باشد و از یک دورتر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر است.'**
+  /// **'شاخص دور کمر به قد از شاخص توده بدنی برای ارزیابی خطرات مرتبط با سلامت دقیق‌تر است و این نسبت برای شما {ratio} است، این نسبت هرچه به صفر نزدیک تر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر میشود.'**
   String profileWaistCircumferenceDescription(double ratio);
 
   /// No description provided for @profileBmiWaistCircumferenceHealthDescription.
   ///
   /// In fa, this message translates to:
-  /// **'خطرات مرتبط با سلامتی مثل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد. برای پیشگیری از خطر، وزن خود را در بازه سالم تثبیت کنید.'**
+  /// **'خطرات مرتبط با سلامتی شامل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد.'**
   String get profileBmiWaistCircumferenceHealthDescription;
 
   /// No description provided for @profileUserDescriptionProtein1.

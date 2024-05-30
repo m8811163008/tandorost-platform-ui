@@ -32,7 +32,7 @@ class ActivePremiumWizardRouteView extends StatelessWidget {
       bodyPadding: EdgeInsets.zero,
       title: Builder(builder: (context) {
         final currentPage = context.select<InitializeUserCubit, String>(
-            (cubit) => 'صفحه ${cubit.state.currentPage + 1} از 7 ');
+            (cubit) => 'صفحه ${cubit.state.currentPage + 1} از 5 ');
         return Text(currentPage);
       }),
       child: PageView(
@@ -44,9 +44,9 @@ class ActivePremiumWizardRouteView extends StatelessWidget {
           const WizardPage1(),
           const WizardPage2(),
           const WizardPage3(),
-          const WizardPage4(),
+          // const WizardPage4(),
           const WizardPage5(),
-          const WizardPage6(),
+          // const WizardPage6(),
           WizardPageLast(
             key: UniqueKey(),
           ),

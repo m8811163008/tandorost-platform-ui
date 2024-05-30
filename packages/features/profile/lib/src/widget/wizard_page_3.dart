@@ -15,7 +15,7 @@ class WizardPage3 extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildUserNameCard(context),
+          
           _buildBirthdayCard(context),
           const Spacer(),
           Align(
@@ -24,7 +24,7 @@ class WizardPage3 extends StatelessWidget {
               return ShimmerTextNavigation(
                 isError: context.select<InitializeUserCubit, bool>(
                   (cubit) =>
-                      cubit.state.createdProfileCM.userName.isEmpty ||
+                      
                       cubit.state.createdProfileCM.birthday == null,
                 ),
               );
@@ -38,32 +38,7 @@ class WizardPage3 extends StatelessWidget {
     );
   }
 
-  Widget _buildUserNameCard(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.profileUsername,
-              style: context.themeData.textTheme.labelLarge,
-            ),
-            SizedBox(
-              height: context.sizesExtenstion.medium,
-            ),
-            _buildUsernameInput(context),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildUsernameInput(BuildContext context) {
-    return _UserNameField();
-  }
 
   Widget _buildBirthdayCard(BuildContext context) {
     return Card(
@@ -83,6 +58,17 @@ class WizardPage3 extends StatelessWidget {
                 ),
                 _buildBirthdayInfoIcon(context),
               ],
+            ),
+            SizedBox(
+              height: context.sizesExtenstion.medium,
+            ),
+            BirthDayInput(
+              initialDate: context
+                  .read<InitializeUserCubit>()
+                  .state
+                  .createdProfileCM
+                  .birthday,
+              onSelectDate: context.read<InitializeUserCubit>().updateBirthDay,
             ),
             SizedBox(
               height: context.sizesExtenstion.medium,
@@ -133,58 +119,7 @@ class WizardPage3 extends StatelessWidget {
   }
 }
 
-class _UserNameField extends StatefulWidget {
-  const _UserNameField({
-    super.key,
-  });
 
-  @override
-  State<_UserNameField> createState() => _UserNameFieldState();
-}
-
-class _UserNameFieldState extends State<_UserNameField> {
-  final _controller = FocusNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<InitializeUserCubit, InitializeUserState>(
-      listenWhen: (previous, current) =>
-          previous.currentPage != current.currentPage,
-      listener: (context, state) {
-        if (_controller.hasFocus) {
-          _controller.unfocus();
-        }
-      },
-      child: SizedBox(
-        height: 96,
-        child: Builder(builder: (context) {
-          return TextFormField(
-            focusNode: _controller,
-            keyboardType: TextInputType.name,
-            textInputAction: TextInputAction.done,
-            maxLength: 50,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              errorText: context.select<InitializeUserCubit, String?>(
-                (cubit) => cubit.state.createdProfileCM.userName.isEmpty
-                    ? 'نام کاربری خالی است'
-                    : null,
-              ),
-              counterText: '',
-            ),
-            initialValue: context
-                .read<InitializeUserCubit>()
-                .state
-                .createdProfileCM
-                .userName,
-            onChanged: context.read<InitializeUserCubit>().updateUsername,
-            onTapOutside: (event) => FocusScope.of(context).unfocus(),
-          );
-        }),
-      ),
-    );
-  }
-}
 
 class _BirthdayContent extends StatelessWidget {
   const _BirthdayContent();
@@ -197,7 +132,7 @@ class _BirthdayContent extends StatelessWidget {
         Flexible(
           child: _buildBirthdayLabel(context),
         ),
-        _buildBirthdayInput(context),
+        // _buildBirthdayInput(context),
       ],
     );
   }
@@ -225,12 +160,131 @@ class _BirthdayContent extends StatelessWidget {
 
         return FittedBox(
           child: Text(
-            context.l10n.profileAgeText(
+            'سن شما : ${context.l10n.profileAgeText(
               years.toString(),
-            ),
+            )}'
           ),
         );
       },
     );
+  }
+}
+
+class BirthDayInput extends StatefulWidget {
+  const BirthDayInput({super.key, this.onSelectDate, this.initialDate});
+  final void Function(DateTime birthday, String birthdayShamsi)? onSelectDate;
+
+  final DateTime? initialDate;
+
+  @override
+  State<BirthDayInput> createState() => _BirthDayInputState();
+}
+
+class _BirthDayInputState extends State<BirthDayInput> {
+  late Jalali _selectedDate;
+  @override
+  void initState() {
+    _selectedDate = Jalali.fromDateTime(widget.initialDate ?? DateTime.now());
+    if(widget.initialDate == null){
+      widget.onSelectDate?.call(_selectedDate.toDateTime(),
+                          _buildShamsiDate(_selectedDate),);
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 204,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('روز'),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Flexible(
+                  child: ScrollableNumberInput(
+                    intialValue: _selectedDate.day,
+                    axis: Axis.vertical,
+                    onSelectedNumberChanged: (number) {
+                      setState(() {
+                        _selectedDate = _selectedDate.copy(day: number);
+                      });
+                      widget.onSelectDate?.call(_selectedDate.toDateTime(),
+                          _buildShamsiDate(_selectedDate));
+                    },
+                    min: 1,
+                    max: 31,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            // width: MediaQuery.of(context).size.width / 3,
+            child: Column(
+              children: [
+                Text('ماه'),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Flexible(
+                  child: ScrollableNumberInput(
+                    intialValue: _selectedDate.month,
+                    axis: Axis.vertical,
+                    onSelectedNumberChanged: (number) {
+                      setState(() {
+                        _selectedDate = _selectedDate.copy(month: number);
+                      });
+                      widget.onSelectDate?.call(_selectedDate.toDateTime(),
+                          _buildShamsiDate(_selectedDate));
+                    },
+                    min: 1,
+                    max: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            // width: MediaQuery.of(context).size.width / 3,
+            child: Column(
+              children: [
+                Text('سال'),
+                SizedBox(
+                  height: context.sizesExtenstion.medium,
+                ),
+                Flexible(
+                  child: ScrollableNumberInput(
+                    intialValue: _selectedDate.year,
+                    axis: Axis.vertical,
+                    onSelectedNumberChanged: (number) {
+                      setState(() {
+                        _selectedDate = _selectedDate.copy(year: number);
+                      });
+                      widget.onSelectDate?.call(_selectedDate.toDateTime(),
+                          _buildShamsiDate(_selectedDate));
+                    },
+                    min: 1333,
+                    max: 1403,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _buildShamsiDate(Jalali selectedDate) {
+    final formatter = selectedDate.formatter;
+
+    return '${formatter.dd}/${formatter.mm}/${formatter.yyyy}';
   }
 }

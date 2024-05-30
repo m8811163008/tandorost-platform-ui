@@ -87,17 +87,22 @@ class ProfileCM {
 class SettingCM {
   @HiveField(0)
   final ChangeWeightSpeed changeWeightSpeed;
+   @HiveField(1)
+   final bool isFasting;
   const SettingCM({
     required this.changeWeightSpeed,
+    required this.isFasting,
   });
 
-  const SettingCM.empty() : changeWeightSpeed = ChangeWeightSpeed.slowAndEasy;
+  const SettingCM.empty() : changeWeightSpeed = ChangeWeightSpeed.slowAndEasy, isFasting = false;
 
   SettingCM copyWith({
     ChangeWeightSpeed? changeWeightSpeed,
+    bool? isFasting,
   }) {
     return SettingCM(
       changeWeightSpeed: changeWeightSpeed ?? this.changeWeightSpeed,
+      isFasting: isFasting ?? this.isFasting,
     );
   }
 
@@ -105,11 +110,11 @@ class SettingCM {
   bool operator ==(covariant SettingCM other) {
     if (identical(this, other)) return true;
 
-    return other.changeWeightSpeed == changeWeightSpeed;
+    return other.changeWeightSpeed == changeWeightSpeed && other.isFasting == isFasting;
   }
 
   @override
-  int get hashCode => changeWeightSpeed.hashCode;
+  int get hashCode => changeWeightSpeed.hashCode ^ isFasting.hashCode;
 }
 
 @HiveType(typeId: TypeIDs.bodyCompositionCM)

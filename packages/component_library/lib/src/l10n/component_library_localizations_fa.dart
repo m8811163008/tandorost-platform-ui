@@ -4,7 +4,7 @@ import 'component_library_localizations.dart';
 
 /// The translations for Persian (`fa`).
 class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
-  ComponentLibraryLocalizationsFa([super.locale = 'fa']);
+  ComponentLibraryLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
   String get foodSelectionScreenTextFieldHint => 'جستجوی غذا';
@@ -14,7 +14,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String foodTimeInputDateTimeLabelText(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'کی خوردید؟',
@@ -23,12 +23,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
   String foodTimeInputDateTimeLabelVelue(String timeStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       timeStatus,
       {
         'past': 'ساعت پیش',
@@ -37,7 +37,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -63,12 +63,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     );
     final String valueString = valueNumberFormat.format(value);
 
-    return valueString;
+    return '$valueString';
   }
 
   @override
   String unitOfMeasurementTitle(String uomType) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       uomType,
       {
         'grams': 'گرم',
@@ -78,7 +78,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -174,7 +174,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String profileActivityLevelButtonLabel(String activityLevel) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       activityLevel,
       {
         'sedentary': 'غیرفعال و زیاد میشینم',
@@ -185,12 +185,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
   String profileChartTypeLabel(String chartType) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       chartType,
       {
         'weight': 'وزن',
@@ -204,12 +204,12 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
   String profileChangeWeightSpeedButtonLabel(String changeWeightSpeed) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       changeWeightSpeed,
       {
         'none': 'تثبیت وزن',
@@ -219,7 +219,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -230,7 +230,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String appBmiStatus(String bmiStatus) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       bmiStatus,
       {
         'underweight': 'کمبود وزن',
@@ -242,7 +242,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override
@@ -264,11 +264,11 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
     );
     final String ratioString = ratioNumberFormat.format(ratio);
 
-    return 'شاخص دور کمر به قد دقیق تر از شاخص توده بدنی برای سلامت است و این نسبت برای شما $ratioString است، هرچه به صفر نزدیک تر باشد و از یک دورتر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر است.';
+    return 'شاخص دور کمر به قد از شاخص توده بدنی برای ارزیابی خطرات مرتبط با سلامت دقیق‌تر است و این نسبت برای شما $ratioString است، این نسبت هرچه به صفر نزدیک تر باشد وضعیت خطرات مرتبط با سلامتی برای شما کمتر میشود.';
   }
 
   @override
-  String get profileBmiWaistCircumferenceHealthDescription => 'خطرات مرتبط با سلامتی مثل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد. برای پیشگیری از خطر، وزن خود را در بازه سالم تثبیت کنید.';
+  String get profileBmiWaistCircumferenceHealthDescription => 'خطرات مرتبط با سلامتی شامل بیماری های قلبی عروقی، بیماری کیسه صفرا، فشار خون بالا و دیابت نوع 2 میباشد.';
 
   @override
   String profileUserDescriptionProtein1(String weeklyActivitylevel) {
@@ -356,7 +356,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
 
   @override
   String selectedFoodsDailyActivityLevel(String dayActivityLevel) {
-    String temp0 = intl.Intl.selectLogic(
+    String _temp0 = intl.Intl.selectLogic(
       dayActivityLevel,
       {
         'rest': 'روز استراحت',
@@ -364,7 +364,7 @@ class ComponentLibraryLocalizationsFa extends ComponentLibraryLocalizations {
         'other': 'ترجمه تعریف نشده',
       },
     );
-    return temp0;
+    return '$_temp0';
   }
 
   @override

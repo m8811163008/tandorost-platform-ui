@@ -129,6 +129,23 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
     }
   }
+  void updateIsFasting(bool isFasting) async {
+    if (isClosed) return;
+
+    final setting =
+        state.profile.settingCM.copyWith(isFasting: isFasting);
+    ProfileCM profileCM = state.profile.copyWith(
+      settingCM: setting,
+    );
+    try {
+      await userRepostiory.updateProfile(profileCM);
+      if (isClosed) return;
+
+    } catch (e) {
+      if (isClosed) return;
+      // todo error handle
+    }
+  }
 
   late StreamSubscription<ProfileCM> _profileStreamSubscription;
   late StreamSubscription<DietInfo> _dietInfoSubscription;

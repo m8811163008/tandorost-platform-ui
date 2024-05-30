@@ -67,15 +67,18 @@ class SettingCMAdapter extends TypeAdapter<SettingCM> {
     };
     return SettingCM(
       changeWeightSpeed: fields[0] as ChangeWeightSpeed,
+      isFasting: fields[1] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingCM obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.changeWeightSpeed);
+      ..write(obj.changeWeightSpeed)
+      ..writeByte(1)
+      ..write(obj.isFasting);
   }
 
   @override

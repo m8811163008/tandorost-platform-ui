@@ -36,8 +36,32 @@ class SubscribeBottomSheet extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'تندرست با خدمات زیر باعث کاهش چربی و کاهش وزن شما میشود',
+                    'مشکل اصلی چاقی و اضافه وزن است که باعث بیماری قلبی عروقی و دیابت و مرگ میشود',
                     style: context.themeData.textTheme.labelLarge,
+                  ),
+                ),
+              ),
+              _buildText(context, 'افزایش سلامت و اعتماد بنفس با تناسب اندام به سادگی امکان پذیر است'),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: context.sizesExtenstion.small),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: '1. سریع ترین روش کاهش وزن با',
+                            style: context.themeData.textTheme.bodyMedium),
+                        TextSpan(
+                          text: ' حداقل کاهش چربی حتی بدون ورزش',
+                          style:
+                              context.themeData.textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -49,7 +73,7 @@ class SubscribeBottomSheet extends StatelessWidget {
                     children: [
                       TextSpan(
                         text:
-                            '1. انجام محاسبه درشت مغذی مورد نیاز شما (کربوهیدرات ،چربی،پروتین) در',
+                            '2. انجام محاسبه درشت مغذی مورد نیاز شما (کربوهیدرات ،چربی،پروتین) در',
                         style: context.themeData.textTheme.bodyMedium,
                       ),
                       TextSpan(
@@ -71,30 +95,8 @@ class SubscribeBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: context.sizesExtenstion.small),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: '2. محاسبه انرژی مورد نیاز شما برای',
-                            style: context.themeData.textTheme.bodyMedium),
-                        TextSpan(
-                          text: ' اپتیمم مقدار کاهش چربی',
-                          style:
-                              context.themeData.textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              _buildText(context, '3. دسترسی به خدمات کاهش وزن بدون بازگشت'),
+              
+                _buildText(context, 'به همراه پشتیبانی در مسیر لاغری بدون بازگشت '),
               SizedBox(
                 height: context.sizesExtenstion.large,
               ),
@@ -104,7 +106,7 @@ class SubscribeBottomSheet extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'یکی را انتخاب نمایید',
+                    'برای ارتقا اشتراک یکی را انتخاب نمایید',
                     style: context.themeData.textTheme.labelLarge,
                   ),
                 ),
