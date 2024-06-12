@@ -76,7 +76,9 @@ void main() async {
 // fix paragraph consideration with input chips in descriptions and UI design
 // add change color in setting
 // add magnifier and font size setting and density instaed of current scale factor 1.5
-
+// implement bazzar login
+// backup
+// implement affiliate marketing, link or code
 
 // [x] health repository [3h]
 // [x] وضعیت فعلی شما در پروفایل[2h]
@@ -100,3 +102,4 @@ void main() async {
 // [x] alert of very high rate
 // [x] reset database and ask do you want restore default foods
 // [x] initalize data storage from data storage layer then expose initialize to repositories so they can reset or initialize when needed
+

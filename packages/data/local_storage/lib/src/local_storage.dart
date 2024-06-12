@@ -85,7 +85,7 @@ class LocalStorage {
       if (encryptedKey == null) {
         final key = _hive.generateSecureKey();
         await _secureStorage.write(
-            key: _secureKey, value: base64UrlEncode(key));
+            key: _secureKey, value: base64UrlEncode(key),);
       }
       final key = await _secureStorage.read(key: _secureKey);
       encryptionKeyUnit8List = base64Url.decode(key!);
