@@ -7,7 +7,12 @@ import 'package:rxdart/rxdart.dart';
 
 class AuthRepostiory {
   AuthRepostiory(LocalStorage localStorage) {
-    getAllSubscribedProducts();
+    _initialize();
+  }
+
+  void _initialize() async {
+    await connectBazzar();
+    _updateSubscribedProducts();
   }
 
   final BehaviorSubject<Set<UserRule>> _currentUserRulesController =
@@ -23,8 +28,7 @@ class AuthRepostiory {
   /// Active subscriptions of the client.
   ///
   /// It return BazzarQueryException.
-  Future<void> getAllSubscribedProducts() async {
-    await connectBazzar();
+  Future<void> _updateSubscribedProducts() async {
     try {
       final subscriptionsHistory =
           await FlutterPoolakey.getAllSubscribedProducts();
@@ -39,19 +43,7 @@ class AuthRepostiory {
         }
       } else {
         // check user has active subscription?
-        final purchasedSubscription = subscriptionsHistory.where(
-            (element) => element.purchaseState == PurchaseState.PURCHASED);
-
-        final activeSubscriptions = purchasedSubscription.where((element) {
-          final subscriptionPlanDuration =
-              element.purchasePayload.subscriptionPlan.durationInDays;
-
-          final purchaseDate =
-              DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
-          final expireDate =
-              purchaseDate.add(Duration(days: subscriptionPlanDuration));
-          return DateTime.now().isBefore(expireDate);
-        });
+        final activeSubscriptions = await _activeSubscriptions;
 
         if (activeSubscriptions.isNotEmpty) {
           if (_currentUserRulesController.hasValue) {
@@ -80,6 +72,24 @@ class AuthRepostiory {
         }
       }
     }
+  }
+
+  Future<Iterable<PurchaseInfo>> get _activeSubscriptions async {
+    final subscriptionsHistory =
+        await FlutterPoolakey.getAllSubscribedProducts();
+    final purchasedSubscription = subscriptionsHistory
+        .where((element) => element.purchaseState == PurchaseState.PURCHASED);
+
+    return purchasedSubscription.where((element) {
+      final subscriptionPlanDuration =
+          element.purchasePayload.subscriptionPlan.durationInDays;
+
+      final purchaseDate =
+          DateTime.fromMillisecondsSinceEpoch(element.purchaseTime);
+      final expireDate =
+          purchaseDate.add(Duration(days: subscriptionPlanDuration));
+      return DateTime.now().isBefore(expireDate);
+    });
   }
 
   /// Connects to bazzar.
