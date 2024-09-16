@@ -41,7 +41,7 @@ class WizardPageLast extends StatelessWidget {
                 );
                 await Future.delayed(Duration(seconds: 2));
                 if (!context.mounted) return;
-                context.goNamed(Routes.foodSelection);
+                context.goNamed(Routes.profile);
               }
             },
           ),
@@ -145,7 +145,7 @@ class WizardPageLast extends StatelessWidget {
     );
   }
 
-    Widget _buildUserNameCard(BuildContext context) {
+  Widget _buildUserNameCard(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(16.0),
       child: Padding(
@@ -172,7 +172,6 @@ class WizardPageLast extends StatelessWidget {
     return _UserNameField();
   }
 }
-
 
 class _UserNameField extends StatefulWidget {
   const _UserNameField({

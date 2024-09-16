@@ -73,7 +73,8 @@ extension BodyCompositionCMX on BodyCompositionCM {
       ],
       startBodycompositionChanging:
           bodyCompositionValues.startBodycompositionChanging ??
-              startBodycompositionChanging ?? DateTime.now(),
+              startBodycompositionChanging ??
+              DateTime.now(),
     );
     return composition;
   }

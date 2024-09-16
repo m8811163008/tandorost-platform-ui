@@ -37,7 +37,7 @@ class Navigation {
                     await RepositoryProvider.of<UserRepostiory>(context)
                         .userProfile
                         .first;
-                await Future.delayed(Duration(seconds: 1));
+                await Future.delayed(Duration(milliseconds: 700));
                 if (context.mounted) {
                   if (userProfile == const ProfileCM.empty()) {
                     context.goNamed(Routes.profile);
