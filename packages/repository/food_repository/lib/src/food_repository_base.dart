@@ -35,7 +35,7 @@ class FoodRepostiory {
 
     final domainFoods = storageFoods
         .where(
-            (foodCm) => foodCm.name.toLowerCase().contains(query.toLowerCase()))
+            (foodCm) => foodCm.name.toLowerCase().contains(query.toLowerCase(),),)
         .toList();
 
     return domainFoods;

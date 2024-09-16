@@ -41,9 +41,11 @@ class _TandorostBootstrapState extends State<TandorostBootstrap> {
         late final UserRepostiory userRepository = UserRepostiory(
           cacheStorage,
         );
+
         late final AuthRepostiory authRepository = AuthRepostiory(
           cacheStorage,
         );
+        
         return MultiRepositoryProvider(
           providers: [
             RepositoryProvider.value(value: foodRepository),

@@ -9,10 +9,7 @@ class AuthStorage {
   Set<UnitOfMeasurmentCM> unitOfMeasurementCache = const {};
   AuthStorage(this._localStorage);
 
-  Future<void> removeFood(FoodCM food) async {
-    final foodBox = await _localStorage.foodBox;
-    await foodBox.delete(food.name);
-  }
+
 
   Future<void> connect() async {
     try {
@@ -26,32 +23,25 @@ class AuthStorage {
     }
   }
 
-  void purchase() async {
-    try {
-      //dynamicPriceToken در کلاس PurchaseRequest استفاده کنید
-      PurchaseInfo purchaseInfo = await FlutterPoolakey.purchase(
-        '123456',
-        payload: 'DEVELOPER_PAYLOAD',
-        dynamicPriceToken: "",
-      );
-    } catch (e) {
-      // handle unauthorized
-    }
-  }
+  // https://pub.dev/packages/cafebazaar_auth
+  //شناسه تیکت  
+  // 3322254
+  // ورود با بازار و حافظه‌ی درون برنامه‌ای
+  // BazaarAccount? account = await CafeBazaarAuth.signIn();
 
-  void getAllSubscribedProducts() async {
-    try {
-      List<PurchaseInfo> purchasedProductsList =
-          await FlutterPoolakey.getAllSubscribedProducts();
-    } catch (e) {
-      // handle unauthorized
-    }
-  }
+  //بررسی وضعیت ورود کاربر
+//این امکان از نسخه ۶.۵ به بعد بازار در دسترس است
+//Login Checker
+//String? savedData = await CafeBazaarAuth.saveData(DietInfo.toJson());
 
-  void getInAppSkuDetails() async {
-    final List<SkuDetails> result =
-        await FlutterPoolakey.getInAppSkuDetails(['123456', 'product123']);
-  }
+// ارجاع به صفحه Login بازار
+// Open login page
+
+//API نظرات بازار
+//ارجاع به صفحه نظرات
+//Open comment form
+
+
 }
 // Security notes
 // In order to prevent phishing and information theft, use the following method to
@@ -75,13 +65,6 @@ class AuthStorage {
 // In case an update for the Bazaar app is required, use the following method:
 // BazaarClientProxy.showUpdateBazaarView(context)
 
-//بررسی وضعیت ورود کاربر
-//این امکان از نسخه ۶.۵ به بعد بازار در دسترس است
-//Login Checker
-
-// ارجاع به صفحه Login بازار
-// Open login page
-
 
 
 // ارجاع به برنامه‌ توسعه‌دهنده
@@ -92,8 +75,6 @@ class AuthStorage {
 //بروز بودن برنامه روی گوشی کاربران به حفظ ثبات و امنیت  برنامه شما کمک می‌‌کند و این امکان را فراهم می‌‌آورد تا کاربران به جدیدترین قابلیت‌های برنامه شما دسترسی پیدا کنند
 //Update Checker
 
-//API نظرات بازار
-//ارجاع به صفحه نظرات
-//Open comment form
+
 
 

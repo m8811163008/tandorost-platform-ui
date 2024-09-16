@@ -14,15 +14,15 @@ class AuthRepostiory {
       BehaviorSubject();
 
   Stream<Set<UserRule>> currentUserRulesStream() async* {
-    yield {UserRule.foodTracker, UserRule.dieter};
-    // yield* _currentUserRulesController.asBroadcastStream();
+    // yield {UserRule.foodTracker, UserRule.dieter};
+    yield* _currentUserRulesController.asBroadcastStream();
   }
 
   Future<void> dispose() async => _currentUserRulesController.close();
 
   /// Active subscriptions of the client.
   ///
-  /// It return BazzarQueryException and
+  /// It return BazzarQueryException.
   Future<void> getAllSubscribedProducts() async {
     await connectBazzar();
     try {
@@ -126,20 +126,20 @@ class AuthRepostiory {
     }
   }
 
-  Future<List<SkuDetails>> getSubscriptionSkuDetails() async {
-    try {
-      List<SkuDetails> purchasedProductsList =
-          await FlutterPoolakey.getSubscriptionSkuDetails(['123456', '654321']);
-      return purchasedProductsList;
-    } catch (e) {
-      if (e is PlatformException) {
-        if (e.code == 'PURCHASE_CANCELLED') {
-          // cancled
-        }
-      }
-      rethrow;
-    }
-  }
+  // Future<List<SkuDetails>> getSubscriptionSkuDetails() async {
+  //   try {
+  //     List<SkuDetails> purchasedProductsList =
+  //         await FlutterPoolakey.getSubscriptionSkuDetails(['123456', '654321']);
+  //     return purchasedProductsList;
+  //   } catch (e) {
+  //     if (e is PlatformException) {
+  //       if (e.code == 'PURCHASE_CANCELLED') {
+  //         // cancled
+  //       }
+  //     }
+  //     rethrow;
+  //   }
+  // }
 
   Future<DateTime?> getExpireDate() async {
     await connectBazzar();

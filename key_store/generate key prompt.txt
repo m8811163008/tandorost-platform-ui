@@ -1,3 +1,5 @@
+//icon
+flutter pub run flutter_launcher_icons
 
 keytool -genkey -v -keystore tandorost.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 Enter keystore password: #Milad021 or tandorost_dev
@@ -9,12 +11,14 @@ keyPassword=tandorost_dev
 keyAlias=upload
 storeFile= ../../build/app/outputs/bundle/release/tandorost.jks
 
-//icon
-flutter pub run flutter_launcher_icons
+
 
 // to genrate appbundle 
 // change flutter.versionCode in local.properties
 flutter build appbundle -t "lib/main_production.dart" --obfuscate --split-debug-info=./split-debug-info
+
+// https://docs.flutter.dev/deployment/obfuscate
+// flutter symbolize -i <stack trace file> -d out/android/app.android-arm64.symbols
 
 ~/projects/tandorost/build/app/outputs/bundle/release
 

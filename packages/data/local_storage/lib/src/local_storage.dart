@@ -79,8 +79,23 @@ class LocalStorage {
 
   Future<Box<T>> _openBox<T>(String boxKey,
       {required bool isTemporary, required bool isSecureBox}) async {
-    List<int>? encryptionKeyUnit8List;
-    if (isSecureBox) {
+
+    if (_hive.isBoxOpen(boxKey)) {
+      return _hive.box(boxKey);
+    }
+    
+    final directory = isTemporary ? tempDirectory : appDirectory;
+    final encriptionUint = await encryptKeyUnit8List();
+    final encyptionCipher =
+        isSecureBox ? HiveAesCipher(encriptionUint) : null;
+    return _hive.openBox(
+      boxKey,
+      path: directory.path,
+      encryptionCipher: encyptionCipher,
+    );
+  }
+
+  Future<List<int>> encryptKeyUnit8List() async {
       final encryptedKey = await _secureStorage.read(key: _secureKey);
       if (encryptedKey == null) {
         final key = _hive.generateSecureKey();
@@ -88,19 +103,7 @@ class LocalStorage {
             key: _secureKey, value: base64UrlEncode(key),);
       }
       final key = await _secureStorage.read(key: _secureKey);
-      encryptionKeyUnit8List = base64Url.decode(key!);
-    }
-    if (_hive.isBoxOpen(boxKey)) {
-      return _hive.box(boxKey);
-    }
-    final directory = isTemporary ? tempDirectory : appDirectory;
-    final encyptionCipher =
-        isSecureBox ? HiveAesCipher(encryptionKeyUnit8List!) : null;
-    return _hive.openBox(
-      boxKey,
-      path: directory.path,
-      encryptionCipher: encyptionCipher,
-    );
+      return base64Url.decode(key!);
   }
 }
 

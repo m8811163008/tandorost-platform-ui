@@ -16,6 +16,7 @@ class SelectedFoodsInfo {
     required this.fat,
     required this.protein,
   });
+  
   const SelectedFoodsInfo.empty()
       : totalEnergy = -1,
         carbohydrate = -1,
