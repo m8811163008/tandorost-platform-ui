@@ -36,12 +36,13 @@ class SubscribeBottomSheet extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'مشکل اصلی چاقی و اضافه وزن است که باعث بیماری قلبی عروقی و دیابت و مرگ میشود',
+                    'مشکل چاقی و اضافه وزن باعث بیماری های قلبی عروقی، دیابت، سرطان‌ها، اختلالات عصبی، بیماری های مزمن تنفسی و اختلالات گوارشی است',
                     style: context.themeData.textTheme.labelLarge,
                   ),
                 ),
               ),
-              _buildText(context, 'افزایش سلامت و اعتماد بنفس با تناسب اندام به سادگی امکان پذیر است'),
+              _buildText(context,
+                  'جلوگیری از مرگ زودرس با تناسب اندام به سادگی امکان پذیر است'),
               Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Padding(
@@ -95,8 +96,7 @@ class SubscribeBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              
-                _buildText(context, 'به همراه پشتیبانی در مسیر لاغری بدون بازگشت '),
+              _buildText(context, 'به همراه پشتیبانی تلفنی '),
               SizedBox(
                 height: context.sizesExtenstion.large,
               ),
@@ -106,7 +106,7 @@ class SubscribeBottomSheet extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'برای ارتقا اشتراک یکی را انتخاب نمایید',
+                    'برای ارتقا یکی را انتخاب نمایید',
                     style: context.themeData.textTheme.labelLarge,
                   ),
                 ),

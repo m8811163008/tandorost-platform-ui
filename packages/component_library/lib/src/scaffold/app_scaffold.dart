@@ -37,6 +37,8 @@ class AppScaffold extends StatelessWidget {
               EdgeInsets.symmetric(horizontal: context.sizesExtenstion.medium),
           child: child),
       drawer: isShowDrawerButton ? const AppDrawer() : null,
+      bottomNavigationBar:
+          isShowDrawerButton ? const BottomNavigationBar() : null,
     );
   }
 }
@@ -54,7 +56,7 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void didChangeDependencies() {
     setState(() {
-      _selectedIndex = GoRouterState.of(context).uri.toString().toIndex();
+      _selectedIndex = GoRouterState.of(context).uri.toString().toDrawerIndex();
     });
 
     super.didChangeDependencies();
@@ -110,8 +112,59 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 }
 
+class BottomNavigationBar extends StatefulWidget {
+  const BottomNavigationBar({super.key});
+
+  @override
+  State<BottomNavigationBar> createState() => _BottomNavigationBarState();
+}
+
+class _BottomNavigationBarState extends State<BottomNavigationBar> {
+  int _selectedIndex = 0;
+
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      _selectedIndex =
+          GoRouterState.of(context).uri.toString().toBottomNavigationIndex();
+    });
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationBar(
+      onDestinationSelected: (index) {
+        if (index == 0) {
+          context.goNamed(Routes.foodSelection);
+        } else if (index == 1) {
+          context.goNamed(Routes.foodSelectionList);
+        } else if (index == 2) {
+          context.goNamed(Routes.profile);
+        }
+      },
+      selectedIndex: _selectedIndex,
+      destinations: [
+        NavigationDestination(
+          icon: Icon(Ionicons.restaurant),
+          label: 'خوراکِ صرف شده',
+        ),
+        NavigationDestination(
+          icon: Icon(Ionicons.pie_chart),
+          label: 'داشبرد',
+        ),
+        NavigationDestination(
+          icon: Icon(Ionicons.person),
+          label: 'نمایه کاربر',
+        ),
+      ],
+    );
+  }
+}
+
 extension on String {
-  int toIndex() {
+  int toDrawerIndex() {
     if (contains(Routes.foodSelection)) {
       return 0;
     } else if (contains(Routes.foodSelectionList)) {
@@ -120,6 +173,18 @@ extension on String {
       return 2;
     } else if (contains(Routes.profile)) {
       return 3;
+    } else {
+      throw Exception('Undefined location');
+    }
+  }
+
+  int toBottomNavigationIndex() {
+    if (contains(Routes.foodSelection)) {
+      return 0;
+    } else if (contains(Routes.foodSelectionList)) {
+      return 1;
+    } else if (contains(Routes.profile)) {
+      return 2;
     } else {
       throw Exception('Undefined location');
     }

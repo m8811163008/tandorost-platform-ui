@@ -568,18 +568,18 @@ class BodyShapeProgressConsidration extends StatelessWidget {
   Widget buildErrorText(bodyCompositionError) => switch (bodyCompositionError) {
         BodyCompositionError.weightChange => const _ErrorText(
             text:
-                'شما با نرخ بیشتر از 0.7% از وزنتون در هفته کاهش وزن داشتید، احتمال از دست دادن ماهیچه هست. بیشتر پروتیین بخورید و ورزش مقاوتی انجام دهید',
+                'شما با نرخ بیشتر از 0.7% در هفته کاهش وزن دارید و احتمال از دست دادن ماهیچه شما است. سعی کنید بیشتر پروتئین میل کنید و همزمان ورزش مقاوتی انجام دهید',
           ),
         BodyCompositionError.waistCircumfrenceIsGratherThan94or80 =>
           const _ErrorText(
             text:
-                'دور کمر شما بیشتر از مقدار سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است و چربی اضافی دارید و ریسک ابتلا به دیابت نوع ۲ برای شما بالاست. دور کمر خود را سریع لاغر کنید',
+                'دور کمر شما بیشتر از محدوده سالم(94 سانتی متر در آقایان و 80 سانتی متر در بانوان) است و چربی اضافی دارید . ریسک ابتلا به دیابت نوع ۲ برای شما بالاست.مقدار دور کمر خود را کاهش دهید',
           ),
         BodyCompositionError
               .waistCircumfrenceToHeightRatioIsGreaterThanZeroPointFive =>
           const _ErrorText(
             text:
-                'اندازه دور کمر شما بیشتر از نصف قد شماست ، دور کمر شما زیاد است و خطرات مرتبط با سلامتی برای شما بالاست. دور کمر خود را سریع لاغر کنید',
+                'دور کمر شما بیشتر از نصف اندازه‌ی قد شما است ، دور کمر شما زیاد است و خطرات مرتبط با سلامتی برای شما بالا می‌باشد.اندازه دور کمر خود را با کاهش چربی کاهش دهید',
           ),
         _ => const Text('ترجمه نشده است'),
       };
@@ -683,19 +683,24 @@ class _ErrorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(context.sizesExtenstion.small),
-      color: context.themeData.colorScheme.secondaryContainer,
-      child: Padding(
-        padding: EdgeInsets.all(context.sizesExtenstion.medium),
-        child: Text(
-          text,
-          style: context.themeData.textTheme.labelMedium!
-              .copyWith(color: context.themeData.colorScheme.error),
-          maxLines: 4,
-          textAlign: TextAlign.justify
+    return Column(
+      children: [
+        Material(
+          borderRadius: BorderRadius.circular(context.sizesExtenstion.small),
+          color: context.themeData.colorScheme.secondaryContainer,
+          child: Padding(
+            padding: EdgeInsets.all(context.sizesExtenstion.medium),
+            child: Text(text,
+                style: context.themeData.textTheme.labelMedium!
+                    .copyWith(color: context.themeData.colorScheme.error),
+                maxLines: 4,
+                textAlign: TextAlign.justify),
+          ),
         ),
-      ),
+        SizedBox(
+          height: context.sizesExtenstion.small,
+        )
+      ],
     );
   }
 }
@@ -857,29 +862,26 @@ class EnergyCard extends StatelessWidget {
                         height: context.sizesExtenstion.medium,
                       ),
                       Text(
-                        context.l10n.profileBmiDescription(
-                          state.dietInfo.bmi,
-                          bmiDescription,
-                        ),
-                        textAlign: TextAlign.justify
-                      ),
+                          context.l10n.profileBmiDescription(
+                            state.dietInfo.bmi,
+                            bmiDescription,
+                          ),
+                          textAlign: TextAlign.justify),
                       SizedBox(
                         height: context.sizesExtenstion.small,
                       ),
                       Text(
-                        context.l10n.profileWaistCircumferenceDescription(
-                          state.dietInfo.waistCircumferenceToHeightRatio,
-                        ),
-                        textAlign: TextAlign.justify
-                      ),
+                          context.l10n.profileWaistCircumferenceDescription(
+                            state.dietInfo.waistCircumferenceToHeightRatio,
+                          ),
+                          textAlign: TextAlign.justify),
                       SizedBox(
                         height: context.sizesExtenstion.small,
                       ),
                       Text(
-                        context
-                            .l10n.profileBmiWaistCircumferenceHealthDescription,
-                            textAlign: TextAlign.justify
-                      ),
+                          context.l10n
+                              .profileBmiWaistCircumferenceHealthDescription,
+                          textAlign: TextAlign.justify),
                       SizedBox(
                         height: context.sizesExtenstion.medium,
                       ),
@@ -924,19 +926,25 @@ class EnergyCard extends StatelessWidget {
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressTitle, textAlign: TextAlign.justify,),
+        Text(
+          context.l10n.profileEnergyDescriptionSleepAndStressTitle,
+          textAlign: TextAlign.justify,
+        ),
         SizedBox(
           height: context.sizesExtenstion.small,
         ),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1, textAlign: TextAlign.justify),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle1,
+            textAlign: TextAlign.justify),
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2,textAlign: TextAlign.justify),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle2,
+            textAlign: TextAlign.justify),
         SizedBox(
           height: context.sizesExtenstion.medium,
         ),
-        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3,textAlign: TextAlign.justify),
+        Text(context.l10n.profileEnergyDescriptionSleepAndStressSubtitle3,
+            textAlign: TextAlign.justify),
       ],
     );
   }
