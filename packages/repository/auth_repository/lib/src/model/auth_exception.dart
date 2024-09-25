@@ -24,6 +24,7 @@ extension SubscriptionPlanX on SubscriptionPlan {
   String get sku => switch (this) {
         SubscriptionPlan.oneMonth => 'BkG5O0V8ST0RIrEMJSzT',
         SubscriptionPlan.threeMonth => 'Qdtw5MzkQwBpFZl3T43g',
+        SubscriptionPlan.oneMonthCashPayment => 'Qdtw5MzkQwBpFZl3T43b',
         _ => throw Exception('Unknown'),
       };
 }

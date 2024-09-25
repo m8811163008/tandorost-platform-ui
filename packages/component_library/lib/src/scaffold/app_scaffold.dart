@@ -103,7 +103,7 @@ class _AppDrawerState extends State<AppDrawer> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'محتوای برنامه متعلق به تیم توسعه دهنده تندرست می باشد. شماره پشتیبانی 02166508216',
+            'محتوای برنامه متعلق به شرکت ویرا سیستم پایدار پارس شماره ثبت 539849 تیم توسعه دهنده تندرست می باشد. شماره پشتیبانی 09212805230',
             style: context.themeData.textTheme.labelMedium,
           ),
         ),
@@ -183,7 +183,8 @@ extension on String {
       return 0;
     } else if (contains(Routes.foodSelectionList)) {
       return 1;
-    } else if (contains(Routes.profile)) {
+      // workaround for a navigation bug i add || contains(Routes.foodSelection)
+    } else if (contains(Routes.profile) || contains(Routes.foodList)) {
       return 2;
     } else {
       throw Exception('Undefined location');

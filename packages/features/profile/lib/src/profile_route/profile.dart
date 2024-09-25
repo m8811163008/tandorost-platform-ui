@@ -693,7 +693,7 @@ class _ErrorText extends StatelessWidget {
             child: Text(text,
                 style: context.themeData.textTheme.labelMedium!
                     .copyWith(color: context.themeData.colorScheme.error),
-                maxLines: 4,
+                maxLines: 6,
                 textAlign: TextAlign.justify),
           ),
         ),

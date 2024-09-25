@@ -72,7 +72,7 @@ class DayActivityLevelSegementedButtonPromotion extends StatelessWidget {
                   )
                 ],
                 showSelectedIcon: false,
-                selected: {DayActivityLevel.moderate},
+                selected: {DayActivityLevel.rest},
                 onSelectionChanged: (_) async {
                   final cubit = context.read<SelectedFoodsListCubit>();
                   await showModalBottomSheet(

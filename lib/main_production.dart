@@ -4,6 +4,7 @@ import 'package:tandorost/tandorost_bootstrap.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'dart:developer';
 
+/// Tandorost application
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -20,18 +21,18 @@ void main() async {
       details.exception,
       stackTrace: details.stack,
     );
-  // Reports an [event] to Sentry.io.
-  // static Future<SentryId> captureEvent(
+    // Reports an [event] to Sentry.io.
+    // static Future<SentryId> captureEvent(
 
-  //  Reports a [message] to Sentry.io.
-  // static Future<SentryId> captureMessage(
-  
-  /// Reports a [userFeedback] to Sentry.io.
-  ///
-  /// First capture an event and use the [SentryId] to create a [SentryUserFeedback]
-  // static Future<void> captureUserFeedback(SentryUserFeedback userFeedback) =>
+    //  Reports a [message] to Sentry.io.
+    // static Future<SentryId> captureMessage(
 
-  log('error in ${details.library}',
+    /// Reports a [userFeedback] to Sentry.io.
+    ///
+    /// First capture an event and use the [SentryId] to create a [SentryUserFeedback]
+    // static Future<void> captureUserFeedback(SentryUserFeedback userFeedback) =>
+
+    log('error in ${details.library}',
         stackTrace: details.stack, error: details.exception);
   };
   await SentryFlutter.init(

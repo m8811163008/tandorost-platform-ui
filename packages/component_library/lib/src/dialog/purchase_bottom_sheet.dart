@@ -96,10 +96,27 @@ class SubscribeBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildText(context, 'به همراه پشتیبانی تلفنی '),
+              DirectSaleUnlocker(
+                child: _buildText(context, 'به همراه پشتیبانی تلفنی '),
+                onDone: () {
+                  onSelected?.call(SubscriptionPlan.oneMonthCashPayment);
+                },
+              ),
               SizedBox(
                 height: context.sizesExtenstion.large,
               ),
+              // DirectSaleUnlocker(
+              //   child: SizedBox(
+              //     height: context.sizesExtenstion.large,
+
+              //   ),
+              //   // child: Text(
+              //   //   'context.sizesExtenstion.large',
+              //   // ),
+              //   onDone: () {
+              //     onSelected?.call(SubscriptionPlan.oneMonthCashPayment);
+              //   },
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: context.sizesExtenstion.small),
@@ -120,8 +137,8 @@ class SubscribeBottomSheet extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _buildProduct1(context,
-                                'یک ماهه با 20٪ هدیه خرید اول', '173', '138'),
+                            _buildProduct1(context, 'یک ماهه با 20٪ هدیه خرید',
+                                '173', '138'),
                             Spacer(),
                             OutlinedButton(
                               onPressed: () {
@@ -141,10 +158,11 @@ class SubscribeBottomSheet extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             _buildProduct1(
-                                context,
-                                'سه ماهه با تخفیف 40٪ جشنواره طلایی',
-                                '519',
-                                '311'),
+                              context,
+                              'سه ماهه ',
+                              '519',
+                              '311',
+                            ),
                             Spacer(),
                             OutlinedButton(
                               onPressed: () {
@@ -227,6 +245,32 @@ class SubscribeBottomSheet extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DirectSaleUnlocker extends StatefulWidget {
+  const DirectSaleUnlocker(
+      {super.key, required this.child, required this.onDone});
+  final Widget child;
+  final VoidCallback onDone;
+
+  @override
+  State<DirectSaleUnlocker> createState() => _DirectSaleUnlockerState();
+}
+
+class _DirectSaleUnlockerState extends State<DirectSaleUnlocker> {
+  int _touched = 0;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _touched++;
+        if (_touched == 7) {
+          widget.onDone();
+        }
+      },
+      child: widget.child,
     );
   }
 }
