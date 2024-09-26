@@ -306,8 +306,8 @@ class _AddNewMeasurement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: 'بروز رسانی اندازه گیری جدید',
+    return TextButton.icon(
+      // tooltip: 'بروز رسانی اندازه گیری جدید',
       onPressed: () {
         showModalBottomSheet(
           useSafeArea: true,
@@ -331,6 +331,7 @@ class _AddNewMeasurement extends StatelessWidget {
           },
         );
       },
+      label: Text('اندازه‌گیری جدید'),
       icon: const Icon(
         Ionicons.add,
       ),
