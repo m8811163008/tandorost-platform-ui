@@ -3,7 +3,7 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:strength_traning_sport/src/cubit/strength_training_state.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vo2max_calculator/cubit/vo2max_calculator_cubit.dart';
 
