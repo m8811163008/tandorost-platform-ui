@@ -95,7 +95,7 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
         const NavigationDrawerDestination(
           icon: Icon(Ionicons.person),
-          label: Text('نمایه کاربر و روند پیشرفت'),
+          label: Text('پروفال کاربر و روند پیشرفت'),
         ),
         SizedBox(
           height: context.sizesExtenstion.extraLarge,
