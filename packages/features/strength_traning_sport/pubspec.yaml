@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   component_library:
     path: ../../component_library
+  url_launcher: ^6.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
