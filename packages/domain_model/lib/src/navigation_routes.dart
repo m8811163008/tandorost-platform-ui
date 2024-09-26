@@ -7,4 +7,5 @@ abstract class Routes {
   static const String profile = '/profile';
   static const String profileActivePremiumWizard = 'active-premium-wizard';
   static const String strengthTraining = '/strengthTraining';
+  static const String vo2maxCalculator = '/vo2maxCalculator';
 }

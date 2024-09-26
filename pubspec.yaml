@@ -47,6 +47,8 @@ dependencies:
     path: packages/features/splash
   strength_traning_sport:
     path: packages/features/strength_traning_sport
+  vo2max_calculator:
+    path: packages/features/vo2max_calculator
   component_library:
     path: 'packages/component_library'
   food_repository:

@@ -16,6 +16,7 @@ import 'package:profile/profile.dart';
 import 'package:strength_traning_sport/strength_traning_sport.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:splash/splash.dart';
+import 'package:vo2max_calculator/vo2max_calculator.dart';
 
 class Navigation {
   static GoRouter goRouter(BuildContext context) {
@@ -98,6 +99,13 @@ class Navigation {
           path: Routes.strengthTraining,
           builder: (context, state) {
             return StrengthTrainingRoute();
+          },
+        ),
+        GoRoute(
+          name: Routes.vo2maxCalculator,
+          path: Routes.vo2maxCalculator,
+          builder: (context, state) {
+            return Vo2maxCalculatorRoute();
           },
         ),
         ShellRoute(

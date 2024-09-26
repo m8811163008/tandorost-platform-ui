@@ -29,3 +29,4 @@ export 'package:fl_chart/fl_chart.dart';
 export 'src/dialog/waist_circumference_dialog.dart';
 export 'src/dialog/purchase_bottom_sheet.dart';
 export 'src/images/sport_program.dart';
+export 'src/images/fuel_mixture.dart';

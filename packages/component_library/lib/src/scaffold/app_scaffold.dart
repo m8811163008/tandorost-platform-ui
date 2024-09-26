@@ -76,6 +76,8 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.profile);
         } else if (index == 4) {
           context.goNamed(Routes.strengthTraining);
+        } else if (index == 5) {
+          context.goNamed(Routes.vo2maxCalculator);
         }
       },
       selectedIndex: _selectedIndex,
@@ -102,6 +104,10 @@ class _AppDrawerState extends State<AppDrawer> {
         const NavigationDrawerDestination(
           icon: Icon(Ionicons.fitness),
           label: Text('افزایش ماهیچه و کاهش چربی'),
+        ),
+        const NavigationDrawerDestination(
+          icon: Icon(Ionicons.fitness),
+          label: Text('محاسبه حداکثر چربی سوزی'),
         ),
         SizedBox(
           height: context.sizesExtenstion.extraLarge,
@@ -187,6 +193,8 @@ extension on String {
       return 3;
     } else if (contains(Routes.strengthTraining)) {
       return 4;
+    } else if (contains(Routes.vo2maxCalculator)) {
+      return 5;
     } else {
       throw Exception('Undefined location');
     }
@@ -200,7 +208,8 @@ extension on String {
       // workaround for a navigation bug i add || contains(Routes.foodSelection)
     } else if (contains(Routes.profile) || contains(Routes.foodList)) {
       return 2;
-    } else if (contains(Routes.strengthTraining)) {
+    } else if (contains(Routes.strengthTraining) ||
+        contains(Routes.vo2maxCalculator)) {
       return 3;
     } else {
       throw Exception('Undefined location');
