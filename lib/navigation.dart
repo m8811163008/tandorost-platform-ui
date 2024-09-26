@@ -13,6 +13,7 @@ import 'package:component_library/component_library.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:profile/profile.dart';
+import 'package:strength_traning_sport/strength_traning_sport.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:splash/splash.dart';
 
@@ -90,6 +91,13 @@ class Navigation {
           path: Routes.foodList,
           builder: (context, state) {
             return const FoodsListRoute();
+          },
+        ),
+        GoRoute(
+          name: Routes.strengthTraining,
+          path: Routes.strengthTraining,
+          builder: (context, state) {
+            return StrengthTrainingRoute();
           },
         ),
         ShellRoute(
