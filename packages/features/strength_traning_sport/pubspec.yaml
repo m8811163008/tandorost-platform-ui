@@ -13,6 +13,9 @@ dependencies:
   component_library:
     path: ../../component_library
   url_launcher: ^6.3.0
+  auth_repository:
+    path: ../../repository/auth_repository
+  flutter_bloc: ^8.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

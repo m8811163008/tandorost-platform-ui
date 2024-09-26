@@ -1,6 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
-import 'package:strength_traning_sport/src/cubit/strength_training_state.dart';
+import 'package:strength_traning_sport/src/cubitw/strength_training_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StrengthTrainingRoute extends StatelessWidget {

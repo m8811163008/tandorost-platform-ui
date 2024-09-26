@@ -12,6 +12,11 @@ dependencies:
     sdk: flutter
   component_library:
     path: ../../component_library
+  auth_repository:
+    path: ../../repository/auth_repository
+  flutter_bloc: ^8.1.4
+  domain_model:
+    path: ../../domain_model
 dev_dependencies:
   flutter_test:
     sdk: flutter
