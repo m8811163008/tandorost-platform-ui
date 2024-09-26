@@ -1,7 +1,7 @@
 name: strength_traning_sport
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+publish_to: none
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  component_library:
+    path: ../../component_library
 dev_dependencies:
   flutter_test:
     sdk: flutter

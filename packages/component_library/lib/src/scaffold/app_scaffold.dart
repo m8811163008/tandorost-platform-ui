@@ -200,6 +200,8 @@ extension on String {
       // workaround for a navigation bug i add || contains(Routes.foodSelection)
     } else if (contains(Routes.profile) || contains(Routes.foodList)) {
       return 2;
+    } else if (contains(Routes.strengthTraining)) {
+      return 3;
     } else {
       throw Exception('Undefined location');
     }

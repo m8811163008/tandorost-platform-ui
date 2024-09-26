@@ -1,3 +1,4 @@
+import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class StrengthTrainingRoute extends StatelessWidget {
@@ -14,8 +15,9 @@ class StrengthTrainingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return AppScaffold(
+      isShowDrawerButton: true,
+      child: Center(
         child: Text('hello'),
       ),
     );
