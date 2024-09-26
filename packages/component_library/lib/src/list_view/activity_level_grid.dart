@@ -26,9 +26,11 @@ class _ActivityLevelsGridState extends State<ActivityLevelsGrid> {
     return GridView.count(
       crossAxisCount: 2,
       primary: false,
+      physics: NeverScrollableScrollPhysics(),
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
       // cacheExtent: 150,
+
       children: List.generate(
         ActivityLevelCM.values.length,
         (index) {

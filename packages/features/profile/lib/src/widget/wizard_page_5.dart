@@ -58,7 +58,7 @@ class ActivityLevelButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 1.3 / 3,
-      height: height ?? 500,
+      height: height ?? 540,
       child: ActivityLevelsGrid(
         onSelected:
             context.read<InitializeUserCubit>().upsertActivityLevelChanging,

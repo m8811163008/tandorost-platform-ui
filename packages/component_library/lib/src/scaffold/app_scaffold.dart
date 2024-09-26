@@ -74,6 +74,8 @@ class _AppDrawerState extends State<AppDrawer> {
           context.goNamed(Routes.foodList);
         } else if (index == 3) {
           context.goNamed(Routes.profile);
+        } else if (index == 4) {
+          context.goNamed(Routes.strengthTraining);
         }
       },
       selectedIndex: _selectedIndex,
@@ -96,6 +98,10 @@ class _AppDrawerState extends State<AppDrawer> {
         const NavigationDrawerDestination(
           icon: Icon(Ionicons.person),
           label: Text('پروفال کاربر و روند پیشرفت'),
+        ),
+        const NavigationDrawerDestination(
+          icon: Icon(Ionicons.fitness),
+          label: Text('افزایش ماهیچه و کاهش چربی'),
         ),
         SizedBox(
           height: context.sizesExtenstion.extraLarge,
@@ -142,6 +148,8 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
           context.goNamed(Routes.foodSelectionList);
         } else if (index == 2) {
           context.goNamed(Routes.profile);
+        } else if (index == 3) {
+          context.goNamed(Routes.strengthTraining);
         }
       },
       selectedIndex: _selectedIndex,
@@ -158,6 +166,10 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
           icon: Icon(Ionicons.person),
           label: 'نمایه کاربر',
         ),
+        NavigationDestination(
+          icon: Icon(Ionicons.fitness),
+          label: 'افزایش ماهیچه',
+        ),
       ],
     );
   }
@@ -173,6 +185,8 @@ extension on String {
       return 2;
     } else if (contains(Routes.profile)) {
       return 3;
+    } else if (contains(Routes.strengthTraining)) {
+      return 4;
     } else {
       throw Exception('Undefined location');
     }
