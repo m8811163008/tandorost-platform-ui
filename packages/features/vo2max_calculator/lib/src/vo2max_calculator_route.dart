@@ -4,7 +4,6 @@ import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vo2max_calculator/cubit/vo2max_calculator_cubit.dart';
 
 class Vo2maxCalculatorRoute extends StatelessWidget {

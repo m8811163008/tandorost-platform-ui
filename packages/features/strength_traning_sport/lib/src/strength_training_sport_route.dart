@@ -91,7 +91,8 @@ class SportProgramTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UserRoleVisibility(
                   userRoleStream: RepositoryProvider.of<AuthRepostiory>(context)

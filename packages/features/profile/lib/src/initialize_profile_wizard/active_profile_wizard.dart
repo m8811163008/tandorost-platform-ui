@@ -28,7 +28,7 @@ class ActivePremiumWizardRouteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      isShowDrawerButton: true,
+      isShowDrawerButton: false,
       bodyPadding: EdgeInsets.zero,
       title: Builder(builder: (context) {
         final currentPage = context.select<InitializeUserCubit, String>(

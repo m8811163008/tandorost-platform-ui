@@ -1,6 +1,7 @@
 import 'package:component_library/component_library.dart';
 import 'package:domain_model/domain_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold(
@@ -117,6 +118,22 @@ class _AppDrawerState extends State<AppDrawer> {
           child: Text(
             'محتوای برنامه متعلق به شرکت ویرا سیستم پایدار پارس شماره ثبت 539849 تیم توسعه دهنده تندرست می باشد. شماره پشتیبانی 09212805230',
             style: context.themeData.textTheme.labelMedium,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextButton(
+            child: Text(
+              'شماره پشتیبانی 09212805230',
+              style: context.themeData.textTheme.labelMedium,
+            ),
+            onPressed: () async {
+              final url = Uri.tryParse('tel:09212805230');
+              if (url == null) return;
+              try {
+                await launchUrl(url);
+              } catch (_, __) {}
+            },
           ),
         ),
       ],
